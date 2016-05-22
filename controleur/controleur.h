@@ -90,6 +90,8 @@ int controleurChangeDessin(int * construction); // dessin des murs, des mobiles,
 
 int controleurCommandes(controleurT * controleur, int zone);
 
+	//	CHANGEMENT DES PARAMETRES
+
 	//		INFORMATION
 
 int controleurAffiche(controleurT * controleur);

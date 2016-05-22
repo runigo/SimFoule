@@ -31,6 +31,7 @@ termes.
 
 #include "controleurSouris.h"
 
+int controleurSourisZone(controleurT * controleur);
 
 int controleurSourisDessine(controleurT * controleur, int appui);
 
@@ -42,8 +43,8 @@ int controleurSourisCommandes(controleurT * controleur, int zone);
 
 int controleurSourisBouton(controleurT * controleur, int appui)
 	{
-
 				// Action du bouton gauche de la souris
+	int zone = controleurSourisZone(controleur);
 
 	(*controleur).appui=appui;
 
@@ -51,36 +52,49 @@ int controleurSourisBouton(controleurT * controleur, int appui)
 	
 	if(appui==1)
 		{
-		if((*controleur).commandes.sourisX>(*controleur).commandes.rotatifs)
+		controleurSourisCommandes(controleur, zone); // Zone petits boutons à droite
+		}
+	else
+		{
+		if(zone == 0)
 			{
-			if((*controleur).commandes.sourisX>(*controleur).commandes.boutons)
-				{
-				controleurSourisCommandes(controleur, 2); // Zone petits boutons à droite
-				}
-			else
-				{
-				controleurSourisCommandes(controleur, 1); // Zone rotatifs à droite
-				}
+			controleurSourisDessine(controleur, 0);
+			}
+		}
+
+	return 0;
+	}
+
+
+int controleurSourisZone(controleurT * controleur)
+	{
+				// Retourne la zone ou se trouve la souris
+int zone = 0;
+
+	if((*controleur).commandes.sourisX>(*controleur).commandes.rotatifs)
+		{
+		if((*controleur).commandes.sourisX>(*controleur).commandes.boutons)
+			{
+			zone = 2; // Zone petits boutons à droite
 			}
 		else
 			{
-			if((*controleur).commandes.sourisY>(*controleur).commandes.bas)
-				{
-				controleurSourisCommandes(controleur, 3); // Zone des boutons du bas
-				}
-			else
-				{
-				controleurSourisDessine(controleur, 1);
-				//controleurSourisCommandes(controleur, 0); // Zone graphe système
-				}
+			zone = 1; // Zone rotatifs à droite
 			}
 		}
 	else
 		{
-		controleurSourisDessine(controleur, 0);
+		if((*controleur).commandes.sourisY>(*controleur).commandes.bas)
+			{
+			zone = 3; // Zone des boutons du bas
+			}
+		else
+			{
+			zone = 0; // Zone graphe système
+			}
 		}
 
-	return 0;
+	return zone;
 	}
 
 
@@ -251,6 +265,12 @@ int controleurSourisCommandes(controleurT * controleur, int zone)
 	fprintf(stderr, "controleurSourisCommandes zone = %d\n", zone);
 
 	int commande;
+
+	if(zone==0) // Zone petits boutons
+		{
+		controleurSourisDessine(controleur, 1);
+		}
+
 
 	if(zone==2) // Zone petits boutons
 		{

@@ -42,17 +42,19 @@ int controleurEvolution(controleurT * controleur);
 
 	int controleurProjection(controleurT * controleur);
 	int controleurEvolutionSysteme(controleurT * controleur);
+	int controleurEvolutionDessin(controleurT * controleur);
 	int controleurConstructionGraphique(controleurT * controleur);
 
 	int controleurBoucle(controleurT * controleur);
-
-int controleurEvolutionDessin(controleurT * controleur);
-
 
 int controleurKEYDOWN(controleurT * controleur);
 int controleurTraiteEvenement(controleurT * controleur);
 
 int controleurMemoireOptions(controleurT * controleur);
+
+	//	CHANGEMENT DES PARAMETRES
+
+	//		INFORMATIONS
 
 
 	//	-------  INITIALISATION - SUPRESSION  -------  //
@@ -125,6 +127,8 @@ int controleurInitialisation(controleurT * controleur)
 		//fprintf(stderr, " Initialisation horloge SDL\n");
 	retour += horlogeCreation(&(*controleur).horloge);
 
+		controleurProjection(controleur);	//	Projections
+
 	return retour;
 	}
 
@@ -150,6 +154,8 @@ int controleurReinitialisation(controleurT * controleur, char *nom)
 
 		//fprintf(stderr, "  Réinitialisation du graphe\n");
 	retour += donneesCreationGraphe(&(*controleur).graphe, &(*controleur).options);
+
+		controleurProjection(controleur);	//	Projections
 
 	return retour;
 	}
@@ -187,11 +193,6 @@ int controleurSimulationGraphique(controleurT * controleur)
 
 int controleurEvolution(controleurT * controleur)
 	{
-
-	//horlogeChrono(&(*controleur).horloge, 0);
-
-		controleurProjection(controleur);	//	Projections
-
 	//horlogeChrono(&(*controleur).horloge, 1);
 
 		if((*controleur).modeDessin > 0) // Évolution du système
@@ -210,6 +211,10 @@ int controleurEvolution(controleurT * controleur)
 			}
 
 	//horlogeChrono(&(*controleur).horloge, 2);
+
+		controleurProjection(controleur);	//	Projections
+
+	//horlogeChrono(&(*controleur).horloge, 1);
 
 		controleurConstructionGraphique(controleur); // Affichage
 
@@ -418,8 +423,12 @@ int controleurKEYDOWN(controleurT * controleur)
 			}
 		}
 
-	return (*controleur).sortie;
+	return -1;
 	}
+
+
+	//	-------  CHANGEMENT DES PARAMETRES  -------  //
+
 
 void controleurChangeModePause(controleurT * controleur)
 	{
@@ -497,7 +506,7 @@ void controleurChangeVitesse(controleurT * controleur, float facteur)
 	}
 
 int controleurChangeDessin(int * construction)
-	{
+	{ // dessine ou non les murs, les mobiles, les sens à suivre.
 	if((*construction)==0)
 		{
 		(*construction)=1;
@@ -509,6 +518,9 @@ int controleurChangeDessin(int * construction)
 
 	return 0;
 	}
+
+
+	//	-------  INFORMATIONS  -------  //
 
 int controleurAfficheForces(controleurT * controleur)
 	{
