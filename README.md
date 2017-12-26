@@ -1,4 +1,4 @@
 # SimFoule
 Simulateur de foule
 
-En construction, SimFoule est un simulateur de foule écrit en C et utilisant la librairie SDL2.
+En construction, écrit en C et utilisant la librairie SDL2, SimFoule va devenir un simulateur de foule.

@@ -11,8 +11,8 @@ OBJDIR = ./obj
 
 all : $(EXEC)
 
-$(EXEC) : $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/projection.o $(OBJDIR)/points.o $(OBJDIR)/interface.o $(OBJDIR)/pendule.o
-	$(CC) -g  $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/projection.o $(OBJDIR)/points.o $(OBJDIR)/interface.o $(OBJDIR)/pendule.o ` sdl2-config --libs` $(LDFLAGS) -o $(EXEC)
+$(EXEC) : $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/projection.o $(OBJDIR)/points.o $(OBJDIR)/interface.o $(OBJDIR)/pendule.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/vecteur.o
+	$(CC) -g  $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/projection.o $(OBJDIR)/points.o $(OBJDIR)/interface.o $(OBJDIR)/pendule.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/vecteur.o ` sdl2-config --libs` $(LDFLAGS) -o $(EXEC)
 
 $(OBJDIR)/principale.o : controle/principale.c controle/principale.h
 	$(CC) -c -g controle/principale.c $(CFLAGS) -o $@
@@ -31,6 +31,15 @@ $(OBJDIR)/interface.o : graphisme/interface.c graphisme/interface.h
 
 $(OBJDIR)/pendule.o : modele/pendule.c modele/pendule.h
 	$(CC) -c -g modele/pendule.c $(CFLAGS) -o $@
+
+$(OBJDIR)/etage.o : modele/etage.c modele/etage.h
+	$(CC) -c -g modele/etage.c $(CFLAGS) -o $@
+
+$(OBJDIR)/cellule.o : modele/cellule.c modele/cellule.h
+	$(CC) -c -g modele/cellule.c $(CFLAGS) -o $@
+
+$(OBJDIR)/vecteur.o : modele/vecteur.c modele/vecteur.h
+	$(CC) -c -g modele/vecteur.c $(CFLAGS) -o $@
 
 clean :
 	rm $(OBJDIR)/*.o

@@ -21,77 +21,33 @@ void pointsMur(SDL_Renderer *rendu, points_t p) {
 	int x2 = p.coord2.x;
 	int y2 = p.coord2.y;
 
-	int xoffset = 1;
+	SDLS_affiche_image("mur.bmp",rendu,x2-2,y2-2);
 
-	// SDL_SetRenderDrawColor(rendu, 0, 0, 0, SDL_ALPHA_OPAQUE);
+	SDLS_affiche_image("mur.bmp",rendu,x1-2,y1-2);
 
+	SDLS_affiche_image("mur.bmp",rendu,LARGEUR/2,HAUTEUR/2);
 
-	// Rectangle SDL
-	SDL_Rect rectangle;
-
-	//texture = SDLS_loadTexture("particule.bmp",rendu);
-	//SDL_Texture* SDLS_loadTexture(char * filename, SDL_Renderer *ren){
-	SDL_Texture *texture = 0;
-	SDL_Surface *image = 0;
-	image = SDL_LoadBMP("particule.bmp");
-	if (!image)
-		{
-		fprintf(stderr,"Erreur chargement image : %s\n",SDL_GetError());
-		return;
+	return;
 	}
 
-	texture = SDL_CreateTextureFromSurface(rendu, image);
-	SDL_FreeSurface(image);
-	if (texture == 0)
-		{
-		fprintf(stderr,"Erreur creation texture : %s\n",SDL_GetError());
-		return;
-		}
-	//return texture;
-  
-	// Récupération de la taille de la texture 
-	//SDL_QueryTexture(texture, NULL, NULL, &dst.w, &dst.h);
+void pointsHumain(SDL_Renderer *rendu, points_t p) {    
+	int x1 = p.coord1.x;
+	int y1 = p.coord1.y;
 
-	// Centrage
-	rectangle.x = x2-2; //(WIDTH - dst.w)/2;
-	rectangle.y = y2-2; //(HEIGHT- dst.h)/2;
-	SDLS_affiche_image("particule.bmp",rendu,x2-2,y2-2);
+	int x2 = p.coord2.x;
+	int y2 = p.coord2.y;
 
-	// Affichage
-	//SDL_RenderCopy(rendu, texture, NULL, &rectangle);
+	SDLS_affiche_image("humain.bmp",rendu,x1-4,y1-4);
 
-	// Centrage
-	rectangle.x = x1-2; //(WIDTH - dst.w)/2;
-	rectangle.y = y1-2; //(HEIGHT- dst.h)/2;
-	SDLS_affiche_image("particule.bmp",rendu,x1-2,y1-2);
+	SDLS_affiche_image("humain.bmp",rendu,x2-4,y2-4);
 
-	// Affichage
-	//SDL_RenderCopy(rendu, texture, NULL, &rectangle);
-
-	SDL_Point points1[3] = {
-		{LARGEUR/2, HAUTEUR/2},
-		{x1,    y1},
-		{x2,    y2}
-	};
-
-	SDL_Point points2[3] = {
-		{LARGEUR/2 + xoffset, HAUTEUR/2},
-		{x1 + xoffset,    y1},
-		{x2 + xoffset,    y2}
-	};
-
-	SDL_RenderDrawLines(rendu, points1, 3);
-	SDL_RenderDrawLines(rendu, points2, 3);
-
-	// Affichage
-	SDL_RenderCopy(rendu, texture, NULL, &rectangle);
-	//SDL_RenderPresent(ren);
+	SDLS_affiche_image("humain.bmp",rendu,LARGEUR/2,HAUTEUR/2);
 
 	return;
 	}
 
 	// Dessin 
-void pointsPendules(SDL_Renderer *rendu, points_t p) {    
+void pointsTrait(SDL_Renderer *rendu, points_t p) {    
 	int x1 = p.coord1.x;
 	int y1 = p.coord1.y;
 
@@ -100,51 +56,6 @@ void pointsPendules(SDL_Renderer *rendu, points_t p) {
 
 	int xoffset = 1;
 
-	// SDL_SetRenderDrawColor(rendu, 0, 0, 0, SDL_ALPHA_OPAQUE);
-
-
-	// Rectangle SDL
-	SDL_Rect rectangle;
-
-	//texture = SDLS_loadTexture("particule.bmp",rendu);
-	//SDL_Texture* SDLS_loadTexture(char * filename, SDL_Renderer *ren){
-	SDL_Texture *texture = 0;
-	SDL_Surface *image = 0;
-	image = SDL_LoadBMP("particule.bmp");
-	if (!image)
-		{
-		fprintf(stderr,"Erreur chargement image : %s\n",SDL_GetError());
-		return;
-	}
-
-	texture = SDL_CreateTextureFromSurface(rendu, image);
-	SDL_FreeSurface(image);
-	if (texture == 0)
-		{
-		fprintf(stderr,"Erreur creation texture : %s\n",SDL_GetError());
-		return;
-		}
-	//return texture;
-  
-	// Récupération de la taille de la texture 
-	//SDL_QueryTexture(texture, NULL, NULL, &dst.w, &dst.h);
-
-	// Centrage
-	rectangle.x = x2-2; //(WIDTH - dst.w)/2;
-	rectangle.y = y2-2; //(HEIGHT- dst.h)/2;
-	SDLS_affiche_image("particule.bmp",rendu,x2-2,y2-2);
-
-	// Affichage
-	//SDL_RenderCopy(rendu, texture, NULL, &rectangle);
-
-	// Centrage
-	rectangle.x = x1-2; //(WIDTH - dst.w)/2;
-	rectangle.y = y1-2; //(HEIGHT- dst.h)/2;
-	SDLS_affiche_image("particule.bmp",rendu,x1-2,y1-2);
-
-	// Affichage
-	//SDL_RenderCopy(rendu, texture, NULL, &rectangle);
-
 	SDL_Point points1[3] = {
 		{LARGEUR/2, HAUTEUR/2},
 		{x1,    y1},
@@ -160,25 +71,7 @@ void pointsPendules(SDL_Renderer *rendu, points_t p) {
 	SDL_RenderDrawLines(rendu, points1, 3);
 	SDL_RenderDrawLines(rendu, points2, 3);
 
-	// Affichage
-	SDL_RenderCopy(rendu, texture, NULL, &rectangle);
-	//SDL_RenderPresent(ren);
-
 	return;
-	}
-
-void pointsChemin(SDL_Renderer *rendu, points_t p) {
-	static SDL_Point point[2048] = {{0}};
-	static int       i = 0;
-
-	point[i].x = p.coord2.x;
-	point[i].y = p.coord2.y;
-
-	if(++i > 2048)
-		i = 0;
-
-	SDL_SetRenderDrawColor(rendu, 0, 0, 255, SDL_ALPHA_OPAQUE);
-	SDL_RenderDrawLines(rendu, point, 2046);
 	}
 
 //////////////////////////////////////////////////////////////////////////
@@ -241,24 +134,25 @@ int  SDLS_putpixels(SDL_Renderer * ren, Uint32* pixels, int w, int h)
 	return 0;
 	}
 
-void SDLS_affiche_image(char * fname,SDL_Renderer * ren, int x, int y) 
+int SDLS_affiche_image(char * fname,SDL_Renderer * rendu, int x, int y) 
 {
-	SDL_Texture * tex = 0;
-	SDL_Rect dst;
+	SDL_Texture * texture = 0;
+	SDL_Rect coordonnee;
 
-	tex = SDLS_loadTexture(fname,ren);
-	if (tex == 0) return;
+	texture = SDLS_loadTexture(fname,rendu);
+	if (texture == 0) return 3;
 
 	// Récupération de la taille de la texture 
-	SDL_QueryTexture(tex, NULL, NULL, &dst.w, &dst.h);
+	SDL_QueryTexture(texture, NULL, NULL, &coordonnee.w, &coordonnee.h);
 
 	// Centrage
-	dst.x = x; //(WIDTH - dst.w)/2;
-	dst.y = y; //(HEIGHT- dst.h)/2;
+	coordonnee.x = x; //(WIDTH - dst.w)/2;
+	coordonnee.y = y; //(HEIGHT- dst.h)/2;
 
 	// Affichage
-	SDL_RenderCopy(ren, tex, NULL, &dst);
+	SDL_RenderCopy(rendu, texture, NULL, &coordonnee);
 	//SDL_RenderPresent(ren);
+	return 0;
 }
 
 int SDLS_init(int w, int h, SDL_Window **win, SDL_Renderer **ren)

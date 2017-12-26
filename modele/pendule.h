@@ -1,7 +1,7 @@
 #ifndef _PENDULE_
 #define _PENDULE_
 
-#include "../donnees/constantes.h"
+#include "../modele/etage.h"
 
 struct Pendule_t {
     double masse;

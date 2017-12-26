@@ -30,7 +30,7 @@ srand(time(NULL));
             if((*controleur).interface.evenement.type == SDL_QUIT) {
                 (*controleur).interface.continu = false;
             }
-            
+
             switch((*controleur).interface.evenement.type) {
                 case SDL_QUIT:
                 	(*controleur).interface.continu = false;
@@ -46,15 +46,15 @@ srand(time(NULL));
             }
         }
 		// Évolution temporelle
-	penduleEvolution(&p1, &p2);        
+	//penduleEvolution(&p1, &p2);        
 
 		// Projection angle > entier
 	projectionPendules(&p1, &p2, &p);
 
 	interfaceNettoyage(&(*controleur).interface);
 
-	pointsPendules((*controleur).interface.rendu, p);
-	pointsChemin((*controleur).interface.rendu, p);
+	pointsMur((*controleur).interface.rendu, p);
+	pointsHumain((*controleur).interface.rendu, p);
 
 	interfaceMiseAJour(&(*controleur).interface);
 

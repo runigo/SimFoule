@@ -9,6 +9,9 @@
 
 #include <math.h>
 
+#define BATIMENT 40
+#define CELLULE 10
+
 #define LARGEUR  720
 #define HAUTEUR 720
 
