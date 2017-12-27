@@ -20,7 +20,6 @@ int fouleCreation(fouleT * foule)
 
 	//fouleChangeLimite(foule);
 
-	fouleInitialiseLimiteInfini(foule);
 
 	return 0;
 	}
@@ -36,29 +35,18 @@ void fouleSuppression(fouleT * foule)
 
 void fouleInitialiseHumain(fouleT * foule)
 	{
-	float m=(*foule).masse;
-	float l=(*foule).longueur;
-	float d=(*foule).dissipation;
-	float c=(*foule).couplage;
-	float g=(*foule).gravitation;
-	float t=(*foule).moteur.dt;
 	chaineT *iter=(*foule).premier;
 
 	do
 		{
-		penduleInitialiseParametre(&iter->pendule, m, l, d);
-		penduleInitialiseExterieur(&iter->pendule, c, g, t);
-		penduleInitialisePosition(&iter->pendule, 0.0, 0.0);
-		penduleInitialiseDephasage(&iter->pendule, 0.0);
+		humainInitialise(&iter->humain);
 		iter=iter->suivant;
 		}
 	while(iter != (*foule).premier);
 
-	penduleInitialiseDephasage(&(*foule).premier->pendule, (*foule).dephasage);
-
 	return;
 	}
-
+/*
 void fouleInitialiseLimiteInfini(fouleT * foule)
 	{
 	int nombre = (*foule).nombre;
@@ -68,27 +56,27 @@ void fouleInitialiseLimiteInfini(fouleT * foule)
 
 	for(i=0;i<nombre/6;i++)
 		{
-		iter->pendule.dissipation = 10*(1.1-i/(float)(nombre/6));
+		iter->humain.dissipation = 10*(1.1-i/(float)(nombre/6));
 		iter=iter->precedent;
 		}
 
 	do
 		{
-		iter->pendule.dissipation = 0.0;
+		iter->humain.dissipation = 0.0;
 		iter=iter->precedent;
 		}
 	while(iter!=foule->premier->precedent);
 
 	return;
 	}
-
+*/
 /*----------------JAUGE ET NORMALISATION-------------------*/
-
+/*
 void fouleJaugeZero(fouleT * foule)
-	{//	Rapproche la position du premier pendule de zéro
+	{//	Rapproche la position du premier humain de zéro
 	chaineT *iter;
 	iter=(*foule).premier;
-	float position = (*foule).premier->pendule.nouveau;
+	float position = (*foule).premier->humain.nouveau;
 	float jauge;
 
 	jauge = -DEUXPI*(int)(position/DEUXPI);
@@ -96,7 +84,7 @@ void fouleJaugeZero(fouleT * foule)
 		{
 		do
 			{
-			penduleJauge(&(iter->pendule), jauge);
+			humainJauge(&(iter->humain), jauge);
 			iter=iter->suivant;
 			}
 		while(iter!=(*foule).premier);
@@ -104,9 +92,9 @@ void fouleJaugeZero(fouleT * foule)
 
 	return;
 	}
-
+*/
 /*------------------------  ÉVOLUTION TEMPORELLE  -------------------------*/
-
+/*
 void fouleEvolution(fouleT * foule, int duree)
 	{
 	int i;
@@ -123,7 +111,7 @@ void fouleEvolution(fouleT * foule, int duree)
 	//	Limite la valeur des paramètres croissants
 	if((*foule).moteur.generateur==0)
 		{
-		//	Rapproche la position du premier pendule de zéro
+		//	Rapproche la position du premier humain de zéro
 		fouleJaugeZero(foule);
 		}
 	else
@@ -141,7 +129,7 @@ void fouleCouplage(fouleT * foule)
 
 	do
 		{
-		penduleCouplage(&(iter->precedent->pendule), &(iter->pendule), &(iter->suivant->pendule));
+		humainCouplage(&(iter->precedent->humain), &(iter->humain), &(iter->suivant->humain));
 		iter=iter->suivant;
 		}
 	while(iter!=(*foule).premier);
@@ -156,32 +144,32 @@ void fouleInertie(fouleT * foule)
 
 			//	Cas des extrémitées
 			//  0 : periodiques 1 : libres, 2 : fixes, 3 libre-fixe, 4 fixe-libre
-		// Cas du premier pendule
+		// Cas du premier humain
 	if ((*foule).moteur.generateur != 0)
 		{
-		penduleInitialisePosition(&((*foule).premier->pendule), generateur, generateur);
+		humainInitialisePosition(&((*foule).premier->humain), generateur, generateur);
 		}
 	else
 		{
 		if ((*foule).libreFixe==0 || (*foule).libreFixe==1 || (*foule).libreFixe==3 )
 			{
-			penduleInertie(&((*foule).premier->pendule), (*foule).equation, courantJosephson);
+			humainInertie(&((*foule).premier->humain), (*foule).equation, courantJosephson);
 			}
 		else	//	premier fixe
 			{
-			penduleInitialisePosition(&((*foule).premier->pendule), 0.0, 0.0);
+			humainInitialisePosition(&((*foule).premier->humain), 0.0, 0.0);
 			}
 		}
 
-		// Cas du dernier pendule
+		// Cas du dernier humain
 	if ((*foule).libreFixe==0 || (*foule).libreFixe==1 || (*foule).libreFixe==4 )
 		{
-		penduleInertie(&((*foule).premier->precedent->pendule), (*foule).equation, courantJosephson);
+		humainInertie(&((*foule).premier->precedent->humain), (*foule).equation, courantJosephson);
 		}
 	else	//	dernier fixe
 		{
-		penduleInitialisePosition(&((*foule).premier->precedent->pendule), 0.0, 0.0);
-		//penduleInitialisePosition(&((*foule).premier->precedent->pendule), -(*foule).premier->pendule.dephasage, -(*foule).premier->pendule.dephasage);
+		humainInitialisePosition(&((*foule).premier->precedent->humain), 0.0, 0.0);
+		//humainInitialisePosition(&((*foule).premier->precedent->humain), -(*foule).premier->humain.dephasage, -(*foule).premier->humain.dephasage);
 		}
 
 
@@ -192,7 +180,7 @@ void fouleInertie(fouleT * foule)
 
 	do
 		{
-		penduleInertie(&(iter->pendule), (*foule).equation, courantJosephson);
+		humainInertie(&(iter->humain), (*foule).equation, courantJosephson);
 		iter=iter->suivant;
 		}
 	while(iter!=(*foule).premier->precedent);
@@ -212,21 +200,21 @@ void fouleIncremente(fouleT * foule)
 
 	do
 		{
-		penduleIncremente(&(iter->pendule));
+		humainIncremente(&(iter->humain));
 		iter=iter->suivant;
 		}
 	while (iter!=(*foule).premier);
 
 	return;
 	}
-
+*/
 //////////////////////////////////////////////////////////////////////////
 /*
 Copyright novembre 2017, Stephan Runigo
 runigo@free.fr
-SiCP 1.4.1 simulateur de chaîne de pendules
+SiCP 1.4.1 simulateur de chaîne de humains
 Ce logiciel est un programme informatique servant à simuler l'équation
-d'une chaîne de pendules et à en donner une représentation graphique.
+d'une chaîne de humains et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
 respectant les principes de diffusion des logiciels libres. Vous pouvez
 utiliser, modifier et/ou redistribuer ce programme sous les conditions

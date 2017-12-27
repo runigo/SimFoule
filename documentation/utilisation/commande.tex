@@ -1,0 +1,27 @@
+%\chapter{Utilisation des simulateurs}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Commande du simulateur}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Cette section traite des interactions entre le programme et l'utilisateur.
+
+\subsection{Résumé des options}
+\begin{center}
+\begin{tabular}{cccc}
+option & valeur & clavier & commande \\
+%\hline
+{\texttt fond} & (fond>0 \& fond<255) &  & Couleur du fond \\
+{\texttt soliton} & (soliton > -99 \& soliton < 99) & {\sf y},{\sf h} & déphasage entre les extrémitées *\\
+{\texttt dt} & (dt > 0.0 \& dt < DT\_MAX) &  & discrétisation du temps \\
+{\texttt frequence} & () & {\sf p}, {\sf m} & fréquence du générateur \\
+{\texttt dissipation} & () & {\sf e}, {\sf d} & dissipation \\
+{\texttt equation} & (equation > 0 \& equation < 5) & {\sf F1}, {\sf F2}, {\sf F3}, {\sf F4} & choix de l'équation \\
+{\texttt pause} & (pause > 5 || pause < 555) &  & temps de pause en ms \\
+{\texttt duree} & () & {\sf F11}, {\sf F12} & Nombre d'évolution du système entre les affichages \\
+{\texttt mode} & () & {\sf Entrée} & Mode -1 : Wait, 1 : Poll \\
+{\texttt nombre} & (nombre > 0 \& nombre < 1099) &  & Nombre de pendules **\\
+{\texttt aide} & () &  & Affiche l'aide \\
+{\texttt help} & () &  & Affiche l'aide \\
+\end{tabular}
+\end{center}
+

@@ -40,13 +40,13 @@ chaineT* chaineCreation(int nombre)
 	int i;
 	chaineT* premier=chaineCreationPremier();
 	for(i=1;i<nombre;i++)
-		chaineCreationPendule(premier);
+		chaineCreationHumain(premier);
 	return premier;
 	}
 
 void chaineSupprime(chaineT** premier)
 	{
-	chaineSupprimePendule(*premier);
+	chaineSupprimeHumain(*premier);
 	free(*premier);
 	*premier=NULL;
 	}
@@ -69,7 +69,7 @@ chaineT* chaineCreationPremier(void)
 	return premier;
 	}
 
-void chaineSupprimePendule(chaineT* premier)
+void chaineSupprimeHumain(chaineT* premier)
 	{
 	chaineT *iter, *suivant;
 	for(iter=premier->suivant; iter !=premier; iter=suivant)
@@ -79,7 +79,7 @@ void chaineSupprimePendule(chaineT* premier)
 		}
 	}
 
-void chaineCreationPendule(chaineT* premier)
+void chaineCreationHumain(chaineT* premier)
 	{// ajoute un pendule à la chaine
 	chaineT * nouveau = (chaineT*) malloc(sizeof(chaineT));
 	if (nouveau!=NULL)
@@ -91,7 +91,7 @@ void chaineCreationPendule(chaineT* premier)
 		}
 	else
 		{
-		fprintf(stderr, "erreur de malloc dans chaineCreationPendule");
+		fprintf(stderr, "erreur de malloc dans chaineCreationHumain");
 		}
 	//affichePendul(&(nouveau->pendule));
 	}

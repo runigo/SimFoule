@@ -1,0 +1,85 @@
+%
+%%%%%%%%%%%%%%%%%%%%%
+\section{Valeurs implicites}
+%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\subsection{Réglage de dt, durée et pause}
+Une incrémentation du système correspond à une avancée dans le temps de \texttt{dt}. La longueur des pendules est fixé à 25 cm afin de battre la seconde :
+Période égale à une seconde
+\begin{center}
+	\begin{tabular}{rcccl}
+	T & = & 2$\pi \sqrt{l/g}$ & = & 1\\
+	g/l & = & 4$\pi^2$ & = & 39,478\\
+	l & = & 0,25 cm &\\
+	\end{tabular}
+\end{center}
+Empiriquement, un affichage graphique par 30 ms, est obtenue avec une pause de l'ordre de 25ms. Si à chaque affichage correspond à une centaine d'incrémentation de dt, 
+\begin{center}
+	\begin{tabular}{rcl}
+	dt $\times$ duree & = & delay\\
+	dt $\times$ 100 & = & 0,03\\
+	dt & = & 0,0003\\
+	\end{tabular}
+\end{center}
+La valeur de {\texttt duree} peut être changée dynamiquement avec les touches {\texttt F11} et {\texttt F12} afin de faire varier la vitese de la simulation. La valeur de dt peut être réglée avec l'option {\texttt dt} au démarrage du programme, celle de delay par l'option {\texttt pause}.
+Dans SiCP, les valeurs implicites de {\texttt dt} et {\texttt duree} sont égale à 0,0003 et 91, celle de pause est égale à 25. Ces valeurs peuvent être affinée suivant le microprcesseur afin d'avoir un pendule qui bat la seconde.
+%
+%
+\subsection{Limite infinie}
+La touche {\texttt v} supprime les frottements sauf pour les derniers pour lesquels les frottements s'accroissent. Ceci permet d'obtenir une extrémité "absorbante".
+\begin{itemize}[label=\ding{32}, leftmargin=2cm]
+\item pendule de  « précédent »  à  «  nombre $\times$ 5 / 6 » : dissipation de 10 à 1,
+\item pendule précédents : dissipation = 0,0
+\end{itemize}
+%
+%
+\subsection{dt et dissipation maximale}
+La touche {\texttt v} supprime les frottements sauf pour les derniers pour lesquels les frottements s'accroissent. Ceci permet d'obtenir une extrémité "absorbante".
+\begin{center}
+	\begin{tabular}{rcl}
+	dt $\times$ DISSIPATION\_MAX & = & constante\\
+	0.0003 $\times$ 333 & = & 0,0999\\
+	dissipation maximale & = & 0,0999/dt\\
+	\end{tabular}
+\end{center}
+%
+%
+\subsubsection{Limitation des valeurs des variables}
+%
+Au delà de certaines valeurs de certain paramètres dynamiques, la simulation s'éloigne du comportement physique.
+\begin{itemize}[label=\ding{32}, leftmargin=2cm]
+\item Pour des raisons de discrétisation
+\item En raisons de possibles erreurs d'algorithme
+\item En raisons de possibles erreurs d'écriture
+\end{itemize}
+%
+%
+\subsubsection{Paramètres physiques}
+%
+%
+\subsubsection{Paramètres dynamiques}
+%
+Au delà de certaines valeurs de certain paramètres dynamiques, la simulation s'éloigne de l'évolution physique.
+\begin{itemize}[label=\ding{32}, leftmargin=2cm]
+\item Vitesse des mobiles
+\item Distance entre les mobiles
+\item Énergie
+\end{itemize}
+%
+\subsubsection{Énergie maximale}
+La valeur de l'énergie permetrait de limiter un certain nombres d'erreurs.
+%
+\subsubsection{Dans SiGP}
+Lorsque l'énergie est supérieur à ENERGIE\_SECURITE, La position des mobiles pourrait être divisées par deux dans les équations linéaires
+
+
+\begin{center}
+	\begin{tabular}{rcl}
+ &  &1 009 200 790 976 791 136 174 080\\
+ &  &  585 891 747 701 731 153 149 952\\
+      999000555444333222111\\
+\multicolumn{3}{c}{\#define ENERGIE\_SECURITE 777666555444333222111}\\
+	\end{tabular}
+\end{center}
+%

@@ -2,7 +2,7 @@
 #define _PROJECTION_
 
 #include "../modele/pendule.h"
-#include "../graphisme/points.h"
+#include "../graphisme/graphe.h"
 
 int projectionPremierX(pendule_t p1);
 int projectionPremierY(pendule_t p1);

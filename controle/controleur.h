@@ -1,12 +1,13 @@
 #ifndef _CONTROLEUR_
 #define _CONTROLEUR_
 
-#include "../projection/projection.h"
+#include "../graphisme/graphe.h"
 
 typedef struct ControleurT controleurT;
 struct ControleurT {
 	interfaceT interface;
 	interfaceT reglage;
+	grapheT graphe;
 };
 
 

@@ -1,27 +1,83 @@
-#ifndef _POINTS_
-#define _POINTS_
+/*
+Copyright décembre 2017, Stephan Runigo
+runigo@free.fr
+SimFoule 1.0  simulateur de foule
+Ce logiciel est un programme informatique servant à simuler l'évacuation
+d'une foule dans un batiment et à en donner une représentation graphique.
+Ce logiciel est régi par la licence CeCILL soumise au droit français et
+respectant les principes de diffusion des logiciels libres. Vous pouvez
+utiliser, modifier et/ou redistribuer ce programme sous les conditions
+de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+sur le site "http://www.cecill.info".
+En contrepartie de l'accessibilité au code source et des droits de copie,
+de modification et de redistribution accordés par cette licence, il n'est
+offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+seule une responsabilité restreinte pèse sur l'auteur du programme, le
+titulaire des droits patrimoniaux et les concédants successifs.
+A cet égard  l'attention de l'utilisateur est attirée sur les risques
+associés au chargement,  à l'utilisation,  à la modification et/ou au
+développement et à la reproduction du logiciel par l'utilisateur étant
+donné sa spécificité de logiciel libre, qui peut le rendre complexe à
+manipuler et qui le réserve donc à des développeurs et des professionnels
+avertis possédant  des  connaissances  informatiques approfondies. Les
+utilisateurs sont donc invités à charger  et  tester  l'adéquation du
+logiciel à leurs besoins dans des conditions permettant d'assurer la
+sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+pris connaissance de la licence CeCILL, et que vous en avez accepté les
+termes.
+*/
 
-#include "interface.h"
+#ifndef _POINT_
+#define _POINT_
 
-struct Points_t {
-    SDL_Point coord1;
-    SDL_Point coord2;
-};
-typedef struct Points_t points_t;
+#include "../donnees/constantes.h"
 
-points_t pointsCreation(void);
-void pointsMur(SDL_Renderer *rendu, points_t p);
-void pointsHumain(SDL_Renderer *rendu, points_t p);
-void pointsChemin(SDL_Renderer *rendu, points_t p);
-void pointsPendules(SDL_Renderer *rendu, points_t p);
+typedef struct PointsT pointsT;
+	struct PointsT
+		{
+		// point suivant
+		struct PointsT *suivant;
 
-//https://deptinfo-ensip.univ-poitiers.fr/ENS/doku/doku.php/stu:progc:sdls
+		// Coordonnees du point
+		int xm;
+		int ym;
 
-// Version 1.1
-SDL_Texture* SDLS_loadTexture(char * filename, SDL_Renderer *ren);
-int SDLS_affiche_image(char * fname,SDL_Renderer * ren, int x, int y);
-int SDLS_init(int w, int h, SDL_Window **win, SDL_Renderer **ren);
-int SDLS_putpixels(SDL_Renderer * ren, Uint32* pixels,int w, int h);
-int SDLS_getpixels(SDL_Renderer * ren, Uint32* pixels,int w, int h);
+		};
+
+pointsT* pointCreationGraphe(int nombre);
+void pointSupprime(pointsT** premier);
 
 #endif
+/*
+Copyright avril 2016, Stephan Runigo
+runigo@free.fr
+SiCP 1.1  simulateur de chaîne de pendules
+Ce logiciel est un programme informatique servant à simuler l'équation
+d'une chaîne de pendules et à en donner une représentation graphique.
+Ce logiciel est régi par la licence CeCILL soumise au droit français et
+respectant les principes de diffusion des logiciels libres. Vous pouvez
+utiliser, modifier et/ou redistribuer ce programme sous les conditions
+de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+sur le site "http://www.cecill.info".
+En contrepartie de l'accessibilité au code source et des droits de copie,
+de modification et de redistribution accordés par cette licence, il n'est
+offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+seule une responsabilité restreinte pèse sur l'auteur du programme, le
+titulaire des droits patrimoniaux et les concédants successifs.
+A cet égard  l'attention de l'utilisateur est attirée sur les risques
+associés au chargement,  à l'utilisation,  à la modification et/ou au
+développement et à la reproduction du logiciel par l'utilisateur étant
+donné sa spécificité de logiciel libre, qui peut le rendre complexe à
+manipuler et qui le réserve donc à des développeurs et des professionnels
+avertis possédant  des  connaissances  informatiques approfondies. Les
+utilisateurs sont donc invités à charger  et  tester  l'adéquation du
+logiciel à leurs besoins dans des conditions permettant d'assurer la
+sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+pris connaissance de la licence CeCILL, et que vous en avez accepté les
+termes.
+*/
+

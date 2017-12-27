@@ -11,13 +11,14 @@ int interfaceInitialisation(interfaceT * interface)
 	//assert(SDL_CreateWindowAndRenderer(LARGEUR, LARGEUR, 0, &(*interface).fenetre, &(*interface).rendu) == 0);
 
 	// Création de la fenêtre
-	(*interface).fenetre = SDL_CreateWindow("Pendule double", SDL_WINDOWPOS_UNDEFINED, 
+	(*interface).fenetre = SDL_CreateWindow("Simulateur de foule", SDL_WINDOWPOS_UNDEFINED, 
 							SDL_WINDOWPOS_UNDEFINED, LARGEUR, LARGEUR, 
 							SDL_WINDOW_RESIZABLE);
 
 	// Création du rendu
 	(*interface).rendu = SDL_CreateRenderer((*interface).fenetre, -1 , 
-					SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+					//SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+					SDL_RENDERER_PRESENTVSYNC);
 
 
 	//void SDL_GetWindowSize(SDL_Window* window , int* w , int* h);

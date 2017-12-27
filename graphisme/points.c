@@ -1,181 +1,119 @@
+/*
+Copyright décembre 2017, Stephan Runigo
+runigo@free.fr
+SimFoule 1.0  simulateur de foule
+Ce logiciel est un programme informatique servant à simuler l'évacuation
+d'une foule dans un batiment et à en donner une représentation graphique.
+Ce logiciel est régi par la licence CeCILL soumise au droit français et
+respectant les principes de diffusion des logiciels libres. Vous pouvez
+utiliser, modifier et/ou redistribuer ce programme sous les conditions
+de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+sur le site "http://www.cecill.info".
+En contrepartie de l'accessibilité au code source et des droits de copie,
+de modification et de redistribution accordés par cette licence, il n'est
+offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+seule une responsabilité restreinte pèse sur l'auteur du programme, le
+titulaire des droits patrimoniaux et les concédants successifs.
+A cet égard  l'attention de l'utilisateur est attirée sur les risques
+associés au chargement,  à l'utilisation,  à la modification et/ou au
+développement et à la reproduction du logiciel par l'utilisateur étant
+donné sa spécificité de logiciel libre, qui peut le rendre complexe à
+manipuler et qui le réserve donc à des développeurs et des professionnels
+avertis possédant  des  connaissances  informatiques approfondies. Les
+utilisateurs sont donc invités à charger  et  tester  l'adéquation du
+logiciel à leurs besoins dans des conditions permettant d'assurer la
+sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+pris connaissance de la licence CeCILL, et que vous en avez accepté les
+termes.
+*/
+
 #include "points.h"
 
-	// Création et initialisation
-points_t pointsCreation(void)
-{
-    points_t p;
+pointsT* creationPremierGraphe(void);
+void creationPointGraphe(pointsT* premier);
+void pointSupprimeGraphe(pointsT* premier);
 
-    p.coord1.x = 0;
-    p.coord1.y = 0;
-    p.coord2.x = 0;
-    p.coord2.y = 0;
-    
-    return p;
-}
-
-	// Dessin 
-void pointsMur(SDL_Renderer *rendu, points_t p) {    
-	int x1 = p.coord1.x;
-	int y1 = p.coord1.y;
-
-	int x2 = p.coord2.x;
-	int y2 = p.coord2.y;
-
-	SDLS_affiche_image("mur.bmp",rendu,x2-2,y2-2);
-
-	SDLS_affiche_image("mur.bmp",rendu,x1-2,y1-2);
-
-	SDLS_affiche_image("mur.bmp",rendu,LARGEUR/2,HAUTEUR/2);
-
-	return;
-	}
-
-void pointsHumain(SDL_Renderer *rendu, points_t p) {    
-	int x1 = p.coord1.x;
-	int y1 = p.coord1.y;
-
-	int x2 = p.coord2.x;
-	int y2 = p.coord2.y;
-
-	SDLS_affiche_image("humain.bmp",rendu,x1-4,y1-4);
-
-	SDLS_affiche_image("humain.bmp",rendu,x2-4,y2-4);
-
-	SDLS_affiche_image("humain.bmp",rendu,LARGEUR/2,HAUTEUR/2);
-
-	return;
-	}
-
-	// Dessin 
-void pointsTrait(SDL_Renderer *rendu, points_t p) {    
-	int x1 = p.coord1.x;
-	int y1 = p.coord1.y;
-
-	int x2 = p.coord2.x;
-	int y2 = p.coord2.y;
-
-	int xoffset = 1;
-
-	SDL_Point points1[3] = {
-		{LARGEUR/2, HAUTEUR/2},
-		{x1,    y1},
-		{x2,    y2}
-	};
-
-	SDL_Point points2[3] = {
-		{LARGEUR/2 + xoffset, HAUTEUR/2},
-		{x1 + xoffset,    y1},
-		{x2 + xoffset,    y2}
-	};
-
-	SDL_RenderDrawLines(rendu, points1, 3);
-	SDL_RenderDrawLines(rendu, points2, 3);
-
-	return;
-	}
-
-//////////////////////////////////////////////////////////////////////////
-
-//https://deptinfo-ensip.univ-poitiers.fr/ENS/doku/doku.php/stu:progc:sdls
-
-// Version 1.1
-
-SDL_Texture* SDLS_loadTexture(char * filename, SDL_Renderer *ren){
-        SDL_Texture *texture = 0;
-        SDL_Surface *image = 0;
-        image = SDL_LoadBMP(filename);
-        if (!image)
-          {
-          fprintf(stderr,"Erreur chargement image : %s\n",SDL_GetError());
-          return 0;
-          }
- 
-        texture = SDL_CreateTextureFromSurface(ren, image);
-        SDL_FreeSurface(image);
-        if (texture == 0)
-          {
-          fprintf(stderr,"Erreur creation texture : %s\n",SDL_GetError());
-          return 0;
-          }
-        return texture;
-}
-
-Uint32 SDLS_couleur(int r, int g, int b)
+pointsT* pointCreationGraphe(int nombre)
 	{
-	return (((r<<8)+ g)<<8 )+ b;
+	int i;
+	pointsT* premier=creationPremierGraphe();
+	for(i=1;i<nombre;i++)
+		creationPointGraphe(premier);
+	return premier;
 	}
 
-int SDLS_getpixels(SDL_Renderer * ren, Uint32* pixels, int w, int h)
+void pointSupprime(pointsT** premier)
 	{
-	int res;
-	int width=w;
-	(void)h;//, height=h;
-	//SDL_RenderGetLogicalSize(ren,&width,&height);
-	//printf("%d %d\n",width,height);
-	res = SDL_RenderReadPixels(ren,NULL,SDL_PIXELFORMAT_ARGB8888,pixels,width*sizeof(Uint32));
-	if (res<0) 
+	pointSupprimeGraphe(*premier);
+	free(*premier);
+	*premier=NULL;
+	}
+
+pointsT* creationPremierGraphe(void)
+	{
+	//pointsT * premier;
+	//premier = (pointsT*) malloc(sizeof(pointsT));
+	pointsT* premier = malloc(sizeof *premier);
+	if (premier!=NULL)
 		{
-		fprintf(stderr,"Erreur getpixels : %s\n",SDL_GetError());
-		return -1;
+		premier->suivant=premier;
 		}
-	return 0;
-	}
-int  SDLS_putpixels(SDL_Renderer * ren, Uint32* pixels, int w, int h) 
-	{
-	SDL_Texture * tex;
-	int width=w, height=h;
-	//SDL_RenderGetLogicalSize(ren,&width,&height);
-	tex = SDL_CreateTexture(ren, SDL_PIXELFORMAT_ARGB8888,
-	SDL_TEXTUREACCESS_STREAMING, width, height);
-	SDL_UpdateTexture(tex, NULL, pixels, width * sizeof (Uint32));
-	SDL_RenderCopy(ren,tex, NULL, NULL);
-	SDL_RenderPresent(ren);
-	SDL_DestroyTexture(tex);
-	return 0;
+	else fprintf(stderr, "Echec de malloc dans creationPremierGraphe()");
+	//affichePendul(&(premier->pendul));
+	return premier;
 	}
 
-int SDLS_affiche_image(char * fname,SDL_Renderer * rendu, int x, int y) 
-{
-	SDL_Texture * texture = 0;
-	SDL_Rect coordonnee;
-
-	texture = SDLS_loadTexture(fname,rendu);
-	if (texture == 0) return 3;
-
-	// Récupération de la taille de la texture 
-	SDL_QueryTexture(texture, NULL, NULL, &coordonnee.w, &coordonnee.h);
-
-	// Centrage
-	coordonnee.x = x; //(WIDTH - dst.w)/2;
-	coordonnee.y = y; //(HEIGHT- dst.h)/2;
-
-	// Affichage
-	SDL_RenderCopy(rendu, texture, NULL, &coordonnee);
-	//SDL_RenderPresent(ren);
-	return 0;
-}
-
-int SDLS_init(int w, int h, SDL_Window **win, SDL_Renderer **ren)
+void pointSupprimeGraphe(pointsT* premier)
 	{
-	/* Initialisation de la SDL. Si ça se passe mal, on quitte */
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
-	{
-		fprintf(stderr,"Erreur initialisation\n");
-		return -1;
-	}
-	/* Création de la fenêtre et du renderer */
-	SDL_CreateWindowAndRenderer(w,h, 0, win, ren); // SDL_WINDOW_SHOWN|SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC,&win,&ren);
-	if (!*win || !*ren) 
+	pointsT *iter, *suivant;
+	for(iter=premier->suivant; iter !=premier; iter=suivant)
 		{
-		fprintf(stderr,"Erreur à la création des fenêtres\n");
-		SDL_Quit();
-	return -1;
+		suivant=iter->suivant;
+		free(iter);
+		}
 	}
-	/* Affichage du fond noir */
-	SDL_SetRenderDrawColor(*ren, 0, 0, 0, 255);
-	SDL_RenderClear(*ren);
 
-	SDL_RenderPresent(*ren);
+void creationPointGraphe(pointsT* premier)
+	{// ajoute un pendule à la chaine
+	pointsT * nouveau = (pointsT*) malloc(sizeof(pointsT));
+	if (nouveau!=NULL)
+		{
+		nouveau->suivant=premier->suivant;
+		premier->suivant=nouveau;
+		}
+	//affichePendul(&(nouveau->pendul));
+	}
+//////////////////////////////////////////////////////////////////////
+/*
+Copyright avril 2016, Stephan Runigo
+runigo@free.fr
+SiCP 1.1  simulateur de chaîne de pendules
+Ce logiciel est un programme informatique servant à simuler l'équation
+d'une chaîne de pendules et à en donner une représentation graphique.
+Ce logiciel est régi par la licence CeCILL soumise au droit français et
+respectant les principes de diffusion des logiciels libres. Vous pouvez
+utiliser, modifier et/ou redistribuer ce programme sous les conditions
+de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
+sur le site "http://www.cecill.info".
+En contrepartie de l'accessibilité au code source et des droits de copie,
+de modification et de redistribution accordés par cette licence, il n'est
+offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+seule une responsabilité restreinte pèse sur l'auteur du programme, le
+titulaire des droits patrimoniaux et les concédants successifs.
+A cet égard  l'attention de l'utilisateur est attirée sur les risques
+associés au chargement,  à l'utilisation,  à la modification et/ou au
+développement et à la reproduction du logiciel par l'utilisateur étant
+donné sa spécificité de logiciel libre, qui peut le rendre complexe à
+manipuler et qui le réserve donc à des développeurs et des professionnels
+avertis possédant  des  connaissances  informatiques approfondies. Les
+utilisateurs sont donc invités à charger  et  tester  l'adéquation du
+logiciel à leurs besoins dans des conditions permettant d'assurer la
+sécurité de leurs systèmes et ou de leurs données et, plus généralement,
+à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
+Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
+pris connaissance de la licence CeCILL, et que vous en avez accepté les
+termes.
+*/
 
-	return 0;
-}
