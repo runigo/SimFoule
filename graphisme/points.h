@@ -46,8 +46,8 @@ typedef struct PointsT pointsT;
 
 		};
 
-pointsT* pointCreationGraphe(int nombre);
-void pointSupprime(pointsT** premier);
+pointsT* pointsCreationGraphe(int nombre);
+void pointsSupprime(pointsT** premier);
 
 #endif
 /*

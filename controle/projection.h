@@ -29,28 +29,39 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 */
 
-#ifndef _CHAINE_
-#define _CHAINE_
 
-#include "humain.h"
+#ifndef _PROJECTION_
+#define _PROJECTION_
 
-typedef struct ChaineT chaineT;
-	struct ChaineT
-	{
-	struct ChaineT *precedent;
-	humainT humain;
-	struct ChaineT *suivant;
-	};
+#include "../modele/foule.h"
+#include "../modele/etage.h"
+#include "../graphisme/graphe.h"
 
-chaineT* chaineCreation(int nombre);
-void chaineSupprime(chaineT** premier);
+typedef struct ProjectionT projectionT;
+	struct ProjectionT
+		{
+		int rouge;
+		int vert;
+		int bleu;
+		int fond;
 
+		int hauteur;
+		int largeur;
+		};
+
+int projectionInitialiseCouleurs(projectionT * projection, int r, int v, int b, int fond);
+int projectionInitialiseLongueurs(projectionT * projection, int hauteur, int largeur);
+
+int projectionEtagePlan(etageT * etage, projectionT * projection, grapheT * graphe);
+int projectionFoulePoints(fouleT * foule, projectionT * projection, grapheT * graphe);
+
+int projectionAffiche(projectionT * projection);
 #endif
-
+///////////////////////////////////////////////////////////////////////////////////
 /*
-Copyright septembre 2017, Stephan Runigo
+Copyright juillet 2017, Stephan Runigo
 runigo@free.fr
-SiCP 1.3  simulateur de chaîne de pendules
+SiCP 1.3.5  simulateur de chaîne de pendules
 Ce logiciel est un programme informatique servant à simuler l'équation
 d'une chaîne de pendules et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et

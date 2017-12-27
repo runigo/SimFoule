@@ -31,27 +31,27 @@ termes.
 
 #include "points.h"
 
-pointsT* creationPremierGraphe(void);
-void creationPointGraphe(pointsT* premier);
-void pointSupprimeGraphe(pointsT* premier);
+pointsT* pointsCreationPremierGraphe(void);
+void pointsCreationPointGraphe(pointsT* premier);
+void pointsSupprimeGraphe(pointsT* premier);
 
-pointsT* pointCreationGraphe(int nombre)
+pointsT* pointsCreationGraphe(int nombre)
 	{
 	int i;
-	pointsT* premier=creationPremierGraphe();
+	pointsT* premier=pointsCreationPremierGraphe();
 	for(i=1;i<nombre;i++)
-		creationPointGraphe(premier);
+		pointsCreationPointGraphe(premier);
 	return premier;
 	}
 
-void pointSupprime(pointsT** premier)
+void pointsSupprime(pointsT** premier)
 	{
-	pointSupprimeGraphe(*premier);
+	pointsSupprimeGraphe(*premier);
 	free(*premier);
 	*premier=NULL;
 	}
 
-pointsT* creationPremierGraphe(void)
+pointsT* pointsCreationPremierGraphe(void)
 	{
 	//pointsT * premier;
 	//premier = (pointsT*) malloc(sizeof(pointsT));
@@ -65,7 +65,7 @@ pointsT* creationPremierGraphe(void)
 	return premier;
 	}
 
-void pointSupprimeGraphe(pointsT* premier)
+void pointsSupprimeGraphe(pointsT* premier)
 	{
 	pointsT *iter, *suivant;
 	for(iter=premier->suivant; iter !=premier; iter=suivant)
@@ -75,7 +75,7 @@ void pointSupprimeGraphe(pointsT* premier)
 		}
 	}
 
-void creationPointGraphe(pointsT* premier)
+void pointsCreationPointGraphe(pointsT* premier)
 	{// ajoute un pendule à la chaine
 	pointsT * nouveau = (pointsT*) malloc(sizeof(pointsT));
 	if (nouveau!=NULL)

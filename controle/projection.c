@@ -29,28 +29,85 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 */
 
-#ifndef _CHAINE_
-#define _CHAINE_
+#include "projection.h"
 
-#include "humain.h"
+int projectionEtagePlan(etageT * etage, projectionT * projection, grapheT * graphe)
+	{	//	Projette les murs sur le plan du graphe
+	int i, j;
+	(void)projection;
 
-typedef struct ChaineT chaineT;
-	struct ChaineT
-	{
-	struct ChaineT *precedent;
-	humainT humain;
-	struct ChaineT *suivant;
-	};
+	for(i=0;i<BATIMENT;i++)
+		{
+		for(j=0;j<BATIMENT;j++)
+			{
+			(*graphe).plan[i][j][0]=0;
+			if((*etage).cellule[i][j].mur)
+				(*graphe).plan[i][j][0]=1;
+			if((*etage).cellule[i][j].sortie)
+				(*graphe).plan[i][j][0]=2;
+			}
+		}
+	return 0;
+	}
 
-chaineT* chaineCreation(int nombre);
-void chaineSupprime(chaineT** premier);
 
-#endif
+int projectionFoulePoints(fouleT * foule, projectionT * projection, grapheT * graphe)
+	{	//	Projette les coordonnées des humains sur les points du graphe
 
+	chaineT *iterFoule=(*foule).premier;
+	pointsT *iterGraph=(*graphe).premier;
+	(void)projection;
+
+	do
+		{
+		iterGraph->xm = (int)(iterFoule->humain.nouveau.x);
+		iterGraph->ym = (int)(iterFoule->humain.nouveau.y);
+
+		iterGraph = iterGraph->suivant;
+		iterFoule = iterFoule->suivant;
+		}
+	while(iterGraph!=(*graphe).premier);
+	return 0;
+	}
+
+int projectionInitialiseCouleurs(projectionT * projection, int r, int v, int b, int fond)
+	{		// Initialise la couleur du graphe
+	(*projection).rouge = r;
+	(*projection).vert = v;
+	(*projection).bleu = b;
+	(*projection).fond = fond;
+	return 0;
+	}
+
+int projectionInitialiseLongueurs(projectionT * projection, int hauteur, int largeur)
+	{		// Fixe la taille de la chaîne et l'effet de perspective
+	(*projection).hauteur = hauteur;
+	(*projection).largeur = largeur;
+	return 0;
+	}
+
+int projectionAffiche(projectionT * projection)
+	{		// Affiche les valeurs de psi et phi
+	float r, v, b, f;
+
+	r = (*projection).rouge;
+	v = (*projection).vert;
+	b = (*projection).bleu;
+	f = (*projection).fond;
+
+	printf("(*projection).pointDeVue.r = %f\n", r);
+	printf("(*projection).pointDeVue.v = %f\n", v);
+	printf("(*projection).pointDeVue.b = %f\n", b);
+	printf("(*projection).pointDeVue.fond = %f\n", f);
+
+	return 0;
+	}
+
+////////////////////////////////////////////////////////////////////////////////
 /*
-Copyright septembre 2017, Stephan Runigo
+Copyright juillet 2017, Stephan Runigo
 runigo@free.fr
-SiCP 1.3  simulateur de chaîne de pendules
+SiCP 1.3.5  simulateur de chaîne de pendules
 Ce logiciel est un programme informatique servant à simuler l'équation
 d'une chaîne de pendules et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
