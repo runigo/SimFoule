@@ -34,6 +34,7 @@ termes.
 
 #include "../controle/projection.h"
 #include "../donnees/options.h"
+#include "../donnees/fichier.h"
 
 typedef struct ControleurT controleurT;
 struct ControleurT
@@ -49,6 +50,9 @@ struct ControleurT
 
 	interfaceT interface;
 	interfaceT reglage;
+
+	int appui;	//	1 si le bouton de la souris est appuyé, 0 sinon.
+
 	};
 
 int controleurCreation(controleurT * controleur);

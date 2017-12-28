@@ -32,21 +32,59 @@ termes.
 
 #include "controleur.h"
 
-int controleurSuppression(controleurT * controleur)
+int controleurProjection(controleurT * control);
+int controleurEvolutionSysteme(controleurT * control);
+int controleurConstructionGraphique(controleurT * control);
+int controleurActionClavier(controleurT * control);
+
+int controleurTraiteEvenement(controleurT * control);
+
+int controleurClavier(controleurT * control);
+int controleurClavierMaj(controleurT * controleur);
+int controleurClavierCtrl(controleurT * controleur);
+int controleurSouris(controleurT * control);
+void controleurBoutonSouris(controleurT * control, int appui);
+
+void controleurChangeMode(controleurT * control);
+void controleurChangeVitesse(controleurT * control, float facteur);
+
+int controleurSuppression(controleurT * controleurT)
 	{
 	fprintf(stderr, "  Suppression de l'interface\n");
-	interfaceDestruction(&(*controleur).interface);
+	interfaceDestruction(&(*controleurT).interface);
 	fprintf(stderr, "  Suppression du graphe\n");
-	grapheSuppression(&(*controleur).graphe);
+	grapheSuppression(&(*controleurT).graphe);
 	fprintf(stderr, "  Suppression de la foule\n");
-	fouleSuppression(&(*controleur).foule);
+	fouleSuppression(&(*controleurT).foule);
 	return 0;
 	}
 
 int controleurSimulationGraphique(controleurT * controleur)
 	{
+			//fprintf(stderr, "Entrée dans la boucle SDL\n");
+	do	{
+			//fprintf(stderr, "Projection du systeme sur la représentation graphique\n");
+		controleurProjection(controleur);
+
+			//fprintf(stderr, "Projection du systeme sur la représentation graphique\n");
+		controleurEvolutionSysteme(controleur);
+
+			//fprintf(stderr, "Mise à jourde la fenêtre graphique et pause\n");
+		controleurConstructionGraphique(controleur);
+
+			//fprintf(stderr, "Prise en compte des actions clavier\n");
+		controleurActionClavier(controleur);
+
+		}
+	while((*controleur).interface.evenement.type != SDL_QUIT);
+			//fprintf(stderr, "Sortiee de la boucle SDL\n");
+	return 0;
+	}
+/*
+int controleurSimulationGraphique00(controleurT * controleur)
+	{
     
-	while((*controleur).interface.continu) {
+	//while((*controleur).interface.continu) {
 		while(SDL_PollEvent(&(*controleur).interface.evenement))
 			{
 			if((*controleur).interface.evenement.type == SDL_QUIT)
@@ -70,21 +108,563 @@ int controleurSimulationGraphique(controleurT * controleur)
 		}
 
 
-		projectionEtagePlan(&(*controleur).etage, &(*controleur).projection, &(*controleur).graphe);
-		projectionFoulePoints(&(*controleur).foule, &(*controleur).projection, &(*controleur).graphe);
+		//projectionEtagePlan(&(*controleur).etage, &(*controleur).projection, &(*controleur).graphe);
+		//projectionFoulePoints(&(*controleur).foule, &(*controleur).projection, &(*controleur).graphe);
 
-		fouleEvolution(&(*controleur).foule, (*controleur).options.duree);
+		//fouleEvolution(&(*controleur).foule, (*controleur).options.duree);
 
-		interfaceNettoyage(&(*controleur).interface);
+		//interfaceNettoyage(&(*controleur).interface);
 
-		grapheDessineMur((*controleur).interface.rendu, &(*controleur).graphe);
-		grapheDessineHumain((*controleur).interface.rendu, &(*controleur).graphe);
+		//grapheDessineMur((*controleur).interface.rendu, &(*controleur).graphe);
+		//grapheDessineHumain((*controleur).interface.rendu, &(*controleur).graphe);
 
-		interfaceMiseAJour(&(*controleur).interface);
+		//interfaceMiseAJour(&(*controleur).interface);
 
-		SDL_Delay((*controleur).options.pause);
+		//SDL_Delay((*controleur).options.pause);
 		}
 	return 0;
 	}
+*/
+int controleurProjection(controleurT * controleur)
+	{
+		//	Projection des fonctions sur les graphes
 
+	projectionEtagePlan(&(*controleur).etage, &(*controleur).projection, &(*controleur).graphe);
+
+	projectionFoulePoints(&(*controleur).foule, &(*controleur).projection, &(*controleur).graphe);
+
+	return (*controleur).options.sortie;
+	}
+
+int controleurEvolutionSysteme(controleurT * controleur)
+	{
+		//fprintf(stderr, "Evolution temporelle de la foule\n");
+	fouleEvolution(&(*controleur).foule, (*controleur).options.duree);
+
+	return 0;
+	}
+
+int controleurConstructionGraphique(controleurT * controleur)
+	{
+		//fprintf(stderr, "Nettoyage de l'affichage\n");
+	interfaceNettoyage(&(*controleur).interface);
+
+	//	Dessin des graphes;
+	grapheDessineMur((*controleur).interface.rendu, &(*controleur).graphe);
+	grapheDessineHumain((*controleur).interface.rendu, &(*controleur).graphe);
+
+		//fprintf(stderr, "Mise à jour de l'affichage\n");
+	interfaceMiseAJour(&(*controleur).interface);
+
+		// Pause
+	SDL_Delay((*controleur).options.pause);
+
+	return (*controleur).options.sortie;
+	}
+
+int controleurActionClavier(controleurT * controleur)
+	{
+	int sortie = 0;
+		//fprintf(stderr, "Traitement des évenements, mode %d\n", (*controleur).mode);
+	if((*controleur).options.mode<0)
+		{
+				// Attente d'un évenement SDL
+		if(SDL_WaitEvent(&(*controleur).interface.evenement))
+			{
+			sortie += controleurTraiteEvenement(controleur);
+			}
+		}
+	else
+		{
+			// Sans attente
+		if( SDL_PollEvent(&(*controleur).interface.evenement) )
+			{
+			sortie += controleurTraiteEvenement(controleur);
+			}
+		}
+
+	if((*controleur).interface.evenement.type == SDL_QUIT) sortie += 1;
+
+	(*controleur).options.sortie += sortie;
+
+	return (*controleur).options.sortie;
+	}
+
+int controleurTraiteEvenement(controleurT * controleur)
+	{
+	int sortie = 0;
+
+	switch((*controleur).interface.evenement.type)
+		{
+		case SDL_QUIT:
+			sortie = 1;break;
+		case SDL_MOUSEMOTION:
+			sortie = controleurSouris(controleur);break;
+		case SDL_MOUSEBUTTONDOWN:
+			controleurBoutonSouris(controleur, 1);break;
+		case SDL_MOUSEBUTTONUP:
+			controleurBoutonSouris(controleur, 0);break;
+		case SDL_KEYDOWN:
+			if ((((*controleur).interface.evenement.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT)
+			|| (((*controleur).interface.evenement.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT))
+				{
+				sortie = controleurClavierMaj(controleur);break;
+				}
+			else
+				{
+				if ((((*controleur).interface.evenement.key.keysym.mod & KMOD_LSHIFT) == KMOD_LCTRL)
+				|| (((*controleur).interface.evenement.key.keysym.mod & KMOD_RSHIFT) == KMOD_RCTRL))
+					{
+					sortie = controleurClavierCtrl(controleur);break;
+					}
+				else
+					{
+					sortie = controleurClavier(controleur);break;
+					}
+				}
+			/*if (((*controleur).interface.evenement.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT)
+				{sortie = controleurClavierMaj(controleur);break;}
+			else
+				{
+				if (((*controleur).interface.evenement.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT)
+					{sortie = controleurClavierMaj(controleur);break;}
+				else {sortie = controleurClavier(controleur);break;}
+				}*/
+		//case SDL_KEYDOWN:
+			//sortie = controleurClavier(controleur);break;
+		}
+
+	if(sortie != 0)
+		{
+		fprintf(stderr, "sortie <> 0\n");
+		(*controleur).options.sortie = 1;
+		}
+	return sortie;
+	}
+
+void controleurChangeMode(controleurT * controleur)
+	{
+	(*controleur).options.mode=-(*controleur).options.mode;
+
+	return;
+	}
+
+void controleurChangeVitesse(controleurT * controleur, float facteur)
+	{
+	if( (*controleur).options.duree > 999 && facteur > 1 )
+		{
+		fprintf(stderr, "duree maximale atteinte");
+		}
+	else
+		{
+		if( (*controleur).options.duree > 11 )
+			{
+			(*controleur).options.duree = (*controleur).options.duree * facteur;
+			}
+		else
+			{
+			if( facteur > 1)
+				{
+				(*controleur).options.duree ++;
+				}
+			else
+				{
+				if( (*controleur).options.duree > 1 )
+					{
+					(*controleur).options.duree --;
+					}
+				else
+					{
+					fprintf(stderr, "duree minimale atteinte");
+					}
+				}
+			}
+		}
+	fprintf(stderr, "duree = %d\n", (*controleur).options.duree);
+	return;
+	}
+
+int controleurClavier(controleurT * controleur)
+	{
+	switch ((*controleur).interface.evenement.key.keysym.sym)
+		{
+	// Sortie
+		case SDLK_ESCAPE:
+			(*controleur).options.sortie = 1;break;
+
+	// Mode : attente d'un evenement / pas d'attente
+		case SDLK_RETURN:
+			controleurChangeMode(controleur);break;
+
+	// Vitesse de la simulation
+		case SDLK_KP_PLUS:
+			controleurChangeVitesse(controleur, 1.1);break;
+		case SDLK_KP_MINUS:
+			controleurChangeVitesse(controleur, 0.91);break;
+		case SDLK_F9:
+			controleurChangeVitesse(controleur, 0.32);break;
+		case SDLK_F10:
+			controleurChangeVitesse(controleur, 0.91);break;
+		case SDLK_F11:
+			controleurChangeVitesse(controleur, 1.1);break;
+		case SDLK_F12:
+			controleurChangeVitesse(controleur, 3.1);break;
+
+	// Conditions aux limites
+/*
+		case SDLK_y:
+			changeDephasage(&(*controleur).foule, 2*PI);break;
+		case SDLK_h:
+			changeDephasage(&(*controleur).foule, -2*PI);break;
+		case SDLK_w:
+			changeConditionsLimites(&(*controleur).foule, 0); // periodiques
+			break;
+		case SDLK_x:
+			changeConditionsLimites(&(*controleur).foule, 1); // libres
+			break;
+		case SDLK_c:
+			changeConditionsLimites(&(*controleur).foule, 2); // fixes
+			break;
+		case SDLK_b:
+			changeConditionsLimites(&(*controleur).foule, 3); // libre fixe
+			break;
+		case SDLK_n:
+			changeConditionsLimites(&(*controleur).foule, 4); // fixe libre
+			break;
+
+	// Dissipation
+		case SDLK_d:
+			changeDissipation(&(*controleur).foule, 1.3);break;
+		case SDLK_e:
+			changeDissipation(&(*controleur).foule, 0.7);break;
+		case SDLK_r:
+			changeFormeDissipation(&(*controleur).foule, 0);break;
+		case SDLK_f:
+			changeFormeDissipation(&(*controleur).foule, 1);break;
+		case SDLK_v:
+			changeFormeDissipation(&(*controleur).foule, 2);break;
+
+	// Couplage
+		case SDLK_a:
+			changeCouplage(&(*controleur).foule, 1.1);break;
+		case SDLK_q:
+			changeCouplage(&(*controleur).foule, 0.9);break;
+
+	// Masse
+		case SDLK_z:
+			changeMasse(&(*controleur).foule, 1.1);break;
+		case SDLK_s:
+			changeMasse(&(*controleur).foule, 0.91);break;
+
+	// Gravitation
+		case SDLK_t:
+			changeGravitation(&(*controleur).foule, 1.1);break;
+		case SDLK_g:
+			changeGravitation(&(*controleur).foule, 0.91);break;
+
+	// Moteur jonction Josephson
+		case SDLK_UP:
+			moteursChangeJosephson(&(*controleur).foule.moteur,1.1);break;
+		case SDLK_DOWN:
+			moteursChangeJosephson(&(*controleur).foule.moteur,0.91);break;
+		case SDLK_LEFT:
+			moteursChangeJosephson(&(*controleur).foule.moteur,-1.0);break;
+		case SDLK_RIGHT:
+			moteursChangeJosephson(&(*controleur).foule.moteur,0.0);break;
+
+	// Moteur générateur de signaux
+
+		case SDLK_p:
+			moteursChangeFrequence(&(*controleur).foule.moteur,1.1);break;
+		case SDLK_m:
+			moteursChangeFrequence(&(*controleur).foule.moteur,0.91);break;
+		case SDLK_u:
+			moteursChangeAmplitude(&(*controleur).foule.moteur,1.1);break;
+		case SDLK_j:
+			moteursChangeAmplitude(&(*controleur).foule.moteur,0.91);break;
+		case SDLK_o:
+			moteursChangeGenerateur(&(*controleur).foule.moteur, -1);break;
+		case SDLK_i:
+			moteursChangeGenerateur(&(*controleur).foule.moteur, 3);break;
+		case SDLK_l:
+			moteursChangeGenerateur(&(*controleur).foule.moteur, 2);break;
+
+
+	// Choix de l'equation
+
+		case SDLK_F1: // Pendules
+			changeEquation(&(*controleur).foule, 1);break;
+		case SDLK_F2: // Harmoniques
+			changeEquation(&(*controleur).foule, 2);break;
+		case SDLK_F3: // Corde
+			changeEquation(&(*controleur).foule, 3);break;
+		case SDLK_F4: // Corde asymétrique
+			changeEquation(&(*controleur).foule, 4);break;
+
+
+	// Choix de l'equation
+
+		case SDLK_F5: // Pendules
+			observablesAfficheEnergie(&(*controleur).foule);break;
+
+		case SDLK_F6: // Pendules
+			systemeAffiche(&(*controleur).foule);break;
+
+*/
+		default:
+			;
+		}
+	return (*controleur).options.sortie;
+	}
+
+int controleurClavierMaj(controleurT * controleur)
+	{
+	switch ((*controleur).interface.evenement.key.keysym.sym)
+		{
+
+	// Sortie
+
+		case SDLK_ESCAPE:
+			(*controleur).options.sortie = 1;break;
+
+    // Mode : attente d'un evenement / pas d'attente
+
+		case SDLK_RETURN:
+			controleurChangeMode(controleur);break;
+		case SDLK_BACKSPACE:
+			controleurChangeMode(controleur);break;
+
+
+	// Réinitialisation du système
+		// Lecture des fichier
+		case SDLK_a:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 0);break;
+		case SDLK_z:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 1);break;
+		case SDLK_e:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 2);break;
+		case SDLK_r:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 3);break;
+		case SDLK_t:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 4);break;
+		case SDLK_y:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 5);break;
+		case SDLK_u:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 6);break;
+		case SDLK_i:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 7);break;
+		case SDLK_o:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 8);break;
+		case SDLK_p:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 9);break;
+		case SDLK_q:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 10);break;
+		case SDLK_s:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 11);break;
+		case SDLK_d:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 12);break;
+		case SDLK_f:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 13);break;
+		case SDLK_g:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 14);break;
+		case SDLK_h:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 15);break;
+		case SDLK_j:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 16);break;
+		case SDLK_k:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 17);break;
+		case SDLK_l:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 18);break;
+		case SDLK_m:
+			fprintf(stderr, "Réinitialisation du système\n");
+			fichierLecture(&(*controleur).etage, 19);break;
+
+
+		// Ecriture des fichiers
+		// Ecriture des fichiers
+		case SDLK_w:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 10);break;
+		case SDLK_x:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 11);break;
+		case SDLK_c:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 12);break;
+		case SDLK_v:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 13);break;
+		case SDLK_b:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 14);break;
+		case SDLK_n:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 15);break;
+		/*case SDLK_d:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierLecture(&(*controleur).etage, );break;
+		case SDLK_f:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierLecture(&(*controleur).etage, );break;
+		case SDLK_g:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierLecture(&(*controleur).etage, );break;
+		case SDLK_:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierLecture(&(*controleur).etage, );break;
+		case SDLK_:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierLecture(&(*controleur).etage, );break;*/
+
+		default:
+			;
+		}
+	return (*controleur).options.sortie;
+	}
+
+int controleurClavierCtrl(controleurT * controleur)
+	{
+	switch ((*controleur).interface.evenement.key.keysym.sym)
+		{
+	// Sortie
+		case SDLK_ESCAPE:
+			(*controleur).options.sortie = 1;break;
+	// Mode : attente d'un evenement / pas d'attente
+		case SDLK_RETURN:
+			controleurChangeMode(controleur);break;
+		case SDLK_BACKSPACE:
+			controleurChangeMode(controleur);break;
+
+	// Enregistrement
+		// Sauvegarde du système
+		case SDLK_a:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 0);break;
+		case SDLK_z:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 1);break;
+		case SDLK_e:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 2);break;
+		case SDLK_r:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 3);break;
+		case SDLK_t:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 4);break;
+		case SDLK_y:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 5);break;
+		case SDLK_u:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 6);break;
+		case SDLK_i:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 7);break;
+		case SDLK_o:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 8);break;
+		case SDLK_p:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 9);break;
+		case SDLK_q:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 10);break;
+		case SDLK_s:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 11);break;
+		case SDLK_d:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 12);break;
+		case SDLK_f:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 13);break;
+		case SDLK_g:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 14);break;
+		case SDLK_h:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 15);break;
+
+
+		// Ecriture des fichiers
+		case SDLK_w:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 10);break;
+		case SDLK_x:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 11);break;
+		case SDLK_c:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 12);break;
+		case SDLK_v:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 13);break;
+		case SDLK_b:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 14);break;
+		case SDLK_n:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, 15);break;
+		/*case SDLK_d:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, );break;
+		case SDLK_f:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, );break;
+		case SDLK_g:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, );break;
+		case SDLK_:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, );break;
+		case SDLK_:
+			fprintf(stderr, "Sauvegarde du système\n");
+			fichierEcriture(&(*controleur).etage, );break;*/
+
+		default:
+			;
+		}
+	return (*controleur).options.sortie;
+	}
+
+int controleurSouris(controleurT * controleur)
+	{
+	float x, y;
+	if((*controleur).appui==1)
+		{
+		x=-0.01*(float)((*controleur).interface.evenement.motion.xrel);
+		y=0.1*HAUTEUR*(float)((*controleur).interface.evenement.motion.yrel);
+		//fprintf(stderr, "controleurSouris yrel = %d , x = %f\n", (*controleur).interface.evenement.motion.yrel, x);
+		//fprintf(stderr, "controleurSouris xrel = %d , y = %f\n", (*controleur).interface.evenement.motion.xrel, y);
+		(void)x;(void)y;
+		}
+	return (*controleur).options.sortie;
+	}
+
+void controleurBoutonSouris(controleurT * controleur, int appui)
+	{
+	(*controleur).appui=appui;
+	return;
+	}
+//////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////

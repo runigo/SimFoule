@@ -43,8 +43,13 @@ struct CelluleT {
 typedef struct CelluleT celluleT;
 
 double celluleInitialise(celluleT * cellule);
+
 int celluleCreationMur(celluleT * cellule);
 int celluleCreationSortie(celluleT * cellule);
+
 int celluleDonneStatut(celluleT * cellule);	// 0:libre, 1:mur, 2:sortie
 int celluleInitialiseStatut(celluleT * cellule, int statut);	// 0:libre, 1:mur, 2:sortie
+
+int celluleDonneDistance(celluleT * cellule);	// Distance à la sortie
+int celluleChangeDistance(celluleT * cellule, int pas);	// Ajoute le pas à la distance
 #endif

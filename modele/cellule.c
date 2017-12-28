@@ -63,5 +63,17 @@ int celluleInitialiseStatut(celluleT * cellule, int statut)
 	(*cellule).statut=statut;
 	return 0;
 	}
+
+int celluleDonneDistance(celluleT * cellule)
+	{	// Distance à la sortie
+	return (*cellule).distance;
+	}
+
+int celluleChangeDistance(celluleT * cellule, int pas)
+	{	// Ajoute le pas à la distance
+	(*cellule).distance=(*cellule).distance + pas;
+	return 0;
+	}
+
 ////////////////////////////////////////////////////////////////////////
 
