@@ -1,0 +1,18 @@
+%
+%%%%%%%%%%%%%%%%%%%%%
+\section{Le batiment}
+%%%%%%%%%%%%%%%%%%%%%
+%
+Cette section traite de la modélisation d'un étage de batiment
+%
+\subsection{Cellule}
+Un étage du batiment est discrétisé en cellule (de l'ordre de 1 m $\times$ 1 m). Une cellule peut contenir un mur ou être libre aux humain. Elle peut également être une sortie de l'étage d'où les humains sortent. Elle contient une information (sens et direction à suivre) permettant de diriger les humains vers la sortie la plus proche. Une autre information pourrait être la deuxième sortie la plus proche donnant à l'humain un choix à faire.
+%
+%
+\subsection{Étage}
+Un étage est l'ensemble des cellules, il consiste en un plan en deux dimensions des murs de l'étage. Un étage peut posséder une ou plusieurs sortie. Une sortie peut être l'entrée d'un autre étage, auquel cas il s'agit d'un escalier.
+%
+%
+\subsection{Batiment}
+Un batiment est composé de plusieurs étages reliés par des escaliers. Il dispose d'un étage 0 pouvant posséder une ou plusieurs sortie.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

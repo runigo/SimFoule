@@ -53,7 +53,7 @@ typedef struct OptionsT optionsT;
 
 		int nombre;		// Nombre d'humain
 		float masse;		// Masse d'un humain
-		float dissipation;	// Dissipation
+		float nervosite;	// Nervosité d'un humain
 		};
 
 int optionsTraitement(optionsT * opt, int nbOpt, char *option[]);

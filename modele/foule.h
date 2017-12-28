@@ -39,13 +39,14 @@ typedef struct FouleT fouleT;
 		{
 		chaineT * premier;	//	Premiere personne
 
-		int nombre;		//	Nombre d'humain
 		float dt;		//	Discétisation du temps
+		float horloge;		//	Horloge, chronomètre
 
+		int nombre;		//	Nombre d'humain
 		float masse;		//	Masse d'un humain
 
-		float horloge;		//	Mémoire pour conditions limites
-		float dissipation;	//	Mémoire si alpha = 0.0
+
+		float nervosite;	//	Nervosité des humains
 
 		};
 

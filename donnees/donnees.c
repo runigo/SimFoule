@@ -75,7 +75,7 @@ int donneesOptions(optionsT * options)
 
 	(*options).nombre=30;	// Nombre d'humain
 
-	(*options).dissipation=0.6;	// dissipation
+	(*options).nervosite=0.9;	// Nervosité des humains
 	(*options).dt=0.006;	// discrétisation du temps
 							// 25 images par seconde, SDL_Delay(30);
 							// dt*duree = 0.004
@@ -97,7 +97,8 @@ int donneesFoule(fouleT * foule, optionsT * options)
 	(*foule).dt = (*options).dt;		// Discrétisation du temps
 	(*foule).masse = (*options).masse;			// Masse des humains
 	(*foule).horloge = 0.0;			// Horloge
-	(*foule).dissipation = (*options).dissipation;	// dissipation
+	// Nervosité des humains maximale Nervosite nervosite
+	(*foule).nervosite = (*options).nervosite;	// dissipation
 
 	fouleCreation(foule);
 

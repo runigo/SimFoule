@@ -34,25 +34,17 @@ termes.
 
 int controleurSuppression(controleurT * controleur)
 	{
-	fprintf(stderr, "Suppression de l'interface\n");
+	fprintf(stderr, "  Suppression de l'interface\n");
 	interfaceDestruction(&(*controleur).interface);
-	fprintf(stderr, "Suppression du graphe\n");
+	fprintf(stderr, "  Suppression du graphe\n");
 	grapheSuppression(&(*controleur).graphe);
-	fprintf(stderr, "Suppression de la foule\n");
+	fprintf(stderr, "  Suppression de la foule\n");
 	fouleSuppression(&(*controleur).foule);
 	return 0;
 	}
-/*
-int controleurCreation(controleurT * controleur)
-	{
-	interfaceInitialisation(&(*controleur).interface);
-	grapheCreation(&(*controleur).graphe, NOMBRE);
-	grapheInitialisation((*controleur).interface.rendu, &(*controleur).graphe);
-	return 0;
-	}
-*/
+
 int controleurSimulationGraphique(controleurT * controleur)
-{
+	{
     
 	while((*controleur).interface.continu) {
 		while(SDL_PollEvent(&(*controleur).interface.evenement))
@@ -77,17 +69,22 @@ int controleurSimulationGraphique(controleurT * controleur)
 			}
 		}
 
-	interfaceNettoyage(&(*controleur).interface);
 
-	projectionEtagePlan(&(*controleur).etage, &(*controleur).projection, &(*controleur).graphe);
-	projectionFoulePoints(&(*controleur).foule, &(*controleur).projection, &(*controleur).graphe);
+		projectionEtagePlan(&(*controleur).etage, &(*controleur).projection, &(*controleur).graphe);
+		projectionFoulePoints(&(*controleur).foule, &(*controleur).projection, &(*controleur).graphe);
 
-	grapheDessineMur((*controleur).interface.rendu, &(*controleur).graphe);
-	grapheDessineHumain((*controleur).interface.rendu, &(*controleur).graphe);
+		fouleEvolution(&(*controleur).foule, (*controleur).options.duree);
 
-	interfaceMiseAJour(&(*controleur).interface);
+		interfaceNettoyage(&(*controleur).interface);
 
-	SDL_Delay((*controleur).options.pause);
-    }
-    return 0;
-}
+		grapheDessineMur((*controleur).interface.rendu, &(*controleur).graphe);
+		grapheDessineHumain((*controleur).interface.rendu, &(*controleur).graphe);
+
+		interfaceMiseAJour(&(*controleur).interface);
+
+		SDL_Delay((*controleur).options.pause);
+		}
+	return 0;
+	}
+
+/////////////////////////////////////////////////////////////////////////////////////////

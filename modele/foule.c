@@ -1,7 +1,7 @@
 /*
 Copyright décembre 2017, Stephan Runigo
 runigo@free.fr
-SimFoule 0.0  simulateur de foule
+SimFoule 0.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -57,7 +57,7 @@ int fouleCreation(fouleT * foule)
 
 void fouleSuppression(fouleT * foule)
 	{
-	printf("  Suppression de la chaine\n");
+	printf("    Suppression de la chaine\n");
 	chaineSupprime(&(*foule).premier);
 	//printf("  Chaine supprimée\n");
 	return;
@@ -75,6 +75,44 @@ void fouleInitialiseHumain(fouleT * foule)
 		iter=iter->suivant;
 		}
 	while(iter != (*foule).premier);
+
+	return;
+	}
+
+//------------------------  ÉVOLUTION TEMPORELLE  -------------------------
+
+//	Évolution temporelle de la foule, "duree" cycle d'évolution
+
+void fouleEvolution(fouleT * foule, int duree)
+	{
+	int i;
+
+	//	Fait évoluer le système pendant duree*dt
+	for(i=0;i<duree;i++)
+		{
+		//	Évolution élémentaire
+		//fouleCouplage(foule);
+		//fouleInertie(foule);
+		fouleIncremente(foule);
+		}
+
+	return;
+	}
+
+void fouleIncremente(fouleT * foule)
+	{//	incremente l'horloge, l'ancien et l'actuel etat du foule
+
+	(*foule).horloge=(*foule).horloge+(*foule).dt;
+
+	chaineT *iter;
+	iter=(*foule).premier;
+
+	do
+		{
+		humainIncremente(&(iter->humain));
+		iter=iter->suivant;
+		}
+	while (iter!=(*foule).premier);
 
 	return;
 	}
@@ -221,24 +259,6 @@ void fouleInertie(fouleT * foule)
 	return;
 	}
 
-void fouleIncremente(fouleT * foule)
-	{//	incremente l'horloge, l'ancien et l'actuel etat du foule
-
-	//(*foule).moteur.horloge=(*foule).moteur.horloge+(*foule).moteur.dt;
-	(*foule).moteur.chrono=(*foule).moteur.chrono+(*foule).moteur.dt;
-
-	chaineT *iter;
-	iter=(*foule).premier;
-
-	do
-		{
-		humainIncremente(&(iter->humain));
-		iter=iter->suivant;
-		}
-	while (iter!=(*foule).premier);
-
-	return;
-	}
 */
 //////////////////////////////////////////////////////////////////////////
 /*

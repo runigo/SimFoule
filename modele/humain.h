@@ -43,8 +43,19 @@ struct HumainT {
 	vecteurT vitesse;
 
 	vecteurT vitesseSouhaite;
+
+	vecteurT forceExterieur;
+
+	float masse;
+	float nervosite;
 };
 typedef struct HumainT humainT;
 
-double humainInitialise(humainT * humain);
+int humainInitialise(humainT * humain);
+int humainInitialisePosition(humainT * humain, float x, float y);
+int humainInitialiseCaractere(humainT * humain, float masse, float nervosite);
+
+int humainEvolution(humainT * humain);
+int humainIncremente(humainT * humain);
 #endif
+////////////////////////////////////////////////////////////////////

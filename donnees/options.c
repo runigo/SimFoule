@@ -36,7 +36,7 @@ void optionsDt(optionsT * option, char *opt);
 void optionsFond(optionsT * option, char *opt);
 void optionsNombre(optionsT * option, char *opt);
 void optionsMasse(optionsT * option, char *opt);
-void optionsDissipation(optionsT * option, char *opt);
+void optionsNervosite(optionsT * option, char *opt);
 void optionsPause(optionsT * option, char *opt);
 void optionsMode(optionsT * option, char *opt);
 void optionsDuree(optionsT * option, char *opt);
@@ -59,13 +59,15 @@ int optionsTraitement(optionsT * option, int nb, char *opt[])
 
 		if(strcmp(opt[i], "dt")==0 && opt[i+1]!=NULL)
 			optionsDt(option, opt[i+1]);		// discrétisation du temps
+		if(strcmp(opt[i], "nervosite")==0 && opt[i+1]!=NULL)
+			optionsNervosite(option, opt[i+1]);		// Nervosité des humains
 		if(strcmp(opt[i], "masse")==0 && opt[i+1]!=NULL)
 			optionsMasse(option, opt[i+1]);		// Masse des humains
 /*
 		if(strcmp(opt[i], "nombre")==0 && opt[i+1]!=NULL)
 			optionsNombre(option, opt[i+1]);		// Nombre d'humain
-		if(strcmp(opt[i], "dissipation")==0 && opt[i+1]!=NULL)
-			optionsDissipation(option, opt[i+1]);		// Dissipation
+		if(strcmp(opt[i], "nervosite")==0 && opt[i+1]!=NULL)
+			optionsNervosite(option, opt[i+1]);		// Nervosité des humains
 */
 		if(strcmp(opt[i], "aide")==0)
 			optionsAide();	// Affiche l'aide.
@@ -108,6 +110,23 @@ void optionsDt(optionsT * option, char *opt)
 		{
 		printf("Option dt non valide, dt = %f\n", (*option).dt);
 		printf("Option dt : 0.0 < dt < %f\n", DT_MAX);
+		}
+	return;
+	}
+
+	// Nervosité des humains maximale Nervosite nervositeNERVOSITE_MAX
+void optionsNervosite(optionsT * option, char *opt)
+	{
+	float nervosite = atof(opt);
+	if(nervosite>0.0 && nervosite<NERVOSITE_MAX)
+		{
+		(*option).nervosite = nervosite;
+		printf("Option nervosite valide, dt = %f\n", (*option).nervosite);
+		}
+	else
+		{
+		printf("Option nervosite non valide, dt = %f\n", (*option).nervosite);
+		printf("Option nervosite : 0.0 < dt < %f\n", NERVOSITE_MAX);
 		}
 	return;
 	}

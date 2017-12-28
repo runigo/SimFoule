@@ -32,7 +32,7 @@ termes.
 
 #include "../modele/humain.h"
 
-double humainInitialise(humainT * humain)
+int humainInitialise(humainT * humain)
 	{
 	vecteurCartesien(&(*humain).nouveau, 0, 0, 0);
 	vecteurCartesien(&(*humain).actuel, 0, 0, 0);
@@ -42,38 +42,37 @@ double humainInitialise(humainT * humain)
 
 	vecteurCartesien(&(*humain).vitesseSouhaite, 0, 0, 0);
 
+	(*humain).masse = 66.9;
+	(*humain).nervosite = 0.99;
+
 	return 0;
 	}
 
-int humainCreationMur(humainT * humain, int X, int Y)
+int humainInitialisePosition(humainT * humain, float x, float y)
 	{
-	(void)humain;
-	(void)X;
-	(void)Y;
+	vecteurCartesien(&(*humain).nouveau, x, y, 0);
+	vecteurCartesien(&(*humain).actuel, x, y, 0);
+	vecteurCartesien(&(*humain).ancien, x, y, 0);
 	return 0;
 	}
 
-int humainCreationSortie(humainT * humain, int X, int Y)
+int humainInitialiseCaractere(humainT * humain, float masse, float nervosite)
 	{
-	(void)humain;
-	(void)X;
-	(void)Y;
+	(*humain).masse = masse;
+	(*humain).nervosite = nervosite;
 	return 0;
 	}
 
-bool humainMur(humainT * humain, int X, int Y)
-	{
-	(void)humain;
-	(void)X;
-	(void)Y;
-	return false;
+float humainCalculVitesse(humainT * humain)
+	{	// vitesse = nouveau - ancien = vitesse en unité de dt
+	vecteurDifferenceCartesien(&(*humain).nouveau, &(*humain).actuel, &(*humain).vitesse); // v3 = v1 - v2
+	return sqrt(vecteurScalaireCartesien(&(*humain).vitesse, &(*humain).vitesse));
 	}
 
-bool humainSortie(humainT * humain, int X, int Y)
+int humainIncremente(humainT * humain)
 	{
-	(void)humain;
-	(void)X;
-	(void)Y;
-	return true;
+	vecteurCartesienEgale(&(*humain).actuel, &(*humain).ancien); // v2 = v1
+	vecteurCartesienEgale(&(*humain).nouveau, &(*humain).actuel); // v2 = v1
+	return 0;
 	}
 

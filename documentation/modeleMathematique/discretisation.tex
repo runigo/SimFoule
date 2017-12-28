@@ -1,0 +1,75 @@
+
+%%%%%%%%%%%%%%%%%%%%%
+\section{Discrétisation}
+%%%%%%%%%%%%%%%%%%%%%
+%
+La discrétisation de l'équation du mouvement se fait à l'aide de l'algorithme de Verlet. Cet algorithme consiste à symétriser la dérivée par rapport au temps puis d'obtenir une expression de $x(t+\dt)$ en fonction de $x(t)$ et $x(t-\dt)$. Cette expression permet de simuler de proche en proche le comportement du système physique. La solution discrète se rapproche de la solution analytique si la valeur de dt est convenablement choisie. En dehors d'un certain encadrement de dt, la solution discrète s'éloigne de la solution analytique.
+%
+\subsection{Discrétisation des dérivées}
+%
+\subsubsection{Dérivé symétrisée}
+Par définition, la dérivé symétrique est :
+\[
+\frac{dx}{\dt}=\frac{x(t+\dt)-x(t-\dt)}{2\dt}
+\]
+On en déduit l'expression suivante de la dérivée seconde :
+\[
+\frac{d^2x}{\dt^2}=\frac{x(t+2\dt)-x(t)-x(t)+x(t-2\dt)}{4\dt^2}
+\]
+Le changement de variable dt' = 2 dt simplifie cette expression :
+\[
+\frac{d^2x}{\dt^2}=\frac{x(t+\dt)-2x(t)+x(t-\dt)}{\dt^2}
+\]
+Une expression disymétrique de la vitesse peut être utilisée pour l'évaluation des forces de viscosité ainsi que pour le calcul de l'énergie cinétique avant le calcul de la nouvelle valeur de $x(t+\dt)$.
+\[
+\frac{dx}{\dt}=\frac{x(t+\dt)-x(t)}{\dt}
+\]
+{\footnotesize Après l'incrémentation, } $\frac{dx}{\dt}=\frac{x(t)-x(t-\dt)}{\dt}$
+%
+\subsection{Discrétisation de la relation fondamentale de la dynamique}
+%
+\label{samuel2}
+Dans le modèle d'Helbing (\cite{lemercier}) la relation fondamentale de la dynamique donne :
+%
+\[
+m_i\frac{\mathbf{x}_i(t+\dt) - 2\mathbf{x}_i(t) + \mathbf{x}_i(t-\dt)}{\dt^2} = m_i \frac{\mathbf{v}^0_i(t) - \mathbf{v}_i(t)}{\tau _i} + \sum_{j\neq i}\mathbf{f}_{ij} + \sum_{w}\mathbf{f}_{iw}
+\]
+avec
+\begin{itemize}[leftmargin=1cm, label=\ding{32}, itemsep=0pt]%\end{itemize}
+\item  $m_i$ représente la masse d'un piéton
+\item  $\mathbf{v}^0_i(t)$ la vitesse qu'il souhaite atteindre dans une direction
+\item  $\mathbf{v}_i(t)$ sa vitesse actuelle
+\item  $\tau_i$ un paramètre temporel,
+\item  $\mathbf{f}_{ij}$ les forces d'interaction auquel il est soumis avec les autres humains,
+\item  $\mathbf{f}_{iw}$ les forces d'interactions auquel il est soumis avec les murs.
+\end{itemize}
+On en déduit
+\[
+\mathbf{x}_i(t+\dt) = 2\mathbf{x}_i(t) - \mathbf{x}_i(t-\dt) + \dt^2  \frac{\mathbf{v}^0_i(t) - \mathbf{v}_i(t)}{\tau _i} + \frac{\dt^2}{m_i} \sum_{j\neq i}\mathbf{f}_{ij} + \frac{\dt^2}{m_i} \sum_{w}\mathbf{f}_{iw}
+\]
+La force d'interaction avec un autre humain est :
+%
+\[
+\mathbf{f}_{ij} = \left( A_i \exp{\frac{r_{ij}-d_{ij}}{B_i}} + kg(r_{ij}-d_{ij})\right) \mathbf{n}_{ij} + Kg(r_{ij}-d_{ij})\Delta v^t_{ij}\mathbf{t}_{ij}
+\]
+%
+avec
+\begin{itemize}[leftmargin=1cm, label=\ding{32}, itemsep=0pt]%\end{itemize}
+\item  $A_i \exp{\frac{r_{ij}-d_{ij}}{B_i}}$ Force d'interaction répulsive
+\begin{itemize}[leftmargin=1cm, label=\ding{32}, itemsep=0pt]%\end{itemize}
+\item  $r_{ij}$ somme des rayons des deux humains,
+\item  $d_{ij}$ distance entre les centres de gravité des deux humains,
+\item  $A_i$ $B_i$ constantes.
+\end{itemize}
+\item  $kg(r_{ij}-d_{ij})\mathbf{n}_{ij}$ Force de contact qui empêche l'interpénétration des piétons
+\begin{itemize}[leftmargin=1cm, label=\ding{32}, itemsep=0pt]%\end{itemize}
+\item  $\mathbf{n}_{ij}$ vecteur normalisé pointant de l'humain i à l'humain j.
+\end{itemize}
+\item  $Kg(r_{ij}-d_{ij})\Delta v^t_{ij}\mathbf{t}_{ij}$ Force de friction
+\begin{itemize}[leftmargin=1cm, label=\ding{32}, itemsep=0pt]%\end{itemize}
+\item  $\Delta v^t_{ij}$ est la vitesse tangentielle relative,
+\item  $\mathbf{t}_{ij}$ est la direction tangentielle.
+\end{itemize}
+\end{itemize}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

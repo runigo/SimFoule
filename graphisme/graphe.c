@@ -65,7 +65,7 @@ int grapheCreation(grapheT * graphe, int nombre)
 void grapheSuppression(grapheT * graphe)
 	{
 	pointsSupprime(&(*graphe).premier);
-	printf("Graphe supprimé\n");
+	//printf("Graphe supprimé\n");
 	}
 
 int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)

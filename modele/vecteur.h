@@ -53,10 +53,11 @@ typedef struct VecteurT vecteurT;
 		};
 
 void vecteurCartesien(vecteurT * v, float x, float y, float z);
+void vecteurCartesienEgale(vecteurT * v1, vecteurT * v2); // v2 = v1
 void vecteurInitialisePolaire(vecteurT * v, float r, float psi, float phi);
 float vecteurScalaireCartesien(vecteurT * v1, vecteurT * v2);
 void vecteurSommeCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3);
-void vecteurDifferenceCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3);
+void vecteurDifferenceCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3); // v3 = v1 - v2
 
 int vecteurInitialiseVecteurPhi(vecteurT * pointDeVue, vecteurT * vecteurPhi, float hauteur);
 int vecteurInitialiseVecteurPsi(vecteurT * pointDeVue, vecteurT * vecteurPsi, float largeur);

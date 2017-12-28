@@ -56,6 +56,6 @@ termes.
 
 #define MASSE_MIN 9	// Masse minimale d'un humain
 #define MASSE_MAX 199	// Masse maximale d'un humain
-#define DISSIPATION_MAX // Dissipation maximale
+#define NERVOSITE_MAX 99.1	// Nervosité maximale
 
 #endif
