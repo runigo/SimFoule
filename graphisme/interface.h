@@ -46,7 +46,7 @@ struct InterfaceT {
 	int fond;
 };
 
-int interfaceInitialisation(interfaceT * interface);
+int interfaceInitialisation(interfaceT * interface, int fond);
 int interfaceNettoyage(interfaceT * interface);
 int interfaceMiseAJour(interfaceT * interface);
 int interfaceDestruction(interfaceT * interface);

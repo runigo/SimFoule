@@ -34,40 +34,34 @@ termes.
 
 double celluleInitialise(celluleT * cellule)
 	{
-	(void)cellule;
-	printf("celluleInitialise");
+	//printf("celluleInitialise");
+	(*cellule).statut = 0;		// 0:libre, 1:mur, 2:sortie
+	vecteurCartesien(&(*cellule).sens, 0, 0, 0);	// Direction et sens à suivre
+	(*cellule).distance = 0.0;	// Distance à la sortie
 	return 0;
 	}
 
-int celluleCreationMur(celluleT * cellule, int X, int Y)
+int celluleCreationMur(celluleT * cellule)
 	{
-	(void)cellule;
-	(void)X;
-	(void)Y;
+	(*cellule).statut = 1;		// 0:libre, 1:mur, 2:sortie
 	return 0;
 	}
 
-int celluleCreationSortie(celluleT * cellule, int X, int Y)
+int celluleCreationSortie(celluleT * cellule)
 	{
-	(void)cellule;
-	(void)X;
-	(void)Y;
+	(*cellule).statut = 2;		// 0:libre, 1:mur, 2:sortie
 	return 0;
 	}
 
-bool celluleMur(celluleT * cellule, int X, int Y)
+int celluleDonneStatut(celluleT * cellule)
 	{
-	(void)cellule;
-	(void)X;
-	(void)Y;
-	return false;
+	return (*cellule).statut;
 	}
 
-bool celluleSortie(celluleT * cellule, int X, int Y)
-	{
-	(void)cellule;
-	(void)X;
-	(void)Y;
-	return true;
+int celluleInitialiseStatut(celluleT * cellule, int statut)
+	{	// 0:libre, 1:mur, 2:sortie
+	(*cellule).statut=statut;
+	return 0;
 	}
+////////////////////////////////////////////////////////////////////////
 

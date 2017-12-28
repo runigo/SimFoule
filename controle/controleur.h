@@ -33,10 +33,13 @@ termes.
 #define _CONTROLEUR_
 
 #include "../controle/projection.h"
+#include "../donnees/options.h"
 
 typedef struct ControleurT controleurT;
 struct ControleurT
 	{
+	optionsT options;		//	Options de la ligne de commande
+
 	fouleT foule;
 	etageT etage;
 
@@ -48,11 +51,10 @@ struct ControleurT
 	interfaceT reglage;
 	};
 
-int controleurCréation(controleurT * controleur);
-int controleurInitialisation(controleurT * controleur);
+int controleurCreation(controleurT * controleur);
 
-int controleurSimulation(controleurT * controleur);
+int controleurSimulationGraphique(controleurT * controleur);
 
-int controleurDestruction(controleurT * controleur);
+int controleurSuppression(controleurT * controleur);
 
 #endif

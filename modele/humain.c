@@ -34,8 +34,14 @@ termes.
 
 double humainInitialise(humainT * humain)
 	{
-	(void)humain;
-	printf("humainInitialise");
+	vecteurCartesien(&(*humain).nouveau, 0, 0, 0);
+	vecteurCartesien(&(*humain).actuel, 0, 0, 0);
+	vecteurCartesien(&(*humain).ancien, 0, 0, 0);
+
+	vecteurCartesien(&(*humain).vitesse, 0, 0, 0);
+
+	vecteurCartesien(&(*humain).vitesseSouhaite, 0, 0, 0);
+
 	return 0;
 	}
 

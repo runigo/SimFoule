@@ -45,11 +45,17 @@ termes.
 #define ETAGE 3 	// Nombre d'étage
 #define BATIMENT 45	// Longueur du coté du batiment (en nombre de cellule)
 #define CELLULE 12	// Longueur du coté d'une cellule (en pixel)
-
-#define NOMBRE 15	// Nombre d'humain (en pixel)
 #define HUMAIN 8	// Longueur du coté d'un humain (en pixel)
 
 #define LARGEUR BATIMENT*CELLULE // Taille de la fenêtre
 #define HAUTEUR BATIMENT*CELLULE // Taille de la fenêtre
+
+#define DT_MAX 0.07	// dt maximale
+#define DUREE_MAX 777	// Nombre maximale d'incrémentation entre les affichages
+#define NOMBRE_MAX	// Nombre maximale d'humains
+
+#define MASSE_MIN 9	// Masse minimale d'un humain
+#define MASSE_MAX 199	// Masse maximale d'un humain
+#define DISSIPATION_MAX // Dissipation maximale
 
 #endif

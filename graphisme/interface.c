@@ -32,12 +32,12 @@ termes.
 
 #include "interface.h"
 
-int interfaceInitialisation(interfaceT * interface)
+int interfaceInitialisation(interfaceT * interface, int fond)
 	{
 	assert(SDL_Init(SDL_INIT_VIDEO) == 0);
 
 	(*interface).continu = true;
-	(*interface).fond = 250;
+	(*interface).fond = fond;
 
 	// Création de la fenêtre
 	(*interface).fenetre = SDL_CreateWindow("Simulateur de foule", SDL_WINDOWPOS_UNDEFINED, 

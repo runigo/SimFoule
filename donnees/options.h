@@ -29,19 +29,44 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 */
 
-#ifndef _PRINCIPALE_
-#define _PRINCIPALE_
 
-#include "../donnees/donnees.h"
+#ifndef _OPTIONS_
+#define _OPTIONS_
+
+#include "constantes.h"
+#include "string.h"
+
+typedef struct OptionsT optionsT;
+	struct OptionsT
+		{
+
+		int initialise;	// Numero du fichier d'initialisation
+
+		int duree;	// nombre d'incrémentation du système par affichage
+		int mode;	// -1 : Wait, 1 : Poll
+		int sortie; // sortie de SiCP si > 0
+
+		int fond;		// couleur du fond de l'affichage
+
+		float dt;		// discrétisation du temps
+		int pause;		// pause après l'affichage en ms
+
+		int nombre;		// Nombre d'humain
+		float masse;		// Masse d'un humain
+		float dissipation;	// Dissipation
+		};
+
+int optionsTraitement(optionsT * opt, int nbOpt, char *option[]);
 
 #endif
-////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 /*
-Copyright juillet 2017, Stephan Runigo
+Copyright janvier 2017, Stephan Runigo
 runigo@free.fr
-SiCP 1.3.5  simulateur de chaîne de pendules
+SiCF 1.1.1  simulateur de corde vibrante et spectre
 Ce logiciel est un programme informatique servant à simuler l'équation
-d'une chaîne de pendules et à en donner une représentation graphique.
+d'une corde vibrante, à calculer sa transformée de fourier, et à donner
+une représentation graphique de ces fonctions. 
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
 respectant les principes de diffusion des logiciels libres. Vous pouvez
 utiliser, modifier et/ou redistribuer ce programme sous les conditions

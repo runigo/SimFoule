@@ -40,18 +40,11 @@ struct HumainT {
 	vecteurT actuel;
 	vecteurT ancien;
 
-	bool mur;
-	bool sortie;
+	vecteurT vitesse;
 
-	vecteurT sens;
-	int distance;
+	vecteurT vitesseSouhaite;
 };
 typedef struct HumainT humainT;
 
 double humainInitialise(humainT * humain);
-double humainThetaSecond(humainT * humain);
-int humainCreationMur(humainT * humain, int X, int Y);
-int humainCreationSortie(humainT * humain, int X, int Y);
-bool humainMur(humainT * humain, int X, int Y);
-bool humainSortie(humainT * humain, int X, int Y);
 #endif

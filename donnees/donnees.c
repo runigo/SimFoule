@@ -29,19 +29,101 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 */
 
-#ifndef _PRINCIPALE_
-#define _PRINCIPALE_
 
-#include "../donnees/donnees.h"
+#include "donnees.h"
 
-#endif
-////////////////////////////////////////////////////////////////////
+	//		Initialisation et création du batiment et de la foule
+
+	//		Initialisation et création du graphe
+
+	//		Initialisation de la SDL
+
+
+int donneesEtage(etageT * etage, optionsT * options);
+int donneesFoule(fouleT * foule, optionsT * options);
+int donneesCreationGraphique(controleurT * controleur);
+
+int donneesCreationControleur(controleurT * controleur)
+	{
+
+	(*controleur).options.sortie = 0;	// Sortie de SiCP si > 0
+
+	projectionInitialiseCouleurs(&(*controleur).projection, 50, 50, 50, (*controleur).options.fond);
+	projectionInitialiseLongueurs(&(*controleur).projection, HAUTEUR, LARGEUR);
+		fprintf(stderr, "  Initialisation de l'étage\n");
+	donneesEtage(&(*controleur).etage, &(*controleur).options);
+		fprintf(stderr, "  Initialisation de la foule\n");
+	donneesFoule(&(*controleur).foule, &(*controleur).options);
+
+		fprintf(stderr, "  Initialisation de l'interface graphique\n");
+	donneesCreationGraphique(controleur);
+
+	return 0;
+	}
+
+int donneesOptions(optionsT * options)
+	{
+		// Préréglage des valeurs optionnelles
+
+	(*options).initialise=0;	// couleur du fond de l'affichage
+
+	(*options).fond=240;	// couleur du fond de l'affichage
+	(*options).mode = 1;	// -1 : Wait, 1 : Poll
+	(*options).pause=25;	// temps de pause SDL en ms
+
+	(*options).duree = 10;	// 100 : temps réèl. Voir options.c
+
+	(*options).nombre=30;	// Nombre d'humain
+
+	(*options).dissipation=0.6;	// dissipation
+	(*options).dt=0.006;	// discrétisation du temps
+							// 25 images par seconde, SDL_Delay(30);
+							// dt*duree = 0.004
+	return 0;
+	}
+
+int donneesEtage(etageT * etage, optionsT * options)
+	{
+	fichierLecture(etage, (*options).initialise);
+	return 0;
+	}
+
+int donneesFoule(fouleT * foule, optionsT * options)
+	{
+
+		// Initialisation de la foule
+
+	(*foule).nombre = (*options).nombre;	// Nombre d'humain
+	(*foule).dt = (*options).dt;		// Discrétisation du temps
+	(*foule).masse = (*options).masse;			// Masse des humains
+	(*foule).horloge = 0.0;			// Horloge
+	(*foule).dissipation = (*options).dissipation;	// dissipation
+
+	fouleCreation(foule);
+
+	return 0;
+	}
+
+int donneesCreationGraphique(controleurT * controleur)
+	{
+		fprintf(stderr, " Initialisation de la SDL2\n");
+	interfaceInitialisation(&(*controleur).interface, (*controleur).options.fond);
+		fprintf(stderr, " Création du graphe\n");
+	grapheCreation(&(*controleur).graphe, (*controleur).options.nombre);
+		fprintf(stderr, " Initialisation du graphe\n");
+	grapheInitialisation((*controleur).interface.rendu, &(*controleur).graphe);
+	return 0;
+	}
+
+//////////////////////////////////////////////////////////////////////////
+
 /*
-Copyright juillet 2017, Stephan Runigo
+Copyright novembre 2017, Stephan Runigo
 runigo@free.fr
-SiCP 1.3.5  simulateur de chaîne de pendules
+SiCF 1.2  simulateur de corde vibrante et spectre
 Ce logiciel est un programme informatique servant à simuler l'équation
-d'une chaîne de pendules et à en donner une représentation graphique.
+d'une corde vibrante, à calculer sa transformée de fourier, et à donner
+une représentation graphique de ces fonctions. 
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
 respectant les principes de diffusion des logiciels libres. Vous pouvez
 utiliser, modifier et/ou redistribuer ce programme sous les conditions

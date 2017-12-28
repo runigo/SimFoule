@@ -43,7 +43,7 @@ typedef struct ChaineT chaineT;
 	};
 
 chaineT* chaineCreation(int nombre);
-void chaineSupprime(chaineT** premier);
+int chaineSupprime(chaineT** premier);
 
 #endif
 

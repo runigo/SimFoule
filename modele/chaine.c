@@ -32,23 +32,28 @@ termes.
 #include "chaine.h"
 
 chaineT* chaineCreationPremier(void);
-void chaineCreationHumain(chaineT* premier);
-void chaineSupprimeHumain(chaineT* premier);
+int chaineCreationHumain(chaineT* premier);
+int chaineSupprimeHumain(chaineT* premier);
 
 chaineT* chaineCreation(int nombre)
 	{
 	int i;
 	chaineT* premier=chaineCreationPremier();
 	for(i=1;i<nombre;i++)
+		{
 		chaineCreationHumain(premier);
+		}
 	return premier;
 	}
 
-void chaineSupprime(chaineT** premier)
+int chaineSupprime(chaineT** premier)
 	{
+	//printf("  chaineSupprime : chaineSupprimeHumain(*premier)\n");
 	chaineSupprimeHumain(*premier);
+	//printf("  chaineSupprime : free(*premier);\n");
 	free(*premier);
 	*premier=NULL;
+	return 0;
 	}
 
 chaineT* chaineCreationPremier(void)
@@ -69,17 +74,20 @@ chaineT* chaineCreationPremier(void)
 	return premier;
 	}
 
-void chaineSupprimeHumain(chaineT* premier)
+int chaineSupprimeHumain(chaineT* premier)
 	{
 	chaineT *iter, *suivant;
+	//printf("    chaineSupprimeHumain : for()\n");
 	for(iter=premier->suivant; iter !=premier; iter=suivant)
 		{
 		suivant=iter->suivant;
 		free(iter);
 		}
+	//printf("    chaineSupprimeHumain : sortie\n");
+	return 0;
 	}
 
-void chaineCreationHumain(chaineT* premier)
+int chaineCreationHumain(chaineT* premier)
 	{// ajoute un pendule à la chaine
 	chaineT * nouveau = (chaineT*) malloc(sizeof(chaineT));
 	if (nouveau!=NULL)
@@ -94,6 +102,7 @@ void chaineCreationHumain(chaineT* premier)
 		fprintf(stderr, "erreur de malloc dans chaineCreationHumain");
 		}
 	//affichePendul(&(nouveau->pendule));
+	return 0;
 	}
 
 //////////////////////////////////////////////////////////////////////////

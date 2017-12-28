@@ -11,8 +11,8 @@ OBJDIR = ./obj
 
 all : $(EXEC)
 
-$(EXEC) : $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/projection.o $(OBJDIR)/graphe.o $(OBJDIR)/interface.o $(OBJDIR)/points.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/foule.o $(OBJDIR)/chaine.o $(OBJDIR)/humain.o $(OBJDIR)/vecteur.o
-	$(CC) -g  $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/projection.o $(OBJDIR)/graphe.o $(OBJDIR)/interface.o $(OBJDIR)/points.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/foule.o $(OBJDIR)/chaine.o $(OBJDIR)/humain.o $(OBJDIR)/vecteur.o ` sdl2-config --libs` $(LDFLAGS) -o $(EXEC)
+$(EXEC) : $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/donnees.o $(OBJDIR)/fichier.o $(OBJDIR)/options.o $(OBJDIR)/projection.o $(OBJDIR)/graphe.o $(OBJDIR)/interface.o $(OBJDIR)/points.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/foule.o $(OBJDIR)/chaine.o $(OBJDIR)/humain.o $(OBJDIR)/vecteur.o
+	$(CC) -g  $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/donnees.o $(OBJDIR)/fichier.o $(OBJDIR)/options.o $(OBJDIR)/projection.o $(OBJDIR)/graphe.o $(OBJDIR)/interface.o $(OBJDIR)/points.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/foule.o $(OBJDIR)/chaine.o $(OBJDIR)/humain.o $(OBJDIR)/vecteur.o ` sdl2-config --libs` $(LDFLAGS) -o $(EXEC)
 
 $(OBJDIR)/principale.o : controle/principale.c controle/principale.h
 	$(CC) -c -g controle/principale.c $(CFLAGS) -o $@
@@ -22,6 +22,15 @@ $(OBJDIR)/controleur.o : controle/controleur.c controle/controleur.h
 
 $(OBJDIR)/projection.o : controle/projection.c controle/projection.h
 	$(CC) -c -g controle/projection.c $(CFLAGS) -o $@
+
+$(OBJDIR)/donnees.o : donnees/donnees.c donnees/donnees.h
+	$(CC) -c -g donnees/donnees.c $(CFLAGS) -o $@
+
+$(OBJDIR)/fichier.o : donnees/fichier.c donnees/fichier.h
+	$(CC) -c -g donnees/fichier.c $(CFLAGS) -o $@
+
+$(OBJDIR)/options.o : donnees/options.c donnees/options.h
+	$(CC) -c -g donnees/options.c $(CFLAGS) -o $@
 
 $(OBJDIR)/graphe.o : graphisme/graphe.c graphisme/graphe.h
 	$(CC) -c -g graphisme/graphe.c $(CFLAGS) -o $@

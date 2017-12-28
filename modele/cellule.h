@@ -36,16 +36,15 @@ termes.
 #include "../modele/vecteur.h"
 
 struct CelluleT {
-    bool mur;
-    bool sortie;
-    vecteurT sens;
-    int distance;
+	int statut;		// 0:libre, 1:mur, 2:sortie
+	vecteurT sens;	// Direction et sens à suivre
+	int distance;	// Distance à la sortie
 };
 typedef struct CelluleT celluleT;
 
 double celluleInitialise(celluleT * cellule);
-int celluleCreationMur(celluleT * cellule, int X, int Y);
-int celluleCreationSortie(celluleT * cellule, int X, int Y);
-bool celluleMur(celluleT * cellule, int X, int Y);
-bool celluleSortie(celluleT * cellule, int X, int Y);
+int celluleCreationMur(celluleT * cellule);
+int celluleCreationSortie(celluleT * cellule);
+int celluleDonneStatut(celluleT * cellule);	// 0:libre, 1:mur, 2:sortie
+int celluleInitialiseStatut(celluleT * cellule, int statut);	// 0:libre, 1:mur, 2:sortie
 #endif

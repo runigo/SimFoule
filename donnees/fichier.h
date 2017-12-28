@@ -29,19 +29,26 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 */
 
-#ifndef _PRINCIPALE_
-#define _PRINCIPALE_
 
-#include "../donnees/donnees.h"
+#ifndef _FICHIER_
+#define _FICHIER_
+#include <stdio.h>
+
+#include "../modele/etage.h"
+
+void fichierEcriture(etageT * etage, int numero);
+void fichierLecture(etageT * etage, int numero);
 
 #endif
+
 ////////////////////////////////////////////////////////////////////
 /*
-Copyright juillet 2017, Stephan Runigo
+Copyright janvier 2017, Stephan Runigo
 runigo@free.fr
-SiCP 1.3.5  simulateur de chaîne de pendules
+SiCF 1.1.1  simulateur de corde vibrante et spectre
 Ce logiciel est un programme informatique servant à simuler l'équation
-d'une chaîne de pendules et à en donner une représentation graphique.
+d'une chaîne de pendules et à en donner une représentation graphique en
+trois dimensions.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
 respectant les principes de diffusion des logiciels libres. Vous pouvez
 utiliser, modifier et/ou redistribuer ce programme sous les conditions

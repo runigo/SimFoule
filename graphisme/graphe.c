@@ -118,38 +118,55 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 }
 
 	// Dessin 
-void graphePlan(SDL_Renderer *rendu, grapheT * graphe)
+void grapheDessineMur(SDL_Renderer *rendu, grapheT * graphe)
 	{
-	int i;
+	int i, j;
 	SDL_Rect coordonnee = {0, 0, CELLULE, CELLULE};
-	for(i=0;i<300;i+=CELLULE)
+	for(i=0;i<BATIMENT;i++)
 		{
-		coordonnee.x = LARGEUR/8 + i;
-		coordonnee.y = HAUTEUR/4 + i;
-		SDL_RenderCopy(rendu, (*graphe).mur, NULL, &coordonnee);
+		for(j=0;j<BATIMENT;j++)
+			{
+			switch((*graphe).plan[i][j][0])
+				{
+				case 1:
+					coordonnee.x = i*CELLULE;
+					coordonnee.y = j*CELLULE;
+					SDL_RenderCopy(rendu, (*graphe).mur, NULL, &coordonnee);
+				break;
+				case 2:
+					coordonnee.x = i*CELLULE;
+					coordonnee.y = j*CELLULE;
+					SDL_RenderCopy(rendu, (*graphe).sortie, NULL, &coordonnee);
+				break;
+				default:
+					;
+				}
+			}
 		}
-
-	for(i=0;i<300;i+=CELLULE)
-		{
-		coordonnee.x = LARGEUR/4 + i;
-		coordonnee.y = HAUTEUR/8 + i;
-		SDL_RenderCopy(rendu, (*graphe).sortie, NULL, &coordonnee);
-		}
-
 	return;
 	}
 
-void grapheHumain(SDL_Renderer *rendu, grapheT * graphe)
+void grapheDessineHumain(SDL_Renderer *rendu, grapheT * graphe)
 	{
-	int i;
+	int i, j;
 	SDL_Rect coordonnee = {0, 0, HUMAIN, HUMAIN};
-	for(i=0;i<300;i+=HUMAIN)
+	for(i=0;i<BATIMENT;i++)
 		{
-		coordonnee.x = LARGEUR/8 + i;
-		coordonnee.y = HAUTEUR/8 + i;
-		SDL_RenderCopy(rendu, (*graphe).humain, NULL, &coordonnee);
+		for(j=0;j<BATIMENT;j++)
+			{
+			switch((*graphe).plan[i][j][0])
+				{
+				case 9:
+					coordonnee.x = i*CELLULE;
+					coordonnee.y = j*CELLULE;
+					SDL_RenderCopy(rendu, (*graphe).humain, NULL, &coordonnee);
+				break;
+				default:
+					;
+				}
+			}
 		}
-
 	return;
 	}
+
 /////////////////////////////////////////////////////////////////////////

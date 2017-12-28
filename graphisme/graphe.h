@@ -43,6 +43,7 @@ struct GrapheT {
 
 	int plan[BATIMENT][BATIMENT][ETAGE]; // Plan du batiment
 				// 0 : libre, 1 : mur, 2 : sortie
+
 	pointsT * premier; // Positions des humains
 };
 typedef struct GrapheT grapheT;
@@ -52,7 +53,7 @@ void grapheSuppression(grapheT * graphe);
 
 int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe);
 
-void graphePlan(SDL_Renderer *rendu, grapheT * graphe);
-void grapheHumain(SDL_Renderer *rendu, grapheT * graphe);
+void grapheDessineMur(SDL_Renderer *rendu, grapheT * graphe);
+void grapheDessineHumain(SDL_Renderer *rendu, grapheT * graphe);
 
 #endif

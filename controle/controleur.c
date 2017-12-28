@@ -32,22 +32,26 @@ termes.
 
 #include "controleur.h"
 
-int controleurDestruction(controleurT * controleur)
+int controleurSuppression(controleurT * controleur)
 	{
+	fprintf(stderr, "Suppression de l'interface\n");
 	interfaceDestruction(&(*controleur).interface);
+	fprintf(stderr, "Suppression du graphe\n");
 	grapheSuppression(&(*controleur).graphe);
+	fprintf(stderr, "Suppression de la foule\n");
+	fouleSuppression(&(*controleur).foule);
 	return 0;
 	}
-
-int controleurInitialisation(controleurT * controleur)
+/*
+int controleurCreation(controleurT * controleur)
 	{
 	interfaceInitialisation(&(*controleur).interface);
 	grapheCreation(&(*controleur).graphe, NOMBRE);
 	grapheInitialisation((*controleur).interface.rendu, &(*controleur).graphe);
 	return 0;
 	}
-
-int controleurSimulation(controleurT * controleur)
+*/
+int controleurSimulationGraphique(controleurT * controleur)
 {
     
 	while((*controleur).interface.continu) {
@@ -75,12 +79,15 @@ int controleurSimulation(controleurT * controleur)
 
 	interfaceNettoyage(&(*controleur).interface);
 
-	graphePlan((*controleur).interface.rendu, &(*controleur).graphe);
-	grapheHumain((*controleur).interface.rendu, &(*controleur).graphe);
+	projectionEtagePlan(&(*controleur).etage, &(*controleur).projection, &(*controleur).graphe);
+	projectionFoulePoints(&(*controleur).foule, &(*controleur).projection, &(*controleur).graphe);
+
+	grapheDessineMur((*controleur).interface.rendu, &(*controleur).graphe);
+	grapheDessineHumain((*controleur).interface.rendu, &(*controleur).graphe);
 
 	interfaceMiseAJour(&(*controleur).interface);
 
-	SDL_Delay(5);
+	SDL_Delay((*controleur).options.pause);
     }
     return 0;
 }

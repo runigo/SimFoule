@@ -37,26 +37,38 @@ int etageEvolutionSens(etageT * etage);
 
 int etageInitialise(etageT * etage)
 	{
-	(void)etage;
+	int i, j;
+	for(i=0;i<BATIMENT;i++)
+		{
+		for(j=0;j<BATIMENT;j++)
+			{
+			celluleInitialise(&(*etage).cellule[i][j]);
+			}
+		}
 	return 0;
 	}
 
-int etageCreationMur(etageT * etage, int X, int Y)
+int etageCreationMur(etageT * etage, int i, int j)
 	{
-	(void)etage;
-	(void)X;
-	(void)Y;
+	celluleCreationMur(&(*etage).cellule[i][j]);
 	return 0;
 	}
 
-int etageCreationSortie(etageT * etage, int X, int Y)
+int etageCreationSortie(etageT * etage, int i, int j)
 	{
-	(void)etage;
-	(void)X;
-	(void)Y;
+	celluleCreationSortie(&(*etage).cellule[i][j]);
+	return 0;
+	}
+int etageInitialiseStatutCellule(etageT * etage, int i, int j, int statut)
+	{
+	(*etage).cellule[i][j].statut = statut;
 	return 0;
 	}
 
+int etageDonneStatutCellule(etageT * etage, int i, int j)
+	{
+	return celluleDonneStatut(&(*etage).cellule[i][j]);	// 0:libre, 1:mur, 2:sortie
+	}
 
 int etageCalculeDistance(etageT * etage)
 	{

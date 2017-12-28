@@ -40,11 +40,7 @@ int projectionEtagePlan(etageT * etage, projectionT * projection, grapheT * grap
 		{
 		for(j=0;j<BATIMENT;j++)
 			{
-			(*graphe).plan[i][j][0]=0;
-			if((*etage).cellule[i][j].mur)
-				(*graphe).plan[i][j][0]=1;
-			if((*etage).cellule[i][j].sortie)
-				(*graphe).plan[i][j][0]=2;
+			(*graphe).plan[i][j][0]=(*etage).cellule[i][j].statut;
 			}
 		}
 	return 0;

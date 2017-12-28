@@ -40,9 +40,11 @@ struct EtageT {
 };
 typedef struct EtageT etageT;
 
-int etageInitialise(etageT * etage);
+//int etageInitialise(etageT * etage);
 int etageCreationMur(etageT * etage, int X, int Y);
 int etageCreationSortie(etageT * etage, int X, int Y);
+int etageDonneStatutCellule(etageT * etage, int i, int j);
+int etageInitialiseStatutCellule(etageT * etage, int i, int j,int statut);
 
 int etageCalculeDistance(etageT * etage);
 int etageCalculeSens(etageT * etage);

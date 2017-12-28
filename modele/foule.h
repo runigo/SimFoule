@@ -39,20 +39,13 @@ typedef struct FouleT fouleT;
 		{
 		chaineT * premier;	//	Premiere personne
 
-		int nombre;			//	Nombre de pendule
-		int equation;		//	Pendule=1, Harmonique=2, Corde=3, Dioptre=4
+		int nombre;		//	Nombre d'humain
+		float dt;		//	Discétisation du temps
 
-		float dephasage;	//	déphasage entre les limites
-		int libreFixe;		//	0 : périodiques 1 : libres, 2 : fixes, 
-							//		3 libre-fixe, 4 fixe-libre
+		float masse;		//	Masse d'un humain
 
-		float masse;		//	Masse d'un pendule
-		float longueur;		//	Longueur d'un pendule
-
-		float couplage;		//	Mémoire pour conditions limites
+		float horloge;		//	Mémoire pour conditions limites
 		float dissipation;	//	Mémoire si alpha = 0.0
-
-		float gravitation;	//	Accélération de la pesanteur
 
 		};
 

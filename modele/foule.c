@@ -57,8 +57,9 @@ int fouleCreation(fouleT * foule)
 
 void fouleSuppression(fouleT * foule)
 	{
+	printf("  Suppression de la chaine\n");
 	chaineSupprime(&(*foule).premier);
-	printf("Système supprimé\n");
+	//printf("  Chaine supprimée\n");
 	return;
 	}
 
