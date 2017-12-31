@@ -36,11 +36,17 @@ termes.
 #include "../modele/cellule.h"
 
 struct EtageT {
-	celluleT cellule[BATIMENT][BATIMENT];	//	Un étage est un tableau de cellules
+	celluleT cellule[BATIMENT_X][BATIMENT_Y];	//	Un étage est un tableau de cellules
 
-	vecteurT angle[8];
+	int etage; // Numero de l'étage
 
-	vecteurT vecteurNul;
+	vecteurT angle[8];	// Vecteurs directions 			    6
+				//	possibles			 5     7
+				//	pour les			4       0
+				//	cellules.			 3     1
+				//					    2
+				
+	vecteurT vecteurNul;	// Vecteur nul
 };
 typedef struct EtageT etageT;
 

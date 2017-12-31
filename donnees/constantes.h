@@ -42,18 +42,22 @@ termes.
 
 #define PI 3.14159265359
 
-#define ETAGE 3 	// Nombre d'étage
-#define BATIMENT 45	// Longueur du coté du batiment (en nombre de cellule)
-#define NOMBRE_CELLULE BATIMENT*BATIMENT	// Longueur du coté du batiment (en nombre de cellule)
+#define BATIMENT_X 35	// Longueur suivant x du batiment (en nombre de cellule)
+#define BATIMENT_Y 25	// Longueur suivant y du batiment (en nombre de cellule)
+#define BATIMENT_Z 3 	// Nombre d'étage
+
+#define CELLULE_ETAGE BATIMENT_X*BATIMENT_Y	// Nombre de cellule d'un étage
+#define CELLULE_BATIMENT CELLULE_ETAGE*BATIMENT_Z	// Nombre de cellule du batiment
+
 #define CELLULE 12	// Longueur du coté d'une cellule (en pixel)
 #define HUMAIN 8	// Longueur du coté d'un humain (en pixel)
 
-#define LARGEUR BATIMENT*CELLULE // Taille de la fenêtre
-#define HAUTEUR BATIMENT*CELLULE // Taille de la fenêtre
+#define FENETRE_X BATIMENT_X*CELLULE // Taille de la fenêtre
+#define FENETRE_Y BATIMENT_Y*CELLULE // Taille de la fenêtre
 
 #define DT_MAX 0.07	// dt maximale
 #define DUREE_MAX 777	// Nombre maximale d'incrémentation entre les affichages
-#define NOMBRE_MAX	// Nombre maximale d'humains
+#define NOMBRE_MAX CELLULE_BATIMENT	// Nombre maximale d'humains
 
 #define MASSE_MIN 9	// Masse minimale d'un humain
 #define MASSE_MAX 199	// Masse maximale d'un humain

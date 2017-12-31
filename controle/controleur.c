@@ -658,7 +658,7 @@ int controleurSouris(controleurT * controleur)
 	if((*controleur).appui==1)
 		{
 		x=-0.01*(float)((*controleur).interface.evenement.motion.xrel);
-		y=0.1*HAUTEUR*(float)((*controleur).interface.evenement.motion.yrel);
+		y=0.1*FENETRE_Y*(float)((*controleur).interface.evenement.motion.yrel);
 		//fprintf(stderr, "controleurSouris yrel = %d , x = %f\n", (*controleur).interface.evenement.motion.yrel, x);
 		//fprintf(stderr, "controleurSouris xrel = %d , y = %f\n", (*controleur).interface.evenement.motion.xrel, y);
 		(void)x;(void)y;

@@ -32,30 +32,32 @@ termes.
 #include "projection.h"
 
 int projectionEtagePlan(etageT * etage, projectionT * projection, grapheT * graphe)
-	{	//	Projette les murs sur le plan du graphe
+	{
+			//	Projette la position des murs sur le  graphe
 	int i, j;
 	(void)projection;
 
-	for(i=0;i<BATIMENT;i++)
+	for(i=0;i<BATIMENT_X;i++)
 		{
-		for(j=0;j<BATIMENT;j++)
+		for(j=0;j<BATIMENT_Y;j++)
 			{
-			(*graphe).plan[i][j][0]=(*etage).cellule[i][j].statut;
+			(*graphe).plan[i][j][(*etage).etage]=(*etage).cellule[i][j].statut;
 			}
 		}
 	return 0;
 	}
 
 int projectionEtageSens(etageT * etage, projectionT * projection, grapheT * graphe)
-	{	//	Projette les murs sur le plan du graphe
+	{
+			//	Projette la direction de la sortie sur le graphe
 	int i, j;
 	(void)projection;
 
-	for(i=0;i<BATIMENT;i++)
+	for(i=0;i<BATIMENT_X;i++)
 		{
-		for(j=0;j<BATIMENT;j++)
+		for(j=0;j<BATIMENT_Y;j++)
 			{
-			(*graphe).angle[i][j][0]=(*etage).cellule[i][j].angle;
+			(*graphe).angle[i][j][(*etage).etage]=(*etage).cellule[i][j].angle;
 			}
 		}
 	return 0;
@@ -63,7 +65,8 @@ int projectionEtageSens(etageT * etage, projectionT * projection, grapheT * grap
 
 
 int projectionFoulePoints(fouleT * foule, projectionT * projection, grapheT * graphe)
-	{	//	Projette les coordonnées des humains sur les points du graphe
+	{
+		//	Projette les positions des humains sur le graphe
 
 	chaineT *iterFoule=(*foule).premier;
 	pointsT *iterGraph=(*graphe).premier;
@@ -73,11 +76,13 @@ int projectionFoulePoints(fouleT * foule, projectionT * projection, grapheT * gr
 		{
 		iterGraph->xm = (int)(iterFoule->humain.nouveau.x);
 		iterGraph->ym = (int)(iterFoule->humain.nouveau.y);
+		//iterGraph->zm = (int)(iterFoule->humain.nouveau.z);
 
 		iterGraph = iterGraph->suivant;
 		iterFoule = iterFoule->suivant;
 		}
 	while(iterGraph!=(*graphe).premier);
+
 	return 0;
 	}
 

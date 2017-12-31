@@ -54,8 +54,8 @@ int grapheCreation(grapheT * graphe, int nombre)
 	iter=(*graphe).premier;
 	do
 		{
-		iter->xm=LARGEUR/2;
-		iter->ym=HAUTEUR/2;
+		iter->xm=FENETRE_X/2;
+		iter->ym=FENETRE_Y/2;
 		}
 	while(iter!=(*graphe).premier);
 
@@ -182,9 +182,9 @@ void grapheDessineMur(SDL_Renderer *rendu, grapheT * graphe)
 	{
 	int i, j;
 	SDL_Rect coordonnee = {0, 0, CELLULE, CELLULE};
-	for(i=0;i<BATIMENT;i++)
+	for(i=0;i<BATIMENT_X;i++)
 		{
-		for(j=0;j<BATIMENT;j++)
+		for(j=0;j<BATIMENT_Y;j++)
 			{
 			switch((*graphe).plan[i][j][0])
 				{
@@ -210,9 +210,9 @@ void grapheDessineAngle(SDL_Renderer *rendu, grapheT * graphe)
 	{
 	int i, j;
 	SDL_Rect coordonnee = {0, 0, CELLULE, CELLULE};
-	for(i=0;i<BATIMENT;i++)
+	for(i=0;i<BATIMENT_X;i++)
 		{
-		for(j=0;j<BATIMENT;j++)
+		for(j=0;j<BATIMENT_Y;j++)
 			{
 			switch((*graphe).angle[i][j][0])
 				{
@@ -248,9 +248,9 @@ void grapheDessineHumain(SDL_Renderer *rendu, grapheT * graphe)
 	{
 	int i, j;
 	SDL_Rect coordonnee = {0, 0, HUMAIN, HUMAIN};
-	for(i=0;i<BATIMENT;i++)
+	for(i=0;i<BATIMENT_X;i++)
 		{
-		for(j=0;j<BATIMENT;j++)
+		for(j=0;j<BATIMENT_Y;j++)
 			{
 			switch((*graphe).plan[i][j][0])
 				{

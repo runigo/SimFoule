@@ -38,18 +38,30 @@ termes.
 
 struct GrapheT {
 	SDL_Texture *mur;
-	SDL_Texture *humain;
 	SDL_Texture *sortie;
 
-	SDL_Texture *direction0;
-	SDL_Texture *direction2;
-	SDL_Texture *direction4;
-	SDL_Texture *direction6;
-
-	int plan[BATIMENT][BATIMENT][ETAGE]; // Plan du batiment
+	int plan[BATIMENT_X][BATIMENT_Y][BATIMENT_Z]; // Plan du batiment
 				// 0 : libre, 1 : mur, 2 : sortie
-	int angle[BATIMENT][BATIMENT][ETAGE]; // direction vers la sortie
+
+	SDL_Texture *direction0;
+	SDL_Texture *direction1;
+	SDL_Texture *direction2;
+	SDL_Texture *direction3;
+	SDL_Texture *direction4;
+	SDL_Texture *direction5;
+	SDL_Texture *direction6;
+	SDL_Texture *direction7;
+
+	int angle[BATIMENT_X][BATIMENT_Y][BATIMENT_Z]; // Direction vers la sortie
 				// 0 : droite, 2 : bas, 4 : gauche, 6 : haut
+				//  				    6
+				//	Angles 			 5     7
+				//	 possibles :		4       0
+				//				 3     1
+				//				    2
+				
+
+	SDL_Texture *humain;
 
 	pointsT * premier; // Positions des humains
 };

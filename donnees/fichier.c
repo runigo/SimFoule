@@ -64,15 +64,15 @@ void fichierEcriture(etageT * etage, int numero)
 		{
 		int statut;
 		int i, j;
-		for(j=0;j<BATIMENT;j++)
+		for(j=0;j<BATIMENT_Y;j++)
 			{
-			for(i=0;i<BATIMENT-1;i++)
+			for(i=0;i<BATIMENT_X-1;i++)
 				{
 				statut = etageDonneStatutCellule(etage, i,j);
 				fprintf(fichier, "%d ", statut);
 				}
-			statut = etageDonneStatutCellule(etage, i,j);
-			fprintf(fichier, "%d", statut);
+			statut = etageDonneStatutCellule(etage, BATIMENT_X-1, j);
+			fprintf(fichier, "%d\n", statut);
 			}
 		fclose(fichier);
 		}
@@ -139,16 +139,16 @@ void fichierLecture(etageT * etage, int numero)
 		{
 		int statut;
 		int i, j;
-		for(j=0;j<BATIMENT;j++)
+		for(j=0;j<BATIMENT_Y;j++)
 			{
-			for(i=0;i<BATIMENT-1;i++)
+			for(i=0;i<BATIMENT_X-1;i++)
 				{
 				statut = 0;
 				fscanf(fichier, "%d ", &statut);
 				etageInitialiseStatutCellule(etage, i, j, statut);
 				}
 			fscanf(fichier, "%d\n", &statut);
-			etageInitialiseStatutCellule(etage, i, j, statut);
+			etageInitialiseStatutCellule(etage, BATIMENT_X-1, j, statut);
 			}
 		fclose(fichier);
 		}

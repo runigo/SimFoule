@@ -41,7 +41,7 @@ int interfaceInitialisation(interfaceT * interface, int fond)
 
 	// Création de la fenêtre
 	(*interface).fenetre = SDL_CreateWindow("Simulateur de foule", SDL_WINDOWPOS_UNDEFINED, 
-							SDL_WINDOWPOS_UNDEFINED, LARGEUR, LARGEUR, 
+							SDL_WINDOWPOS_UNDEFINED, FENETRE_X, FENETRE_Y, 
 							SDL_WINDOW_RESIZABLE);
 
 	// Création du rendu

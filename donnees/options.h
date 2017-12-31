@@ -40,7 +40,7 @@ typedef struct OptionsT optionsT;
 	struct OptionsT
 		{
 
-		int initialise;	// Numero du fichier d'initialisation
+		int initial;	// Numero du fichier d'initialisation
 
 		int duree;	// nombre d'incrémentation du système par affichage
 		int mode;	// -1 : Wait, 1 : Poll
@@ -51,7 +51,7 @@ typedef struct OptionsT optionsT;
 		float dt;		// discrétisation du temps
 		int pause;		// pause après l'affichage en ms
 
-		int nombre;		// Nombre d'humain
+		//int nombre;		// Nombre d'humain
 		float masse;		// Masse d'un humain
 		float nervosite;	// Nervosité d'un humain
 		};

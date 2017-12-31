@@ -42,9 +42,9 @@ int etageCalculeDistance(etageT * etage); // Ajoute la distance la plus grande √
 int etageInitialise(etageT * etage)
 	{
 	int i, j;
-	for(i=0;i<BATIMENT;i++)
+	for(i=0;i<BATIMENT_X;i++)
 		{
-		for(j=0;j<BATIMENT;j++)
+		for(j=0;j<BATIMENT_Y;j++)
 			{
 			celluleInitialise(&(*etage).cellule[i][j]);
 			}
@@ -93,9 +93,9 @@ int etageCalculDistanceEtSens(etageT * etage)
 
 		// Initialisation des sorties
 		fprintf(stderr, "Initialisation des sorties\n");
-	for(i=0;i<BATIMENT;i++)
+	for(i=0;i<BATIMENT_X;i++)
 		{
-		for(j=0;j<BATIMENT;j++)
+		for(j=0;j<BATIMENT_Y;j++)
 			{
 			if(celluleDonneStatut(&(*etage).cellule[i][j]) == 2)
 				{
@@ -109,9 +109,9 @@ int etageCalculDistanceEtSens(etageT * etage)
 	do
 		{
 		sortie=true;
-		for(i=0;i<BATIMENT;i++)
+		for(i=0;i<BATIMENT_X;i++)
 			{
-			for(j=0;j<BATIMENT;j++)
+			for(j=0;j<BATIMENT_Y;j++)
 				{
 				if(!celluleDonneVisite(&(*etage).cellule[i][j]) && etageVoisinVisite(etage, i, j)>0)
 					{
@@ -121,9 +121,9 @@ int etageCalculDistanceEtSens(etageT * etage)
 					}
 				}
 			}
-		for(i=0;i<BATIMENT;i++)
+		for(i=0;i<BATIMENT_X;i++)
 			{
-			for(j=0;j<BATIMENT;j++)
+			for(j=0;j<BATIMENT_Y;j++)
 				{
 				if(celluleDonneVisite(&(*etage).cellule[i][j]))
 					{
@@ -132,7 +132,7 @@ int etageCalculDistanceEtSens(etageT * etage)
 				}
 			}
 		compteur++;
-		if(compteur>NOMBRE_CELLULE)
+		if(compteur>CELLULE_ETAGE)
 			{
 			fprintf(stderr, "etageCalculDistanceEtSens : Il y aurait des cellules inaccessibles ?\n");
 			sortie=true;
@@ -166,9 +166,9 @@ int etageCalculeDistance(etageT * etage)
 	int i, j;
 	int max = 0;
 	fprintf(stderr, "  etageCalculeDistance, entr√©e\n");
-	for(i=0;i<BATIMENT;i++)
+	for(i=0;i<BATIMENT_X;i++)
 		{
-		for(j=0;j<BATIMENT;j++)
+		for(j=0;j<BATIMENT_Y;j++)
 			{
 			if( celluleDonneDistance(&(*etage).cellule[i][j]) < max)
 				{
@@ -177,9 +177,9 @@ int etageCalculeDistance(etageT * etage)
 			}
 		}
 	fprintf(stderr, "  etageCalculeDistance, max = %d\n", max);
-	for(i=0;i<BATIMENT;i++)
+	for(i=0;i<BATIMENT_X;i++)
 		{
-		for(j=0;j<BATIMENT;j++)
+		for(j=0;j<BATIMENT_Y;j++)
 			{
 			celluleChangeDistance(&(*etage).cellule[i][j], max);
 			}

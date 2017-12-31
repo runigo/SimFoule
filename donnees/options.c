@@ -32,11 +32,13 @@ termes.
 
 #include "options.h"
 
-void optionsDt(optionsT * option, char *opt);
-void optionsFond(optionsT * option, char *opt);
+void optionsInitial(optionsT * option, char *opt);
 void optionsNombre(optionsT * option, char *opt);
 void optionsMasse(optionsT * option, char *opt);
 void optionsNervosite(optionsT * option, char *opt);
+
+void optionsDt(optionsT * option, char *opt);
+void optionsFond(optionsT * option, char *opt);
 void optionsPause(optionsT * option, char *opt);
 void optionsMode(optionsT * option, char *opt);
 void optionsDuree(optionsT * option, char *opt);
@@ -48,17 +50,10 @@ int optionsTraitement(optionsT * option, int nb, char *opt[])
 	//fprintf(stderr, "\nNombre d'option : %d\n", nb);
 	do
 		{
-		if(strcmp(opt[i], "fond")==0 && opt[i+1]!=NULL)
-			optionsFond(option, opt[i+1]);	// Couleur du fond
-		if(strcmp(opt[i], "mode")==0 && opt[i+1]!=NULL)
-			optionsMode(option, opt[i+1]);	// Mode -1 : Wait, 1 : Poll
-		if(strcmp(opt[i], "pause")==0 && opt[i+1]!=NULL)
-			optionsPause(option, opt[i+1]);	// temps de pause en ms
-		if(strcmp(opt[i], "duree")==0 && opt[i+1]!=NULL)
-			optionsDuree(option, opt[i+1]);	// Nombre d'évolution du système entre les affichages.
 
-		if(strcmp(opt[i], "dt")==0 && opt[i+1]!=NULL)
-			optionsDt(option, opt[i+1]);		// discrétisation du temps
+
+		if(strcmp(opt[i], "initial")==0 && opt[i+1]!=NULL)
+			optionsInitial(option, opt[i+1]);	// Numéro du fichier d'initialisation.
 		if(strcmp(opt[i], "nervosite")==0 && opt[i+1]!=NULL)
 			optionsNervosite(option, opt[i+1]);		// Nervosité des humains
 		if(strcmp(opt[i], "masse")==0 && opt[i+1]!=NULL)
@@ -66,9 +61,17 @@ int optionsTraitement(optionsT * option, int nb, char *opt[])
 /*
 		if(strcmp(opt[i], "nombre")==0 && opt[i+1]!=NULL)
 			optionsNombre(option, opt[i+1]);		// Nombre d'humain
-		if(strcmp(opt[i], "nervosite")==0 && opt[i+1]!=NULL)
-			optionsNervosite(option, opt[i+1]);		// Nervosité des humains
 */
+		if(strcmp(opt[i], "fond")==0 && opt[i+1]!=NULL)
+			optionsFond(option, opt[i+1]);	// Couleur du fond
+		if(strcmp(opt[i], "dt")==0 && opt[i+1]!=NULL)
+			optionsDt(option, opt[i+1]);		// discrétisation du temps
+		if(strcmp(opt[i], "duree")==0 && opt[i+1]!=NULL)
+			optionsDuree(option, opt[i+1]);	// Nombre d'évolution du système entre les affichages.
+		if(strcmp(opt[i], "pause")==0 && opt[i+1]!=NULL)
+			optionsPause(option, opt[i+1]);	// temps de pause en ms
+		if(strcmp(opt[i], "mode")==0 && opt[i+1]!=NULL)
+			optionsMode(option, opt[i+1]);	// Mode -1 : Wait, 1 : Poll
 		if(strcmp(opt[i], "aide")==0)
 			optionsAide();	// Affiche l'aide.
 		if(strcmp(opt[i], "help")==0)
@@ -80,36 +83,19 @@ int optionsTraitement(optionsT * option, int nb, char *opt[])
 	return 0;
 	}
 
-    	// Couleur du fond 
-void optionsFond(optionsT * option, char *opt)
+    	// Numero du fichier d'initialisation
+void optionsInitial(optionsT * option, char *opt)
 	{
-	int fond = atoi(opt);
-	if(fond>0 && fond<255)
+	int initial = atoi(opt);
+	if(initial>0 && initial<255)
 		{
-		(*option).fond = fond;
-		printf("Option fond valide, fond = %d\n", (*option).fond);
+		(*option).initial = initial;
+		printf("Option initial valide, Initial = %d\n", (*option).initial);
 		}
 	else
 		{
-		printf("Option fond non valide, fond = %d\n", (*option).fond);
-		printf("Option fond : 0 < fond < 255\n");
-		}
-	return;
-	}
-
-    	// discrétisation du temps 
-void optionsDt(optionsT * option, char *opt)
-	{
-	float dt = atof(opt);
-	if(dt>0.0 && dt<DT_MAX)
-		{
-		(*option).dt = dt;
-		printf("Option dt valide, dt = %f\n", (*option).dt);
-		}
-	else
-		{
-		printf("Option dt non valide, dt = %f\n", (*option).dt);
-		printf("Option dt : 0.0 < dt < %f\n", DT_MAX);
+		printf("Option initial non valide, fond = %d\n", (*option).initial);
+		printf("Option initial : 0 < fond < 255\n");
 		}
 	return;
 	}
@@ -164,23 +150,41 @@ void optionsMasse(optionsT * option, char *opt)
 		}
 	return;
 	}
-/*
-void optionsDissipation(optionsT * option, char *opt)
+
+    	// Couleur du fond 
+void optionsFond(optionsT * option, char *opt)
 	{
-	float dissipation = atof(opt);
-	if(dissipation>0.0 && dissipation<DISSIPATION_MAX)
+	int fond = atoi(opt);
+	if(fond>0 && fond<255)
 		{
-		(*option).masse = masse;
-		printf("Option masse valide, masse = %f\n", (*option).masse);
+		(*option).fond = fond;
+		printf("Option fond valide, fond = %d\n", (*option).fond);
 		}
 	else
 		{
-		printf("Option masse non valide, masse = %f\n", (*option).masse);
-		printf("Option masse : %f < masse < %f\n", MASSE_MIN, MASSE_MAX);
+		printf("Option fond non valide, fond = %d\n", (*option).fond);
+		printf("Option fond : 0 < fond < 255\n");
 		}
 	return;
 	}
-*/
+
+    	// discrétisation du temps 
+void optionsDt(optionsT * option, char *opt)
+	{
+	float dt = atof(opt);
+	if(dt>0.0 && dt<DT_MAX)
+		{
+		(*option).dt = dt;
+		printf("Option dt valide, dt = %f\n", (*option).dt);
+		}
+	else
+		{
+		printf("Option dt non valide, dt = %f\n", (*option).dt);
+		printf("Option dt : 0.0 < dt < %f\n", DT_MAX);
+		}
+	return;
+	}
+
     	// Nombre d'évolution du système entre les affichages
 void optionsDuree(optionsT * option, char *opt)
 	{
@@ -247,7 +251,7 @@ void optionsAide(void)
 	printf(" mode		= -1 ou 1		mode avec ou sans attente (Mode -1 : Wait, 1 : Poll)\n");
 	//printf("	flèches haut, bas, gauche, droite\n\n");
 
-	printf("\nCOMMANDE CLAVIER\n");
+	printf("\nCOMMANDES CLAVIER\n");
 /*
 	printf("	a, q : augmenter, diminuer le couplage\n");
 	printf("	z, s : augmenter, diminuer la masse\n");
@@ -276,7 +280,7 @@ void optionsAide(void)
 */
 	printf("	F5 : affiche les observables\n");
 
-	printf("	Entrée : change le mode temporel\n");
+	printf("	Entrée : change le mode temporel (avec ou sans attente)\n");
 
 	printf("	+, - : augmente, diminue la vitesse de la simulation\n");
 	printf("	F9, F10, F11, F12 : diminuent, augmentent la vitesse de la simulation\n");

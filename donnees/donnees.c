@@ -45,11 +45,14 @@ int donneesCreationGraphique(controleurT * controleur);
 
 int donneesCreationControleur(controleurT * controleur)
 	{
+		// Initialisation du controleur
 
 	(*controleur).options.sortie = 0;	// Sortie de SiCP si > 0
 
+		fprintf(stderr, "  Initialisation de la projection\n");
 	projectionInitialiseCouleurs(&(*controleur).projection, 50, 50, 50, (*controleur).options.fond);
-	projectionInitialiseLongueurs(&(*controleur).projection, HAUTEUR, LARGEUR);
+	projectionInitialiseLongueurs(&(*controleur).projection, BATIMENT_X, BATIMENT_Y);
+
 		fprintf(stderr, "  Initialisation de l'étage\n");
 	donneesEtage(&(*controleur).etage, &(*controleur).options);
 		fprintf(stderr, "  Initialisation de la foule\n");
@@ -63,9 +66,10 @@ int donneesCreationControleur(controleurT * controleur)
 
 int donneesOptions(optionsT * options)
 	{
-		// Préréglage des valeurs optionnelles
+		// Préréglage des valeurs optionnelles, 
+		// 	valeurs implicites
 
-	(*options).initialise=0;	// couleur du fond de l'affichage
+	(*options).initial=0;	// Numéro du fichier d'initialisation.
 
 	(*options).fond=240;	// couleur du fond de l'affichage
 	(*options).mode = 1;	// -1 : Wait, 1 : Poll
@@ -74,7 +78,7 @@ int donneesOptions(optionsT * options)
 
 	(*options).duree = 10;	// 100 : temps réèl. Voir options.c
 
-	(*options).nombre=30;	// Nombre d'humain
+	//(*options).nombre=30;	// Nombre d'humain
 
 	(*options).nervosite=0.9;	// Nervosité des humains
 	(*options).dt=0.006;	// discrétisation du temps
@@ -85,7 +89,8 @@ int donneesOptions(optionsT * options)
 
 int donneesEtage(etageT * etage, optionsT * options)
 	{
-	fichierLecture(etage, (*options).initialise);
+	fichierLecture(etage, (*options).initial);
+	(*etage).etage = 0;
 	return 0;
 	}
 
@@ -94,7 +99,7 @@ int donneesFoule(fouleT * foule, optionsT * options)
 
 		// Initialisation de la foule
 
-	(*foule).nombre = (*options).nombre;	// Nombre d'humain
+	(*foule).nombre = 1;	// Nombre d'humain
 	(*foule).dt = (*options).dt;		// Discrétisation du temps
 	(*foule).masse = (*options).masse;			// Masse des humains
 	(*foule).horloge = 0.0;			// Horloge
@@ -111,7 +116,7 @@ int donneesCreationGraphique(controleurT * controleur)
 		fprintf(stderr, " Initialisation de la SDL2\n");
 	interfaceInitialisation(&(*controleur).interface, (*controleur).options.fond);
 		fprintf(stderr, " Création du graphe\n");
-	grapheCreation(&(*controleur).graphe, (*controleur).options.nombre);
+	grapheCreation(&(*controleur).graphe, (*controleur).foule.nombre);
 		fprintf(stderr, " Initialisation du graphe\n");
 	grapheInitialisation((*controleur).interface.rendu, &(*controleur).graphe);
 	return 0;

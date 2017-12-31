@@ -35,7 +35,9 @@ int main(int nb, char *opt[])
 	{
 	controleurT controleur;
 
-	fprintf(stderr, "\nInitialisations des options\n");
+	fprintf(stderr, "\nEntrée dans SimFoule\n");
+
+	fprintf(stderr, "\nInitialisations des valeurs implicites\n");
 	assert(donneesOptions(&controleur.options)==0);
 
 	fprintf(stderr, "Traitement des options de la ligne de commande\n");
