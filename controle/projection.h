@@ -54,6 +54,7 @@ int projectionInitialiseLongueurs(projectionT * projection, int hauteur, int lar
 
 int projectionEtagePlan(etageT * etage, projectionT * projection, grapheT * graphe);
 int projectionFoulePoints(fouleT * foule, projectionT * projection, grapheT * graphe);
+int projectionEtageSens(etageT * etage, projectionT * projection, grapheT * graphe);
 
 int projectionAffiche(projectionT * projection);
 #endif

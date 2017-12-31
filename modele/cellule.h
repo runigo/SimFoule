@@ -36,9 +36,17 @@ termes.
 #include "../modele/vecteur.h"
 
 struct CelluleT {
+
 	int statut;		// 0:libre, 1:mur, 2:sortie
-	vecteurT sens;	// Direction et sens à suivre
+
+	bool visite;		// Si initialisé
+
 	int distance;	// Distance à la sortie
+
+	int angle;	// Direction et sens des cellule à ateindre [0..7]
+	vecteurT sens;	// Direction et sens à suivre, normalisé par l'initialisation.
+	float norme;	// Norme de sens avant la normalisation.
+
 };
 typedef struct CelluleT celluleT;
 
@@ -49,6 +57,9 @@ int celluleCreationSortie(celluleT * cellule);
 
 int celluleDonneStatut(celluleT * cellule);	// 0:libre, 1:mur, 2:sortie
 int celluleInitialiseStatut(celluleT * cellule, int statut);	// 0:libre, 1:mur, 2:sortie
+
+bool celluleDonneVisite(celluleT * cellule);	// Vrai si la cellule a été visité
+int celluleChangeVisite(celluleT * cellule);	// Passe la visite à vrai
 
 int celluleDonneDistance(celluleT * cellule);	// Distance à la sortie
 int celluleChangeDistance(celluleT * cellule, int pas);	// Ajoute le pas à la distance

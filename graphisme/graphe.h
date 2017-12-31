@@ -41,8 +41,15 @@ struct GrapheT {
 	SDL_Texture *humain;
 	SDL_Texture *sortie;
 
+	SDL_Texture *direction0;
+	SDL_Texture *direction2;
+	SDL_Texture *direction4;
+	SDL_Texture *direction6;
+
 	int plan[BATIMENT][BATIMENT][ETAGE]; // Plan du batiment
 				// 0 : libre, 1 : mur, 2 : sortie
+	int angle[BATIMENT][BATIMENT][ETAGE]; // direction vers la sortie
+				// 0 : droite, 2 : bas, 4 : gauche, 6 : haut
 
 	pointsT * premier; // Positions des humains
 };
@@ -54,6 +61,7 @@ void grapheSuppression(grapheT * graphe);
 int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe);
 
 void grapheDessineMur(SDL_Renderer *rendu, grapheT * graphe);
+void grapheDessineAngle(SDL_Renderer *rendu, grapheT * graphe);
 void grapheDessineHumain(SDL_Renderer *rendu, grapheT * graphe);
 
 #endif

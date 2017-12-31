@@ -37,17 +37,21 @@ termes.
 
 struct EtageT {
 	celluleT cellule[BATIMENT][BATIMENT];	//	Un étage est un tableau de cellules
+
+	vecteurT angle[8];
+
+	vecteurT vecteurNul;
 };
 typedef struct EtageT etageT;
 
 //int etageInitialise(etageT * etage);
-int etageCreationMur(etageT * etage, int X, int Y);
-int etageCreationSortie(etageT * etage, int X, int Y);
-int etageDonneStatutCellule(etageT * etage, int i, int j);
-int etageInitialiseStatutCellule(etageT * etage, int i, int j,int statut);
 
-int etageCalculeDistance(etageT * etage);
-int etageCalculeSens(etageT * etage);
+int etageCreationCelluleMur(etageT * etage, int X, int Y);
+int etageCreationCelluleSortie(etageT * etage, int X, int Y);
+int etageInitialiseStatutCellule(etageT * etage, int i, int j,int statut);
+int etageDonneStatutCellule(etageT * etage, int i, int j);
+
+int etageCalculDistanceEtSens(etageT * etage);
 
 int etageAffiche(etageT * etage);
 #endif

@@ -69,7 +69,8 @@ int donneesOptions(optionsT * options)
 
 	(*options).fond=240;	// couleur du fond de l'affichage
 	(*options).mode = 1;	// -1 : Wait, 1 : Poll
-	(*options).pause=25;	// temps de pause SDL en ms
+	//(*options).pause=25;	// temps de pause SDL en ms
+	(*options).pause=49;	// temps de pause SDL en ms
 
 	(*options).duree = 10;	// 100 : temps réèl. Voir options.c
 

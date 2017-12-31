@@ -46,6 +46,21 @@ int projectionEtagePlan(etageT * etage, projectionT * projection, grapheT * grap
 	return 0;
 	}
 
+int projectionEtageSens(etageT * etage, projectionT * projection, grapheT * graphe)
+	{	//	Projette les murs sur le plan du graphe
+	int i, j;
+	(void)projection;
+
+	for(i=0;i<BATIMENT;i++)
+		{
+		for(j=0;j<BATIMENT;j++)
+			{
+			(*graphe).angle[i][j][0]=(*etage).cellule[i][j].angle;
+			}
+		}
+	return 0;
+	}
+
 
 int projectionFoulePoints(fouleT * foule, projectionT * projection, grapheT * graphe)
 	{	//	Projette les coordonnées des humains sur les points du graphe

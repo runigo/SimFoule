@@ -72,6 +72,7 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 {
 	SDL_Surface *image = 0;
 
+	//image = SDL_LoadBMP("direction0.bmp");
 	image = SDL_LoadBMP("mur.bmp");
 	if (!image)
 		{
@@ -114,6 +115,65 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
+		// DIRECTION
+
+	image = SDL_LoadBMP("direction0.bmp");
+	if (!image)
+		{
+		fprintf(stderr,"Erreur chargement image : %s\n",SDL_GetError());
+		return 0;
+		}
+	(*graphe).direction0 = SDL_CreateTextureFromSurface(rendu, image);
+	SDL_FreeSurface(image);
+	if ((*graphe).sortie == 0)
+		{
+		fprintf(stderr,"grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
+		return 0;
+		}
+
+	image = SDL_LoadBMP("direction2.bmp");
+	if (!image)
+		{
+		fprintf(stderr,"Erreur chargement image : %s\n",SDL_GetError());
+		return 0;
+		}
+	(*graphe).direction2 = SDL_CreateTextureFromSurface(rendu, image);
+	SDL_FreeSurface(image);
+	if ((*graphe).sortie == 0)
+		{
+		fprintf(stderr,"grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
+		return 0;
+		}
+
+	image = SDL_LoadBMP("direction4.bmp");
+	if (!image)
+		{
+		fprintf(stderr,"Erreur chargement image : %s\n",SDL_GetError());
+		return 0;
+		}
+	(*graphe).direction4 = SDL_CreateTextureFromSurface(rendu, image);
+	SDL_FreeSurface(image);
+	if ((*graphe).sortie == 0)
+		{
+		fprintf(stderr,"grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
+		return 0;
+		}
+
+	image = SDL_LoadBMP("direction6.bmp");
+	if (!image)
+		{
+		fprintf(stderr,"Erreur chargement image : %s\n",SDL_GetError());
+		return 0;
+		}
+	(*graphe).direction6 = SDL_CreateTextureFromSurface(rendu, image);
+	SDL_FreeSurface(image);
+	if ((*graphe).sortie == 0)
+		{
+		fprintf(stderr,"grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
+		return 0;
+		}
+
+
 	return 0;
 }
 
@@ -137,6 +197,44 @@ void grapheDessineMur(SDL_Renderer *rendu, grapheT * graphe)
 					coordonnee.x = i*CELLULE;
 					coordonnee.y = j*CELLULE;
 					SDL_RenderCopy(rendu, (*graphe).sortie, NULL, &coordonnee);
+				break;
+				default:
+					;
+				}
+			}
+		}
+	return;
+	}
+
+void grapheDessineAngle(SDL_Renderer *rendu, grapheT * graphe)
+	{
+	int i, j;
+	SDL_Rect coordonnee = {0, 0, CELLULE, CELLULE};
+	for(i=0;i<BATIMENT;i++)
+		{
+		for(j=0;j<BATIMENT;j++)
+			{
+			switch((*graphe).angle[i][j][0])
+				{
+				case 0:
+					coordonnee.x = i*CELLULE;
+					coordonnee.y = j*CELLULE;
+					SDL_RenderCopy(rendu, (*graphe).direction0, NULL, &coordonnee);
+				break;
+				case 2:
+					coordonnee.x = i*CELLULE;
+					coordonnee.y = j*CELLULE;
+					SDL_RenderCopy(rendu, (*graphe).direction2, NULL, &coordonnee);
+				break;
+				case 4:
+					coordonnee.x = i*CELLULE;
+					coordonnee.y = j*CELLULE;
+					SDL_RenderCopy(rendu, (*graphe).direction4, NULL, &coordonnee);
+				break;
+				case 6:
+					coordonnee.x = i*CELLULE;
+					coordonnee.y = j*CELLULE;
+					SDL_RenderCopy(rendu, (*graphe).direction6, NULL, &coordonnee);
 				break;
 				default:
 					;

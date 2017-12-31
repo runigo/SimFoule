@@ -44,6 +44,7 @@ termes.
 
 #define ETAGE 3 	// Nombre d'étage
 #define BATIMENT 45	// Longueur du coté du batiment (en nombre de cellule)
+#define NOMBRE_CELLULE BATIMENT*BATIMENT	// Longueur du coté du batiment (en nombre de cellule)
 #define CELLULE 12	// Longueur du coté d'une cellule (en pixel)
 #define HUMAIN 8	// Longueur du coté d'un humain (en pixel)
 

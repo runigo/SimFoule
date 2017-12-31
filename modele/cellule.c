@@ -36,8 +36,9 @@ double celluleInitialise(celluleT * cellule)
 	{
 	//printf("celluleInitialise");
 	(*cellule).statut = 0;		// 0:libre, 1:mur, 2:sortie
+	(*cellule).visite = false;		// Si visité
 	vecteurCartesien(&(*cellule).sens, 0, 0, 0);	// Direction et sens à suivre
-	(*cellule).distance = 0.0;	// Distance à la sortie
+	(*cellule).distance = 0;	// Distance à la sortie
 	return 0;
 	}
 
@@ -72,6 +73,16 @@ int celluleDonneDistance(celluleT * cellule)
 int celluleChangeDistance(celluleT * cellule, int pas)
 	{	// Ajoute le pas à la distance
 	(*cellule).distance=(*cellule).distance + pas;
+	return 0;
+	}
+
+bool celluleDonneVisite(celluleT * cellule)
+	{	// Vrai si la cellule a été visité
+	return (*cellule).visite;
+	}
+int celluleChangeVisite(celluleT * cellule)
+	{	// Passe la visite à vrai
+	(*cellule).visite=true;
 	return 0;
 	}
 

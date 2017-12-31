@@ -61,15 +61,17 @@ int controleurSuppression(controleurT * controleurT)
 
 int controleurSimulationGraphique(controleurT * controleur)
 	{
+
+	//etageCalculDistanceEtSens(&(*controleur).etage);
 			//fprintf(stderr, "Entrée dans la boucle SDL\n");
 	do	{
 			//fprintf(stderr, "Projection du systeme sur la représentation graphique\n");
 		controleurProjection(controleur);
 
-			//fprintf(stderr, "Projection du systeme sur la représentation graphique\n");
+			//fprintf(stderr, "Évolution du systeme\n");
 		controleurEvolutionSysteme(controleur);
 
-			//fprintf(stderr, "Mise à jourde la fenêtre graphique et pause\n");
+			//fprintf(stderr, "Mise à jour de la fenêtre graphique et pause\n");
 		controleurConstructionGraphique(controleur);
 
 			//fprintf(stderr, "Prise en compte des actions clavier\n");
@@ -131,6 +133,8 @@ int controleurProjection(controleurT * controleur)
 
 	projectionEtagePlan(&(*controleur).etage, &(*controleur).projection, &(*controleur).graphe);
 
+	//projectionEtageSens(&(*controleur).etage, &(*controleur).projection, &(*controleur).graphe);
+
 	projectionFoulePoints(&(*controleur).foule, &(*controleur).projection, &(*controleur).graphe);
 
 	return (*controleur).options.sortie;
@@ -151,7 +155,8 @@ int controleurConstructionGraphique(controleurT * controleur)
 
 	//	Dessin des graphes;
 	grapheDessineMur((*controleur).interface.rendu, &(*controleur).graphe);
-	grapheDessineHumain((*controleur).interface.rendu, &(*controleur).graphe);
+	//grapheDessineHumain((*controleur).interface.rendu, &(*controleur).graphe);
+	grapheDessineAngle((*controleur).interface.rendu, &(*controleur).graphe);
 
 		//fprintf(stderr, "Mise à jour de l'affichage\n");
 	interfaceMiseAJour(&(*controleur).interface);

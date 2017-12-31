@@ -96,6 +96,19 @@ void vecteurDifferenceCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3)
 	return;
 	}
 
+float vecteurNormaliseCartesien(vecteurT * v)
+	{ // normalise, renvoie la norme initiale, -1 si nulle
+	float norme = sqrt((*v).x*(*v).x+(*v).y*(*v).y+(*v).z*(*v).z);
+	if(norme>0.0)
+		{
+		(*v).x=(*v).x/norme;
+		(*v).y=(*v).y/norme;
+		(*v).z=(*v).z/norme;
+		}
+	else norme = -1.0;
+	return norme;
+	}
+
 int vecteurInitialiseVecteurPhi(vecteurT * pointDeVue, vecteurT * vecteurPhi, float hauteur)
 	{
 	(*vecteurPhi).x=-hauteur*cos((*pointDeVue).psi)*cos((*pointDeVue).phi);
