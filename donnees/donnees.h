@@ -33,7 +33,8 @@ termes.
 #ifndef _DONNEES_
 #define _DONNEES_
 
-#include "../controle/projection.h"
+#include "../modele/systeme.h"
+#include "../graphisme/graphe.h"
 #include "../donnees/options.h"
 #include "../donnees/fichier.h"
 

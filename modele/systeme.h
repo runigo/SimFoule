@@ -29,37 +29,25 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 */
 
-#ifndef _CONTROLEUR_
-#define _CONTROLEUR_
+#ifndef _SYSTEME_
+#define _SYSTEME_
 
-#include "../donnees/donnees.h"
-#include "../controle/projection.h"
+#include "./foule.h"
+#include "./batiment.h"
 
-typedef struct ControleurT controleurT;
-struct ControleurT
-	{
-	optionsT options;		//	Options de la ligne de commande
+typedef struct SystemeT systemeT;
+	struct SystemeT
+		{
+		fouleT foule;
+		batimentT batiment;
 
-	systemeT systeme;		//	Foule et batiment
+		float dt;		//	Discétisation du temps
+		float horloge;		//	Horloge, chronomètre
 
-	projectionT projection;		//	projection du systeme sur le graphe
+		};
 
-	grapheT graphe;			//	Représentation graphique du système
-
-	interfaceT interface;		//	Interface graphique
-
-	interfaceT reglage;		//	Autre interface graphique
-
-	int appui;	//	1 si le bouton de la souris est appuyé, 0 sinon.
-
-	};
-
-int controleurInitialisation(controleurT * controleur);
-
-int controleurDirections(controleurT * controleur);
-
-int controleurSimulationGraphique(controleurT * controleur);
-
-int controleurSuppression(controleurT * controleur);
+// Évolution temporelle de la foule, "duree" cycle d'évolution
+int systemeEvolution(systemeT * systeme, int duree);
 
 #endif
+

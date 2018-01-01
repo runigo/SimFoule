@@ -34,7 +34,7 @@ termes.
 #define _FICHIER_
 #include <stdio.h>
 
-#include "../donnees/batiment.h"
+#include "../modele/batiment.h"
 
 void fichierEcriture(batimentT * batiment, int numero);
 void fichierLecture(batimentT * batiment, int numero);

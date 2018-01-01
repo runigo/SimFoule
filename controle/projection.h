@@ -34,7 +34,7 @@ termes.
 #define _PROJECTION_
 
 #include "../modele/foule.h"
-#include "../donnees/batiment.h"
+#include "../modele/batiment.h"
 #include "../graphisme/graphe.h"
 
 typedef struct ProjectionT projectionT;

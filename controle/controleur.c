@@ -52,7 +52,7 @@ int controleurDirections(controleurT * controleur)
 	{
 		// Calcul des directions
 		fprintf(stderr, "  Calcul des directions\n");
-	batimentDirections(&(*controleur).batiment);
+	batimentDirections(&(*controleur).systeme.batiment);
 	return 0;
 	}
 
@@ -67,10 +67,10 @@ int controleurInitialisation(controleurT * controleur)
 	//projectionInitialiseLongueurs(&(*controleur).projection, BATIMENT_X, BATIMENT_Y);
 
 		fprintf(stderr, "  Initialisation du batiment\n");
-	donneesInitialisationBatiment(&(*controleur).batiment, &(*controleur).options);
+	donneesInitialisationBatiment(&(*controleur).systeme.batiment, &(*controleur).options);
 		fprintf(stderr, "  Initialisation de la foule\n");
-	donneesCreationFoule(&(*controleur).foule, &(*controleur).options);
-	donneesInitialisationFoule(&(*controleur).foule, &(*controleur).batiment);
+	donneesCreationFoule(&(*controleur).systeme.foule, &(*controleur).options);
+	donneesInitialisationFoule(&(*controleur).systeme.foule, &(*controleur).systeme.batiment);
 
 		fprintf(stderr, "  Initialisation de l'interface graphique\n");
 	donneesCreationGraphe(&(*controleur).graphe, &(*controleur).options);
@@ -87,7 +87,7 @@ int controleurSuppression(controleurT * controleurT)
 	fprintf(stderr, "  Suppression du graphe\n");
 	grapheSuppression(&(*controleurT).graphe);
 	fprintf(stderr, "  Suppression de la foule\n");
-	fouleSuppression(&(*controleurT).foule);
+	fouleSuppression(&(*controleurT).systeme.foule);
 	return 0;
 	}
 
@@ -119,11 +119,11 @@ int controleurProjection(controleurT * controleur)
 	{
 		//	Projection des fonctions sur les graphes
 
-	projectionBatimentPlan(&(*controleur).batiment, &(*controleur).projection, &(*controleur).graphe);
+	projectionBatimentPlan(&(*controleur).systeme.batiment, &(*controleur).projection, &(*controleur).graphe);
 
-	projectionBatimentSens(&(*controleur).batiment, &(*controleur).projection, &(*controleur).graphe);
+	//projectionBatimentSens(&(*controleur).systeme.batiment, &(*controleur).projection, &(*controleur).graphe);
 
-	projectionFoulePoints(&(*controleur).foule, &(*controleur).projection, &(*controleur).graphe);
+	projectionFoulePoints(&(*controleur).systeme.foule, &(*controleur).projection, &(*controleur).graphe);
 
 	return (*controleur).options.sortie;
 	}
@@ -131,7 +131,7 @@ int controleurProjection(controleurT * controleur)
 int controleurEvolutionSysteme(controleurT * controleur)
 	{
 		//fprintf(stderr, "Evolution temporelle de la foule\n");
-	fouleEvolution(&(*controleur).foule, (*controleur).options.duree);
+	systemeEvolution(&(*controleur).systeme, (*controleur).options.duree);
 
 	return 0;
 	}

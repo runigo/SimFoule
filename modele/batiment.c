@@ -29,7 +29,7 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 */
 
-#include "../donnees/batiment.h"
+#include "../modele/batiment.h"
 
 int batimentInitialiseVide(batimentT * batiment);
 
