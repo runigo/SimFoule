@@ -46,6 +46,9 @@ int main(int nb, char *opt[])
 	fprintf(stderr, "Initialisation du controleur\n");
 	assert(controleurInitialisation(&controleur)==0);
 
+	fprintf(stderr, "Calcul des directions\n");
+	assert(controleurDirections(&controleur)==0);
+
 	fprintf(stderr, "Simulation graphique du système\n");
 	assert(controleurSimulationGraphique(&controleur)==0);
 

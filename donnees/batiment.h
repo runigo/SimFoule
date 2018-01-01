@@ -40,9 +40,9 @@ struct BatimentT {
 };
 typedef struct BatimentT batimentT;
 
-//int batimentInitialise(batimentT * batiment);
-
 int batimentInitialise(batimentT * batiment, int initial);
+
+int batimentDirections(batimentT * batiment);
 
 int batimentAffiche(batimentT * batiment);
 #endif

@@ -39,7 +39,7 @@ struct CelluleT {
 
 	int statut;		// 0:libre, 1:mur, 2:sortie
 
-	bool visite;		// Si initialisé
+	int visite;		// 1 si initialisé, -1 si visite en cours
 
 	int distance;	// Distance à la sortie
 
@@ -60,8 +60,8 @@ int celluleCreationHumain(celluleT * cellule);
 int celluleDonneStatut(celluleT * cellule);	// 0:libre, 1:mur, 2:sortie
 int celluleInitialiseStatut(celluleT * cellule, int statut);	// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:humain
 
-bool celluleDonneVisite(celluleT * cellule);	// Vrai si la cellule a été visité
-int celluleChangeVisite(celluleT * cellule);	// Passe la visite à vrai
+int celluleDonneVisite(celluleT * cellule);	// 1 si initialisé, -1 si visite en cours
+int celluleChangeVisite(celluleT * cellule, int visite);	// change visite
 
 int celluleDonneDistance(celluleT * cellule);	// Distance à la sortie
 int celluleChangeDistance(celluleT * cellule, int pas);	// Ajoute le pas à la distance

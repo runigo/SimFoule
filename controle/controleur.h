@@ -56,6 +56,8 @@ struct ControleurT
 
 int controleurInitialisation(controleurT * controleur);
 
+int controleurDirections(controleurT * controleur);
+
 int controleurSimulationGraphique(controleurT * controleur);
 
 int controleurSuppression(controleurT * controleur);

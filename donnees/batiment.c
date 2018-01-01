@@ -94,6 +94,18 @@ int batimentInitialise(batimentT * batiment, int numero)
 	return nombre;
 	}
 
+int batimentDirections(batimentT * batiment)
+	{
+	int k;
+	fprintf(stderr, "batimentDirection : Entrée dans la fonction\n");
+	for(k=0;k<BATIMENT_Z;k++)
+		{
+		etageCalculDistanceEtSens(&(*batiment).etage[k]);
+		}
+	fprintf(stderr, "batimentDirection : Sortie de la fonction\n");
+	return 0;
+	}
+
 int batimentAffiche(batimentT * batiment)
 	{
 	(void)batiment;

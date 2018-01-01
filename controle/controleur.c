@@ -48,8 +48,15 @@ void controleurBoutonSouris(controleurT * control, int appui);
 void controleurChangeMode(controleurT * control);
 void controleurChangeVitesse(controleurT * control, float facteur);
 
-int controleurInitialisation(controleurT * controleur)
+int controleurDirections(controleurT * controleur)
+	{
+		// Calcul des directions
+		fprintf(stderr, "  Calcul des directions\n");
+	batimentDirections(&(*controleur).batiment);
+	return 0;
+	}
 
+int controleurInitialisation(controleurT * controleur)
 	{
 		// Initialisation du controleur
 

@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 0.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -90,7 +90,7 @@ int etageCalculDistanceEtSens(etageT * etage)
 	int i, j;
 	bool sortie;
 	int compteur = 0;
-
+	etageAffiche(etage);
 		// Initialisation des sorties
 		fprintf(stderr, "Initialisation des sorties\n");
 	for(i=0;i<BATIMENT_X;i++)
@@ -99,13 +99,14 @@ int etageCalculDistanceEtSens(etageT * etage)
 			{
 			if(celluleDonneStatut(&(*etage).cellule[i][j]) == 2)
 				{
-				celluleChangeVisite(&(*etage).cellule[i][j]);
+				celluleChangeVisite(&(*etage).cellule[i][j], 1);
 				fprintf(stderr, "Sortie : %d, %d\n", i, j);
 				}
 			}
 		}
 
-		fprintf(stderr, "Calcul sens et distance\n");
+	etageAffiche(etage);
+	fprintf(stderr, "Calcul sens et distance\n");
 	do
 		{
 		sortie=true;
@@ -113,11 +114,23 @@ int etageCalculDistanceEtSens(etageT * etage)
 			{
 			for(j=0;j<BATIMENT_Y;j++)
 				{
-				if(!celluleDonneVisite(&(*etage).cellule[i][j]) && etageVoisinVisite(etage, i, j)>0)
+				if(celluleDonneStatut(&(*etage).cellule[i][j])!=1 && celluleDonneVisite(&(*etage).cellule[i][j])==0 && etageVoisinVisite(etage, i, j)>0)
 					{
+					fprintf(stderr, "etageCalculeSens(etage, %d, %d)\n", i, j);
 					etageCalculeSens(etage, i, j);
-					celluleChangeVisite(&(*etage).cellule[i][j]);
+					celluleChangeVisite(&(*etage).cellule[i][j], -1);
 					sortie = false;
+					}
+				}
+			}
+		for(i=0;i<BATIMENT_X;i++)
+			{
+			for(j=0;j<BATIMENT_Y;j++)
+				{
+				if(celluleDonneVisite(&(*etage).cellule[i][j])<0)
+					{
+					fprintf(stderr, "celluleChangeVisite(cellule %d, %d)\n", i, j);
+					celluleChangeVisite(&(*etage).cellule[i][j], 1);
 					}
 				}
 			}
@@ -140,8 +153,10 @@ int etageCalculDistanceEtSens(etageT * etage)
 		}
 	while(sortie==false);
 
+	etageAffiche(etage);
 		fprintf(stderr, "Jauge des distances\n");
 	etageCalculeDistance(etage);
+	etageAffiche(etage);
 
 	return 0;
 	}
@@ -150,13 +165,13 @@ int etageCalculDistanceEtSens(etageT * etage)
 int etageVoisinVisite(etageT * etage, int i, int j) // Retourne le nombre de voisin visité
 	{ // Retourne le nombre de voisin visité
 	int nombre = 0;
-	if(celluleDonneVisite(&(*etage).cellule[i+1][j]))
+	if(celluleDonneVisite(&(*etage).cellule[i+1][j])>0)
 		nombre++;
-	if(celluleDonneVisite(&(*etage).cellule[i][j+1]))
+	if(celluleDonneVisite(&(*etage).cellule[i][j+1])>0)
 		nombre++;
-	if(celluleDonneVisite(&(*etage).cellule[i-1][j]))
+	if(celluleDonneVisite(&(*etage).cellule[i-1][j])>0)
 		nombre++;
-	if(celluleDonneVisite(&(*etage).cellule[i][j-1]))
+	if(celluleDonneVisite(&(*etage).cellule[i][j-1])>0)
 		nombre++;
 	return nombre;
 	}
@@ -181,7 +196,7 @@ int etageCalculeDistance(etageT * etage)
 		{
 		for(j=0;j<BATIMENT_Y;j++)
 			{
-			celluleChangeDistance(&(*etage).cellule[i][j], max);
+			celluleChangeDistance(&(*etage).cellule[i][j], -max);
 			}
 		}
 	fprintf(stderr, "  etageCalculeDistance, sortie\n");
@@ -237,8 +252,28 @@ int etageEvolutionSens(etageT * etage)
 
 int etageAffiche(etageT * etage)
 	{
-	(void)etage;
-	printf("etageAffiche");
+	int i, j;
+
+	printf("etageAffiche Norme\n");
+	for(j=0;j<BATIMENT_Y;j++)
+		{
+		for(i=0;i<BATIMENT_X;i++)
+			{
+			fprintf(stderr, " %f", (*etage).cellule[i][j].norme);
+			}
+		fprintf(stderr, " \n");
+		}
+
+	printf("etageAffiche distance\n");
+	for(j=0;j<BATIMENT_Y;j++)
+		{
+		for(i=0;i<BATIMENT_X;i++)
+			{
+			fprintf(stderr, " %d", celluleDonneDistance(&(*etage).cellule[i][j]));
+			}
+		fprintf(stderr, " \n");
+		}
+	//fprintf(stderr, "  etageCalculeDistance, max = %d\n", max);
 	return 0;
 	}
 
