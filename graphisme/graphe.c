@@ -76,7 +76,7 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 	image = SDL_LoadBMP("mur.bmp");
 	if (!image)
 		{
-		fprintf(stderr,"Erreur chargement image : %s\n",SDL_GetError());
+		fprintf(stderr,"Erreur chargement image, mur.bmp : %s\n",SDL_GetError());
 		return 0;
 		}
 	(*graphe).mur = SDL_CreateTextureFromSurface(rendu, image);
@@ -90,7 +90,7 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 	image = SDL_LoadBMP("humain.bmp");
 	if (!image)
 		{
-		fprintf(stderr,"Erreur chargement image : %s\n",SDL_GetError());
+		fprintf(stderr,"Erreur chargement image, humain.bmp : %s\n",SDL_GetError());
 		return 0;
 		}
 	(*graphe).humain = SDL_CreateTextureFromSurface(rendu, image);
@@ -104,7 +104,7 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 	image = SDL_LoadBMP("sortie.bmp");
 	if (!image)
 		{
-		fprintf(stderr,"Erreur chargement image : %s\n",SDL_GetError());
+		fprintf(stderr,"Erreur chargement image, sortie.bmp : %s\n",SDL_GetError());
 		return 0;
 		}
 	(*graphe).sortie = SDL_CreateTextureFromSurface(rendu, image);
@@ -115,12 +115,12 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
-		// DIRECTION
+		// DIRECTIONS
 
 	image = SDL_LoadBMP("direction0.bmp");
 	if (!image)
 		{
-		fprintf(stderr,"Erreur chargement image : %s\n",SDL_GetError());
+		fprintf(stderr,"Erreur chargement image, direction0.bmp : %s\n",SDL_GetError());
 		return 0;
 		}
 	(*graphe).direction0 = SDL_CreateTextureFromSurface(rendu, image);
@@ -131,10 +131,24 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
+	image = SDL_LoadBMP("direction1.bmp");
+	if (!image)
+		{
+		fprintf(stderr,"Erreur chargement image, direction1.bmp : %s\n",SDL_GetError());
+		return 0;
+		}
+	(*graphe).direction1 = SDL_CreateTextureFromSurface(rendu, image);
+	SDL_FreeSurface(image);
+	if ((*graphe).sortie == 0)
+		{
+		fprintf(stderr,"grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
+		return 0;
+		}
+
 	image = SDL_LoadBMP("direction2.bmp");
 	if (!image)
 		{
-		fprintf(stderr,"Erreur chargement image : %s\n",SDL_GetError());
+		fprintf(stderr,"Erreur chargement image, direction2.bmp : %s\n",SDL_GetError());
 		return 0;
 		}
 	(*graphe).direction2 = SDL_CreateTextureFromSurface(rendu, image);
@@ -145,10 +159,24 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
+	image = SDL_LoadBMP("direction3.bmp");
+	if (!image)
+		{
+		fprintf(stderr,"Erreur chargement image, direction3.bmp : %s\n",SDL_GetError());
+		return 0;
+		}
+	(*graphe).direction3 = SDL_CreateTextureFromSurface(rendu, image);
+	SDL_FreeSurface(image);
+	if ((*graphe).sortie == 0)
+		{
+		fprintf(stderr,"grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
+		return 0;
+		}
+
 	image = SDL_LoadBMP("direction4.bmp");
 	if (!image)
 		{
-		fprintf(stderr,"Erreur chargement image : %s\n",SDL_GetError());
+		fprintf(stderr,"Erreur chargement image, direction4.bmp : %s\n",SDL_GetError());
 		return 0;
 		}
 	(*graphe).direction4 = SDL_CreateTextureFromSurface(rendu, image);
@@ -159,13 +187,41 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
+	image = SDL_LoadBMP("direction5.bmp");
+	if (!image)
+		{
+		fprintf(stderr,"Erreur chargement image, direction5.bmp : %s\n",SDL_GetError());
+		return 0;
+		}
+	(*graphe).direction5 = SDL_CreateTextureFromSurface(rendu, image);
+	SDL_FreeSurface(image);
+	if ((*graphe).sortie == 0)
+		{
+		fprintf(stderr,"grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
+		return 0;
+		}
+
 	image = SDL_LoadBMP("direction6.bmp");
 	if (!image)
 		{
-		fprintf(stderr,"Erreur chargement image : %s\n",SDL_GetError());
+		fprintf(stderr,"Erreur chargement image, direction6.bmp : %s\n",SDL_GetError());
 		return 0;
 		}
 	(*graphe).direction6 = SDL_CreateTextureFromSurface(rendu, image);
+	SDL_FreeSurface(image);
+	if ((*graphe).sortie == 0)
+		{
+		fprintf(stderr,"grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
+		return 0;
+		}
+
+	image = SDL_LoadBMP("direction7.bmp");
+	if (!image)
+		{
+		fprintf(stderr,"Erreur chargement image, direction7.bmp : %s\n",SDL_GetError());
+		return 0;
+		}
+	(*graphe).direction7 = SDL_CreateTextureFromSurface(rendu, image);
 	SDL_FreeSurface(image);
 	if ((*graphe).sortie == 0)
 		{

@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -29,37 +29,20 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 */
 
-#ifndef _CONTROLEUR_
-#define _CONTROLEUR_
 
-#include "../controle/projection.h"
-#include "../donnees/options.h"
-#include "../donnees/fichier.h"
+#ifndef _BATIMENT_
+#define _BATIMENT_
 
-typedef struct ControleurT controleurT;
-struct ControleurT
-	{
-	optionsT options;		//	Options de la ligne de commande
+#include "../modele/etage.h"
 
-	fouleT foule;
-	batimentT batiment;
-	//etageT etage[BATIMENT_Z];
+struct BatimentT {
+	etageT etage[BATIMENT_Z];
+};
+typedef struct BatimentT batimentT;
 
-	projectionT projection;
+//int batimentInitialise(batimentT * batiment);
 
-	grapheT graphe;
+int batimentInitialise(batimentT * batiment, int initial);
 
-	interfaceT interface;
-	interfaceT reglage;
-
-	int appui;	//	1 si le bouton de la souris est appuyé, 0 sinon.
-
-	};
-
-int controleurCreation(controleurT * controleur);
-
-int controleurSimulationGraphique(controleurT * controleur);
-
-int controleurSuppression(controleurT * controleur);
-
+int batimentAffiche(batimentT * batiment);
 #endif

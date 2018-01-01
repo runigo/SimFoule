@@ -1,3 +1,5 @@
+
+
 /*
 Copyright décembre 2017, Stephan Runigo
 runigo@free.fr
@@ -40,8 +42,12 @@ termes.
 
 
 int donneesEtage(etageT * etage, optionsT * options);
+int donneesBatiment(batimentT * batiment, optionsT * options);
 int donneesFoule(fouleT * foule, optionsT * options);
 int donneesCreationGraphique(controleurT * controleur);
+
+
+int donneesSauvegarde(etageT * etage, optionsT * options);
 
 int donneesCreationControleur(controleurT * controleur)
 	{
@@ -53,8 +59,8 @@ int donneesCreationControleur(controleurT * controleur)
 	projectionInitialiseCouleurs(&(*controleur).projection, 50, 50, 50, (*controleur).options.fond);
 	projectionInitialiseLongueurs(&(*controleur).projection, BATIMENT_X, BATIMENT_Y);
 
-		fprintf(stderr, "  Initialisation de l'étage\n");
-	donneesEtage(&(*controleur).etage, &(*controleur).options);
+		fprintf(stderr, "  Initialisation du batiment\n");
+	donneesBatiment(&(*controleur).batiment, (*controleur).options.initial);
 		fprintf(stderr, "  Initialisation de la foule\n");
 	donneesFoule(&(*controleur).foule, &(*controleur).options);
 
@@ -87,9 +93,67 @@ int donneesOptions(optionsT * options)
 	return 0;
 	}
 
+int donneesSystemeInitialise(controleurT * controleur, int numero)
+	{
+	donneesBatiment((*controleur).batiment, numero)
+	return 0;
+	}
+
+int donneesBatiment(batimentT * batiment, int numero)
+	{
+	int k;
+	for(k=0;j<BATIMENT_Z;k++)
+		{
+		(*batiment).etage[k].etage = k;
+		if( numero > -1 && numero < 99)
+			{
+			fichierLecture((*batiment).etage[k], numero);
+			}
+		else
+			{
+			planBatiment((*batiment).etage[k], numero);
+			}
+	
+	return 0;
+	}
+
+int donneesSystemeSauvegarde(controleurT * controleur, int numero);
+//int donneesSauvegardeBatiment(batimentT * batiment, optionsT * options)
+	{
+	int k;
+	for(k=0;j<BATIMENT_Z;k++)
+		{
+		(*batiment).etage[k].etage = k;
+		if( (*options).initial > -1 && (*options).initial < 99)
+			{
+			fichierEcriture((*batiment).etage[k], (*options).initial + k);
+			}
+		else
+			{
+			printf("Erreur lors de la sauvegarde");
+			}
+	
+	return 0;
+	}
+
 int donneesEtage(etageT * etage, optionsT * options)
 	{
-	fichierLecture(etage, (*options).initial);
+	if( (*options).initial > -1)
+		{
+		if( (*options).initial < 99)
+			{
+			fichierLecture((*batiment).etage[k], (*options).initial);
+			}
+		else
+			{
+			batimentPlan(etage, (*options).initial);
+			}
+		}
+	else
+		{
+		planBatiment(etage, (*options).initial);
+		}
+		
 	(*etage).etage = 0;
 	return 0;
 	}

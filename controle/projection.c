@@ -31,7 +31,7 @@ termes.
 
 #include "projection.h"
 
-int projectionEtagePlan(etageT * etage, projectionT * projection, grapheT * graphe)
+int projectionBatimentPlan(batimentT * batiment, projectionT * projection, grapheT * graphe)
 	{
 			//	Projette la position des murs sur le  graphe
 	int i, j;
@@ -41,13 +41,13 @@ int projectionEtagePlan(etageT * etage, projectionT * projection, grapheT * grap
 		{
 		for(j=0;j<BATIMENT_Y;j++)
 			{
-			(*graphe).plan[i][j][(*etage).etage]=(*etage).cellule[i][j].statut;
+			(*graphe).plan[i][j][0]=(*batiment).etage[0].cellule[i][j].statut;
 			}
 		}
 	return 0;
 	}
 
-int projectionEtageSens(etageT * etage, projectionT * projection, grapheT * graphe)
+int projectionBatimentSens(batimentT * batiment, projectionT * projection, grapheT * graphe)
 	{
 			//	Projette la direction de la sortie sur le graphe
 	int i, j;
@@ -57,7 +57,7 @@ int projectionEtageSens(etageT * etage, projectionT * projection, grapheT * grap
 		{
 		for(j=0;j<BATIMENT_Y;j++)
 			{
-			(*graphe).angle[i][j][(*etage).etage]=(*etage).cellule[i][j].angle;
+			(*graphe).angle[i][j][0]=(*batiment).etage[0].cellule[i][j].angle;
 			}
 		}
 	return 0;
@@ -76,7 +76,7 @@ int projectionFoulePoints(fouleT * foule, projectionT * projection, grapheT * gr
 		{
 		iterGraph->xm = (int)(iterFoule->humain.nouveau.x);
 		iterGraph->ym = (int)(iterFoule->humain.nouveau.y);
-		//iterGraph->zm = (int)(iterFoule->humain.nouveau.z);
+		iterGraph->zm = (int)(iterFoule->humain.nouveau.z);
 
 		iterGraph = iterGraph->suivant;
 		iterFoule = iterFoule->suivant;

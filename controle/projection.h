@@ -34,7 +34,7 @@ termes.
 #define _PROJECTION_
 
 #include "../modele/foule.h"
-#include "../modele/etage.h"
+#include "../donnees/batiment.h"
 #include "../graphisme/graphe.h"
 
 typedef struct ProjectionT projectionT;
@@ -52,9 +52,9 @@ typedef struct ProjectionT projectionT;
 int projectionInitialiseCouleurs(projectionT * projection, int r, int v, int b, int fond);
 int projectionInitialiseLongueurs(projectionT * projection, int hauteur, int largeur);
 
-int projectionEtagePlan(etageT * etage, projectionT * projection, grapheT * graphe);
+int projectionBatimentPlan(batimentT * batiment, projectionT * projection, grapheT * graphe);
 int projectionFoulePoints(fouleT * foule, projectionT * projection, grapheT * graphe);
-int projectionEtageSens(etageT * etage, projectionT * projection, grapheT * graphe);
+int projectionBatimentSens(batimentT * batiment, projectionT * projection, grapheT * graphe);
 
 int projectionAffiche(projectionT * projection);
 #endif

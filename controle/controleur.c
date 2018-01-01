@@ -62,7 +62,7 @@ int controleurSuppression(controleurT * controleurT)
 int controleurSimulationGraphique(controleurT * controleur)
 	{
 
-	//etageCalculDistanceEtSens(&(*controleur).etage);
+	//batimentCalculDistanceEtSens(&(*controleur).batiment);
 			//fprintf(stderr, "Entrée dans la boucle SDL\n");
 	do	{
 			//fprintf(stderr, "Projection du systeme sur la représentation graphique\n");
@@ -110,7 +110,7 @@ int controleurSimulationGraphique00(controleurT * controleur)
 		}
 
 
-		//projectionEtagePlan(&(*controleur).etage, &(*controleur).projection, &(*controleur).graphe);
+		//projectionEtagePlan(&(*controleur).batiment, &(*controleur).projection, &(*controleur).graphe);
 		//projectionFoulePoints(&(*controleur).foule, &(*controleur).projection, &(*controleur).graphe);
 
 		//fouleEvolution(&(*controleur).foule, (*controleur).options.duree);
@@ -131,9 +131,9 @@ int controleurProjection(controleurT * controleur)
 	{
 		//	Projection des fonctions sur les graphes
 
-	projectionEtagePlan(&(*controleur).etage, &(*controleur).projection, &(*controleur).graphe);
+	projectionBatimentPlan(&(*controleur).batiment, &(*controleur).projection, &(*controleur).graphe);
 
-	//projectionEtageSens(&(*controleur).etage, &(*controleur).projection, &(*controleur).graphe);
+	//projectionEtageSens(&(*controleur).batiment, &(*controleur).projection, &(*controleur).graphe);
 
 	projectionFoulePoints(&(*controleur).foule, &(*controleur).projection, &(*controleur).graphe);
 
@@ -442,103 +442,103 @@ int controleurClavierMaj(controleurT * controleur)
 
 	// Réinitialisation du système
 		// Lecture des fichier
-		case SDLK_a:
+/*		case SDLK_a:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 0);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 0);break;
 		case SDLK_z:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 1);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 1);break;
 		case SDLK_e:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 2);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 2);break;
 		case SDLK_r:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 3);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 3);break;
 		case SDLK_t:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 4);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 4);break;
 		case SDLK_y:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 5);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 5);break;
 		case SDLK_u:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 6);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 6);break;
 		case SDLK_i:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 7);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 7);break;
 		case SDLK_o:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 8);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 8);break;
 		case SDLK_p:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 9);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 9);break;
 		case SDLK_q:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 10);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 10);break;
 		case SDLK_s:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 11);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 11);break;
 		case SDLK_d:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 12);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 12);break;
 		case SDLK_f:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 13);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 13);break;
 		case SDLK_g:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 14);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 14);break;
 		case SDLK_h:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 15);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 15);break;
 		case SDLK_j:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 16);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 16);break;
 		case SDLK_k:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 17);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 17);break;
 		case SDLK_l:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 18);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 18);break;
 		case SDLK_m:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).etage, 19);break;
+			donneesSystemeInitialise(&(*controleur).batiment, 19);break;
 
 
 		// Ecriture des fichiers
 		// Ecriture des fichiers
 		case SDLK_w:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 10);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 10);break;
 		case SDLK_x:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 11);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 11);break;
 		case SDLK_c:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 12);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 12);break;
 		case SDLK_v:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 13);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 13);break;
 		case SDLK_b:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 14);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 14);break;
 		case SDLK_n:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 15);break;
-		/*case SDLK_d:
+			donneesSystemeSauvegarde(&(*controleur).batiment, 15);break;
+*/		/*case SDLK_d:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierLecture(&(*controleur).etage, );break;
+			donneesSystemeInitialise(&(*controleur).batiment, );break;
 		case SDLK_f:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierLecture(&(*controleur).etage, );break;
+			donneesSystemeInitialise(&(*controleur).batiment, );break;
 		case SDLK_g:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierLecture(&(*controleur).etage, );break;
+			donneesSystemeInitialise(&(*controleur).batiment, );break;
 		case SDLK_:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierLecture(&(*controleur).etage, );break;
+			donneesSystemeInitialise(&(*controleur).batiment, );break;
 		case SDLK_:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierLecture(&(*controleur).etage, );break;*/
+			donneesSystemeInitialise(&(*controleur).batiment, );break;*/
 
 		default:
 			;
@@ -561,90 +561,90 @@ int controleurClavierCtrl(controleurT * controleur)
 
 	// Enregistrement
 		// Sauvegarde du système
-		case SDLK_a:
+/*		case SDLK_a:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 0);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 0);break;
 		case SDLK_z:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 1);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 1);break;
 		case SDLK_e:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 2);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 2);break;
 		case SDLK_r:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 3);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 3);break;
 		case SDLK_t:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 4);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 4);break;
 		case SDLK_y:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 5);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 5);break;
 		case SDLK_u:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 6);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 6);break;
 		case SDLK_i:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 7);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 7);break;
 		case SDLK_o:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 8);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 8);break;
 		case SDLK_p:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 9);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 9);break;
 		case SDLK_q:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 10);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 10);break;
 		case SDLK_s:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 11);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 11);break;
 		case SDLK_d:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 12);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 12);break;
 		case SDLK_f:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 13);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 13);break;
 		case SDLK_g:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 14);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 14);break;
 		case SDLK_h:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 15);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 15);break;
 
 
 		// Ecriture des fichiers
 		case SDLK_w:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 10);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 10);break;
 		case SDLK_x:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 11);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 11);break;
 		case SDLK_c:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 12);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 12);break;
 		case SDLK_v:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 13);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 13);break;
 		case SDLK_b:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 14);break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, 14);break;
 		case SDLK_n:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, 15);break;
-		/*case SDLK_d:
+			donneesSystemeSauvegarde(&(*controleur).batiment, 15);break;
+*/		/*case SDLK_d:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, );break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, );break;
 		case SDLK_f:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, );break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, );break;
 		case SDLK_g:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, );break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, );break;
 		case SDLK_:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, );break;
+			donneesSystemeSauvegarde(&(*controleur).batiment, );break;
 		case SDLK_:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).etage, );break;*/
+			donneesSystemeSauvegarde(&(*controleur).batiment, );break;*/
 
 		default:
 			;

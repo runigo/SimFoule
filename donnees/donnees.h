@@ -38,6 +38,8 @@ termes.
 
 int donneesOptions(optionsT * options);
 int donneesCreationControleur(controleurT * controleur);
+int donneesSystemeInitialise(controleurT * controleur, int numero);
+int donneesSystemeSauvegarde(controleurT * controleur, int numero);
 
 #endif
 /////////////////////////////////////////////////////////

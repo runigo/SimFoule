@@ -40,7 +40,7 @@ termes.
 
 #include "vecteur.h"
 
-void vecteurCartesien(vecteurT * v, float x, float y, float z)
+void vecteurCartesien(vecteurT * v, float x, float y, int z)
 	{
 	(*v).x=x;
 	(*v).y=y;
@@ -63,7 +63,7 @@ void vecteurInitialisePolaire(vecteurT * v, float r, float psi, float phi)
 		//fprintf(stderr, "vecteurInitialisePolaire, x, y, z\n");
 	(*v).x=r*cos(psi)*sin(phi);
 	(*v).y=r*sin(psi)*sin(phi);
-	(*v).z=r*cos(phi);
+	(*v).z=(int)r*cos(phi);
 	return;
 	}
 

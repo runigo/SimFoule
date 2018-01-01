@@ -34,6 +34,9 @@ termes.
 	Un vecteurT contient les coordonnées cartésienne
 	et éventuellement les coordonées polaires
 
+	Dans SimFoule, la coordonée z est un entier et représente l'étage.
+		Si z est négatif, il représente l'escalier.
+
 */
 
 #ifndef _VECTEUR_
@@ -46,13 +49,13 @@ typedef struct VecteurT vecteurT;
 		{
 		float x;
 		float y;
-		float z;
+		int z;
 		float r;
 		float psi;
 		float phi;
 		};
 
-void vecteurCartesien(vecteurT * v, float x, float y, float z);
+void vecteurCartesien(vecteurT * v, float x, float y, int z);
 void vecteurCartesienEgale(vecteurT * v1, vecteurT * v2); // v2 = v1
 void vecteurInitialisePolaire(vecteurT * v, float r, float psi, float phi);
 float vecteurScalaireCartesien(vecteurT * v1, vecteurT * v2);
