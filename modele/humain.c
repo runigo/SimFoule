@@ -75,4 +75,30 @@ int humainIncremente(humainT * humain)
 	vecteurCartesienEgale(&(*humain).nouveau, &(*humain).actuel); // v2 = v1
 	return 0;
 	}
+/*
+int humainEvolution(humainT * humain, vecteurT vitesseSouhaite);
+	{
+	float v = humainCalculVitesse(humain);
+	float vs = 
+	}
+*/
+/*
 
+void vecteurCartesien(vecteurT * v, float x, float y, int z);
+void vecteurCartesienEgale(vecteurT * v1, vecteurT * v2); // v2 = v1
+float vecteurScalaireCartesien(vecteurT * v1, vecteurT * v2);
+void vecteurSommeCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3); // v3 = v1 + v2
+void vecteurDifferenceCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3); // v3 = v1 - v2
+	vecteurT nouveau;
+	vecteurT actuel;
+	vecteurT ancien;
+
+	vecteurT vitesse;
+	vecteurT vitesseSouhaite;
+	vecteurT forceExterieur;
+
+	float masse;
+	float nervosite;
+*/
+
+///////////////////////////////////////////////////////////////////////////

@@ -74,8 +74,8 @@ int batimentInitialise(batimentT * batiment, int numero)
 			}
 		celluleCreationSortie(&(*batiment).etage[k].cellule[0][1]);
 		celluleCreationSortie(&(*batiment).etage[k].cellule[0][2]);
-		celluleCreationEntree(&(*batiment).etage[k].cellule[BATIMENT_X-1][BATIMENT_Y-3]);
-		celluleCreationEntree(&(*batiment).etage[k].cellule[BATIMENT_X-1][BATIMENT_Y-2]);
+		//celluleCreationEntree(&(*batiment).etage[k].cellule[BATIMENT_X-1][BATIMENT_Y-3]);
+		//celluleCreationEntree(&(*batiment).etage[k].cellule[BATIMENT_X-1][BATIMENT_Y-2]);
 		}
 
 		// Position des humains

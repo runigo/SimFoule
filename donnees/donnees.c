@@ -87,7 +87,7 @@ int donneesCreationFoule(fouleT * foule, optionsT * options)
 
 		// Initialisation de la foule
 
-	(*foule).nombre = 1;	// Nombre d'humain
+	(*foule).nombre = (*options).nombre;	// Nombre d'humain
 	(*foule).dt = (*options).dt;		// Discrétisation du temps
 	(*foule).masse = (*options).masse;			// Masse des humains
 	(*foule).horloge = 0.0;			// Horloge
@@ -95,6 +95,33 @@ int donneesCreationFoule(fouleT * foule, optionsT * options)
 	(*foule).nervosite = (*options).nervosite;	// dissipation
 
 	fouleCreation(foule);
+
+	return 0;
+	}
+
+int donneesInitialisationFoule(fouleT * foule, batimentT * batiment)
+	{
+	chaineT *iter=(*foule).premier;
+	float centrage = ((float)(CELLULE-HUMAIN))/2.0;
+	int i, j, k;
+
+		// Position des humains
+	for(k=0;k<BATIMENT_Z;k++)
+		{
+		for(i=0;i<BATIMENT_X;i++)
+			{
+			for(j=0;j<BATIMENT_Y;j++)
+				{
+				if((*batiment).etage[k].cellule[i][j].statut == 9)
+					{
+					humainInitialisePosition(&iter->humain, i*CELLULE+centrage, j*CELLULE+centrage);
+					//fprintf(stderr, "Initialisation position humain : %d, %d\n", i, j);
+					iter=iter->suivant;
+					}
+				}
+			}
+		}
+	fprintf(stderr, "donneesInitialisationFoule : position humain initialisé.\n");
 
 	return 0;
 	}

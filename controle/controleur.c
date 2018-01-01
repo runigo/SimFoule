@@ -70,6 +70,7 @@ int controleurInitialisation(controleurT * controleur)
 	donneesInitialisationBatiment(&(*controleur).batiment, &(*controleur).options);
 		fprintf(stderr, "  Initialisation de la foule\n");
 	donneesCreationFoule(&(*controleur).foule, &(*controleur).options);
+	donneesInitialisationFoule(&(*controleur).foule, &(*controleur).batiment);
 
 		fprintf(stderr, "  Initialisation de l'interface graphique\n");
 	donneesCreationGraphe(&(*controleur).graphe, &(*controleur).options);
@@ -141,7 +142,7 @@ int controleurConstructionGraphique(controleurT * controleur)
 	interfaceNettoyage(&(*controleur).interface);
 
 	//	Dessin des graphes;
-	grapheDessineAngle((*controleur).interface.rendu, &(*controleur).graphe);
+	//grapheDessineAngle((*controleur).interface.rendu, &(*controleur).graphe);
 	grapheDessineMur((*controleur).interface.rendu, &(*controleur).graphe);
 	grapheDessineHumain((*controleur).interface.rendu, &(*controleur).graphe);
 

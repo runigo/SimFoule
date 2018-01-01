@@ -90,7 +90,7 @@ int etageCalculDistanceEtSens(etageT * etage)
 	int i, j;
 	bool sortie;
 	int compteur = 0;
-	etageAffiche(etage);
+	//etageAffiche(etage);
 		// Initialisation des sorties
 		fprintf(stderr, "Initialisation des sorties\n");
 	for(i=0;i<BATIMENT_X;i++)
@@ -105,7 +105,7 @@ int etageCalculDistanceEtSens(etageT * etage)
 			}
 		}
 
-	etageAffiche(etage);
+	//etageAffiche(etage);
 	fprintf(stderr, "Calcul sens et distance\n");
 	do
 		{
@@ -116,7 +116,7 @@ int etageCalculDistanceEtSens(etageT * etage)
 				{
 				if(celluleDonneStatut(&(*etage).cellule[i][j])!=1 && celluleDonneVisite(&(*etage).cellule[i][j])==0 && etageVoisinVisite(etage, i, j)>0)
 					{
-					fprintf(stderr, "etageCalculeSens(etage, %d, %d)\n", i, j);
+					//fprintf(stderr, "etageCalculeSens(etage, %d, %d)\n", i, j);
 					etageCalculeSens(etage, i, j);
 					celluleChangeVisite(&(*etage).cellule[i][j], -1);
 					sortie = false;
@@ -129,7 +129,7 @@ int etageCalculDistanceEtSens(etageT * etage)
 				{
 				if(celluleDonneVisite(&(*etage).cellule[i][j])<0)
 					{
-					fprintf(stderr, "celluleChangeVisite(cellule %d, %d)\n", i, j);
+					//fprintf(stderr, "celluleChangeVisite(cellule %d, %d)\n", i, j);
 					celluleChangeVisite(&(*etage).cellule[i][j], 1);
 					}
 				}
@@ -153,10 +153,10 @@ int etageCalculDistanceEtSens(etageT * etage)
 		}
 	while(sortie==false);
 
-	etageAffiche(etage);
+	//etageAffiche(etage);
 		fprintf(stderr, "Jauge des distances\n");
 	etageCalculeDistance(etage);
-	etageAffiche(etage);
+	//etageAffiche(etage);
 
 	return 0;
 	}
@@ -180,7 +180,7 @@ int etageCalculeDistance(etageT * etage)
 	{ // Ajoute la distance la plus grande à toutes les cellules
 	int i, j;
 	int max = 0;
-	fprintf(stderr, "  etageCalculeDistance, entrée\n");
+	//fprintf(stderr, "  etageCalculeDistance, entrée\n");
 	for(i=0;i<BATIMENT_X;i++)
 		{
 		for(j=0;j<BATIMENT_Y;j++)
@@ -199,7 +199,7 @@ int etageCalculeDistance(etageT * etage)
 			celluleChangeDistance(&(*etage).cellule[i][j], -max);
 			}
 		}
-	fprintf(stderr, "  etageCalculeDistance, sortie\n");
+	//fprintf(stderr, "  etageCalculeDistance, sortie\n");
 	return 0;
 	}
 

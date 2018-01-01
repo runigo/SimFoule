@@ -41,6 +41,7 @@ int donneesOptionsImplicite(optionsT * options);
 
 int donneesInitialisationBatiment(batimentT * batiment, optionsT * options);
 int donneesCreationFoule(fouleT * foule, optionsT * options);
+int donneesInitialisationFoule(fouleT * foule, batimentT * batiment);
 int donneesCreationGraphe(grapheT * graphe, optionsT * options);
 
 int donneesInitialisationInterface(interfaceT * interface, optionsT * options);
