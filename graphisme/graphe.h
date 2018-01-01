@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -39,6 +39,7 @@ termes.
 struct GrapheT {
 	SDL_Texture *mur;
 	SDL_Texture *sortie;
+	SDL_Texture *entree;
 
 	int plan[BATIMENT_X][BATIMENT_Y][BATIMENT_Z]; // Plan du batiment
 				// 0 : libre, 1 : mur, 2 : sortie

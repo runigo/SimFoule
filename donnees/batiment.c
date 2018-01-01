@@ -29,217 +29,71 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 */
 
-
 #include "../donnees/batiment.h"
 
-int batimentCalculeDistance(batimentT * batiment); // Ajoute la distance la plus grande à toutes les cellules
+int batimentInitialiseVide(batimentT * batiment);
 
-//int batimentEvolutionDistance(batimentT * batiment);
-//int batimentEvolutionSens(batimentT * batiment);
-
-int batimentInitialise(batimentT * batiment)
+int batimentInitialiseVide(batimentT * batiment)
 	{
-	int i = 0;
-	int j = 0;
-	int k = 0;
+	int k;
+	fprintf(stderr, "batimentInitialiseVide : Entrée dans la fonction\n");
+	for(k=0;k<BATIMENT_Z;k++)
+		{
+		etageInitialise(&(*batiment).etage[k]);
+		}
+	fprintf(stderr, "batimentInitialiseVide : Sortie de la fonction\n");
+	return 0;
+	}
+
+int batimentInitialise(batimentT * batiment, int numero)
+	{ // Renvoie le nombre d'humain présent
+	(void)numero;
+	int i, j, k;
+	int nombre = 0;
+
+	fprintf(stderr, "batimentInitialise : Entrée dans la fonction\n");
+	batimentInitialiseVide(batiment);
+
+		// Plan du batiment
 	for(k=0;k<BATIMENT_Z;k++)
 		{
 		for(i=0;i<BATIMENT_X;i++)
 			{
 			celluleCreationMur(&(*batiment).etage[k].cellule[i][0]);
-			celluleCreationMur(&(*batiment).etage[k].cellule[i][BATIMENT_Y]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[i][BATIMENT_Y-1]);
 			}
 		for(j=0;j<BATIMENT_Y;j++)
 			{
 			celluleCreationMur(&(*batiment).etage[k].cellule[0][j]);
-			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_Y][j]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X-1][j]);
 			}
-		}
-	for(k=0;k<BATIMENT_Z;k++)
-		{
 		for(j=1;j<BATIMENT_Y/2-1;j++)
 			{
-			celluleCreationMur(&(*batiment).etage[k].cellule[0][j]);
-			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/2][BATIMENT_Y-j]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/2][j]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/2][BATIMENT_Y-j-1]);
 			}
+		celluleCreationSortie(&(*batiment).etage[k].cellule[0][1]);
+		celluleCreationSortie(&(*batiment).etage[k].cellule[0][2]);
+		celluleCreationEntree(&(*batiment).etage[k].cellule[BATIMENT_X-1][BATIMENT_Y-3]);
+		celluleCreationEntree(&(*batiment).etage[k].cellule[BATIMENT_X-1][BATIMENT_Y-2]);
 		}
-	celluleCreationSortie(&(*batiment).etage[k].cellule[0][1]);
-	celluleCreationSortie(&(*batiment).etage[k].cellule[0][2]);
-	return 0;
-	}
 
-/*
-int batimentCreationCelluleMur(batimentT * batiment, int i, int j)
-	{
-	celluleCreationMur(&(*etage).cellule[i][j]);
-	return 0;
-	}
-
-int batimentCreationCelluleSortie(batimentT * batiment, int i, int j)
-	{
-	celluleCreationSortie(&(*etage).cellule[i][j]);
-	return 0;
-	}
-
-int batimentInitialiseStatutCellule(batimentT * batiment, int i, int j, int statut)
-	{
-	celluleInitialiseStatut(&(*etage).cellule[i][j], statut);	// 0:libre, 1:mur, 2:sortie
-	return 0;
-	}
-
-int batimentDonneStatutCellule(batimentT * batiment, int i, int j)
-	{
-	return celluleDonneStatut(&(*etage).cellule[i][j]);	// 0:libre, 1:mur, 2:sortie
-	}
-int batimentCalculDistanceEtSens(batimentT * batiment)
-	{
-	int i, j;
-	bool sortie;
-	int compteur = 0;
-
-		// Initialisation des sorties
-		fprintf(stderr, "Initialisation des sorties\n");
-	for(i=0;i<BATIMENT_X;i++)
+		// Position des humains
+	for(k=0;k<BATIMENT_Z;k++)
 		{
-		for(j=0;j<BATIMENT_Y;j++)
+		for(i=BATIMENT_X/2+1;i<BATIMENT_X-1;i++)
 			{
-			if(celluleDonneStatut(&(*etage).cellule[i][j]) == 2)
+			for(j=1;j<BATIMENT_Y-1;j++)
 				{
-				celluleChangeVisite(&(*etage).cellule[i][j]);
-				fprintf(stderr, "Sortie : %d, %d\n", i, j);
+				celluleCreationHumain(&(*batiment).etage[k].cellule[i][j]);
+				nombre++;
 				}
 			}
 		}
-
-		fprintf(stderr, "Calcul sens et distance\n");
-	do
-		{
-		sortie=true;
-		for(i=0;i<BATIMENT_X;i++)
-			{
-			for(j=0;j<BATIMENT_Y;j++)
-				{
-				if(!celluleDonneVisite(&(*etage).cellule[i][j]) && etageVoisinVisite(etage, i, j)>0)
-					{
-					etageCalculeSens(etage, i, j);
-					celluleChangeVisite(&(*etage).cellule[i][j]);
-					sortie = false;
-					}
-				}
-			}
-		for(i=0;i<BATIMENT_X;i++)
-			{
-			for(j=0;j<BATIMENT_Y;j++)
-				{
-				if(celluleDonneVisite(&(*etage).cellule[i][j]))
-					{
-					celluleChangeDistance(&(*etage).cellule[i][j], -1);
-					}
-				}
-			}
-		compteur++;
-		if(compteur>CELLULE_ETAGE)
-			{
-			fprintf(stderr, "etageCalculDistanceEtSens : Il y aurait des cellules inaccessibles ?\n");
-			sortie=true;
-			}
-		}
-	while(sortie==false);
-
-		fprintf(stderr, "Jauge des distances\n");
-	etageCalculeDistance(etage);
-
-	return 0;
-	}
-
-
-int batimentVoisinVisite(batimentT * batiment, int i, int j) // Retourne le nombre de voisin visité
-	{ // Retourne le nombre de voisin visité
-	int nombre = 0;
-	if(celluleDonneVisite(&(*etage).cellule[i+1][j]))
-		nombre++;
-	if(celluleDonneVisite(&(*etage).cellule[i][j+1]))
-		nombre++;
-	if(celluleDonneVisite(&(*etage).cellule[i-1][j]))
-		nombre++;
-	if(celluleDonneVisite(&(*etage).cellule[i][j-1]))
-		nombre++;
+	fprintf(stderr, "batimentInitialise : Sortie de la fonction\n");
 	return nombre;
 	}
 
-int batimentCalculeDistance(batimentT * batiment)
-	{ // Ajoute la distance la plus grande à toutes les cellules
-	int i, j;
-	int max = 0;
-	fprintf(stderr, "  batimentCalculeDistance, entrée\n");
-	for(i=0;i<BATIMENT_X;i++)
-		{
-		for(j=0;j<BATIMENT_Y;j++)
-			{
-			if( celluleDonneDistance(&(*etage).cellule[i][j]) < max)
-				{
-				max = celluleDonneDistance(&(*etage).cellule[i][j]);
-				}
-			}
-		}
-	fprintf(stderr, "  etageCalculeDistance, max = %d\n", max);
-	for(i=0;i<BATIMENT_X;i++)
-		{
-		for(j=0;j<BATIMENT_Y;j++)
-			{
-			celluleChangeDistance(&(*etage).cellule[i][j], max);
-			}
-		}
-	fprintf(stderr, "  etageCalculeDistance, sortie\n");
-	return 0;
-	}
-
-int batimentCalculeSens(batimentT * batiment, int i, int j)
-	{ // Calcul le sens et la direction de la cellule
-	//int angle = 0;
-	int nombre = 0;
-
-	if(celluleDonneVisite(&(*etage).cellule[i+1][j]))
-		{
-		vecteurSommeCartesien(&(*etage).angle[0], &(*etage).vecteurNul, &(*etage).cellule[i][j].sens);
-		nombre++;
-		}
-	if(celluleDonneVisite(&(*etage).cellule[i][j+1]))
-		{
-		vecteurSommeCartesien(&(*etage).angle[2], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
-		nombre++;
-		}
-	if(celluleDonneVisite(&(*etage).cellule[i-1][j]))
-		{
-		vecteurSommeCartesien(&(*etage).angle[4], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
-		nombre++;
-		}
-	if(celluleDonneVisite(&(*etage).cellule[i][j-1]))
-		{
-		vecteurSommeCartesien(&(*etage).angle[6], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
-		nombre++;
-		}
-
-	(*etage).cellule[i][j].norme=vecteurNormaliseCartesien(&(*etage).cellule[i][j].sens);
-
-	if((*etage).cellule[i][j].norme<0.0)
-		//fprintf(stderr, "vecteurInitialisePolaire, r, psi, phi\n");
-		fprintf(stderr, "etageCalculeSens : norme négative, cellule %d, %d\n", i, j);
-	return 0;
-	}
-
-int batimentEvolutionDistance(batimentT * batiment)
-	{
-	(void)batiment;
-	return 0;
-	}
-
-int batimentEvolutionSens(batimentT * batiment)
-	{
-	(void)batiment;
-	return 0;
-	}
-*/
 int batimentAffiche(batimentT * batiment)
 	{
 	(void)batiment;

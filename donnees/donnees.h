@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -33,13 +33,24 @@ termes.
 #ifndef _DONNEES_
 #define _DONNEES_
 
-#include "../controle/controleur.h"
+#include "../controle/projection.h"
+#include "../donnees/options.h"
 #include "../donnees/fichier.h"
 
-int donneesOptions(optionsT * options);
-int donneesCreationControleur(controleurT * controleur);
-int donneesSystemeInitialise(controleurT * controleur, int numero);
-int donneesSystemeSauvegarde(controleurT * controleur, int numero);
+int donneesOptionsImplicite(optionsT * options);
+
+int donneesInitialisationBatiment(batimentT * batiment, optionsT * options);
+int donneesCreationFoule(fouleT * foule, optionsT * options);
+int donneesCreationGraphe(grapheT * graphe, optionsT * options);
+
+int donneesInitialisationInterface(interfaceT * interface, optionsT * options);
+int donneesInitialisationGraphe(grapheT * graphe, interfaceT * interface);
+
+int donneesSauvegarde(batimentT * batiment, optionsT * options);
+
+//int donneesCreationControleur(controleurT * controleur);
+//int donneesSystemeInitialise(controleurT * controleur, int numero);
+//int donneesSystemeSauvegarde(controleurT * controleur, int numero);
 
 #endif
 /////////////////////////////////////////////////////////

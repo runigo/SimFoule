@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -38,13 +38,13 @@ int main(int nb, char *opt[])
 	fprintf(stderr, "\nEntrée dans SimFoule\n");
 
 	fprintf(stderr, "\nInitialisations des valeurs implicites\n");
-	assert(donneesOptions(&controleur.options)==0);
+	assert(donneesOptionsImplicite(&controleur.options)==0);
 
 	fprintf(stderr, "Traitement des options de la ligne de commande\n");
 	assert(optionsTraitement(&controleur.options, nb, opt)==0);
 
 	fprintf(stderr, "Initialisation du controleur\n");
-	assert(donneesCreationControleur(&controleur)==0);
+	assert(controleurInitialisation(&controleur)==0);
 
 	fprintf(stderr, "Simulation graphique du système\n");
 	assert(controleurSimulationGraphique(&controleur)==0);

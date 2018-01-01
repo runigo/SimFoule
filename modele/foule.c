@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 0.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -47,10 +47,16 @@ int fouleCreation(fouleT * foule)
 	{
 	(*foule).premier = chaineCreation((*foule).nombre);
 
+	if((*foule).premier!=NULL)
+		{
+		fprintf(stderr, "    Chaîne créée\n");
+		}
+	else
+		{
+		fprintf(stderr, "\n\nfouleCreation : Echec de chaineCreation\n\n");
+		}
+
 	fouleInitialiseHumain(foule);
-
-	//fouleChangeLimite(foule);
-
 
 	return 0;
 	}

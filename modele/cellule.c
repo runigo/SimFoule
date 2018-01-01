@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -37,32 +37,45 @@ double celluleInitialise(celluleT * cellule)
 	//printf("celluleInitialise");
 	(*cellule).statut = 0;		// 0:libre, 1:mur, 2:sortie
 	(*cellule).visite = false;		// Si visité
-	vecteurCartesien(&(*cellule).sens, 0, 0, 0);	// Direction et sens à suivre
 	(*cellule).distance = 0;	// Distance à la sortie
+	(*cellule).angle = 1;	// Direction et sens des cellule à ateindre [0..7]
+	vecteurCartesien(&(*cellule).sens, 0, 0, 0);	// Direction et sens à suivre
 	return 0;
 	}
 
 int celluleCreationMur(celluleT * cellule)
 	{
-	(*cellule).statut = 1;		// 0:libre, 1:mur, 2:sortie
+	(*cellule).statut = 1;
 	return 0;
 	}
 
 int celluleCreationSortie(celluleT * cellule)
 	{
-	(*cellule).statut = 2;		// 0:libre, 1:mur, 2:sortie
+	(*cellule).statut = 2;
+	return 0;
+	}
+
+int celluleCreationEntree(celluleT * cellule)
+	{
+	(*cellule).statut = 3;
+	return 0;
+	}
+
+int celluleCreationHumain(celluleT * cellule)
+	{
+	(*cellule).statut = 9;
+	return 0;
+	}
+
+int celluleInitialiseStatut(celluleT * cellule, int statut)
+	{	// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:humain
+	(*cellule).statut=statut;
 	return 0;
 	}
 
 int celluleDonneStatut(celluleT * cellule)
 	{
 	return (*cellule).statut;
-	}
-
-int celluleInitialiseStatut(celluleT * cellule, int statut)
-	{	// 0:libre, 1:mur, 2:sortie
-	(*cellule).statut=statut;
-	return 0;
 	}
 
 int celluleDonneDistance(celluleT * cellule)

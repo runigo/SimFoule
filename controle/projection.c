@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -33,15 +33,18 @@ termes.
 
 int projectionBatimentPlan(batimentT * batiment, projectionT * projection, grapheT * graphe)
 	{
-			//	Projette la position des murs sur le  graphe
-	int i, j;
+			//	Projette la position des murs sur le graphe
+	int i, j, k;
 	(void)projection;
 
-	for(i=0;i<BATIMENT_X;i++)
+	for(k=0;k<BATIMENT_Z;k++)
 		{
-		for(j=0;j<BATIMENT_Y;j++)
+		for(i=0;i<BATIMENT_X;i++)
 			{
-			(*graphe).plan[i][j][0]=(*batiment).etage[0].cellule[i][j].statut;
+			for(j=0;j<BATIMENT_Y;j++)
+				{
+				(*graphe).plan[i][j][k]=(*batiment).etage[k].cellule[i][j].statut;
+				}
 			}
 		}
 	return 0;
@@ -50,14 +53,17 @@ int projectionBatimentPlan(batimentT * batiment, projectionT * projection, graph
 int projectionBatimentSens(batimentT * batiment, projectionT * projection, grapheT * graphe)
 	{
 			//	Projette la direction de la sortie sur le graphe
-	int i, j;
+	int i, j, k;
 	(void)projection;
 
-	for(i=0;i<BATIMENT_X;i++)
+	for(k=0;k<BATIMENT_Z;k++)
 		{
-		for(j=0;j<BATIMENT_Y;j++)
+		for(i=0;i<BATIMENT_X;i++)
 			{
-			(*graphe).angle[i][j][0]=(*batiment).etage[0].cellule[i][j].angle;
+			for(j=0;j<BATIMENT_Y;j++)
+				{
+				(*graphe).angle[i][j][k]=(*batiment).etage[k].cellule[i][j].angle;
+				}
 			}
 		}
 	return 0;
@@ -82,39 +88,6 @@ int projectionFoulePoints(fouleT * foule, projectionT * projection, grapheT * gr
 		iterFoule = iterFoule->suivant;
 		}
 	while(iterGraph!=(*graphe).premier);
-
-	return 0;
-	}
-
-int projectionInitialiseCouleurs(projectionT * projection, int r, int v, int b, int fond)
-	{		// Initialise la couleur du graphe
-	(*projection).rouge = r;
-	(*projection).vert = v;
-	(*projection).bleu = b;
-	(*projection).fond = fond;
-	return 0;
-	}
-
-int projectionInitialiseLongueurs(projectionT * projection, int hauteur, int largeur)
-	{		// Fixe la taille de la chaîne et l'effet de perspective
-	(*projection).hauteur = hauteur;
-	(*projection).largeur = largeur;
-	return 0;
-	}
-
-int projectionAffiche(projectionT * projection)
-	{		// Affiche les valeurs de psi et phi
-	float r, v, b, f;
-
-	r = (*projection).rouge;
-	v = (*projection).vert;
-	b = (*projection).bleu;
-	f = (*projection).fond;
-
-	printf("(*projection).pointDeVue.r = %f\n", r);
-	printf("(*projection).pointDeVue.v = %f\n", v);
-	printf("(*projection).pointDeVue.b = %f\n", b);
-	printf("(*projection).pointDeVue.fond = %f\n", f);
 
 	return 0;
 	}

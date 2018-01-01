@@ -43,6 +43,7 @@ typedef struct PointsT pointsT;
 		// Coordonnees du point
 		int xm;
 		int ym;
+		int zm; // etage
 
 		};
 

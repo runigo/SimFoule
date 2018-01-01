@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -32,7 +32,7 @@ termes.
 #ifndef _PRINCIPALE_
 #define _PRINCIPALE_
 
-#include "../donnees/donnees.h"
+#include "../controle/controleur.h"
 
 #endif
 ////////////////////////////////////////////////////////////////////

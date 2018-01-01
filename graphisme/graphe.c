@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -44,7 +44,7 @@ int grapheCreation(grapheT * graphe, int nombre)
 
 	if((*graphe).premier!=NULL)
 		{
-		fprintf(stderr, "Graphe créé\n");
+		fprintf(stderr, "    Graphe créé\n");
 		}
 	else
 		{
@@ -56,6 +56,7 @@ int grapheCreation(grapheT * graphe, int nombre)
 		{
 		iter->xm=FENETRE_X/2;
 		iter->ym=FENETRE_Y/2;
+		iter->zm=0;
 		}
 	while(iter!=(*graphe).premier);
 
@@ -73,7 +74,7 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 	SDL_Surface *image = 0;
 
 	//image = SDL_LoadBMP("direction0.bmp");
-	image = SDL_LoadBMP("mur.bmp");
+	image = SDL_LoadBMP("./image/mur.bmp");
 	if (!image)
 		{
 		fprintf(stderr,"Erreur chargement image, mur.bmp : %s\n",SDL_GetError());
@@ -87,7 +88,7 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
-	image = SDL_LoadBMP("humain.bmp");
+	image = SDL_LoadBMP("./image/humain.bmp");
 	if (!image)
 		{
 		fprintf(stderr,"Erreur chargement image, humain.bmp : %s\n",SDL_GetError());
@@ -101,7 +102,7 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
-	image = SDL_LoadBMP("sortie.bmp");
+	image = SDL_LoadBMP("./image/sortie.bmp");
 	if (!image)
 		{
 		fprintf(stderr,"Erreur chargement image, sortie.bmp : %s\n",SDL_GetError());
@@ -115,9 +116,23 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
+	image = SDL_LoadBMP("./image/entree.bmp");
+	if (!image)
+		{
+		fprintf(stderr,"Erreur chargement image, entree.bmp : %s\n",SDL_GetError());
+		return 0;
+		}
+	(*graphe).entree = SDL_CreateTextureFromSurface(rendu, image);
+	SDL_FreeSurface(image);
+	if ((*graphe).sortie == 0)
+		{
+		fprintf(stderr,"grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
+		return 0;
+		}
+
 		// DIRECTIONS
 
-	image = SDL_LoadBMP("direction0.bmp");
+	image = SDL_LoadBMP("./image/direction0.bmp");
 	if (!image)
 		{
 		fprintf(stderr,"Erreur chargement image, direction0.bmp : %s\n",SDL_GetError());
@@ -131,7 +146,7 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
-	image = SDL_LoadBMP("direction1.bmp");
+	image = SDL_LoadBMP("./image/direction1.bmp");
 	if (!image)
 		{
 		fprintf(stderr,"Erreur chargement image, direction1.bmp : %s\n",SDL_GetError());
@@ -145,7 +160,7 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
-	image = SDL_LoadBMP("direction2.bmp");
+	image = SDL_LoadBMP("./image/direction2.bmp");
 	if (!image)
 		{
 		fprintf(stderr,"Erreur chargement image, direction2.bmp : %s\n",SDL_GetError());
@@ -159,7 +174,7 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
-	image = SDL_LoadBMP("direction3.bmp");
+	image = SDL_LoadBMP("./image/direction3.bmp");
 	if (!image)
 		{
 		fprintf(stderr,"Erreur chargement image, direction3.bmp : %s\n",SDL_GetError());
@@ -173,7 +188,7 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
-	image = SDL_LoadBMP("direction4.bmp");
+	image = SDL_LoadBMP("./image/direction4.bmp");
 	if (!image)
 		{
 		fprintf(stderr,"Erreur chargement image, direction4.bmp : %s\n",SDL_GetError());
@@ -187,7 +202,7 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
-	image = SDL_LoadBMP("direction5.bmp");
+	image = SDL_LoadBMP("./image/direction5.bmp");
 	if (!image)
 		{
 		fprintf(stderr,"Erreur chargement image, direction5.bmp : %s\n",SDL_GetError());
@@ -201,7 +216,7 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
-	image = SDL_LoadBMP("direction6.bmp");
+	image = SDL_LoadBMP("./image/direction6.bmp");
 	if (!image)
 		{
 		fprintf(stderr,"Erreur chargement image, direction6.bmp : %s\n",SDL_GetError());
@@ -215,7 +230,7 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
-	image = SDL_LoadBMP("direction7.bmp");
+	image = SDL_LoadBMP("./image/direction7.bmp");
 	if (!image)
 		{
 		fprintf(stderr,"Erreur chargement image, direction7.bmp : %s\n",SDL_GetError());
@@ -228,8 +243,6 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		fprintf(stderr,"grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
 		return 0;
 		}
-
-
 	return 0;
 }
 
@@ -254,6 +267,11 @@ void grapheDessineMur(SDL_Renderer *rendu, grapheT * graphe)
 					coordonnee.y = j*CELLULE;
 					SDL_RenderCopy(rendu, (*graphe).sortie, NULL, &coordonnee);
 				break;
+				case 3:
+					coordonnee.x = i*CELLULE;
+					coordonnee.y = j*CELLULE;
+					SDL_RenderCopy(rendu, (*graphe).entree, NULL, &coordonnee);
+				break;
 				default:
 					;
 				}
@@ -277,20 +295,40 @@ void grapheDessineAngle(SDL_Renderer *rendu, grapheT * graphe)
 					coordonnee.y = j*CELLULE;
 					SDL_RenderCopy(rendu, (*graphe).direction0, NULL, &coordonnee);
 				break;
+				case 1:
+					coordonnee.x = i*CELLULE;
+					coordonnee.y = j*CELLULE;
+					SDL_RenderCopy(rendu, (*graphe).direction1, NULL, &coordonnee);
+				break;
 				case 2:
 					coordonnee.x = i*CELLULE;
 					coordonnee.y = j*CELLULE;
 					SDL_RenderCopy(rendu, (*graphe).direction2, NULL, &coordonnee);
+				break;
+				case 3:
+					coordonnee.x = i*CELLULE;
+					coordonnee.y = j*CELLULE;
+					SDL_RenderCopy(rendu, (*graphe).direction3, NULL, &coordonnee);
 				break;
 				case 4:
 					coordonnee.x = i*CELLULE;
 					coordonnee.y = j*CELLULE;
 					SDL_RenderCopy(rendu, (*graphe).direction4, NULL, &coordonnee);
 				break;
+				case 5:
+					coordonnee.x = i*CELLULE;
+					coordonnee.y = j*CELLULE;
+					SDL_RenderCopy(rendu, (*graphe).direction5, NULL, &coordonnee);
+				break;
 				case 6:
 					coordonnee.x = i*CELLULE;
 					coordonnee.y = j*CELLULE;
 					SDL_RenderCopy(rendu, (*graphe).direction6, NULL, &coordonnee);
+				break;
+				case 7:
+					coordonnee.x = i*CELLULE;
+					coordonnee.y = j*CELLULE;
+					SDL_RenderCopy(rendu, (*graphe).direction7, NULL, &coordonnee);
 				break;
 				default:
 					;

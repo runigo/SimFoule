@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -32,9 +32,7 @@ termes.
 #ifndef _CONTROLEUR_
 #define _CONTROLEUR_
 
-#include "../controle/projection.h"
-#include "../donnees/options.h"
-#include "../donnees/fichier.h"
+#include "../donnees/donnees.h"
 
 typedef struct ControleurT controleurT;
 struct ControleurT
@@ -56,7 +54,7 @@ struct ControleurT
 
 	};
 
-int controleurCreation(controleurT * controleur);
+int controleurInitialisation(controleurT * controleur);
 
 int controleurSimulationGraphique(controleurT * controleur);
 

@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -34,10 +34,10 @@ termes.
 #define _FICHIER_
 #include <stdio.h>
 
-#include "../modele/etage.h"
+#include "../donnees/batiment.h"
 
-void fichierEcriture(etageT * etage, int numero);
-void fichierLecture(etageT * etage, int numero);
+void fichierEcriture(batimentT * batiment, int numero);
+void fichierLecture(batimentT * batiment, int numero);
 
 #endif
 

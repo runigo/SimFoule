@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -48,6 +48,30 @@ void controleurBoutonSouris(controleurT * control, int appui);
 void controleurChangeMode(controleurT * control);
 void controleurChangeVitesse(controleurT * control, float facteur);
 
+int controleurInitialisation(controleurT * controleur)
+
+	{
+		// Initialisation du controleur
+
+	(*controleur).options.sortie = 0;	// Sortie de SiCP si > 0
+
+		//fprintf(stderr, "  Initialisation de la projection\n");
+	//projectionInitialiseCouleurs(&(*controleur).projection, 50, 50, 50, (*controleur).options.fond);
+	//projectionInitialiseLongueurs(&(*controleur).projection, BATIMENT_X, BATIMENT_Y);
+
+		fprintf(stderr, "  Initialisation du batiment\n");
+	donneesInitialisationBatiment(&(*controleur).batiment, &(*controleur).options);
+		fprintf(stderr, "  Initialisation de la foule\n");
+	donneesCreationFoule(&(*controleur).foule, &(*controleur).options);
+
+		fprintf(stderr, "  Initialisation de l'interface graphique\n");
+	donneesCreationGraphe(&(*controleur).graphe, &(*controleur).options);
+	donneesInitialisationInterface(&(*controleur).interface, &(*controleur).options);
+	donneesInitialisationGraphe(&(*controleur).graphe, &(*controleur).interface);
+
+	return 0;
+	}
+
 int controleurSuppression(controleurT * controleurT)
 	{
 	fprintf(stderr, "  Suppression de l'interface\n");
@@ -82,58 +106,14 @@ int controleurSimulationGraphique(controleurT * controleur)
 			//fprintf(stderr, "Sortiee de la boucle SDL\n");
 	return 0;
 	}
-/*
-int controleurSimulationGraphique00(controleurT * controleur)
-	{
-    
-	//while((*controleur).interface.continu) {
-		while(SDL_PollEvent(&(*controleur).interface.evenement))
-			{
-			if((*controleur).interface.evenement.type == SDL_QUIT)
-				{
-				(*controleur).interface.continu = false;
-				}
 
-			switch((*controleur).interface.evenement.type)
-				{
-				case SDL_QUIT:
-					(*controleur).interface.continu = false;
-					break;
-				case SDL_KEYDOWN:
-					switch((*controleur).interface.evenement.key.keysym.sym)
-					{
-					case SDLK_i:
-					break;
-					}
-				break;
-			}
-		}
-
-
-		//projectionEtagePlan(&(*controleur).batiment, &(*controleur).projection, &(*controleur).graphe);
-		//projectionFoulePoints(&(*controleur).foule, &(*controleur).projection, &(*controleur).graphe);
-
-		//fouleEvolution(&(*controleur).foule, (*controleur).options.duree);
-
-		//interfaceNettoyage(&(*controleur).interface);
-
-		//grapheDessineMur((*controleur).interface.rendu, &(*controleur).graphe);
-		//grapheDessineHumain((*controleur).interface.rendu, &(*controleur).graphe);
-
-		//interfaceMiseAJour(&(*controleur).interface);
-
-		//SDL_Delay((*controleur).options.pause);
-		}
-	return 0;
-	}
-*/
 int controleurProjection(controleurT * controleur)
 	{
 		//	Projection des fonctions sur les graphes
 
 	projectionBatimentPlan(&(*controleur).batiment, &(*controleur).projection, &(*controleur).graphe);
 
-	//projectionEtageSens(&(*controleur).batiment, &(*controleur).projection, &(*controleur).graphe);
+	projectionBatimentSens(&(*controleur).batiment, &(*controleur).projection, &(*controleur).graphe);
 
 	projectionFoulePoints(&(*controleur).foule, &(*controleur).projection, &(*controleur).graphe);
 
@@ -154,9 +134,9 @@ int controleurConstructionGraphique(controleurT * controleur)
 	interfaceNettoyage(&(*controleur).interface);
 
 	//	Dessin des graphes;
-	grapheDessineMur((*controleur).interface.rendu, &(*controleur).graphe);
-	//grapheDessineHumain((*controleur).interface.rendu, &(*controleur).graphe);
 	grapheDessineAngle((*controleur).interface.rendu, &(*controleur).graphe);
+	grapheDessineMur((*controleur).interface.rendu, &(*controleur).graphe);
+	grapheDessineHumain((*controleur).interface.rendu, &(*controleur).graphe);
 
 		//fprintf(stderr, "Mise à jour de l'affichage\n");
 	interfaceMiseAJour(&(*controleur).interface);

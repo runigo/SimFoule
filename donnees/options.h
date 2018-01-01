@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -51,7 +51,7 @@ typedef struct OptionsT optionsT;
 		float dt;		// discrétisation du temps
 		int pause;		// pause après l'affichage en ms
 
-		//int nombre;		// Nombre d'humain
+		int nombre;		// Nombre d'humain
 		float masse;		// Masse d'un humain
 		float nervosite;	// Nervosité d'un humain
 		};

@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -42,9 +42,9 @@ termes.
 
 #define PI 3.14159265359
 
-#define BATIMENT_X 35	// Longueur suivant x du batiment (en nombre de cellule)
-#define BATIMENT_Y 25	// Longueur suivant y du batiment (en nombre de cellule)
-#define BATIMENT_Z 3 	// Nombre d'étage
+#define BATIMENT_X 17	// Longueur suivant x du batiment (en nombre de cellule)
+#define BATIMENT_Y 13	// Longueur suivant y du batiment (en nombre de cellule)
+#define BATIMENT_Z 1	// Nombre d'étage
 
 #define CELLULE_ETAGE BATIMENT_X*BATIMENT_Y	// Nombre de cellule d'un étage
 #define CELLULE_BATIMENT CELLULE_ETAGE*BATIMENT_Z	// Nombre de cellule du batiment

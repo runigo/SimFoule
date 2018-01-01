@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -32,7 +32,7 @@ termes.
 
 #include "fichier.h"
 
-void fichierEcriture(etageT * etage, int numero)
+void fichierEcriture(batimentT * batiment, int numero)
 	{
 	FILE *fichier; /* pointeur sur FILE */
 
@@ -63,16 +63,20 @@ void fichierEcriture(etageT * etage, int numero)
 	else
 		{
 		int statut;
-		int i, j;
-		for(j=0;j<BATIMENT_Y;j++)
+		int i, j, k;
+		for(k=0;j<BATIMENT_Z;k++)
 			{
-			for(i=0;i<BATIMENT_X-1;i++)
+			(*batiment).etage[k].etage = k;
+			for(j=0;j<BATIMENT_Y;j++)
 				{
-				statut = etageDonneStatutCellule(etage, i,j);
-				fprintf(fichier, "%d ", statut);
+				for(i=0;i<BATIMENT_X-1;i++)
+					{
+					statut = celluleDonneStatut(&(*batiment).etage[k].cellule[i][j]);
+					fprintf(fichier, "%d ", statut);
+					}
+				statut = celluleDonneStatut(&(*batiment).etage[k].cellule[BATIMENT_X-1][j]);
+				fprintf(fichier, "%d\n", statut);
 				}
-			statut = etageDonneStatutCellule(etage, BATIMENT_X-1, j);
-			fprintf(fichier, "%d\n", statut);
 			}
 		fclose(fichier);
 		}
@@ -80,7 +84,7 @@ void fichierEcriture(etageT * etage, int numero)
 	return;
 	}
 
-void fichierLecture(etageT * etage, int numero)
+void fichierLecture(batimentT * batiment, int numero)
 	{
 	FILE *fichier; /* pointeur sur FILE */
 
@@ -138,17 +142,21 @@ void fichierLecture(etageT * etage, int numero)
 	else
 		{
 		int statut;
-		int i, j;
-		for(j=0;j<BATIMENT_Y;j++)
+		int i, j, k;
+		for(k=0;j<BATIMENT_Z;k++)
 			{
-			for(i=0;i<BATIMENT_X-1;i++)
+			(*batiment).etage[k].etage = k;
+			for(j=0;j<BATIMENT_Y;j++)
 				{
-				statut = 0;
-				fscanf(fichier, "%d ", &statut);
-				etageInitialiseStatutCellule(etage, i, j, statut);
+				for(i=0;i<BATIMENT_X-1;i++)
+					{
+					statut = 0;
+					fscanf(fichier, "%d ", &statut);
+					celluleInitialiseStatut(&(*batiment).etage[k].cellule[i][j], statut);
+					}
+				fscanf(fichier, "%d\n", &statut);
+				celluleInitialiseStatut(&(*batiment).etage[k].cellule[BATIMENT_X-1][j], statut);
 				}
-			fscanf(fichier, "%d\n", &statut);
-			etageInitialiseStatutCellule(etage, BATIMENT_X-1, j, statut);
 			}
 		fclose(fichier);
 		}

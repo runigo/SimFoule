@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -87,15 +87,15 @@ int optionsTraitement(optionsT * option, int nb, char *opt[])
 void optionsInitial(optionsT * option, char *opt)
 	{
 	int initial = atoi(opt);
-	if(initial>0 && initial<255)
+	if(initial>-255 && initial<255)
 		{
 		(*option).initial = initial;
 		printf("Option initial valide, Initial = %d\n", (*option).initial);
 		}
 	else
 		{
-		printf("Option initial non valide, fond = %d\n", (*option).initial);
-		printf("Option initial : 0 < fond < 255\n");
+		printf("Option initial non valide, initial = %d\n", (*option).initial);
+		printf("Option initial : -255 < initial < 255\n");
 		}
 	return;
 	}

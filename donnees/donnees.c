@@ -1,7 +1,5 @@
-
-
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -34,131 +32,57 @@ termes.
 
 #include "donnees.h"
 
-	//		Initialisation et création du batiment et de la foule
 
-	//		Initialisation et création du graphe
-
-	//		Initialisation de la SDL
-
-
-int donneesEtage(etageT * etage, optionsT * options);
-int donneesBatiment(batimentT * batiment, optionsT * options);
-int donneesFoule(fouleT * foule, optionsT * options);
-int donneesCreationGraphique(controleurT * controleur);
-
-
-int donneesSauvegarde(etageT * etage, optionsT * options);
-
-int donneesCreationControleur(controleurT * controleur)
-	{
-		// Initialisation du controleur
-
-	(*controleur).options.sortie = 0;	// Sortie de SiCP si > 0
-
-		fprintf(stderr, "  Initialisation de la projection\n");
-	projectionInitialiseCouleurs(&(*controleur).projection, 50, 50, 50, (*controleur).options.fond);
-	projectionInitialiseLongueurs(&(*controleur).projection, BATIMENT_X, BATIMENT_Y);
-
-		fprintf(stderr, "  Initialisation du batiment\n");
-	donneesBatiment(&(*controleur).batiment, (*controleur).options.initial);
-		fprintf(stderr, "  Initialisation de la foule\n");
-	donneesFoule(&(*controleur).foule, &(*controleur).options);
-
-		fprintf(stderr, "  Initialisation de l'interface graphique\n");
-	donneesCreationGraphique(controleur);
-
-	return 0;
-	}
-
-int donneesOptions(optionsT * options)
+int donneesOptionsImplicite(optionsT * options)
 	{
 		// Préréglage des valeurs optionnelles, 
-		// 	valeurs implicites
+		// 	réglage des valeurs implicites
 
-	(*options).initial=0;	// Numéro du fichier d'initialisation.
 
 	(*options).fond=240;	// couleur du fond de l'affichage
 	(*options).mode = 1;	// -1 : Wait, 1 : Poll
-	//(*options).pause=25;	// temps de pause SDL en ms
-	(*options).pause=49;	// temps de pause SDL en ms
+	(*options).pause=25;	// temps de pause SDL en ms
+	(*options).duree = 10;	// nombre d'incrémentation de la foule par affichage
 
-	(*options).duree = 10;	// 100 : temps réèl. Voir options.c
+	(*options).initial=-1;	// Numéro du fichier d'initialisation.
 
-	//(*options).nombre=30;	// Nombre d'humain
-
+	(*options).nombre=30;	// Nombre d'humain
 	(*options).nervosite=0.9;	// Nervosité des humains
 	(*options).dt=0.006;	// discrétisation du temps
-							// 25 images par seconde, SDL_Delay(30);
-							// dt*duree = 0.004
+
 	return 0;
 	}
 
-int donneesSystemeInitialise(controleurT * controleur, int numero)
+int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 	{
-	donneesBatiment((*controleur).batiment, numero)
-	return 0;
-	}
-
-int donneesBatiment(batimentT * batiment, int numero)
-	{
-	int k;
-	for(k=0;j<BATIMENT_Z;k++)
+		printf("donneesInitialisationBatiment : batimentInitialise\n");
+	(*options).nombre = batimentInitialise(batiment, (*options).initial);
+/*
+	if( (*options).initial > -1 && (*options).initial < 99)
 		{
-		(*batiment).etage[k].etage = k;
-		if( numero > -1 && numero < 99)
-			{
-			fichierLecture((*batiment).etage[k], numero);
-			}
-		else
-			{
-			planBatiment((*batiment).etage[k], numero);
-			}
-	
+		printf("donneesInitialisationBatiment : fichierLecture\n");
+		fichierLecture(batiment, (*options).initial);
+		}
+*/
 	return 0;
 	}
 
-int donneesSystemeSauvegarde(controleurT * controleur, int numero);
-//int donneesSauvegardeBatiment(batimentT * batiment, optionsT * options)
+//int donneesSystemeSauvegarde(controleurT * controleur, int numero);
+int donneesSauvegardeBatiment(batimentT * batiment, optionsT * options)
 	{
-	int k;
-	for(k=0;j<BATIMENT_Z;k++)
-		{
-		(*batiment).etage[k].etage = k;
 		if( (*options).initial > -1 && (*options).initial < 99)
 			{
-			fichierEcriture((*batiment).etage[k], (*options).initial + k);
+			fichierEcriture(batiment, (*options).initial);
 			}
 		else
 			{
-			printf("Erreur lors de la sauvegarde");
+			printf("donneesSauvegardeBatiment : Erreur lors de la sauvegarde\n");
 			}
 	
 	return 0;
 	}
 
-int donneesEtage(etageT * etage, optionsT * options)
-	{
-	if( (*options).initial > -1)
-		{
-		if( (*options).initial < 99)
-			{
-			fichierLecture((*batiment).etage[k], (*options).initial);
-			}
-		else
-			{
-			batimentPlan(etage, (*options).initial);
-			}
-		}
-	else
-		{
-		planBatiment(etage, (*options).initial);
-		}
-		
-	(*etage).etage = 0;
-	return 0;
-	}
-
-int donneesFoule(fouleT * foule, optionsT * options)
+int donneesCreationFoule(fouleT * foule, optionsT * options)
 	{
 
 		// Initialisation de la foule
@@ -175,14 +99,24 @@ int donneesFoule(fouleT * foule, optionsT * options)
 	return 0;
 	}
 
-int donneesCreationGraphique(controleurT * controleur)
+int donneesInitialisationInterface(interfaceT * interface, optionsT * options)
 	{
-		fprintf(stderr, " Initialisation de la SDL2\n");
-	interfaceInitialisation(&(*controleur).interface, (*controleur).options.fond);
-		fprintf(stderr, " Création du graphe\n");
-	grapheCreation(&(*controleur).graphe, (*controleur).foule.nombre);
-		fprintf(stderr, " Initialisation du graphe\n");
-	grapheInitialisation((*controleur).interface.rendu, &(*controleur).graphe);
+		fprintf(stderr, "    Initialisation de la SDL2\n");
+	interfaceInitialisation(interface, (*options).fond);
+	return 0;
+	}
+
+int donneesCreationGraphe(grapheT * graphe, optionsT * options)
+	{
+		fprintf(stderr, "    Création du graphe\n");
+	grapheCreation(graphe, (*options).nombre);
+	return 0;
+	}
+
+int donneesInitialisationGraphe(grapheT * graphe, interfaceT * interface)
+	{
+		fprintf(stderr, "    Initialisation du graphe\n");
+	grapheInitialisation((*interface).rendu, graphe);
 	return 0;
 	}
 
