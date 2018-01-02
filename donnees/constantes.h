@@ -42,8 +42,8 @@ termes.
 
 #define PI 3.14159265359
 
-#define BATIMENT_X 17	// Longueur suivant x du batiment (en nombre de cellule)
-#define BATIMENT_Y 13	// Longueur suivant y du batiment (en nombre de cellule)
+#define BATIMENT_X 37	// Longueur suivant x du batiment (en nombre de cellule)
+#define BATIMENT_Y 23	// Longueur suivant y du batiment (en nombre de cellule)
 #define BATIMENT_Z 1	// Nombre d'étage
 
 #define CELLULE_ETAGE BATIMENT_X*BATIMENT_Y	// Nombre de cellule d'un étage
