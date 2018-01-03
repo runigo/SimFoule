@@ -33,7 +33,7 @@ termes.
 #ifndef _OPTIONS_
 #define _OPTIONS_
 
-#include "constantes.h"
+#include "../donnees/constantes.h"
 #include "string.h"
 
 typedef struct OptionsT optionsT;

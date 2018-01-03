@@ -23,14 +23,14 @@ $(OBJDIR)/controleur.o : controle/controleur.c controle/controleur.h
 $(OBJDIR)/projection.o : controle/projection.c controle/projection.h
 	$(CC) -c -g controle/projection.c $(CFLAGS) -o $@
 
+$(OBJDIR)/options.o : controle/options.c controle/options.h
+	$(CC) -c -g controle/options.c $(CFLAGS) -o $@
+
 $(OBJDIR)/donnees.o : donnees/donnees.c donnees/donnees.h
 	$(CC) -c -g donnees/donnees.c $(CFLAGS) -o $@
 
 $(OBJDIR)/fichier.o : donnees/fichier.c donnees/fichier.h
 	$(CC) -c -g donnees/fichier.c $(CFLAGS) -o $@
-
-$(OBJDIR)/options.o : donnees/options.c donnees/options.h
-	$(CC) -c -g donnees/options.c $(CFLAGS) -o $@
 
 $(OBJDIR)/graphe.o : graphisme/graphe.c graphisme/graphe.h
 	$(CC) -c -g graphisme/graphe.c $(CFLAGS) -o $@
