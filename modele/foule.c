@@ -34,9 +34,7 @@ termes.
 
 void fouleInitialiseHumain(fouleT * foule);
 void fouleInitialiseLimiteInfini(fouleT * foule);
-void fouleIncremente(fouleT * foule);
 void fouleCouplage(fouleT * foule);
-void fouleInertie(fouleT * foule);
 void fouleCourantLimite(fouleT * foule);
 
 void fouleJaugeZero(fouleT * foule);
@@ -61,12 +59,12 @@ int fouleCreation(fouleT * foule)
 	return 0;
 	}
 
-void fouleSuppression(fouleT * foule)
+int fouleSuppression(fouleT * foule)
 	{
 	printf("    Suppression de la chaine\n");
 	chaineSupprime(&(*foule).premier);
 	//printf("  Chaine supprimée\n");
-	return;
+	return 0;
 	}
 
 /*------------------------------------------------------------------*/
@@ -78,6 +76,7 @@ void fouleInitialiseHumain(fouleT * foule)
 	do
 		{
 		humainInitialise(&iter->humain);
+		humainInitialiseCaractere(&iter->humain, (*foule).masse, (*foule).nervosite, (*foule).dt);
 		iter=iter->suivant;
 		}
 	while(iter != (*foule).premier);
@@ -87,26 +86,8 @@ void fouleInitialiseHumain(fouleT * foule)
 
 //------------------------  ÉVOLUTION TEMPORELLE  -------------------------
 
-//	Évolution temporelle de la foule, "duree" cycle d'évolution
-
-void fouleEvolution(fouleT * foule, int duree)
-	{
-	int i;
-
-	//	Fait évoluer le système pendant duree*dt
-	for(i=0;i<duree;i++)
-		{
-		//	Évolution élémentaire
-		//fouleCouplage(foule);
-		//fouleInertie(foule);
-		fouleIncremente(foule);
-		}
-
-	return;
-	}
-
-void fouleIncremente(fouleT * foule)
-	{//	incremente l'horloge, l'ancien et l'actuel etat du foule
+int fouleIncremente(fouleT * foule)
+	{//	incremente l'horloge, l'ancien et l'actuel etat de la foule
 
 	(*foule).horloge=(*foule).horloge+(*foule).dt;
 
@@ -120,8 +101,27 @@ void fouleIncremente(fouleT * foule)
 		}
 	while (iter!=(*foule).premier);
 
-	return;
+	return 0;
 	}
+
+int fouleInertie(fouleT * foule)
+	{//	Principe d'inertie appliqué à la foule
+		// Reste de la chaîne
+
+	chaineT *iter;
+	iter = (*foule).premier->suivant;
+
+	do
+		{
+		humainInertie(&(iter->humain));
+		iter=iter->suivant;
+		}
+	while(iter!=(*foule).premier);
+
+
+	return 0;
+	}
+
 /*
 void fouleInitialiseLimiteInfini(fouleT * foule)
 	{
@@ -209,58 +209,6 @@ void fouleCouplage(fouleT * foule)
 		iter=iter->suivant;
 		}
 	while(iter!=(*foule).premier);
-
-	return;
-	}
-
-void fouleInertie(fouleT * foule)
-	{//	Principe d'inertie appliqué au foule
-	float courantJosephson = (*foule).moteur.josephson;
-	float generateur = moteursGenerateur(&(*foule).moteur);
-
-			//	Cas des extrémitées
-			//  0 : periodiques 1 : libres, 2 : fixes, 3 libre-fixe, 4 fixe-libre
-		// Cas du premier humain
-	if ((*foule).moteur.generateur != 0)
-		{
-		humainInitialisePosition(&((*foule).premier->humain), generateur, generateur);
-		}
-	else
-		{
-		if ((*foule).libreFixe==0 || (*foule).libreFixe==1 || (*foule).libreFixe==3 )
-			{
-			humainInertie(&((*foule).premier->humain), (*foule).equation, courantJosephson);
-			}
-		else	//	premier fixe
-			{
-			humainInitialisePosition(&((*foule).premier->humain), 0.0, 0.0);
-			}
-		}
-
-		// Cas du dernier humain
-	if ((*foule).libreFixe==0 || (*foule).libreFixe==1 || (*foule).libreFixe==4 )
-		{
-		humainInertie(&((*foule).premier->precedent->humain), (*foule).equation, courantJosephson);
-		}
-	else	//	dernier fixe
-		{
-		humainInitialisePosition(&((*foule).premier->precedent->humain), 0.0, 0.0);
-		//humainInitialisePosition(&((*foule).premier->precedent->humain), -(*foule).premier->humain.dephasage, -(*foule).premier->humain.dephasage);
-		}
-
-
-		// Reste de la chaîne
-
-	chaineT *iter;
-	iter = (*foule).premier->suivant;
-
-	do
-		{
-		humainInertie(&(iter->humain), (*foule).equation, courantJosephson);
-		iter=iter->suivant;
-		}
-	while(iter!=(*foule).premier->precedent);
-
 
 	return;
 	}

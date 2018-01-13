@@ -53,10 +53,11 @@ typedef struct FouleT fouleT;
 int fouleCreation(fouleT * foule);
 
 // Suppression de la chaîne d'humain
-void fouleSuppression(fouleT * foule);
+int fouleSuppression(fouleT * foule);
 
-// Évolution temporelle de la foule, "duree" cycle d'évolution
-void fouleEvolution(fouleT * foule, int duree);
+// Évolution temporelle de la foule
+int fouleInertie(fouleT * foule);
+int fouleIncremente(fouleT * foule);
 
 #endif
 

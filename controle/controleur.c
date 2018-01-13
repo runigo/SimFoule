@@ -68,6 +68,7 @@ int controleurInitialisation(controleurT * controleur)
 
 		fprintf(stderr, "  Initialisation du batiment\n");
 	donneesInitialisationBatiment(&(*controleur).systeme.batiment, &(*controleur).options);
+
 		fprintf(stderr, "  Initialisation de la foule\n");
 	donneesCreationFoule(&(*controleur).systeme.foule, &(*controleur).options);
 	donneesInitialisationFoule(&(*controleur).systeme.foule, &(*controleur).systeme.batiment);
@@ -101,7 +102,7 @@ int controleurSimulationGraphique(controleurT * controleur)
 		controleurProjection(controleur);
 
 			//fprintf(stderr, "Évolution du systeme\n");
-		controleurEvolutionSysteme(controleur);
+		// controleurEvolutionSysteme(controleur);
 
 			//fprintf(stderr, "Mise à jour de la fenêtre graphique et pause\n");
 		controleurConstructionGraphique(controleur);

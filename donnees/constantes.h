@@ -62,5 +62,6 @@ termes.
 #define MASSE_MIN 9	// Masse minimale d'un humain
 #define MASSE_MAX 199	// Masse maximale d'un humain
 #define NERVOSITE_MAX 99.1	// Nervosité maximale
+#define NERVOSITE_MIN 0.001
 
 #endif

@@ -33,11 +33,42 @@ termes.
 #include "systeme.h"
 
 
+int systemeCouplage(systemeT * systeme); // Calcul des forces extérieures
+
 // Évolution temporelle de la foule, "duree" cycle d'évolution
 int systemeEvolution(systemeT * systeme, int duree)
 	{
-	(void)systeme;
-	(void)duree;
+	int i;
+
+	//	Fait évoluer le système pendant duree*dt
+	for(i=0;i<duree;i++)
+		{
+		//	Évolution élémentaire
+		//fouleCouplage(foule);
+		fouleInertie(&(*systeme).foule);
+		systemeCouplage(systeme);
+		fouleIncremente(&(*systeme).foule);
+		}
+
+	return 0;
+	}
+
+
+// Calcul des forces extérieures
+int systemeCouplage(systemeT * systeme)
+	{
+	int X, Y;	
+	chaineT *iter;
+	iter = (*systeme).foule.premier->suivant;
+
+	do
+		{
+		X = (int)(iter->humain.nouveau.x/BATIMENT_X);
+		Y = (int)(iter->humain.nouveau.y/BATIMENT_Y);
+		humainCouplage(&(iter->humain), &(*systeme).batiment.etage[0].cellule[X][Y].sens);
+		iter=iter->suivant;
+		}
+	while(iter!=(*systeme).foule.premier);
 	return 0;
 	}
 

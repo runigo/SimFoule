@@ -59,6 +59,7 @@ void vecteurCartesien(vecteurT * v, float x, float y, int z);
 void vecteurCartesienEgale(vecteurT * v1, vecteurT * v2); // v2 = v1
 void vecteurInitialisePolaire(vecteurT * v, float r, float psi, float phi);
 float vecteurScalaireCartesien(vecteurT * v1, vecteurT * v2);
+int vecteurProduitCartesien(vecteurT * v1, float lambda, vecteurT * v2); // v2 = lambda v1
 void vecteurSommeCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3); // v3 = v1 + v2
 void vecteurDifferenceCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3); // v3 = v1 - v2
 
