@@ -149,7 +149,7 @@ int etageCalculDistanceEtSens(etageT * etage)
 			{
 			for(j=0;j<BATIMENT_Y;j++)
 				{
-				if(celluleDonneVisite(&(*etage).cellule[i][j]))
+				if(celluleDonneVisite(&(*etage).cellule[i][j])==1)
 					{
 					celluleChangeDistance(&(*etage).cellule[i][j], -1); // Ajoute -1 au cellule visitées
 					}
@@ -168,7 +168,7 @@ int etageCalculDistanceEtSens(etageT * etage)
 		fprintf(stderr, "Jauge des distances\n");
 	etageCalculeDistance(etage);
 	etageCalculeAngle(etage);
-	etageAffiche(etage);
+	//etageAffiche(etage);
 
 	return 0;
 	}
@@ -233,11 +233,13 @@ int etageCalculeSens(etageT * etage, int i, int j)
 		}
 	if(celluleDonneVisite(&(*etage).cellule[i-1][j]))
 		{
+		if(nombre<2)
 		vecteurSommeCartesien(&(*etage).angle[4], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
 		nombre++;
 		}
 	if(celluleDonneVisite(&(*etage).cellule[i][j-1]))
 		{
+		if(nombre<2)
 		vecteurSommeCartesien(&(*etage).angle[6], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
 		nombre++;
 		}
