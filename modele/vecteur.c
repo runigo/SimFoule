@@ -81,7 +81,7 @@ float vecteurScalaireCartesien(vecteurT * v1, vecteurT * v2)
 	}
 
 void vecteurSommeCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3)
-	{
+	{ // v3 = v1 + v2
 	(*v3).x=(*v1).x+(*v2).x;
 	(*v3).y=(*v1).y+(*v2).y;
 	(*v3).z=(*v1).z+(*v2).z;
@@ -89,15 +89,15 @@ void vecteurSommeCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3)
 	}
 
 void vecteurDifferenceCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3)
-	{
+	{ // v3 = v1 - v2
 	(*v3).x=(*v1).x-(*v2).x;
 	(*v3).y=(*v1).y-(*v2).y;
 	(*v3).z=(*v1).z-(*v2).z;
 	return;
 	}
 
-int vecteurProduitCartesien(vecteurT * v1, float lambda, vecteurT * v2) // v2 = lambda v1
-	{
+int vecteurProduitCartesien(vecteurT * v1, float lambda, vecteurT * v2)
+	{ // v2 = lambda v1
 	(*v2).x=lambda*(*v1).x;
 	(*v2).y=lambda*(*v1).y;
 	(*v2).z=lambda*(*v1).z;

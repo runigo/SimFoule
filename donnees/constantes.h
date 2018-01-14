@@ -42,26 +42,35 @@ termes.
 
 #define PI 3.14159265359
 
-#define BATIMENT_X 37	// Longueur suivant x du batiment (en nombre de cellule)
-#define BATIMENT_Y 23	// Longueur suivant y du batiment (en nombre de cellule)
-#define BATIMENT_Z 1	// Nombre d'étage
+	//----------         DIMENSIONS  SPATIALES         -----------//
 
-#define CELLULE_ETAGE BATIMENT_X*BATIMENT_Y	// Nombre de cellule d'un étage
-#define CELLULE_BATIMENT CELLULE_ETAGE*BATIMENT_Z	// Nombre de cellule du batiment
+#define BATIMENT_X 27	// Longueur suivant x du batiment (en nombre de cellule)
+#define BATIMENT_Y 22	// Longueur suivant y du batiment (en nombre de cellule)
+#define BATIMENT_Z 1	// Nombre d'étage
 
 #define CELLULE 12	// Longueur du coté d'une cellule (en pixel)
 #define HUMAIN 8	// Longueur du coté d'un humain (en pixel)
 
-#define FENETRE_X BATIMENT_X*CELLULE // Taille de la fenêtre
-#define FENETRE_Y BATIMENT_Y*CELLULE // Taille de la fenêtre
+	#define FENETRE_X BATIMENT_X*CELLULE // Taille de la fenêtre
+	#define FENETRE_Y BATIMENT_Y*CELLULE // Taille de la fenêtre
+
+	#define CELLULE_ETAGE BATIMENT_X*BATIMENT_Y	// Nombre de cellule d'un étage
+	#define CELLULE_BATIMENT CELLULE_ETAGE*BATIMENT_Z	// Nombre de cellule du batiment
+
+	#define NOMBRE_MAX CELLULE_BATIMENT	// Nombre maximale d'humains
+
+
+	//----------         PARAMETRES  TEMPORELLES         -----------//
 
 #define DT_MAX 0.07	// dt maximale
+#define DT_MIN 0.000007	// dt minimale
+
 #define DUREE_MAX 777	// Nombre maximale d'incrémentation entre les affichages
-#define NOMBRE_MAX CELLULE_BATIMENT	// Nombre maximale d'humains
 
 #define MASSE_MIN 9	// Masse minimale d'un humain
 #define MASSE_MAX 199	// Masse maximale d'un humain
+
 #define NERVOSITE_MAX 99.1	// Nervosité maximale
-#define NERVOSITE_MIN 0.001
+#define NERVOSITE_MIN 0.001	// Nervosité minimale
 
 #endif

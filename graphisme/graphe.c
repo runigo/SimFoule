@@ -267,11 +267,11 @@ void grapheDessineMur(SDL_Renderer *rendu, grapheT * graphe)
 					coordonnee.y = j*CELLULE;
 					SDL_RenderCopy(rendu, (*graphe).sortie, NULL, &coordonnee);
 				break;
-				case 3:
+				/*case 3:
 					coordonnee.x = i*CELLULE;
 					coordonnee.y = j*CELLULE;
 					SDL_RenderCopy(rendu, (*graphe).entree, NULL, &coordonnee);
-				break;
+				break;*/
 				default:
 					;
 				}
@@ -340,6 +340,26 @@ void grapheDessineAngle(SDL_Renderer *rendu, grapheT * graphe)
 
 void grapheDessineHumain(SDL_Renderer *rendu, grapheT * graphe)
 	{
+	SDL_Rect coordonnee = {0, 0, HUMAIN, HUMAIN};
+
+	pointsT *iterGraph=(*graphe).premier;
+
+	do
+		{
+		coordonnee.x = iterGraph->xm;
+		coordonnee.y = iterGraph->ym;
+
+		SDL_RenderCopy(rendu, (*graphe).humain, NULL, &coordonnee);
+
+		iterGraph = iterGraph->suivant;
+		}
+	while(iterGraph!=(*graphe).premier);
+
+	return;
+	}
+/*
+void grapheDessineHumain(SDL_Renderer *rendu, grapheT * graphe)
+	{
 	int i, j;
 	SDL_Rect coordonnee = {0, 0, HUMAIN, HUMAIN};
 	for(i=0;i<BATIMENT_X;i++)
@@ -360,5 +380,5 @@ void grapheDessineHumain(SDL_Renderer *rendu, grapheT * graphe)
 		}
 	return;
 	}
-
+*/
 /////////////////////////////////////////////////////////////////////////

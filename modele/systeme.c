@@ -35,37 +35,52 @@ termes.
 
 int systemeCouplage(systemeT * systeme); // Calcul des forces extérieures
 
-// Évolution temporelle de la foule, "duree" cycle d'évolution
+
 int systemeEvolution(systemeT * systeme, int duree)
-	{
+	{ // Évolution temporelle de la foule, "duree" cycle d'évolution
 	int i;
 
 	//	Fait évoluer le système pendant duree*dt
 	for(i=0;i<duree;i++)
 		{
 		//	Évolution élémentaire
-		//fouleCouplage(foule);
 		fouleInertie(&(*systeme).foule);
 		systemeCouplage(systeme);
 		fouleIncremente(&(*systeme).foule);
 		}
 
+	//humainAffiche(&(*systeme).foule.premier->humain);
+
 	return 0;
 	}
 
 
-// Calcul des forces extérieures
+
 int systemeCouplage(systemeT * systeme)
-	{
+	{ // Calcul des forces extérieures
 	int X, Y;	
 	chaineT *iter;
-	iter = (*systeme).foule.premier->suivant;
+	iter = (*systeme).foule.premier;
 
 	do
 		{
-		X = (int)(iter->humain.nouveau.x/BATIMENT_X);
-		Y = (int)(iter->humain.nouveau.y/BATIMENT_Y);
-		humainCouplage(&(iter->humain), &(*systeme).batiment.etage[0].cellule[X][Y].sens);
+		X = (int)(iter->humain.nouveau.x/CELLULE);
+		Y = (int)(iter->humain.nouveau.y/CELLULE);
+		if(X<0 || X>BATIMENT_X)
+			{
+			fprintf(stderr, "systemeCouplage : humain hors batiment.\n");
+			}
+		else
+			{
+			if(Y<0 || Y>BATIMENT_Y)
+				{
+				fprintf(stderr, "systemeCouplage : humain hors batiment.\n");
+				}
+			else
+				{
+				humainCouplage(&(iter->humain), &(*systeme).batiment.etage[0].cellule[X][Y].sens);
+				}
+			}
 		iter=iter->suivant;
 		}
 	while(iter!=(*systeme).foule.premier);

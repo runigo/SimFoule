@@ -102,7 +102,7 @@ int controleurSimulationGraphique(controleurT * controleur)
 		controleurProjection(controleur);
 
 			//fprintf(stderr, "Évolution du systeme\n");
-		// controleurEvolutionSysteme(controleur);
+		controleurEvolutionSysteme(controleur);
 
 			//fprintf(stderr, "Mise à jour de la fenêtre graphique et pause\n");
 		controleurConstructionGraphique(controleur);

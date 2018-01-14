@@ -32,37 +32,53 @@ termes.
 
 #include "../modele/humain.h"
 
-int humainInitialise(humainT * humain)
+int humainInitialise(humainT * humain, float masse, float nervosite, float dt)
 	{
-	vecteurCartesien(&(*humain).nouveau, 0, 0, 0);
-	vecteurCartesien(&(*humain).actuel, 0, 0, 0);
-	vecteurCartesien(&(*humain).ancien, 0, 0, 0);
+	int retour = 0;
 
 	vecteurCartesien(&(*humain).vitesse, 0, 0, 0);
-
 	vecteurCartesien(&(*humain).vitesseSouhaite, 0, 0, 0);
+	vecteurCartesien(&(*humain).forceExterieur, 0, 0, 0);
 
-	(*humain).masse = 66.9;
-	(*humain).nervosite = 0.99;
+	retour += humainInitialisePosition(humain, 0, 0, 0);
+	retour += humainInitialiseCaractere(humain, masse, nervosite, dt);
 
-	return 0;
+	return retour;
 	}
 
-int humainInitialisePosition(humainT * humain, float x, float y)
+int humainInitialisePosition(humainT * humain, float x, float y, int z)
 	{
-	vecteurCartesien(&(*humain).nouveau, x, y, 0);
-	vecteurCartesien(&(*humain).actuel, x, y, 0);
-	vecteurCartesien(&(*humain).ancien, x, y, 0);
+	vecteurCartesien(&(*humain).nouveau, x, y, z);
+	vecteurCartesien(&(*humain).actuel, x, y, z);
+	vecteurCartesien(&(*humain).ancien, x, y, z);
+
 	return 0;
 	}
 
 int humainInitialiseCaractere(humainT * humain, float masse, float nervosite, float dt)
 	{
-	(*humain).masse = masse;
-	(*humain).nervosite = nervosite;
+	int retour = 0;
+
+	(*humain).masse = 66.999;
+	(*humain).nervosite = 0.999;
+	(*humain).dt = 0.000333;
 	(*humain).dtsurtau = dt*nervosite;
-	(*humain).dt = dt;
-	return 0;
+
+	if( masse > MASSE_MIN && masse < MASSE_MAX )
+		(*humain).masse = masse;
+	else retour ++;
+
+	if( nervosite > NERVOSITE_MIN && nervosite < NERVOSITE_MAX )
+		(*humain).nervosite = nervosite;
+	else retour ++;
+
+	if( dt > DT_MIN && dt < DT_MAX )
+		(*humain).dt = dt;
+	else retour ++;
+
+	(*humain).dtsurtau = dt*nervosite;
+
+	return retour;
 	}
 
 float humainCalculVitesse(humainT * humain)
@@ -81,7 +97,7 @@ int humainIncremente(humainT * humain)
 int humainInertie(humainT * humain)
 	{
 		// nouveau = 2 actuel - ancien + force
-	vecteurSommeCartesien(&(*humain).actuel, &(*humain).nouveau, &(*humain).nouveau); // v3 = v1 + v2
+	vecteurSommeCartesien(&(*humain).actuel, &(*humain).actuel, &(*humain).nouveau); // v3 = v1 + v2
 	vecteurDifferenceCartesien(&(*humain).nouveau, &(*humain).ancien, &(*humain).nouveau); // v3 = v1 - v2
 	vecteurSommeCartesien(&(*humain).forceExterieur, &(*humain).nouveau, &(*humain).nouveau); // v3 = v1 + v2
 	return 0;
@@ -90,7 +106,7 @@ int humainInertie(humainT * humain)
 int humainCouplage(humainT * humain, vecteurT * vitesseSouhaite)
 	{
 		// vitesse = nouveau - actuel
-	vecteurDifferenceCartesien(&(*humain).actuel, &(*humain).nouveau, &(*humain).vitesse); // v3 = v1 - v2
+	vecteurDifferenceCartesien(&(*humain).nouveau, &(*humain).actuel, &(*humain).vitesse); // v3 = v1 - v2
 
 		// vitesseSouhaite = dt vitesseSouhaite
 	vecteurProduitCartesien(vitesseSouhaite, (*humain).dt, &(*humain).vitesseSouhaite); // v2 = lambda v1
@@ -100,6 +116,18 @@ int humainCouplage(humainT * humain, vecteurT * vitesseSouhaite)
 
 		//  force = dtsurtau force
 	vecteurProduitCartesien(&(*humain).forceExterieur, (*humain).dtsurtau, &(*humain).forceExterieur); // v2 = lambda v1
+	return 0;
+	}
+
+int humainAffiche(humainT * humain)
+	{
+	fprintf(stderr, "\nAffiche humain\n");
+	fprintf(stderr, "  nouveau x : %f , actuel x : %f, ancien x : %f\n", (*humain).nouveau.x, (*humain).actuel.x, (*humain).nouveau.x);
+	fprintf(stderr, "  nouveau y : %f , actuel y : %f, ancien y : %f\n", (*humain).nouveau.y, (*humain).actuel.y, (*humain).nouveau.y);
+
+	fprintf(stderr, "  vitesse x : %f , vitesse y : %f\n", (*humain).vitesse.x, (*humain).vitesse.y);
+	fprintf(stderr, "  vitesseSouhaite x : %f , vitesseSouhaite y : %f\n", (*humain).vitesseSouhaite.x, (*humain).vitesseSouhaite.y);
+	fprintf(stderr, "  forceExterieur x : %f , forceExterieur y : %f\n\n", (*humain).forceExterieur.x, (*humain).forceExterieur.y);
 	return 0;
 	}
 

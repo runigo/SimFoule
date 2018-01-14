@@ -42,21 +42,23 @@ int donneesOptionsImplicite(optionsT * options)
 	(*options).fond=240;	// couleur du fond de l'affichage
 	(*options).mode = 1;	// -1 : Wait, 1 : Poll
 	(*options).pause=25;	// temps de pause SDL en ms
-	(*options).duree = 10;	// nombre d'incrémentation de la foule par affichage
+	(*options).duree = 30;	// nombre d'incrémentation de la foule par affichage
 
 	(*options).initial=-1;	// Numéro du fichier d'initialisation.
 
-	(*options).nombre=30;	// Nombre d'humain
-	(*options).nervosite=0.9;	// Nervosité des humains
-	(*options).dt=0.006;	// discrétisation du temps
+	(*options).nombre=33;	// Nombre d'humain
+	(*options).nervosite=9.999;	// Nervosité des humains
+	(*options).masse=77.77;	// Masse des humains
+	(*options).dt=0.00666;	// discrétisation du temps
 
 	return 0;
 	}
 
 int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 	{
-		printf("donneesInitialisationBatiment : batimentInitialise\n");
+		printf("    donneesInitialisationBatiment : batimentInitialise\n");
 	(*options).nombre = batimentInitialise(batiment, (*options).initial);
+		fprintf(stderr, "    donneesInitialisationBatiment : nombre d'humain = %d\n", (*options).nombre);
 /*
 	if( (*options).initial > -1 && (*options).initial < 99)
 		{
@@ -104,6 +106,7 @@ int donneesInitialisationFoule(fouleT * foule, batimentT * batiment)
 	chaineT *iter=(*foule).premier;
 	float centrage = ((float)(CELLULE-HUMAIN))/2.0;
 	int i, j, k;
+	int compteur = 0;
 
 		// Position des humains
 	for(k=0;k<BATIMENT_Z;k++)
@@ -114,35 +117,36 @@ int donneesInitialisationFoule(fouleT * foule, batimentT * batiment)
 				{
 				if((*batiment).etage[k].cellule[i][j].statut == 9)
 					{
-					humainInitialisePosition(&iter->humain, i*CELLULE+centrage, j*CELLULE+centrage);
+					humainInitialisePosition(&iter->humain, i*CELLULE+centrage, j*CELLULE+centrage, k);
 					//fprintf(stderr, "Initialisation position humain : %d, %d\n", i, j);
 					iter=iter->suivant;
+					compteur ++;
 					}
 				}
 			}
 		}
-	fprintf(stderr, "donneesInitialisationFoule : position humain initialisé.\n");
+	fprintf(stderr, "    donneesInitialisationFoule : position de %d humains initialisée.\n", compteur);
 
 	return 0;
 	}
 
 int donneesInitialisationInterface(interfaceT * interface, optionsT * options)
 	{
-		fprintf(stderr, "    Initialisation de la SDL2\n");
+		fprintf(stderr, "    donneesInitialisationInterface : Initialisation de la SDL2, fond = %d\n", (*options).fond);
 	interfaceInitialisation(interface, (*options).fond);
 	return 0;
 	}
 
 int donneesCreationGraphe(grapheT * graphe, optionsT * options)
 	{
-		fprintf(stderr, "    Création du graphe\n");
+		fprintf(stderr, "    donneesCreationGraphe : Création du graphe, nombre = %d\n", (*options).nombre);
 	grapheCreation(graphe, (*options).nombre);
 	return 0;
 	}
 
 int donneesInitialisationGraphe(grapheT * graphe, interfaceT * interface)
 	{
-		fprintf(stderr, "    Initialisation du graphe\n");
+		fprintf(stderr, "    donneesInitialisationGraphe : Initialisation du graphe\n");
 	grapheInitialisation((*interface).rendu, graphe);
 	return 0;
 	}

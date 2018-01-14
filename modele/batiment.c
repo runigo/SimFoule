@@ -67,13 +67,18 @@ int batimentInitialise(batimentT * batiment, int numero)
 			celluleCreationMur(&(*batiment).etage[k].cellule[0][j]);
 			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X-1][j]);
 			}
-		for(j=1;j<BATIMENT_Y/2-1;j++)
+		for(j=1;j<BATIMENT_Y/2-2;j++)
 			{
 			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/2][j]);
 			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/2][BATIMENT_Y-j-1]);
 			}
-		celluleCreationSortie(&(*batiment).etage[k].cellule[0][1]);
-		celluleCreationSortie(&(*batiment).etage[k].cellule[0][2]);
+		for(j=4;j<BATIMENT_Y-4;j++)
+			{
+			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/4][j]);
+			}
+		celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2]);
+		celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2-1]);
+		//celluleCreationSortie(&(*batiment).etage[k].cellule[0][BATIMENT_Y/2+1]);
 		//celluleCreationEntree(&(*batiment).etage[k].cellule[BATIMENT_X-1][BATIMENT_Y-3]);
 		//celluleCreationEntree(&(*batiment).etage[k].cellule[BATIMENT_X-1][BATIMENT_Y-2]);
 		}

@@ -32,7 +32,7 @@ termes.
 
 #include "foule.h"
 
-void fouleInitialiseHumain(fouleT * foule);
+int fouleInitialiseHumain(fouleT * foule);
 void fouleInitialiseLimiteInfini(fouleT * foule);
 void fouleCouplage(fouleT * foule);
 void fouleCourantLimite(fouleT * foule);
@@ -69,19 +69,18 @@ int fouleSuppression(fouleT * foule)
 
 /*------------------------------------------------------------------*/
 
-void fouleInitialiseHumain(fouleT * foule)
+int fouleInitialiseHumain(fouleT * foule)
 	{
 	chaineT *iter=(*foule).premier;
 
 	do
 		{
-		humainInitialise(&iter->humain);
-		humainInitialiseCaractere(&iter->humain, (*foule).masse, (*foule).nervosite, (*foule).dt);
+		humainInitialise(&iter->humain, (*foule).masse, (*foule).nervosite, (*foule).dt);
 		iter=iter->suivant;
 		}
 	while(iter != (*foule).premier);
 
-	return;
+	return 0;
 	}
 
 //------------------------  ÉVOLUTION TEMPORELLE  -------------------------
@@ -106,10 +105,9 @@ int fouleIncremente(fouleT * foule)
 
 int fouleInertie(fouleT * foule)
 	{//	Principe d'inertie appliqué à la foule
-		// Reste de la chaîne
 
 	chaineT *iter;
-	iter = (*foule).premier->suivant;
+	iter = (*foule).premier;
 
 	do
 		{
