@@ -51,6 +51,10 @@ int donneesOptionsImplicite(optionsT * options)
 	(*options).masse=77.77;	// Masse des humains
 	(*options).dt=0.00666;	// discrétisation du temps
 
+			//	Dessin des graphes 0 ou 1
+	(*options).dessineAngle=0;
+	(*options).dessineMur=1;
+	(*options).dessineHumain=1;
 	return 0;
 	}
 

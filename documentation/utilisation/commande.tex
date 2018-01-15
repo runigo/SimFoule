@@ -3,15 +3,15 @@
 \section{Commande du simulateur}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-Cette section traite des interactions entre le programme et l'utilisateur. Certaine de ces interactions ne seront active que dans les prochaines versions (été 2018).
+Cette section traite des interactions entre le programme et l'utilisateur.
 %
 \subsection{Résumé des options}
 \begin{center}
 \begin{tabular}{ccccc}
 option & & valeur &  & commande \\
 %\hline
-\texttt{fond} &  & \texttt{fond}>0 \& \texttt{fond}<255 &  & Couleur du fond \\
-\texttt{dt} &  & \texttt{dt} > 0.0 \& \texttt{dt} < \texttt{DT\_MAX} &  & discrétisation du temps \\
+\texttt{fond} &  & 0 < \texttt{fond} < 255 &  & Couleur du fond \\
+\texttt{dt} &  & \texttt{DT\_MIN} < \texttt{dt} < \texttt{DT\_MAX} &  & discrétisation du temps \\
 \texttt{duree} &  & 0 < \texttt{duree} < \texttt{DUREE\_MAX} &  & Nombre d'évolution du \\
  &  &  &  & système entre deux affichages \\
 \texttt{mode} &  & \texttt{mode} = + ou - 1 &  & Mode -1 : Wait, 1 : Poll \\
@@ -22,17 +22,57 @@ option & & valeur &  & commande \\
 \texttt{masse} &  & \texttt{MASSE\_MIN} < \texttt{masse} < \texttt{MASSE\_MAX} &  & Masse des humains \\
 \texttt{nervosite} &  & \texttt{NERVOSITE\_MIN} < \texttt{nervosite} < \texttt{NERVOSITE\_MAX} &  & Nervosité des humains \\%{\sf e}, {\sf d}
 %\texttt{nombre} & (nombre > 0 \& nombre < 1099) &  & Nombre d'humain\\
-\texttt{aide} &  & () &  & Affiche l'aide \\
-\texttt{help} &  & () &  & Affiche l'aide \\
+\texttt{dessineAngle} &  & = \texttt{0} ou \texttt{1} &  & Dessine ou non les directions \\
+\texttt{dessineMur} &  & = \texttt{0} ou \texttt{1} &  & Dessine ou non les murs \\
+\texttt{dessineHumain} &  & = \texttt{0} ou \texttt{1} &  & Dessine ou non les humains \\
+
+\\
+\texttt{aide} &  &  &  & Affiche l'aide \\
+\texttt{help} &  &  &  & Affiche l'aide \\
 \end{tabular}
 \end{center}
 %
-%\subsection{Fichier d'initialisation}
+\subsection{Résumé du clavier}
+\begin{center}
+\begin{tabular}{ccccc}
+option & & clavier &  & commande \\
+%\hline
+%\texttt{fond} &  & \texttt{fond}>0 \& \texttt{fond}<255 &  & Couleur du fond \\
+%\texttt{dt} &  & \texttt{dt} > 0.0 \& \texttt{dt} < \texttt{DT\_MAX} &  & discrétisation du temps \\
+\texttt{duree} &  & 0 < {\sf F9}, {\sf F10}, {\sf F11}, {\sf F12} &  & Nombre d'évolution du \\
+ &  &  &  & système entre deux affichages \\
+\texttt{mode} &  & {\sf Entrée} &  & Avec ou sans attente \\
+%\texttt{pause} &  & 5 < \texttt{pause} < 555 &  & temps de pause en ms \\
+% &  &  &  & entre les affichages \\
 %
-%Les fichiers d'initialisations sont dans le répertoire \texttt{donnees/enregistrement/}. Les fonctions d'enregistrement et de dessin ne seront active que dans les prochaines versions (été 2018).
+\texttt{initial} &  & \texttt{Maj} \texttt{a}..\texttt{t} et \texttt{q}..\texttt{g} &  & Réinitialisation \\
+%\texttt{masse} &  & a q &  & Masse des humains \\
+%\texttt{nervosite} &  & z s &  & Nervosité des humains \\%{\sf e}, {\sf d}
+%\texttt{nombre} & (nombre > 0 \& nombre < 1099) &  & Nombre d'humain\\
+\texttt{dessineAngle} &  & \texttt{F6} &  & Dessine ou non les directions \\
+\texttt{dessineMur} &  & \texttt{F7} &  & Dessine ou non les murs \\
+\texttt{dessineHumain} &  & \texttt{F8} &  & Dessine ou non les humains \\
+
+\\
+%\texttt{aide} &  & () &  & Affiche l'aide \\
+%\texttt{help} &  & () &  & Affiche l'aide \\
+\end{tabular}
+\end{center}
 %
-%\subsubsection{Éditer les fichiers d'initialisations}
-%Les fichiers d'initialisations peuvent être édités afin de créer des situations. Ils doivent être adaptés aux constantes définies dans le fichiers \texttt{donnees/constantes.h}
+\subsection{Fichier d'initialisation}
+%
+Les fichiers d'initialisations se trouvent dans le répertoire \texttt{donnees/enregistrement/}. Ce répertoire et ces fichiers sont nécessaires pour activer les possibilité de réinitialisation.
+%
+\subsubsection{Éditer les fichiers d'initialisations}
+Les fichiers d'initialisations peuvent être édités afin de créer des situations. Ils doivent être adaptés aux constantes \texttt{BATIMENT\_X} et \texttt{BATIMENT\_Y} définies dans le fichiers \texttt{donnees/constantes.h}. Il contiennent des entiers séparés par des espaces correspondant au statut des cellules. Une ligne doit contenir \texttt{BATIMENT\_X} entiers, et le fichier doit contenir \texttt{BATIMENT\_Y} lignes. Les entiers reconnus lors de l'initialisation sont
+
+\begin{center}
+\begin{tabular}{cccccc}
+entiers & 0 & 1 & 2 &  & 9 \\
+%\hline
+statut & vide & mur & sortie &  & humain \\
+\end{tabular}
+\end{center}
 %
 %\subsubsection{Dessiner des conditions initiales}
 %En mode "conditions initiale" la souris permet de dessiner des conditions initiales. Une configuration ainsi dessinée peut alors être enregistrée dans les fichiers \texttt{situation\_q.simfoule} à \texttt{situation\_h.simfoule} avec les touches \texttt{Maj-w} à \texttt{Maj-n}. elle sera alors accessible à l'aide des touches \texttt{Maj-q} à \texttt{Maj-h}.

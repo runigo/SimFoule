@@ -143,6 +143,7 @@ int fichierLecture(batimentT * batiment, int numero)
 	else
 		{
 		int statut;
+		printf("  Initialisation du batiment %d\n", numero);
 		for(k=0;j<BATIMENT_Z;k++)
 			{
 			(*batiment).etage[k].etage = k;

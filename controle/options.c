@@ -72,6 +72,14 @@ int optionsTraitement(optionsT * option, int nb, char *opt[])
 			optionsPause(option, opt[i+1]);	// temps de pause en ms
 		if(strcmp(opt[i], "mode")==0 && opt[i+1]!=NULL)
 			optionsMode(option, opt[i+1]);	// Mode -1 : Wait, 1 : Poll
+
+		if(strcmp(opt[i], "dessineAngle")==0 && opt[i+1]!=NULL)
+			optionsDuree(option, opt[i+1]);	// Nombre d'évolution du système entre les affichages.
+		if(strcmp(opt[i], "dessineMur")==0 && opt[i+1]!=NULL)
+			optionsPause(option, opt[i+1]);	// temps de pause en ms
+		if(strcmp(opt[i], "dessineHumain")==0 && opt[i+1]!=NULL)
+			optionsMode(option, opt[i+1]);	// Mode -1 : Wait, 1 : Poll
+
 		if(strcmp(opt[i], "aide")==0)
 			optionsAide();	// Affiche l'aide.
 		if(strcmp(opt[i], "help")==0)
@@ -236,6 +244,62 @@ void optionsMode(optionsT * option, char *opt)
 	return;
 	}
 
+			//	Dessin des graphes 0 ou 1
+		int dessineAngle;
+		int dessineMur;
+		int dessineHumain;
+
+    	// dessineAngle
+void optionsDessineAngle(optionsT * option, char *opt)
+	{
+	int dessineAngle = atoi(opt);
+	if(dessineAngle>0 && dessineAngle<255)
+		{
+		(*option).dessineAngle = dessineAngle;
+		printf("Option dessineAngle valide, dessineAngle = %d\n", (*option).dessineAngle);
+		}
+	else
+		{
+		printf("Option dessineAngle non valide, dessineAngle = %d\n", (*option).dessineAngle);
+		printf("Option dessineAngle : 0 < dessineAngle < 255\n");
+		}
+	return;
+	}
+
+    	// dessineMur 
+void optionsdessineMur(optionsT * option, char *opt)
+	{
+	int dessineMur = atoi(opt);
+	if(dessineMur>0 && dessineMur<255)
+		{
+		(*option).dessineMur = dessineMur;
+		printf("Option dessineMur valide, dessineMur = %d\n", (*option).dessineMur);
+		}
+	else
+		{
+		printf("Option dessineMur non valide, dessineMur = %d\n", (*option).dessineMur);
+		printf("Option dessineMur : 0 < dessineMur < 255\n");
+		}
+	return;
+	}
+
+    	// dessineHumain
+void optionsdessineHumain(optionsT * option, char *opt)
+	{
+	int dessineHumain = atoi(opt);
+	if(dessineHumain>0 && dessineHumain<255)
+		{
+		(*option).dessineHumain = dessineHumain;
+		printf("Option dessineHumain valide, dessineHumain = %d\n", (*option).dessineHumain);
+		}
+	else
+		{
+		printf("Option dessineHumain non valide, dessineHumain = %d\n", (*option).dessineHumain);
+		printf("Option dessineHumain : 0 < dessineHumain < 255\n");
+		}
+	return;
+	}
+
 void optionsAide(void)
 	{
 	printf("\n\nAide de SimFoule, le simulateur d'évacuation de foule\n\n");
@@ -252,6 +316,9 @@ void optionsAide(void)
 	printf(" masse		%d < masse < %d		masse des humains\n", MASSE_MIN, MASSE_MAX);
 	printf(" nervosite	%4.3f < nervosite < %4.1f	nervosité des humains\n", NERVOSITE_MIN, NERVOSITE_MAX);
 	//printf("	flèches haut, bas, gauche, droite\n\n");
+	printf(" dessineAngle		= 0 ou 1	Dessine ou non les directions\n");
+	printf(" dessineMur		= 0 ou 1	Dessine ou non les murs\n");
+	printf(" dessineHumain		= 0 ou 1	Dessine ou non les humains\n");
 
 	printf("\nCOMMANDES CLAVIER\n\n");
 /*
@@ -286,6 +353,10 @@ void optionsAide(void)
 
 	//printf("	+, - : augmente, diminue la vitesse de la simulation\n");
 	printf("	F9, F10, F11, F12 : diminuent, augmentent la vitesse de la simulation\n");
+
+	printf("	F6	Dessine ou non les directions\n");
+	printf("	F7	Dessine ou non les murs\n");
+	printf("	F8	Dessine ou non les humains\n");
 
 	fprintf(stderr, "\nSortie de SimFoule\n");
 	exit(EXIT_FAILURE);

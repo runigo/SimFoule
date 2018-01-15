@@ -165,9 +165,12 @@ int etageCalculDistanceEtSens(etageT * etage)
 	while(sortie==false);
 
 	//etageAffiche(etage);
-		fprintf(stderr, "    Jauge des distances\n");
+		//fprintf(stderr, "    Jauge des distances\n");
 	etageCalculeDistance(etage);
+
+		//fprintf(stderr, "    Calcul des directions\n");
 	etageCalculeAngle(etage);
+
 	//etageAffiche(etage);
 
 	return 0;
@@ -306,6 +309,43 @@ int etageCalculeAngleCellule(etageT * etage, int i, int j)
 	return compteur;
 	}
 
+int etageAffiche(etageT * etage)
+	{
+	int i, j;
+
+	printf("etageAffiche Norme\n");
+	for(j=0;j<BATIMENT_Y;j++)
+		{
+		for(i=0;i<BATIMENT_X;i++)
+			{
+			fprintf(stderr, " %3.1f", (*etage).cellule[i][j].norme);
+			}
+		fprintf(stderr, " \n");
+		}
+
+	printf("etageAffiche distance\n");
+	for(j=0;j<BATIMENT_Y;j++)
+		{
+		for(i=0;i<BATIMENT_X;i++)
+			{
+			fprintf(stderr, " %2d", celluleDonneDistance(&(*etage).cellule[i][j]));
+			}
+		fprintf(stderr, " \n");
+		}
+
+	printf("etageAffiche angle\n");
+	for(j=0;j<BATIMENT_Y;j++)
+		{
+		for(i=0;i<BATIMENT_X;i++)
+			{
+			fprintf(stderr, " %d", (*etage).cellule[i][j].angle);
+			}
+		fprintf(stderr, " \n");
+		}
+	//fprintf(stderr, "  etageCalculeDistance, max = %d\n", max);
+	return 0;
+	}
+
 /*
 int etageCalculeAngleCellule(etageT * etage, int i, int j)
 	{  // Calcul l'angle associé à la direction pour la cellule
@@ -339,42 +379,5 @@ int etageEvolutionSens(etageT * etage)
 	return 0;
 	}
 */
-
-int etageAffiche(etageT * etage)
-	{
-	int i, j;
-
-	printf("etageAffiche Norme\n");
-	for(j=0;j<BATIMENT_Y;j++)
-		{
-		for(i=0;i<BATIMENT_X;i++)
-			{
-			fprintf(stderr, " %6.3f", (*etage).cellule[i][j].norme);
-			}
-		fprintf(stderr, " \n");
-		}
-
-	printf("etageAffiche distance\n");
-	for(j=0;j<BATIMENT_Y;j++)
-		{
-		for(i=0;i<BATIMENT_X;i++)
-			{
-			fprintf(stderr, " %d", celluleDonneDistance(&(*etage).cellule[i][j]));
-			}
-		fprintf(stderr, " \n");
-		}
-
-	printf("etageAffiche angle\n");
-	for(j=0;j<BATIMENT_Y;j++)
-		{
-		for(i=0;i<BATIMENT_X;i++)
-			{
-			fprintf(stderr, " %d", (*etage).cellule[i][j].angle);
-			}
-		fprintf(stderr, " \n");
-		}
-	//fprintf(stderr, "  etageCalculeDistance, max = %d\n", max);
-	return 0;
-	}
 
 ///////////////////////////////////////////////////////////////////

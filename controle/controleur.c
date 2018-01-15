@@ -157,7 +157,7 @@ int controleurProjection(controleurT * controleur)
 
 	projectionBatimentPlan(&(*controleur).systeme.batiment, &(*controleur).projection, &(*controleur).graphe);
 
-	//projectionBatimentSens(&(*controleur).systeme.batiment, &(*controleur).projection, &(*controleur).graphe);
+	projectionBatimentSens(&(*controleur).systeme.batiment, &(*controleur).projection, &(*controleur).graphe);
 
 	projectionFoulePoints(&(*controleur).systeme.foule, &(*controleur).projection, &(*controleur).graphe);
 
@@ -178,9 +178,12 @@ int controleurConstructionGraphique(controleurT * controleur)
 	interfaceNettoyage(&(*controleur).interface);
 
 	//	Dessin des graphes;
-	//grapheDessineAngle((*controleur).interface.rendu, &(*controleur).graphe);
-	grapheDessineMur((*controleur).interface.rendu, &(*controleur).graphe);
-	grapheDessineHumain((*controleur).interface.rendu, &(*controleur).graphe);
+	if((*controleur).options.dessineAngle==1)
+		grapheDessineAngle((*controleur).interface.rendu, &(*controleur).graphe);
+	if((*controleur).options.dessineMur==1)
+		grapheDessineMur((*controleur).interface.rendu, &(*controleur).graphe);
+	if((*controleur).options.dessineHumain==1)
+		grapheDessineHumain((*controleur).interface.rendu, &(*controleur).graphe);
 
 		//fprintf(stderr, "Mise à jour de l'affichage\n");
 	interfaceMiseAJour(&(*controleur).interface);
@@ -318,6 +321,16 @@ void controleurChangeVitesse(controleurT * controleur, float facteur)
 	return;
 	}
 
+void controleurChangeDessin(int * dessine)
+	{
+	if((*dessine)==0)
+		(*dessine)=1;
+	else
+		(*dessine)=0;
+
+	return;
+	}
+
 int controleurClavier(controleurT * controleur)
 	{
 	switch ((*controleur).interface.evenement.key.keysym.sym)
@@ -343,6 +356,16 @@ int controleurClavier(controleurT * controleur)
 			controleurChangeVitesse(controleur, 1.1);break;
 		case SDLK_F12:
 			controleurChangeVitesse(controleur, 3.1);break;
+
+	// Affichage des information
+		case SDLK_F5:
+			controleurChangeVitesse(controleur, 0.32);break;
+		case SDLK_F6:
+			controleurChangeDessin(&(*controleur).options.dessineAngle);break;
+		case SDLK_F7:
+			controleurChangeDessin(&(*controleur).options.dessineMur);break;
+		case SDLK_F8:
+			controleurChangeDessin(&(*controleur).options.dessineHumain);break;
 
 	// Conditions aux limites
 /*
