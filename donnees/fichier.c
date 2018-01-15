@@ -32,7 +32,7 @@ termes.
 
 #include "fichier.h"
 
-void fichierEcriture(batimentT * batiment, int numero)
+int fichierEcriture(batimentT * batiment, int numero)
 	{
 	FILE *fichier; /* pointeur sur FILE */
 
@@ -81,11 +81,12 @@ void fichierEcriture(batimentT * batiment, int numero)
 		fclose(fichier);
 		}
 
-	return;
+	return 0;
 	}
 
-void fichierLecture(batimentT * batiment, int numero)
+int fichierLecture(batimentT * batiment, int numero)
 	{
+	int i, j, k;
 	FILE *fichier; /* pointeur sur FILE */
 
 	switch (numero)
@@ -142,7 +143,6 @@ void fichierLecture(batimentT * batiment, int numero)
 	else
 		{
 		int statut;
-		int i, j, k;
 		for(k=0;j<BATIMENT_Z;k++)
 			{
 			(*batiment).etage[k].etage = k;
@@ -161,7 +161,21 @@ void fichierLecture(batimentT * batiment, int numero)
 		fclose(fichier);
 		}
 
-	return;
+		// Nombre d' humains
+	int nombre = 0;
+	for(k=0;k<BATIMENT_Z;k++)
+		{
+		for(i=0;i<BATIMENT_X-1;i++)
+			{
+			for(j=0;j<BATIMENT_Y;j++)
+				{
+				if(celluleDonneStatut(&(*batiment).etage[k].cellule[i][j])==9)
+					nombre++;
+				}
+			}
+		}
+	//fprintf(stderr, "batimentInitialise : Sortie de la fonction\n");
+	return nombre;
 	}
 
 /////////////////////////////////////////////////////////////////////////////////////////////

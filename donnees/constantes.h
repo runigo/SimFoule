@@ -44,8 +44,8 @@ termes.
 
 	//----------         DIMENSIONS  SPATIALES         -----------//
 
-#define BATIMENT_X 24	// Longueur suivant x du batiment (en nombre de cellule)
-#define BATIMENT_Y 15	// Longueur suivant y du batiment (en nombre de cellule)
+#define BATIMENT_X 45	// Longueur suivant x du batiment (en nombre de cellule)
+#define BATIMENT_Y 45	// Longueur suivant y du batiment (en nombre de cellule)
 #define BATIMENT_Z 1	// Nombre d'étage
 
 #define CELLULE 9	// Longueur du coté d'une cellule (en pixel)
@@ -66,6 +66,9 @@ termes.
 #define DT_MIN 0.00007	// dt minimale
 
 #define DUREE_MAX 777	// Nombre maximale d'incrémentation entre les affichages
+
+#define INITIAL_MIN -2	// Fichiers d'initialisation
+#define INITIAL_MAX 2	// Fichiers d'initialisation
 
 #define MASSE_MIN 9	// Masse minimale d'un humain
 #define MASSE_MAX 199	// Masse maximale d'un humain

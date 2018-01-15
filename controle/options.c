@@ -244,14 +244,16 @@ void optionsAide(void)
 
 	printf(" fond		0 < fond < 255		couleur du fond de l'affichage (fond noir : 0, fond blanc : 255)\n");
 	printf(" dt		%4.5f < dt < %4.2f	discrétisation du temps\n", DT_MIN, DT_MAX);
-	printf(" masse		%d < masse < %d		masse des humains\n", MASSE_MIN, MASSE_MAX);
-	printf(" nervosite	%4.3f < nervosite < %4.1f	nervosité des humains\n", NERVOSITE_MIN, NERVOSITE_MAX);
-	printf(" pause		5 < pause < 555		pause entre les affichages en ms\n");
 	printf(" duree		1 < duree < %d		nombre d'évolution du système entre les affichages\n", DUREE_MAX);
 	printf(" mode		= -1 ou 1		mode avec ou sans attente (Mode -1 : Wait, 1 : Poll)\n");
+	printf(" pause		5 < pause < 555		pause entre les affichages en ms\n");
+
+	printf(" initial	%d < initial < %d	numéro du fichier d'initialisation\n", INITIAL_MIN, INITIAL_MAX);
+	printf(" masse		%d < masse < %d		masse des humains\n", MASSE_MIN, MASSE_MAX);
+	printf(" nervosite	%4.3f < nervosite < %4.1f	nervosité des humains\n", NERVOSITE_MIN, NERVOSITE_MAX);
 	//printf("	flèches haut, bas, gauche, droite\n\n");
 
-	printf("\nCOMMANDES CLAVIER\n");
+	printf("\nCOMMANDES CLAVIER\n\n");
 /*
 	printf("	a, q : augmenter, diminuer le couplage\n");
 	printf("	z, s : augmenter, diminuer la masse\n");

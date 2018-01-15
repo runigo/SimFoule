@@ -57,15 +57,15 @@ int donneesOptionsImplicite(optionsT * options)
 int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 	{
 		printf("    donneesInitialisationBatiment : batimentInitialise %d\n", (*options).initial);
-	(*options).nombre = batimentInitialise(batiment, (*options).initial);
+	(*options).nombre = batimentInitialise(batiment, -1);
 		fprintf(stderr, "    donneesInitialisationBatiment : nombre d'humain = %d\n", (*options).nombre);
-/*
+
 	if( (*options).initial > -1 && (*options).initial < 99)
 		{
 		printf("donneesInitialisationBatiment : fichierLecture\n");
-		fichierLecture(batiment, (*options).initial);
+		(*options).nombre = fichierLecture(batiment, (*options).initial);
 		}
-*/
+
 	return 0;
 	}
 

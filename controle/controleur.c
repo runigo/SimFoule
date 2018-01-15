@@ -48,6 +48,8 @@ void controleurBoutonSouris(controleurT * control, int appui);
 void controleurChangeMode(controleurT * control);
 void controleurChangeVitesse(controleurT * control, float facteur);
 
+int controleurReinitialisation(controleurT * controleur, int fichier);
+
 int controleurDirections(controleurT * controleur)
 	{
 		// Calcul des directions
@@ -76,6 +78,36 @@ int controleurInitialisation(controleurT * controleur)
 		fprintf(stderr, "  Initialisation de l'interface graphique\n");
 	donneesCreationGraphe(&(*controleur).graphe, &(*controleur).options);
 	donneesInitialisationInterface(&(*controleur).interface, &(*controleur).options);
+	donneesInitialisationGraphe(&(*controleur).graphe, &(*controleur).interface);
+
+	return 0;
+	}
+
+int controleurReinitialisation(controleurT * controleur, int initial)
+	{
+		// Reinitialisation du controleur
+
+	(*controleur).options.initial = initial;
+
+		// Suppression de la foule et du graphe
+
+		fprintf(stderr, "  Suppression du graphe\n");
+	grapheSuppression(&(*controleur).graphe);
+		fprintf(stderr, "  Suppression de la foule\n");
+	fouleSuppression(&(*controleur).systeme.foule);
+
+		// Réinitialisation du système
+
+		fprintf(stderr, "  Réinitialisation du batiment\n");
+	donneesInitialisationBatiment(&(*controleur).systeme.batiment, &(*controleur).options);
+
+		fprintf(stderr, "  Réinitialisation de la foule\n");
+	donneesCreationFoule(&(*controleur).systeme.foule, &(*controleur).options);
+	donneesInitialisationFoule(&(*controleur).systeme.foule, &(*controleur).systeme.batiment);
+
+		fprintf(stderr, "  Réinitialisation du graphe\n");
+	donneesCreationGraphe(&(*controleur).graphe, &(*controleur).options);
+	//donneesInitialisationInterface(&(*controleur).interface, &(*controleur).options);
 	donneesInitialisationGraphe(&(*controleur).graphe, &(*controleur).interface);
 
 	return 0;
@@ -436,13 +468,15 @@ int controleurClavierMaj(controleurT * controleur)
 
 	// Réinitialisation du système
 		// Lecture des fichier
-/*		case SDLK_a:
+		case SDLK_a:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 0);break;
+			//donneesSystemeInitialise(&(*controleur).batiment, 0);break;
+			controleurReinitialisation(controleur, 0);break;
 		case SDLK_z:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 1);break;
-		case SDLK_e:
+			//donneesSystemeInitialise(&(*controleur).batiment, 1);break;
+			controleurReinitialisation(controleur, 1);break;
+/*		case SDLK_e:
 			fprintf(stderr, "Réinitialisation du système\n");
 			donneesSystemeInitialise(&(*controleur).batiment, 2);break;
 		case SDLK_r:

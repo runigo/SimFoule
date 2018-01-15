@@ -36,8 +36,8 @@ termes.
 
 #include "../modele/batiment.h"
 
-void fichierEcriture(batimentT * batiment, int numero);
-void fichierLecture(batimentT * batiment, int numero);
+int fichierEcriture(batimentT * batiment, int numero);
+int fichierLecture(batimentT * batiment, int numero);
 
 #endif
 

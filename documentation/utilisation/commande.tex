@@ -7,20 +7,23 @@ Cette section traite des interactions entre le programme et l'utilisateur. Certa
 %
 \subsection{Résumé des options}
 \begin{center}
-\begin{tabular}{cccc}
-option & valeur & clavier & commande \\
+\begin{tabular}{ccccc}
+option & & valeur &  & commande \\
 %\hline
-\texttt{fond} & \texttt{fond}>0 \& \texttt{fond}<255 &  & Couleur du fond \\
-\texttt{dt} & \texttt{dt} > 0.0 \& \texttt{dt} < \texttt{DT\_MAX} &  & discrétisation du temps \\
-\texttt{nervosite} & 0.0 < \texttt{nervosite} < \texttt{NERVOSITE\_MAX} &  & Nervosité des humains \\%{\sf e}, {\sf d}
-\texttt{pause} & \texttt{pause} > 5 \& \texttt{pause} < 555 &  & temps de pause en ms \\
- &  &  & entre les affichages \\
-\texttt{duree} & 0 < \texttt{duree} < \texttt{DUREE\_MAX} & {\sf F9}, {\sf F10}, {\sf F11}, {\sf F12} & Nombre d'évolution du \\
- &  &  & système entre deux affichages \\
-\texttt{mode} & \texttt{mode} = + ou - 1 & {\sf Entrée} & Mode -1 : Wait, 1 : Poll \\
+\texttt{fond} &  & \texttt{fond}>0 \& \texttt{fond}<255 &  & Couleur du fond \\
+\texttt{dt} &  & \texttt{dt} > 0.0 \& \texttt{dt} < \texttt{DT\_MAX} &  & discrétisation du temps \\
+\texttt{duree} &  & 0 < \texttt{duree} < \texttt{DUREE\_MAX} &  & Nombre d'évolution du \\
+ &  &  &  & système entre deux affichages \\
+\texttt{mode} &  & \texttt{mode} = + ou - 1 &  & Mode -1 : Wait, 1 : Poll \\
+\texttt{pause} &  & 5 < \texttt{pause} < 555 &  & temps de pause en ms \\
+ &  &  &  & entre les affichages \\
+%{\sf F9}, {\sf F10}, {\sf F11}, {\sf F12}{\sf Entrée}
+\texttt{initial} &  & \texttt{INITIAL\_MIN} < \texttt{initial} < \texttt{INITIAL\_MAX} &  & Numéro du fichier d'initialisation \\
+\texttt{masse} &  & \texttt{MASSE\_MIN} < \texttt{masse} < \texttt{MASSE\_MAX} &  & Masse des humains \\
+\texttt{nervosite} &  & \texttt{NERVOSITE\_MIN} < \texttt{nervosite} < \texttt{NERVOSITE\_MAX} &  & Nervosité des humains \\%{\sf e}, {\sf d}
 %\texttt{nombre} & (nombre > 0 \& nombre < 1099) &  & Nombre d'humain\\
-\texttt{aide} & () &  & Affiche l'aide \\
-\texttt{help} & () &  & Affiche l'aide \\
+\texttt{aide} &  & () &  & Affiche l'aide \\
+\texttt{help} &  & () &  & Affiche l'aide \\
 \end{tabular}
 \end{center}
 %
