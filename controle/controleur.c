@@ -110,6 +110,9 @@ int controleurReinitialisation(controleurT * controleur, int initial)
 	//donneesInitialisationInterface(&(*controleur).interface, &(*controleur).options);
 	donneesInitialisationGraphe(&(*controleur).graphe, &(*controleur).interface);
 
+		fprintf(stderr, "Calcul des directions\n");
+	assert(controleurDirections(controleur)==0);
+
 	return 0;
 	}
 
@@ -476,62 +479,62 @@ int controleurClavierMaj(controleurT * controleur)
 			fprintf(stderr, "Réinitialisation du système\n");
 			//donneesSystemeInitialise(&(*controleur).batiment, 1);break;
 			controleurReinitialisation(controleur, 1);break;
-/*		case SDLK_e:
+		case SDLK_e:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 2);break;
+			controleurReinitialisation(controleur, 2);break;
 		case SDLK_r:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 3);break;
+			controleurReinitialisation(controleur, 3);break;
 		case SDLK_t:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 4);break;
+			controleurReinitialisation(controleur, 4);break;
 		case SDLK_y:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 5);break;
+			controleurReinitialisation(controleur, 5);break;
 		case SDLK_u:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 6);break;
+			controleurReinitialisation(controleur, 6);break;
 		case SDLK_i:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 7);break;
+			controleurReinitialisation(controleur, 7);break;
 		case SDLK_o:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 8);break;
+			controleurReinitialisation(controleur, 8);break;
 		case SDLK_p:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 9);break;
+			controleurReinitialisation(controleur, 9);break;
 		case SDLK_q:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 10);break;
+			controleurReinitialisation(controleur, 10);break;
 		case SDLK_s:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 11);break;
+			controleurReinitialisation(controleur, 11);break;
 		case SDLK_d:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 12);break;
+			controleurReinitialisation(controleur, 12);break;
 		case SDLK_f:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 13);break;
+			controleurReinitialisation(controleur, 13);break;
 		case SDLK_g:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 14);break;
+			controleurReinitialisation(controleur, 14);break;
 		case SDLK_h:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 15);break;
+			controleurReinitialisation(controleur, 15);break;
 		case SDLK_j:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 16);break;
+			controleurReinitialisation(controleur, 16);break;
 		case SDLK_k:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 17);break;
+			controleurReinitialisation(controleur, 17);break;
 		case SDLK_l:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 18);break;
+			controleurReinitialisation(controleur, 18);break;
 		case SDLK_m:
 			fprintf(stderr, "Réinitialisation du système\n");
-			donneesSystemeInitialise(&(*controleur).batiment, 19);break;
+			controleurReinitialisation(controleur, 19);break;
 
-
+/*
 		// Ecriture des fichiers
 		// Ecriture des fichiers
 		case SDLK_w:
