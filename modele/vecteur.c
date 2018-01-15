@@ -80,11 +80,23 @@ float vecteurScalaireCartesien(vecteurT * v1, vecteurT * v2)
 	return ((*v1).x*(*v2).x + (*v1).y*(*v2).y + (*v1).z*(*v2).z);
 	}
 
+float vecteurScalaireCartesien2D(vecteurT * v1, vecteurT * v2)
+	{
+	return ((*v1).x*(*v2).x + (*v1).y*(*v2).y);
+	}
+
 void vecteurSommeCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3)
 	{ // v3 = v1 + v2
 	(*v3).x=(*v1).x+(*v2).x;
 	(*v3).y=(*v1).y+(*v2).y;
 	(*v3).z=(*v1).z+(*v2).z;
+	return;
+	}
+
+void vecteurSommeCartesien2D(vecteurT * v1, vecteurT * v2, vecteurT * v3)
+	{ // v3 = v1 + v2
+	(*v3).x=(*v1).x+(*v2).x;
+	(*v3).y=(*v1).y+(*v2).y;
 	return;
 	}
 
@@ -96,11 +108,25 @@ void vecteurDifferenceCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3)
 	return;
 	}
 
+void vecteurDifferenceCartesien2D(vecteurT * v1, vecteurT * v2, vecteurT * v3)
+	{ // v3 = v1 - v2
+	(*v3).x=(*v1).x-(*v2).x;
+	(*v3).y=(*v1).y-(*v2).y;
+	return;
+	}
+
 int vecteurProduitCartesien(vecteurT * v1, float lambda, vecteurT * v2)
 	{ // v2 = lambda v1
 	(*v2).x=lambda*(*v1).x;
 	(*v2).y=lambda*(*v1).y;
 	(*v2).z=lambda*(*v1).z;
+	return 0;
+	}
+
+int vecteurProduitCartesien2D(vecteurT * v1, float lambda, vecteurT * v2)
+	{ // v2 = lambda v1
+	(*v2).x=lambda*(*v1).x;
+	(*v2).y=lambda*(*v1).y;
 	return 0;
 	}
 
@@ -112,6 +138,18 @@ float vecteurNormaliseCartesien(vecteurT * v)
 		(*v).x=(*v).x/norme;
 		(*v).y=(*v).y/norme;
 		(*v).z=(*v).z/norme;
+		}
+	else norme = -1.0;
+	return norme;
+	}
+
+float vecteurNormaliseCartesien2D(vecteurT * v)
+	{ // normalise, renvoie la norme initiale, -1 si nulle
+	float norme = sqrt((*v).x*(*v).x+(*v).y*(*v).y);
+	if(norme>0.0)
+		{
+		(*v).x=(*v).x/norme;
+		(*v).y=(*v).y/norme;
 		}
 	else norme = -1.0;
 	return norme;

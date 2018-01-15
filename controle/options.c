@@ -243,9 +243,9 @@ void optionsAide(void)
 	printf("OPTIONS DE LA LIGNE DE COMMANDE \n\n");
 
 	printf(" fond		0 < fond < 255		couleur du fond de l'affichage (fond noir : 0, fond blanc : 255)\n");
-	printf(" dt		0.0 < dt < %4.4f	discrétisation du temps\n", DT_MAX);
-	printf(" masse		%d < dt < %d		masse des humains\n", MASSE_MIN, MASSE_MAX);
-	//printf(" dissipation	0.0 < dissipation < %4.4f	dissipation\n", DISSIPATION_MAX);
+	printf(" dt		%4.5f < dt < %4.2f	discrétisation du temps\n", DT_MIN, DT_MAX);
+	printf(" masse		%d < masse < %d		masse des humains\n", MASSE_MIN, MASSE_MAX);
+	printf(" nervosite	%4.3f < nervosite < %4.1f	nervosité des humains\n", NERVOSITE_MIN, NERVOSITE_MAX);
 	printf(" pause		5 < pause < 555		pause entre les affichages en ms\n");
 	printf(" duree		1 < duree < %d		nombre d'évolution du système entre les affichages\n", DUREE_MAX);
 	printf(" mode		= -1 ou 1		mode avec ou sans attente (Mode -1 : Wait, 1 : Poll)\n");
@@ -277,12 +277,12 @@ void optionsAide(void)
 	printf("	o : démarre, éteint le générateur\n");
 	printf("	l : démarre le signal carrée\n");
 	printf("	p, m : augmenter, diminuer la fréquence\n");
-*/
-	printf("	F5 : affiche les observables\n");
 
+	printf("	F5 : affiche les observables\n");
+*/
 	printf("	Entrée : change le mode temporel (avec ou sans attente)\n");
 
-	printf("	+, - : augmente, diminue la vitesse de la simulation\n");
+	//printf("	+, - : augmente, diminue la vitesse de la simulation\n");
 	printf("	F9, F10, F11, F12 : diminuent, augmentent la vitesse de la simulation\n");
 
 	fprintf(stderr, "\nSortie de SimFoule\n");

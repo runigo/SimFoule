@@ -36,12 +36,12 @@ int batimentInitialiseVide(batimentT * batiment);
 int batimentInitialiseVide(batimentT * batiment)
 	{
 	int k;
-	fprintf(stderr, "batimentInitialiseVide : Entrée dans la fonction\n");
+	//fprintf(stderr, "batimentInitialiseVide : Entrée dans la fonction\n");
 	for(k=0;k<BATIMENT_Z;k++)
 		{
-		etageInitialise(&(*batiment).etage[k]);
+		etageInitialise(&(*batiment).etage[k], k);
 		}
-	fprintf(stderr, "batimentInitialiseVide : Sortie de la fonction\n");
+	//fprintf(stderr, "batimentInitialiseVide : Sortie de la fonction\n");
 	return 0;
 	}
 
@@ -51,7 +51,7 @@ int batimentInitialise(batimentT * batiment, int numero)
 	int i, j, k;
 	int nombre = 0;
 
-	fprintf(stderr, "batimentInitialise : Entrée dans la fonction\n");
+	//fprintf(stderr, "batimentInitialise : Entrée dans la fonction\n");
 	batimentInitialiseVide(batiment);
 
 		// Plan du batiment
@@ -78,9 +78,6 @@ int batimentInitialise(batimentT * batiment, int numero)
 			}
 		celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2]);
 		celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2-1]);
-		//celluleCreationSortie(&(*batiment).etage[k].cellule[0][BATIMENT_Y/2+1]);
-		//celluleCreationEntree(&(*batiment).etage[k].cellule[BATIMENT_X-1][BATIMENT_Y-3]);
-		//celluleCreationEntree(&(*batiment).etage[k].cellule[BATIMENT_X-1][BATIMENT_Y-2]);
 		}
 
 		// Position des humains
@@ -95,19 +92,19 @@ int batimentInitialise(batimentT * batiment, int numero)
 				}
 			}
 		}
-	fprintf(stderr, "batimentInitialise : Sortie de la fonction\n");
+	//fprintf(stderr, "batimentInitialise : Sortie de la fonction\n");
 	return nombre;
 	}
 
 int batimentDirections(batimentT * batiment)
 	{
 	int k;
-	fprintf(stderr, "batimentDirection : Entrée dans la fonction\n");
 	for(k=0;k<BATIMENT_Z;k++)
 		{
+		fprintf(stderr, "  batimentDirection : etageCalculDistanceEtSens étage %d\n", k);
 		etageCalculDistanceEtSens(&(*batiment).etage[k]);
 		}
-	fprintf(stderr, "batimentDirection : Sortie de la fonction\n");
+	//fprintf(stderr, "batimentDirection : Sortie de la fonction\n");
 	return 0;
 	}
 

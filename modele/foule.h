@@ -43,6 +43,7 @@ typedef struct FouleT fouleT;
 		float horloge;		//	Horloge, chronomètre
 
 		int nombre;		//	Nombre d'humain
+		int restant;		//	Nombre d'humain restant à sortir
 		float masse;		//	Masse d'un humain
 
 		float nervosite;	//	Nervosité des humains

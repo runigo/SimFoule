@@ -58,12 +58,19 @@ typedef struct VecteurT vecteurT;
 void vecteurCartesien(vecteurT * v, float x, float y, int z);
 void vecteurCartesienEgale(vecteurT * v1, vecteurT * v2); // v2 = v1
 void vecteurInitialisePolaire(vecteurT * v, float r, float psi, float phi);
+
 float vecteurScalaireCartesien(vecteurT * v1, vecteurT * v2);
 int vecteurProduitCartesien(vecteurT * v1, float lambda, vecteurT * v2); // v2 = lambda v1
 void vecteurSommeCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3); // v3 = v1 + v2
 void vecteurDifferenceCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3); // v3 = v1 - v2
 
+float vecteurScalaireCartesien2D(vecteurT * v1, vecteurT * v2);
+int vecteurProduitCartesien2D(vecteurT * v1, float lambda, vecteurT * v2); // v2 = lambda v1
+void vecteurSommeCartesien2D(vecteurT * v1, vecteurT * v2, vecteurT * v3); // v3 = v1 + v2
+void vecteurDifferenceCartesien2D(vecteurT * v1, vecteurT * v2, vecteurT * v3); // v3 = v1 - v2
+
 float vecteurNormaliseCartesien(vecteurT * v); // normalise, renvoie la norme initiale
+float vecteurNormaliseCartesien2D(vecteurT * v); // normalise, renvoie la norme initiale
 
 int vecteurInitialiseVecteurPhi(vecteurT * pointDeVue, vecteurT * vecteurPhi, float hauteur);
 int vecteurInitialiseVecteurPsi(vecteurT * pointDeVue, vecteurT * vecteurPsi, float largeur);

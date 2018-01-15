@@ -344,12 +344,17 @@ void grapheDessineHumain(SDL_Renderer *rendu, grapheT * graphe)
 
 	pointsT *iterGraph=(*graphe).premier;
 
+	int centrage = (HUMAIN)/2;
+
 	do
 		{
-		coordonnee.x = iterGraph->xm;
-		coordonnee.y = iterGraph->ym;
+		coordonnee.x = iterGraph->xm-centrage;
+		coordonnee.y = iterGraph->ym-centrage;
+		// int plan[BATIMENT_X][BATIMENT_Y][BATIMENT_Z]; // Plan du batiment		À UTILISER ICI ?
+				// 0 : libre, 1 : mur, 2 : sortie		if(iterGraph->zm=(*graphe).plan[][][])
 
-		SDL_RenderCopy(rendu, (*graphe).humain, NULL, &coordonnee);
+		if(iterGraph->zm!=-1) // dessine les humains de l'étage
+			SDL_RenderCopy(rendu, (*graphe).humain, NULL, &coordonnee);
 
 		iterGraph = iterGraph->suivant;
 		}

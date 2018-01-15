@@ -83,8 +83,8 @@ int humainInitialiseCaractere(humainT * humain, float masse, float nervosite, fl
 
 float humainCalculVitesse(humainT * humain)
 	{	// vitesse = nouveau - ancien = vitesse en unité de dt
-	vecteurDifferenceCartesien(&(*humain).nouveau, &(*humain).actuel, &(*humain).vitesse); // v3 = v1 - v2
-	return sqrt(vecteurScalaireCartesien(&(*humain).vitesse, &(*humain).vitesse));
+	vecteurDifferenceCartesien2D(&(*humain).nouveau, &(*humain).actuel, &(*humain).vitesse); // v3 = v1 - v2
+	return sqrt(vecteurScalaireCartesien2D(&(*humain).vitesse, &(*humain).vitesse));
 	}
 
 int humainIncremente(humainT * humain)
@@ -97,25 +97,25 @@ int humainIncremente(humainT * humain)
 int humainInertie(humainT * humain)
 	{
 		// nouveau = 2 actuel - ancien + force
-	vecteurSommeCartesien(&(*humain).actuel, &(*humain).actuel, &(*humain).nouveau); // v3 = v1 + v2
-	vecteurDifferenceCartesien(&(*humain).nouveau, &(*humain).ancien, &(*humain).nouveau); // v3 = v1 - v2
-	vecteurSommeCartesien(&(*humain).forceExterieur, &(*humain).nouveau, &(*humain).nouveau); // v3 = v1 + v2
+	vecteurSommeCartesien2D(&(*humain).actuel, &(*humain).actuel, &(*humain).nouveau); // v3 = v1 + v2
+	vecteurDifferenceCartesien2D(&(*humain).nouveau, &(*humain).ancien, &(*humain).nouveau); // v3 = v1 - v2
+	vecteurSommeCartesien2D(&(*humain).forceExterieur, &(*humain).nouveau, &(*humain).nouveau); // v3 = v1 + v2
 	return 0;
 	}
 
 int humainCouplage(humainT * humain, vecteurT * vitesseSouhaite)
 	{
 		// vitesse = nouveau - actuel
-	vecteurDifferenceCartesien(&(*humain).nouveau, &(*humain).actuel, &(*humain).vitesse); // v3 = v1 - v2
+	vecteurDifferenceCartesien2D(&(*humain).nouveau, &(*humain).actuel, &(*humain).vitesse); // v3 = v1 - v2
 
 		// vitesseSouhaite = dt vitesseSouhaite
-	vecteurProduitCartesien(vitesseSouhaite, (*humain).dt, &(*humain).vitesseSouhaite); // v2 = lambda v1
+	vecteurProduitCartesien2D(vitesseSouhaite, (*humain).dt, &(*humain).vitesseSouhaite); // v2 = lambda v1
 
 		// force = vitesse souhaite - vitesse (le tout fois dt)
-	vecteurDifferenceCartesien(&(*humain).vitesseSouhaite, &(*humain).vitesse, &(*humain).forceExterieur); // v3 = v1 - v2
+	vecteurDifferenceCartesien2D(&(*humain).vitesseSouhaite, &(*humain).vitesse, &(*humain).forceExterieur); // v3 = v1 - v2
 
 		//  force = dtsurtau force
-	vecteurProduitCartesien(&(*humain).forceExterieur, (*humain).dtsurtau, &(*humain).forceExterieur); // v2 = lambda v1
+	vecteurProduitCartesien2D(&(*humain).forceExterieur, (*humain).dtsurtau, &(*humain).forceExterieur); // v2 = lambda v1
 	return 0;
 	}
 

@@ -58,7 +58,7 @@ int systemeEvolution(systemeT * systeme, int duree)
 
 int systemeCouplage(systemeT * systeme)
 	{ // Calcul des forces extérieures
-	int X, Y;	
+	int X, Y, Z;	
 	chaineT *iter;
 	iter = (*systeme).foule.premier;
 
@@ -66,19 +66,33 @@ int systemeCouplage(systemeT * systeme)
 		{
 		X = (int)(iter->humain.nouveau.x/CELLULE);
 		Y = (int)(iter->humain.nouveau.y/CELLULE);
-		if(X<0 || X>BATIMENT_X)
+		Z = iter->humain.nouveau.z;
+		if(Z>-1 && Z<BATIMENT_Z)
 			{
-			fprintf(stderr, "systemeCouplage : humain hors batiment.\n");
-			}
-		else
-			{
-			if(Y<0 || Y>BATIMENT_Y)
+			if((*systeme).batiment.etage[Z].cellule[X][Y].statut==2)
 				{
-				fprintf(stderr, "systemeCouplage : humain hors batiment.\n");
+				fprintf(stderr, "systemeCouplage : Sortie d'un humain \n");
+				iter->humain.nouveau.z--;
+				(*systeme).foule.restant--;
+				fprintf(stderr, "systemeCouplage : Il en reste %d dans le batiment \n", (*systeme).foule.restant);
+				fprintf(stderr, "systemeCouplage : chronomètre = %f \n", (*systeme).foule.horloge);
+				}
+			if(X<0 || X>BATIMENT_X)
+				{
+				//fprintf(stderr, "systemeCouplage : humain hors batiment.\n");
+				iter->humain.nouveau.z=-1;
 				}
 			else
 				{
-				humainCouplage(&(iter->humain), &(*systeme).batiment.etage[0].cellule[X][Y].sens);
+				if(Y<0 || Y>BATIMENT_Y)
+					{
+					//fprintf(stderr, "systemeCouplage : humain hors batiment.\n");
+					iter->humain.nouveau.z=-1;
+					}
+				else	// Calcul du couplage si l'humain est à l'étage.
+					{
+					humainCouplage(&(iter->humain), &(*systeme).batiment.etage[Z].cellule[X][Y].sens);
+					}
 				}
 			}
 		iter=iter->suivant;

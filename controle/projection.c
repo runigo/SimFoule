@@ -31,6 +31,22 @@ termes.
 
 #include "projection.h"
 
+int projectionInitialiseCouleurs(projectionT * projection, int r, int v, int b, int fond)
+	{
+	(*projection).rouge=r;
+	(*projection).vert=v;
+	(*projection).bleu=b;
+	(*projection).fond=fond;
+	return 0;
+	}
+
+int projectionInitialiseLongueurs(projectionT * projection, int hauteur, int largeur)
+	{
+	(*projection).hauteur=hauteur;
+	(*projection).largeur=largeur;
+	return 0;
+	}
+
 int projectionBatimentPlan(batimentT * batiment, projectionT * projection, grapheT * graphe)
 	{
 			//	Projette la position des murs sur le graphe

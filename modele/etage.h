@@ -38,7 +38,7 @@ termes.
 struct EtageT {
 	celluleT cellule[BATIMENT_X][BATIMENT_Y];	//	Un étage est un tableau de cellules
 
-	int etage; // Numero de l'étage
+	int etage; // Numéro de l'étage
 
 	vecteurT angle[8];	// Vecteurs directions 			    6
 				//	possibles			 5     7
@@ -50,7 +50,7 @@ struct EtageT {
 };
 typedef struct EtageT etageT;
 
-int etageInitialise(etageT * etage);
+int etageInitialise(etageT * etage, int niveau);
 
 int etageCreationCelluleMur(etageT * etage, int X, int Y);
 int etageCreationCelluleSortie(etageT * etage, int X, int Y);

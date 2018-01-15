@@ -111,7 +111,8 @@ int fouleInertie(fouleT * foule)
 
 	do
 		{
-		humainInertie(&(iter->humain));
+		if((iter->humain).nouveau.z!=-1)
+			humainInertie(&(iter->humain));
 		iter=iter->suivant;
 		}
 	while(iter!=(*foule).premier);

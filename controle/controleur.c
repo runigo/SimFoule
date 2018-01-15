@@ -51,7 +51,7 @@ void controleurChangeVitesse(controleurT * control, float facteur);
 int controleurDirections(controleurT * controleur)
 	{
 		// Calcul des directions
-		fprintf(stderr, "  Calcul des directions\n");
+		//fprintf(stderr, "  controleurDirections\n");
 	batimentDirections(&(*controleur).systeme.batiment);
 	return 0;
 	}
@@ -62,9 +62,9 @@ int controleurInitialisation(controleurT * controleur)
 
 	(*controleur).options.sortie = 0;	// Sortie de SiCP si > 0
 
-		//fprintf(stderr, "  Initialisation de la projection\n");
-	//projectionInitialiseCouleurs(&(*controleur).projection, 50, 50, 50, (*controleur).options.fond);
-	//projectionInitialiseLongueurs(&(*controleur).projection, BATIMENT_X, BATIMENT_Y);
+		fprintf(stderr, "  Initialisation de la projection\n");
+	projectionInitialiseCouleurs(&(*controleur).projection, 50, 50, 50, (*controleur).options.fond);
+	projectionInitialiseLongueurs(&(*controleur).projection, BATIMENT_X, BATIMENT_Y);
 
 		fprintf(stderr, "  Initialisation du batiment\n");
 	donneesInitialisationBatiment(&(*controleur).systeme.batiment, &(*controleur).options);
@@ -247,29 +247,34 @@ void controleurChangeVitesse(controleurT * controleur, float facteur)
 	{
 	if( (*controleur).options.duree > 999 && facteur > 1 )
 		{
-		fprintf(stderr, "duree maximale atteinte");
+		fprintf(stderr, "duree maximale atteinte, ");
+		fprintf(stderr, "duree = %d\n",(*controleur).options.duree);
 		}
 	else
 		{
 		if( (*controleur).options.duree > 11 )
 			{
 			(*controleur).options.duree = (*controleur).options.duree * facteur;
+			fprintf(stderr, "duree = %d\n",(*controleur).options.duree);
 			}
 		else
 			{
 			if( facteur > 1)
 				{
 				(*controleur).options.duree ++;
+				fprintf(stderr, "duree = %d\n",(*controleur).options.duree);
 				}
 			else
 				{
 				if( (*controleur).options.duree > 1 )
 					{
 					(*controleur).options.duree --;
+					fprintf(stderr, "duree = %d\n",(*controleur).options.duree);
 					}
 				else
 					{
-					fprintf(stderr, "duree minimale atteinte");
+					fprintf(stderr, "duree minimale atteinte, ");
+					fprintf(stderr, "duree = %d\n",(*controleur).options.duree);
 					}
 				}
 			}

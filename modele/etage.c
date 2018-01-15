@@ -38,10 +38,7 @@ int etageCalculeDistance(etageT * etage); // Ajoute la distance la plus grande �
 int etageCalculeAngle(etageT * etage); // Calcul l'angle associé à la direction
 int etageCalculeAngleCellule(etageT * etage, int i, int j); // Calcul l'angle associé à la direction pour la cellule
 
-//int etageEvolutionDistance(etageT * etage);
-//int etageEvolutionSens(etageT * etage);
-
-int etageInitialise(etageT * etage)
+int etageInitialise(etageT * etage, int niveau)
 	{
 	int i, j;
 	for(i=0;i<BATIMENT_X;i++)
@@ -61,6 +58,9 @@ int etageInitialise(etageT * etage)
 	vecteurCartesien(&(*etage).angle[5], -0.7071, -0.7071, 0);
 	vecteurCartesien(&(*etage).angle[6], 0.0, -1.0, 0);
 	vecteurCartesien(&(*etage).angle[7], 0.7071, -0.7071, 0);
+
+		// Numéro de l'étage
+	(*etage).etage=niveau;
 
 		// Vecteur nul
 	vecteurCartesien(&(*etage).vecteurNul, 0.0, 0.0, 0);
@@ -94,10 +94,10 @@ int etageDonneStatutCellule(etageT * etage, int i, int j)
 int etageCalculDistanceEtSens(etageT * etage)
 	{
 	int i, j;
-	bool sortie;
+	bool sortie=false;
 	int compteur = 0;
 
-		fprintf(stderr, "  Initialisation des sorties\n");
+		fprintf(stderr, "    Initialisation des sorties\n");
 	for(i=0;i<BATIMENT_X;i++)
 		{
 		for(j=0;j<BATIMENT_Y;j++)
@@ -105,16 +105,16 @@ int etageCalculDistanceEtSens(etageT * etage)
 			if(celluleDonneStatut(&(*etage).cellule[i][j]) == 2)
 				{
 				celluleChangeVisite(&(*etage).cellule[i][j], 1);
-				fprintf(stderr, "    Sortie : %d, %d\n", i, j);
+				fprintf(stderr, "      Sortie : %d, %d\n", i, j);
 				}
 			}
 		}
 
 	//etageAffiche(etage);
-	fprintf(stderr, "Calcul sens et distance\n");
+	fprintf(stderr, "    Calcul sens et distance\n");
 	do
 		{
-		sortie=true;
+		if(compteur>2)sortie=true;
 
 			// Visite des cellules du front
 		for(i=0;i<BATIMENT_X;i++)
@@ -122,8 +122,8 @@ int etageCalculDistanceEtSens(etageT * etage)
 			for(j=0;j<BATIMENT_Y;j++)
 				{
 				if(celluleDonneStatut(&(*etage).cellule[i][j])!=1
-					&& celluleDonneVisite(&(*etage).cellule[i][j])==0
-					&& etageVoisinVisite(etage, i, j)>0)
+						&& celluleDonneVisite(&(*etage).cellule[i][j])==0
+						&& etageVoisinVisite(etage, i, j)>0)
 					{
 					etageCalculeSens(etage, i, j);
 					celluleChangeVisite(&(*etage).cellule[i][j], -1); // Vient d'être visité
@@ -149,7 +149,7 @@ int etageCalculDistanceEtSens(etageT * etage)
 			{
 			for(j=0;j<BATIMENT_Y;j++)
 				{
-				if(celluleDonneVisite(&(*etage).cellule[i][j])==1)
+				if(celluleDonneVisite(&(*etage).cellule[i][j])!=0)
 					{
 					celluleChangeDistance(&(*etage).cellule[i][j], -1); // Ajoute -1 au cellule visitées
 					}
@@ -158,14 +158,14 @@ int etageCalculDistanceEtSens(etageT * etage)
 		compteur++;
 		if(compteur>CELLULE_ETAGE)
 			{
-			fprintf(stderr, "etageCalculDistanceEtSens : Il y aurait des cellules inaccessibles ?\n");
+			fprintf(stderr, "    ERREUR : etageCalculDistanceEtSens : Il y aurait des cellules inaccessibles ?\n");
 			sortie=true;
 			}
 		}
 	while(sortie==false);
 
 	//etageAffiche(etage);
-		fprintf(stderr, "Jauge des distances\n");
+		fprintf(stderr, "    Jauge des distances\n");
 	etageCalculeDistance(etage);
 	etageCalculeAngle(etage);
 	//etageAffiche(etage);
@@ -203,7 +203,7 @@ int etageCalculeDistance(etageT * etage)
 				}
 			}
 		}
-	fprintf(stderr, "  etageCalculeDistance, max = %d\n", max);
+	fprintf(stderr, "      etageCalculeDistance, max = %d\n", max);
 	for(i=0;i<BATIMENT_X;i++)
 		{
 		for(j=0;j<BATIMENT_Y;j++)
@@ -221,33 +221,37 @@ int etageCalculeSens(etageT * etage, int i, int j)
 	//int angle = 0;
 	int nombre = 0;
 
-	if(celluleDonneVisite(&(*etage).cellule[i+1][j]))
+	if(celluleDonneVisite(&(*etage).cellule[i+1][j])) // vers angle 0
 		{
-		vecteurSommeCartesien(&(*etage).angle[0], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
+		vecteurSommeCartesien2D(&(*etage).angle[0], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
 		nombre++;
 		}
-	if(celluleDonneVisite(&(*etage).cellule[i][j+1]))
+	if(celluleDonneVisite(&(*etage).cellule[i-1][j])) // vers angle 4
 		{
-		vecteurSommeCartesien(&(*etage).angle[2], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
+		if(nombre==0)
+			{
+			vecteurSommeCartesien2D(&(*etage).angle[4], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
+			nombre++;
+			}
+		}
+	if(celluleDonneVisite(&(*etage).cellule[i][j+1])) // vers angle 2
+		{
+		vecteurSommeCartesien2D(&(*etage).angle[2], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
 		nombre++;
 		}
-	if(celluleDonneVisite(&(*etage).cellule[i-1][j]))
+	if(celluleDonneVisite(&(*etage).cellule[i][j-1])) // vers angle 6
 		{
 		if(nombre<2)
-		vecteurSommeCartesien(&(*etage).angle[4], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
-		nombre++;
-		}
-	if(celluleDonneVisite(&(*etage).cellule[i][j-1]))
-		{
-		if(nombre<2)
-		vecteurSommeCartesien(&(*etage).angle[6], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
+		vecteurSommeCartesien2D(&(*etage).angle[6], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
 		nombre++;
 		}
 
-	(*etage).cellule[i][j].norme=vecteurNormaliseCartesien(&(*etage).cellule[i][j].sens);
+	(*etage).cellule[i][j].norme=vecteurNormaliseCartesien2D(&(*etage).cellule[i][j].sens);
 
 	if((*etage).cellule[i][j].norme<0.0)
-		fprintf(stderr, "etageCalculeSens : norme négative, cellule %d, %d\n", i, j);
+		fprintf(stderr, "      ERREUR : etageCalculeSens : norme négative, cellule[%d][%d]\n", i, j);
+	//else
+		//fprintf(stderr, "etageCalculeSens : cellule[%d][%d]\n", i, j);
 	return 0;
 	}
 
@@ -269,14 +273,16 @@ int etageCalculeAngle(etageT * etage)
 int etageCalculeAngleCellule(etageT * etage, int i, int j)
 	{  // Calcul l'angle associé à la direction pour la cellule
 		// float vecteurScalaireCartesien(vecteurT * v1, vecteurT * v2);
-	float scalaireX = vecteurScalaireCartesien(&(*etage).cellule[i][j].sens, &(*etage).angle[0]);
-	float scalaireY = vecteurScalaireCartesien(&(*etage).cellule[i][j].sens, &(*etage).angle[2]);
+	float scalaireX = vecteurScalaireCartesien2D(&(*etage).cellule[i][j].sens, &(*etage).angle[0]);
+	float scalaireY = vecteurScalaireCartesien2D(&(*etage).cellule[i][j].sens, &(*etage).angle[2]);
+	int compteur=1;
 
 	if(scalaireX > 0.1)
 		{
 		(*etage).cellule[i][j].angle = 0;
 		if(scalaireY > 0.1) (*etage).cellule[i][j].angle = 1;
 		if(scalaireY < -0.1) (*etage).cellule[i][j].angle = 7;
+		compteur = 0;
 		}
 	else
 		{
@@ -285,15 +291,19 @@ int etageCalculeAngleCellule(etageT * etage, int i, int j)
 			(*etage).cellule[i][j].angle = 4;
 			if(scalaireY > 0.1) (*etage).cellule[i][j].angle = 3;
 			if(scalaireY < -0.1) (*etage).cellule[i][j].angle = 5;
+			compteur = 0;
 			}
 		else // scalaireX == 0
 			{
 			if(scalaireY > 0.1) (*etage).cellule[i][j].angle = 2;
 			if(scalaireY < -0.1) (*etage).cellule[i][j].angle = 6;
+			compteur = 0;
 			}
 		}
 
-	return 0;
+	if(compteur==1)fprintf(stderr, "ERREUR : etageCalculeAngleCellule : angle non calculé, cellule %d, %d\n", i, j);
+
+	return compteur;
 	}
 
 /*
@@ -339,7 +349,7 @@ int etageAffiche(etageT * etage)
 		{
 		for(i=0;i<BATIMENT_X;i++)
 			{
-			fprintf(stderr, " %f", (*etage).cellule[i][j].norme);
+			fprintf(stderr, " %6.3f", (*etage).cellule[i][j].norme);
 			}
 		fprintf(stderr, " \n");
 		}

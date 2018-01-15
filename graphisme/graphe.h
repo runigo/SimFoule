@@ -48,7 +48,7 @@ struct GrapheT {
 	SDL_Texture *direction1;
 	SDL_Texture *direction2;
 	SDL_Texture *direction3;
-	SDL_Texture *direction4;
+	SDL_Texture *direction4; // Flèche pour illustrer la direction
 	SDL_Texture *direction5;
 	SDL_Texture *direction6;
 	SDL_Texture *direction7;

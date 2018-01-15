@@ -56,7 +56,7 @@ int donneesOptionsImplicite(optionsT * options)
 
 int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 	{
-		printf("    donneesInitialisationBatiment : batimentInitialise\n");
+		printf("    donneesInitialisationBatiment : batimentInitialise %d\n", (*options).initial);
 	(*options).nombre = batimentInitialise(batiment, (*options).initial);
 		fprintf(stderr, "    donneesInitialisationBatiment : nombre d'humain = %d\n", (*options).nombre);
 /*
@@ -86,16 +86,18 @@ int donneesSauvegardeBatiment(batimentT * batiment, optionsT * options)
 
 int donneesCreationFoule(fouleT * foule, optionsT * options)
 	{
-
 		// Initialisation de la foule
 
-	(*foule).nombre = (*options).nombre;	// Nombre d'humain
 	(*foule).dt = (*options).dt;		// Discrétisation du temps
-	(*foule).masse = (*options).masse;			// Masse des humains
 	(*foule).horloge = 0.0;			// Horloge
-	// Nervosité des humains maximale Nervosite nervosite
-	(*foule).nervosite = (*options).nervosite;	// dissipation
 
+	(*foule).nombre = (*options).nombre;	// Nombre d'humain
+	(*foule).restant = (*options).nombre;	// Nombre d'humain restant à sortir
+
+	(*foule).masse = (*options).masse;		// Masse des humains
+	(*foule).nervosite = (*options).nervosite;	// Nervosité des humains
+
+		// Création de la chaîne
 	fouleCreation(foule);
 
 	return 0;
@@ -104,7 +106,7 @@ int donneesCreationFoule(fouleT * foule, optionsT * options)
 int donneesInitialisationFoule(fouleT * foule, batimentT * batiment)
 	{
 	chaineT *iter=(*foule).premier;
-	float centrage = ((float)(CELLULE-HUMAIN))/2.0;
+	float centrage = ((float)(CELLULE))/2.0;
 	int i, j, k;
 	int compteur = 0;
 
@@ -119,6 +121,7 @@ int donneesInitialisationFoule(fouleT * foule, batimentT * batiment)
 					{
 					humainInitialisePosition(&iter->humain, i*CELLULE+centrage, j*CELLULE+centrage, k);
 					//fprintf(stderr, "Initialisation position humain : %d, %d\n", i, j);
+					//fprintf(stderr, "  coordonnées : x= %f, y= %f, z= %d\n", iter->humain.nouveau.x, iter->humain.nouveau.y, iter->humain.nouveau.z);
 					iter=iter->suivant;
 					compteur ++;
 					}

@@ -1,5 +1,5 @@
 
-# Copyright décembre 2017, Stephan Runigo
+# Copyright janvier 2018, Stephan Runigo
 # runigo@free.fr
 # Documentation du programme SimFoule
 # Cette documentation accompagne le programme de simulation de foule. 

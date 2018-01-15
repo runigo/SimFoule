@@ -54,7 +54,7 @@ struct HumainT {
 typedef struct HumainT humainT;
 
 int humainInitialise(humainT * humain, float masse, float nervosite, float dt);
-int humainInitialisePosition(humainT * humain, float x, float y, int z);
+int humainInitialisePosition(humainT * humain, float x, float y, int z); // z=-1 : sortie
 int humainInitialiseCaractere(humainT * humain, float masse, float nervosite, float dt);
 
 int humainInertie(humainT * humain);
