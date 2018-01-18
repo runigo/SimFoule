@@ -1,5 +1,5 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -39,26 +39,37 @@ int interfaceInitialisation(interfaceT * interface, int fond)
 	(*interface).continu = true;
 	(*interface).fond = fond;
 
-	// Création de la fenêtre
+
+		// Création de la fenêtre
+					// test : SDL_WINDOW_SHOWN || SDL_WINDOW_RESIZABLE
 	(*interface).fenetre = SDL_CreateWindow("Simulateur de foule", SDL_WINDOWPOS_UNDEFINED, 
 							SDL_WINDOWPOS_UNDEFINED, FENETRE_X, FENETRE_Y, 
-							SDL_WINDOW_RESIZABLE);
+							SDL_WINDOW_SHOWN);
+	if(NULL == (*interface).fenetre)
+		fprintf(stderr, "interfaceInitialisation : Erreur SDL_CreateWindow : %s.", SDL_GetError());
 
-	// Création du rendu
+
+		// Création du rendu
+
 	(*interface).rendu = SDL_CreateRenderer((*interface).fenetre, -1 , 
 					SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
-
-
+	if(NULL == (*interface).rendu)
+		fprintf(stderr, "interfaceInitialisation : Erreur SDL_CreateRenderer : %s.", SDL_GetError());
+/*
+		// Activation de la transparence
+	//SDL_BLENDMODE_NONE || SDL_BLENDMODE_BLEND || SDL_BLENDMODE_ADD || SDL_BLENDMODE_MOD
+	if(SDL_SetRenderDrawBlendMode((*interface).rendu, SDL_BLENDMODE_BLEND) < 0)
+		fprintf(stderr, "Erreur SDL_SetRenderDrawBlendMode : %s.", SDL_GetError());
+*/
 	return 0;
 	}
 
 int interfaceNettoyage(interfaceT * interface)
 	{
 	int fond = (*interface).fond;
-	SDL_SetRenderDrawColor((*interface).rendu, fond, fond, fond, SDL_ALPHA_OPAQUE);
+	SDL_SetRenderDrawColor((*interface).rendu, fond, fond, fond, 0);//SDL_ALPHA_OPAQUE
 	SDL_RenderClear((*interface).rendu);
-	SDL_SetRenderDrawColor((*interface).rendu, 255-fond, 255-fond, 255-fond, SDL_ALPHA_OPAQUE);
+	SDL_SetRenderDrawColor((*interface).rendu, 255-fond, 255-fond, 255-fond, 0);//SDL_ALPHA_OPAQUE
 	return 0;
 	}
 

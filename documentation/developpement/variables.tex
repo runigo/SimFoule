@@ -1,7 +1,7 @@
 %
-%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Valeurs implicites}
-%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 \subsection{Réglage de dt, durée et pause}
@@ -14,9 +14,9 @@ Empiriquement, un affichage graphique par 30 ms, est obtenue avec une pause de l
 	dt & = & 0,003\\
 	\end{tabular}
 \end{center}
-La valeur de {\texttt duree} peut être changée dynamiquement avec les touches {\texttt F11} et {\texttt F12} afin de faire varier la vitese de la simulation. La valeur de dt peut être réglée avec l'option {\texttt dt} au démarrage du programme, celle de delay par l'option {\texttt pause}.
+La valeur de {\texttt duree} peut être changée dynamiquement avec les touches {\texttt F9}, {\texttt F10}, {\texttt F11} et {\texttt F12} afin de faire varier la vitese de la simulation. La valeur de dt peut être réglée avec l'option {\texttt dt} au démarrage du programme, celle de delay par l'option {\texttt pause}.
 
-Dans SimFoule, les valeurs implicites de {\texttt dt} et {\texttt duree} sont égale à 0,003 et 11, celle de pause est égale à 25. Ces valeurs peuvent être affinée suivant les objectifs et les capacités de l'ordinateur.
+Dans SimFoule, la valeurs implicites de pause est égale à 25, les valeurs implicites de {\texttt dt} et {\texttt duree} sont réglées dans le fichier {\texttt donnees/donnes.c}. Ces valeurs peuvent être modifiées suivant les objectifs et les capacités de l'ordinateur.
 %
 %
 %
@@ -27,10 +27,11 @@ Dans SimFoule, les valeurs implicites de {\texttt dt} et {\texttt duree} sont é
 Au delà de certaines valeurs de certain paramètres dynamiques, la simulation s'éloigne du comportement physique.
 \begin{itemize}[label=\ding{32}, leftmargin=2cm]
 \item Pour des raisons de discrétisation
-\item En raisons de possibles erreurs d'algorithme
+\item En raisons de possibles erreurs d'algorithme (Le calcul de plus court chemin est réalisé de manière basique et contient un certain nombre d'imperfection...)
 \item En raisons de possibles erreurs d'écriture
 \end{itemize}
 %
+Aussi, le fichier {\texttt donnees/constantes.c} contient des valeurs maximale et minimale de certains paramètres. Ces bornes permettent de consolider le comportement du programme.
 %
 \subsubsection{Paramètres physiques}
 %

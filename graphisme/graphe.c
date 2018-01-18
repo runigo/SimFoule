@@ -102,6 +102,11 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
+		// Activation de la transparence
+	//SDL_BLENDMODE_NONE || SDL_BLENDMODE_BLEND || SDL_BLENDMODE_ADD || SDL_BLENDMODE_MOD
+	if(SDL_SetTextureBlendMode((*graphe).humain, SDL_BLENDMODE_MOD) < 0)
+		fprintf(stderr, "grapheInitialisation : Erreur SDL_SetRenderDrawBlendMode : %s.", SDL_GetError());
+
 	image = SDL_LoadBMP("./image/sortie.bmp");
 	if (!image)
 		{

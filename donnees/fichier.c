@@ -34,26 +34,28 @@ termes.
 
 int fichierEcriture(batimentT * batiment, int numero)
 	{
-	FILE *fichier; /* pointeur sur FILE */
+		// Touche W à N : écrit dans les fichiers q à h
+		//	la configuration dessinée
+
+	FILE *fichier;
 
 	switch (numero)
 		{
-		case 10:
+		case 10: // Touche W
 			fichier = fopen("./donnees/enregistrement/situation_q.simfoule", "w");break;
-		case 11:
+		case 11: // Touche X
 			fichier = fopen("./donnees/enregistrement/situation_s.simfoule", "w");break;
-		case 12:
+		case 12: // Touche C
 			fichier = fopen("./donnees/enregistrement/situation_d.simfoule", "w");break;
-		case 13:
+		case 13: // Touche V
 			fichier = fopen("./donnees/enregistrement/situation_f.simfoule", "w");break;
-		case 14:
+		case 14: // Touche B
 			fichier = fopen("./donnees/enregistrement/situation_g.simfoule", "w");break;
-		case 15:
+		case 15: // Touche N
 			fichier = fopen("./donnees/enregistrement/situation_h.simfoule", "w");break;
 		default:
 			;
 		}
-	//fichier = fopen("fluxon.sicp", "w");  /* write */
 
 	if(fichier == NULL)
 		{
@@ -180,35 +182,3 @@ int fichierLecture(batimentT * batiment, int numero)
 	}
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-/*
-Copyright janvier 2017, Stephan Runigo
-runigo@free.fr
-SiCF 1.1.1  simulateur de corde vibrante et spectre
-Ce logiciel est un programme informatique servant à simuler l'équation
-d'une chaîne de pendules et à en donner une représentation graphique en
-trois dimensions.
-Ce logiciel est régi par la licence CeCILL soumise au droit français et
-respectant les principes de diffusion des logiciels libres. Vous pouvez
-utiliser, modifier et/ou redistribuer ce programme sous les conditions
-de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
-sur le site "http://www.cecill.info".
-En contrepartie de l'accessibilité au code source et des droits de copie,
-de modification et de redistribution accordés par cette licence, il n'est
-offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
-seule une responsabilité restreinte pèse sur l'auteur du programme, le
-titulaire des droits patrimoniaux et les concédants successifs.
-A cet égard  l'attention de l'utilisateur est attirée sur les risques
-associés au chargement,  à l'utilisation,  à la modification et/ou au
-développement et à la reproduction du logiciel par l'utilisateur étant
-donné sa spécificité de logiciel libre, qui peut le rendre complexe à
-manipuler et qui le réserve donc à des développeurs et des professionnels
-avertis possédant  des  connaissances  informatiques approfondies. Les
-utilisateurs sont donc invités à charger  et  tester  l'adéquation du
-logiciel à leurs besoins dans des conditions permettant d'assurer la
-sécurité de leurs systèmes et ou de leurs données et, plus généralement,
-à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
-Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
-pris connaissance de la licence CeCILL, et que vous en avez accepté les
-termes.
-*/
-
