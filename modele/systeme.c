@@ -1,7 +1,7 @@
 /*
 Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
-Simfoule 1.0  simulateur de foule
+Simfoule 1.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -33,7 +33,8 @@ termes.
 #include "systeme.h"
 
 
-int systemeCouplage(systemeT * systeme); // Calcul des forces extérieures
+int systemeForceBatiment(systemeT * systeme); // Calcul de la force de couplage avec le batiment
+int systemeForceMurs(systemeT * systeme); // Calcul de la force de couplage avec les mur
 
 
 int systemeEvolution(systemeT * systeme, int duree)
@@ -43,9 +44,17 @@ int systemeEvolution(systemeT * systeme, int duree)
 	//	Fait évoluer le système pendant duree*dt
 	for(i=0;i<duree;i++)
 		{
-		//	Évolution élémentaire
+			// Déplacement inertiel
 		fouleInertie(&(*systeme).foule);
-		systemeCouplage(systeme);
+
+			// Calcul des forces dans la 
+			// nouvelle situation
+		systemeForceBatiment(systeme);
+		//fouleForceHumains(&(*systeme).foule);
+		//systemeForceMurs(systeme);
+		fouleSommeForces(&(*systeme).foule);
+
+			// Incrémentation
 		fouleIncremente(&(*systeme).foule);
 		}
 
@@ -56,7 +65,58 @@ int systemeEvolution(systemeT * systeme, int duree)
 
 
 
-int systemeCouplage(systemeT * systeme)
+int systemeForceMurs(systemeT * systeme)
+	{ // Calcul des forces de contact avec les murs
+	int X, Y, Z;
+	int etage;
+	chaineT *iter;
+	iter = (*systeme).foule.premier;
+	float force;
+
+		// Remise à zéro
+	do
+		{
+		vecteurCartesien(&iter->humain.forceMurs, 0.0, 0.0, 0.0);
+		iter=iter->suivant;
+		}
+	while(iter!=(*systeme).foule.premier);
+
+
+	do
+		{
+		X = (int)(iter->humain.nouveau.x/CELLULE);
+		Y = (int)(iter->humain.nouveau.y/CELLULE);
+		Z = iter->humain.nouveau.z;
+		for(etage=0;etage<BATIMENT_Z;etage++)
+			{
+			if(Z==etage)
+				{
+				if((*systeme).batiment.etage[Z].cellule[X-1][Y].statut==1)
+					force = humainAjouteForceMur(&iter->humain, -1, 0, &(*systeme).batiment.etage[etage].angle[0]);
+				//if((*systeme).batiment.etage[Z].cellule[X-1][Y-1].statut==1)
+				//	force = humainAjouteForceMur(&iter->humain, -1, -1, &(*systeme).batiment.etage[etage].angle[1]);
+				if((*systeme).batiment.etage[Z].cellule[X][Y-1].statut==1)
+					force = humainAjouteForceMur(&iter->humain, 0, -1, &(*systeme).batiment.etage[etage].angle[2]);
+				//if((*systeme).batiment.etage[Z].cellule[X+1][Y-1].statut==1)
+				//	force = humainAjouteForceMur(&iter->humain, 1, -1, &(*systeme).batiment.etage[etage].angle[3]);
+				if((*systeme).batiment.etage[Z].cellule[X+1][Y].statut==1)
+					force = humainAjouteForceMur(&iter->humain, 1, 0, &(*systeme).batiment.etage[etage].angle[4]);
+				//if((*systeme).batiment.etage[Z].cellule[X+1][Y+1].statut==1)
+				//	force = humainAjouteForceMur(&iter->humain, 1, 1, &(*systeme).batiment.etage[etage].angle[5]);
+				if((*systeme).batiment.etage[Z].cellule[X][Y+1].statut==1)
+					force = humainAjouteForceMur(&iter->humain, 0, 1, &(*systeme).batiment.etage[etage].angle[6]);
+				//if((*systeme).batiment.etage[Z].cellule[X-1][Y+1].statut==1)
+				//	force = humainAjouteForceMur(&iter->humain, -1, 1, &(*systeme).batiment.etage[etage].angle[7]);
+				}
+			}
+		iter=iter->suivant;
+		}
+	while(iter!=(*systeme).foule.premier);
+
+	return (int)force;
+	}
+
+int systemeForceBatiment(systemeT * systeme)
 	{ // Calcul des forces extérieures
 	int X, Y, Z;	
 	chaineT *iter;

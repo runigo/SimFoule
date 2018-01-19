@@ -87,8 +87,11 @@ int batimentInitialise(batimentT * batiment, int numero)
 			{
 			for(j=1;j<BATIMENT_Y-1;j++)
 				{
-				celluleCreationHumain(&(*batiment).etage[k].cellule[i][j]);
-				nombre++;
+				if((i+j)/2 == (i+j+1)/2 )
+					{
+					celluleCreationHumain(&(*batiment).etage[k].cellule[i][j]);
+					nombre++;
+					}
 				}
 			}
 		}

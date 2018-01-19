@@ -42,7 +42,7 @@ int donneesOptionsImplicite(optionsT * options)
 	(*options).fond=240;	// couleur du fond de l'affichage
 	(*options).mode = 1;	// -1 : Wait, 1 : Poll
 	(*options).pause=25;	// temps de pause SDL en ms
-	(*options).duree = 30;	// nombre d'incrémentation de la foule par affichage
+	(*options).duree = 90;	// nombre d'incrémentation de la foule par affichage
 
 	(*options).initial=-1;	// Numéro du fichier d'initialisation.
 

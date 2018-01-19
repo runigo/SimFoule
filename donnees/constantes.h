@@ -1,7 +1,7 @@
 /*
 Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.0  simulateur de foule
+SimFoule 1.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -44,12 +44,14 @@ termes.
 
 	//----------         DIMENSIONS  SPATIALES         -----------//
 
-#define BATIMENT_X 45	// Longueur suivant x du batiment (en nombre de cellule)
-#define BATIMENT_Y 45	// Longueur suivant y du batiment (en nombre de cellule)
+#define BATIMENT_X 25	// Longueur suivant x du batiment (en nombre de cellule)
+#define BATIMENT_Y 25	// Longueur suivant y du batiment (en nombre de cellule)
 #define BATIMENT_Z 1	// Nombre d'étage
 
-#define CELLULE 9	// Longueur du coté d'une cellule (en pixel)
-#define HUMAIN 7	// Longueur du coté d'un humain (en pixel)
+#define CELLULE 12		// Longueur du coté d'une cellule (en pixel)
+#define CELLULESUR2 CELLULE/2	// Demi longueur du coté d'une cellule (en pixel)
+#define HUMAIN 8		// Longueur du coté d'un humain (en pixel)
+#define HUMAINSUR2 HUMAIN/2	// Demi longueur du coté d'un humain (en pixel)
 
 	#define FENETRE_X BATIMENT_X*CELLULE // Taille de la fenêtre
 	#define FENETRE_Y BATIMENT_Y*CELLULE // Taille de la fenêtre
@@ -70,10 +72,18 @@ termes.
 #define INITIAL_MIN -2	// Fichiers d'initialisation
 #define INITIAL_MAX 2	// Fichiers d'initialisation
 
-#define MASSE_MIN 9	// Masse minimale d'un humain
+#define MASSE_MIN 5	// Masse minimale d'un humain
 #define MASSE_MAX 199	// Masse maximale d'un humain
 
 #define NERVOSITE_MAX 29.1	// Nervosité maximale
 #define NERVOSITE_MIN 0.19	// Nervosité minimale
 
+
+	//----------        PARAMETRES  D'INTERACTIONS        -----------//
+
+#define INTERACTION_HUMAIN HUMAIN*1.5	// Distance maximale arithmetique de prise en compte des contacts
+#define FORCE_CONTACT_HUMAIN 51	// constante de force de répulsion de contact entre humain
+#define FORCE_CONTACT_MUR 1711		// constante de force de répulsion de contact avec les murs
+#define FORCE_COUPLAGE 19		// constante de force de couplage
 #endif
+//////////////////////////////////////////////////////////////////////
