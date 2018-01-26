@@ -50,8 +50,8 @@ int systemeEvolution(systemeT * systeme, int duree)
 			// Calcul des forces dans la 
 			// nouvelle situation
 		systemeForceBatiment(systeme);
-		//fouleForceHumains(&(*systeme).foule);
-		//systemeForceMurs(systeme);
+		fouleForceHumains(&(*systeme).foule);
+		systemeForceMurs(systeme);
 		fouleSommeForces(&(*systeme).foule);
 
 			// Incrémentation
@@ -84,8 +84,8 @@ int systemeForceMurs(systemeT * systeme)
 
 	do
 		{
-		X = (int)(iter->humain.nouveau.x/CELLULE);
-		Y = (int)(iter->humain.nouveau.y/CELLULE);
+		X = (int)(iter->humain.nouveau.x/CELLULE); // Position i de la cellule
+		Y = (int)(iter->humain.nouveau.y/CELLULE); // Position j de la cellule
 		Z = iter->humain.nouveau.z;
 		for(etage=0;etage<BATIMENT_Z;etage++)
 			{
@@ -93,20 +93,20 @@ int systemeForceMurs(systemeT * systeme)
 				{
 				if((*systeme).batiment.etage[Z].cellule[X-1][Y].statut==1)
 					force = humainAjouteForceMur(&iter->humain, -1, 0, &(*systeme).batiment.etage[etage].angle[0]);
-				//if((*systeme).batiment.etage[Z].cellule[X-1][Y-1].statut==1)
-				//	force = humainAjouteForceMur(&iter->humain, -1, -1, &(*systeme).batiment.etage[etage].angle[1]);
+				if((*systeme).batiment.etage[Z].cellule[X-1][Y-1].statut==1)
+					force = humainAjouteForceMur(&iter->humain, -1, -1, &(*systeme).batiment.etage[etage].angle[1]);
 				if((*systeme).batiment.etage[Z].cellule[X][Y-1].statut==1)
 					force = humainAjouteForceMur(&iter->humain, 0, -1, &(*systeme).batiment.etage[etage].angle[2]);
-				//if((*systeme).batiment.etage[Z].cellule[X+1][Y-1].statut==1)
-				//	force = humainAjouteForceMur(&iter->humain, 1, -1, &(*systeme).batiment.etage[etage].angle[3]);
+				if((*systeme).batiment.etage[Z].cellule[X+1][Y-1].statut==1)
+					force = humainAjouteForceMur(&iter->humain, 1, -1, &(*systeme).batiment.etage[etage].angle[3]);
 				if((*systeme).batiment.etage[Z].cellule[X+1][Y].statut==1)
 					force = humainAjouteForceMur(&iter->humain, 1, 0, &(*systeme).batiment.etage[etage].angle[4]);
-				//if((*systeme).batiment.etage[Z].cellule[X+1][Y+1].statut==1)
-				//	force = humainAjouteForceMur(&iter->humain, 1, 1, &(*systeme).batiment.etage[etage].angle[5]);
+				if((*systeme).batiment.etage[Z].cellule[X+1][Y+1].statut==1)
+					force = humainAjouteForceMur(&iter->humain, 1, 1, &(*systeme).batiment.etage[etage].angle[5]);
 				if((*systeme).batiment.etage[Z].cellule[X][Y+1].statut==1)
 					force = humainAjouteForceMur(&iter->humain, 0, 1, &(*systeme).batiment.etage[etage].angle[6]);
-				//if((*systeme).batiment.etage[Z].cellule[X-1][Y+1].statut==1)
-				//	force = humainAjouteForceMur(&iter->humain, -1, 1, &(*systeme).batiment.etage[etage].angle[7]);
+				if((*systeme).batiment.etage[Z].cellule[X-1][Y+1].statut==1)
+					force = humainAjouteForceMur(&iter->humain, -1, 1, &(*systeme).batiment.etage[etage].angle[7]);
 				}
 			}
 		iter=iter->suivant;

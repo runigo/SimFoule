@@ -176,9 +176,9 @@ float humainAjouteForceHumain(humainT * humain1, humainT * humain2)
 		// Vecteur = unitaire (nouveau1 - nouveau2)
 	float distance = vecteurNormaliseCartesien2D(&vecteur); // normalise, renvoie la norme initiale
 
-	if(distance<HUMAIN)
+	if(distance<HUMAINetDEMI)
 		{
-		force = FORCE_CONTACT_HUMAIN*(*humain1).dt2surM * (HUMAIN - distance); // norme de la force
+		force = FORCE_CONTACT_HUMAIN*(*humain1).dt2surM * (HUMAINetDEMI - distance); // norme de la force
 
 			// Vecteur = force * unitaire
 		vecteurProduitCartesien2D(&vecteur, force, &vecteur); // v2 = lambda v1
@@ -208,25 +208,22 @@ float humainAjouteForceMur(humainT * humain, int DX, int DY, vecteurT * angle)
 		// vecteur temporaire
 	vecteurT vecteur; // r = actuel1 - actuel2  puis normalisation
 
-		// Centre de la cellule
-	vecteurCartesien(&vecteur, X+CELLULESUR2, Y+CELLULESUR2, 0);
-
-		// Position du mur
+		// vecteur = position du mur
 	if(DX==0)
-		vecteurCartesien(&vecteur, x, Y*CELLULE + DY*CELLULESUR2, 0);
+		vecteurCartesien(&vecteur, x, Y*CELLULE + CELLULESUR2 + DY*CELLULESUR2, 0);
 	if(DY==0)
-		vecteurCartesien(&vecteur, X*CELLULE + DX*CELLULESUR2, y, 0);
-	//if(DX!=0 && DY!=0)
-		//vecteurCartesien(&vecteur, X*CELLULE + DX*CELLULESUR2, Y*CELLULE + DY*CELLULESUR2, 0);
+		vecteurCartesien(&vecteur, X*CELLULE + CELLULESUR2 + DX*CELLULESUR2, y, 0);
+	if(DX!=0 && DY!=0)
+		vecteurCartesien(&vecteur, X*CELLULE + CELLULESUR2 + DX*CELLULESUR2, Y*CELLULE + CELLULESUR2 + DY*CELLULESUR2, 0);
 
 		// Vecteur = nouveau - mur
 	vecteurDifferenceCartesien2D(&(*humain).nouveau, &vecteur, &vecteur); // v3 = v1 - v2
 		// Vecteur = unitaire (nouveau - mur)
 	float distance = vecteurNormaliseCartesien2D(&vecteur); // normalise, renvoie la norme initiale
 
-	if(distance<HUMAINSUR2)
+	if(distance<HUMAIN) // SUR2
 		{
-		force = FORCE_CONTACT_MUR*(*humain).dt2surM*(HUMAINSUR2 - distance); // norme de la force
+		force = FORCE_CONTACT_MUR*(*humain).dt2surM*(HUMAIN - distance); // norme de la forceSUR2
 
 			// Vecteur = force * unitaire
 		vecteurProduitCartesien2D(angle, force, &vecteur); // v2 = lambda v1

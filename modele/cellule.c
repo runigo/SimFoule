@@ -1,7 +1,7 @@
 /*
 Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.0  simulateur de foule
+SimFoule 1.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -38,7 +38,7 @@ double celluleInitialise(celluleT * cellule)
 	(*cellule).statut = 0;		// 0:libre, 1:mur, 2:sortie
 	(*cellule).visite = 0;		// Si visité
 	(*cellule).distance = 0;	// Distance à la sortie
-	(*cellule).angle = 3;	// Direction et sens des cellule à ateindre [0..7]
+	(*cellule).angle = 0;	// Direction et sens des cellule à ateindre [0..7]
 	(*cellule).norme = 0;	// Direction et sens des cellule à ateindre [0..7]
 	vecteurCartesien(&(*cellule).sens, 0, 0, 0);	// Direction et sens à suivre
 	return 0;

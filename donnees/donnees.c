@@ -1,7 +1,7 @@
 /*
 Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.0  simulateur de foule
+SimFoule 1.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -47,7 +47,7 @@ int donneesOptionsImplicite(optionsT * options)
 	(*options).initial=-1;	// Numéro du fichier d'initialisation.
 
 	(*options).nombre=33;	// Nombre d'humain
-	(*options).nervosite=9.999;	// Nervosité des humains
+	(*options).nervosite=7.7;	// Nervosité des humains
 	(*options).masse=77.77;	// Masse des humains
 	(*options).dt=0.00666;	// discrétisation du temps
 

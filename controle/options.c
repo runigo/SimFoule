@@ -1,7 +1,7 @@
 /*
 Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.0  simulateur de foule
+SimFoule 1.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -112,15 +112,15 @@ void optionsInitial(optionsT * option, char *opt)
 void optionsNervosite(optionsT * option, char *opt)
 	{
 	float nervosite = atof(opt);
-	if(nervosite>0.0 && nervosite<NERVOSITE_MAX)
+	if(nervosite>NERVOSITE_MIN && nervosite<NERVOSITE_MAX)
 		{
 		(*option).nervosite = nervosite;
-		printf("Option nervosite valide, dt = %f\n", (*option).nervosite);
+		printf("Option nervosite valide, nervosite = %f\n", (*option).nervosite);
 		}
 	else
 		{
-		printf("Option nervosite non valide, dt = %f\n", (*option).nervosite);
-		printf("Option nervosite : 0.0 < dt < %f\n", NERVOSITE_MAX);
+		printf("Option nervosite non valide, nervosite = %f\n", (*option).nervosite);
+		printf("Option nervosite : %f < nervosite < %f\n", NERVOSITE_MIN, NERVOSITE_MAX);
 		}
 	return;
 	}
