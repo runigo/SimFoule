@@ -1,7 +1,7 @@
 /*
 Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
-Simfoule 1.2.1  simulateur de foule
+Simfoule 1.3  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -152,13 +152,44 @@ float systemeForceMurs(systemeT * systeme)
 
 float systemeForceBatiment(systemeT * systeme)
 	{ // Calcul des forces extérieures
-	int X, Y, Z;	
+	int X, Y, Z;
+	int i, j, k;	
 	chaineT *iter;
 	iter = (*systeme).foule.premier;
 	float force = 0;
 	float forceMax = 0;
+	vecteurT souhaite; // vitesse souhaité
+	int angle, dx, dy;
+	int nombreX = 0; // nombre d'humain dans les cellules à ateindre
+	int nombreY = 0; // nombre d'humain dans les cellules à ateindre
+	int nombreXY = 0; // nombre d'humain dans les cellules à ateindre
 
-	do
+		// Mise à zéro du nombre d'humain par cellule
+	for(k=0;k<BATIMENT_Z;k++)
+		{
+		for(i=0;i<BATIMENT_X;i++)
+			{
+			for(j=0;j<BATIMENT_Y;j++)
+				{
+				if((*systeme).batiment.etage[k].cellule[i][j].statut!=1)
+					(*systeme).batiment.etage[k].cellule[i][j].nombre=0;
+				}
+			}
+		}
+	do	// Initialisation du nombre d'humain par cellule
+		{
+		X = (int)(iter->humain.nouveau.x/CELLULE);
+		Y = (int)(iter->humain.nouveau.y/CELLULE);
+		Z = iter->humain.nouveau.z;
+
+		if(Z>-1 && Z<BATIMENT_Z)
+			(*systeme).batiment.etage[Z].cellule[X][Y].nombre++;
+
+		iter=iter->suivant;
+		}
+	while(iter!=(*systeme).foule.premier);
+
+	do	// 
 		{
 		X = (int)(iter->humain.nouveau.x/CELLULE);
 		Y = (int)(iter->humain.nouveau.y/CELLULE);
@@ -185,9 +216,39 @@ float systemeForceBatiment(systemeT * systeme)
 					//fprintf(stderr, "systemeCouplage : humain hors batiment.\n");
 					iter->humain.nouveau.z=-1;
 					}
-				else	// Calcul du couplage si l'humain est à l'étage.
+				else	// Calcul du couplage.
 					{
-					force = humainCouplage(&(iter->humain), &(*systeme).batiment.etage[Z].cellule[X][Y].sens);
+					dx=(*systeme).batiment.etage[Z].cellule[X][Y].dx;
+					dy=(*systeme).batiment.etage[Z].cellule[X][Y].dy;
+					vecteurCartesienEgale(&(*systeme).batiment.etage[Z].cellule[X][Y].sens, &souhaite); // v2 = v1
+					angle = (*systeme).batiment.etage[Z].cellule[X][Y].angle;
+					if(angle%2==1)	// 3 possibilité de vitesse souhaité (int)(2*souhaite.y)(int)(2*souhaite.x)
+						{
+							// Nombre d'humain dans les cellules à ateindre(int)(2*souhaite.x)(int)(2*souhaite.y)
+						nombreX = (*systeme).batiment.etage[Z].cellule[X+dx][Y].nombre;
+						nombreY = (*systeme).batiment.etage[Z].cellule[X][Y+dy].nombre;
+						nombreXY = (*systeme).batiment.etage[Z].cellule[X+dx][Y+dy].nombre;
+
+							// Recherche de la cellule la moins dense
+						if(nombreXY < nombreX && nombreXY < nombreY)
+							{	// Vitesse souhaité = diagonale
+							vecteurCartesienEgale(&(*systeme).batiment.etage[Z].cellule[X][Y].sens, &souhaite);
+							}
+						else	// vitesse souhaité = voisin direct X ou Y
+							{
+							if(nombreX<nombreY)
+								{
+								//vecteurCartesienEgale(&(*systeme).batiment.etage[Z].cellule[X][Y].sens, &souhaite);
+								vecteurCartesienEgale(&(*systeme).batiment.etage[Z].cellule[X][Y].sens1, &souhaite);
+								}
+							else
+								{
+								//vecteurCartesienEgale(&(*systeme).batiment.etage[Z].cellule[X][Y].sens, &souhaite);
+								vecteurCartesienEgale(&(*systeme).batiment.etage[Z].cellule[X][Y].sens2, &souhaite);
+								}
+							}
+						}
+					force = humainCouplage(&(iter->humain), &souhaite);
 					}
 				}
 			}

@@ -1,7 +1,7 @@
 /*
 Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 0.0  simulateur de foule
+SimFoule 1.3  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -226,27 +226,42 @@ int etageCalculeSens(etageT * etage, int i, int j)
 
 	if(celluleDonneVisite(&(*etage).cellule[i+1][j])==1) // vers angle 0
 		{
+		(*etage).cellule[i][j].dx = 1;
 		vecteurSommeCartesien2D(&(*etage).angle[0], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
+		vecteurSommeCartesien2D(&(*etage).angle[0], &(*etage).cellule[i][j].sens1, &(*etage).cellule[i][j].sens1);
 		nombre++;
 		}
-	if(celluleDonneVisite(&(*etage).cellule[i-1][j])==1) // vers angle 4
+	else
 		{
-		if(nombre==0)
+		if(celluleDonneVisite(&(*etage).cellule[i-1][j])==1) // vers angle 4
 			{
-			vecteurSommeCartesien2D(&(*etage).angle[4], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
-			nombre++;
+			if(nombre==0)
+				{
+				(*etage).cellule[i][j].dx = -1;
+				vecteurSommeCartesien2D(&(*etage).angle[4], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
+				vecteurSommeCartesien2D(&(*etage).angle[4], &(*etage).cellule[i][j].sens1, &(*etage).cellule[i][j].sens1);
+				nombre++;
+				}
 			}
 		}
+
 	if(celluleDonneVisite(&(*etage).cellule[i][j+1])==1) // vers angle 2
 		{
+		(*etage).cellule[i][j].dy = 1;
 		vecteurSommeCartesien2D(&(*etage).angle[2], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
+		vecteurSommeCartesien2D(&(*etage).angle[2], &(*etage).cellule[i][j].sens2, &(*etage).cellule[i][j].sens2);
 		nombre++;
 		}
-	if(celluleDonneVisite(&(*etage).cellule[i][j-1])==1) // vers angle 6
+	else
 		{
-		if(nombre<2)
-		vecteurSommeCartesien2D(&(*etage).angle[6], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
-		nombre++;
+		if(celluleDonneVisite(&(*etage).cellule[i][j-1])==1) // vers angle 6
+			{
+			if(nombre<2)
+			(*etage).cellule[i][j].dy = -1;
+			vecteurSommeCartesien2D(&(*etage).angle[6], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
+			vecteurSommeCartesien2D(&(*etage).angle[6], &(*etage).cellule[i][j].sens2, &(*etage).cellule[i][j].sens2);
+			nombre++;
+			}
 		}
 
 	(*etage).cellule[i][j].norme=vecteurNormaliseCartesien2D(&(*etage).cellule[i][j].sens);

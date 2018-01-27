@@ -1,7 +1,7 @@
 /*
 Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.0  simulateur de foule
+SimFoule 1.3  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -44,9 +44,16 @@ struct CelluleT {
 	int distance;	// Distance à la sortie
 
 	int angle;	// Direction et sens des cellule à ateindre [0..7]
+
+	int dx;		// Direction et sens des cellule à ateindre dx
+	int dy;		// Direction et sens des cellule à ateindre dy
+
 	vecteurT sens;	// Direction et sens à suivre, normalisé par l'initialisation.
+	vecteurT sens1;	// Direction et sens à suivre, normalisé par l'initialisation.
+	vecteurT sens2;	// Direction et sens à suivre, normalisé par l'initialisation.
 	float norme;	// Norme de sens avant la normalisation.
 
+	int nombre;	// nombre d'humain.
 };
 typedef struct CelluleT celluleT;
 
@@ -65,4 +72,8 @@ int celluleChangeVisite(celluleT * cellule, int visite);	// change visite
 
 int celluleDonneDistance(celluleT * cellule);	// Distance à la sortie
 int celluleChangeDistance(celluleT * cellule, int pas);	// Ajoute le pas à la distance
+
+//int celluleAjouteNombre(celluleT * cellule);	// Ajoute 1 à nombre
 #endif
+
+/////////////////////////////////////////////////////////////////////
