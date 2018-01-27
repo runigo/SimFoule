@@ -1,7 +1,7 @@
 /*
 Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.2  simulateur de foule
+SimFoule 1.2.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -63,10 +63,11 @@ int humainInitialisePosition(humainT * humain, float x, float y, int z); // z=-1
 int humainInitialiseCaractere(humainT * humain, float masse, float nervosite, float dt);
 
 int humainInertie(humainT * humain);
-int humainCouplage(humainT * humain, vecteurT * vitesseSouhaite);
 int humainIncremente(humainT * humain);
 
-int humainProximite(humainT * humain1, humainT * humain2);
+int humainProximite(humainT * humain1, humainT * humain2); // retourne 1 si les humains sont proche, 0 sinon
+
+float humainCouplage(humainT * humain, vecteurT * vitesseSouhaite);
 float humainAjouteForceHumain(humainT * humain1, humainT * humain2);
 float humainAjouteForceMur(humainT * humain1, int DX, int DY, vecteurT * angle);
 

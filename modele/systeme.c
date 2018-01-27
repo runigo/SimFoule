@@ -1,7 +1,7 @@
 /*
 Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
-Simfoule 1.2  simulateur de foule
+Simfoule 1.2.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -33,13 +33,32 @@ termes.
 #include "systeme.h"
 
 
-int systemeForceBatiment(systemeT * systeme); // Calcul de la force de couplage avec le batiment
-int systemeForceMurs(systemeT * systeme); // Calcul de la force de couplage avec les mur
+float systemeForceBatiment(systemeT * systeme); // Calcul de la force de couplage avec le batiment
+float systemeForceMurs(systemeT * systeme); // Calcul de la force de couplage avec les mur
+
+int systemeInitialisation(systemeT * systeme, float dt)
+	{
+	(*systeme).dt = dt;		//	Discétisation du temps
+	(*systeme).horloge = 0;		//	Horloge, chronomètre
+
+		// Vérification des valeurs les plus grandes
+	(*systeme).forceBatimentMax = 0;
+	(*systeme).forceHumainsMax = 0;
+	(*systeme).forceMursMax = 0;
+	(*systeme).forceSommeMax = 0;
+
+	return 0;
+	}
 
 
 int systemeEvolution(systemeT * systeme, int duree)
 	{ // Évolution temporelle de la foule, "duree" cycle d'évolution
 	int i;
+		// Vérification des valeurs les plus grandes
+	float forceBatiment;
+	float forceHumains;
+	float forceMurs;
+	float forceSomme;
 
 	//	Fait évoluer le système pendant duree*dt
 	for(i=0;i<duree;i++)
@@ -49,11 +68,24 @@ int systemeEvolution(systemeT * systeme, int duree)
 
 			// Calcul des forces dans la 
 			// nouvelle situation
+		forceBatiment = systemeForceBatiment(systeme);
+		forceHumains = fouleForceHumains(&(*systeme).foule);
+		forceMurs = systemeForceMurs(systeme);
+		forceSomme = fouleSommeForces(&(*systeme).foule);
+		/*	//fprintf(stderr, "systemeForceBatiment\n");
 		systemeForceBatiment(systeme);
+			//fprintf(stderr, "fouleForceHumains\n");
 		fouleForceHumains(&(*systeme).foule);
+			//fprintf(stderr, "systemeForceMurs\n");
 		systemeForceMurs(systeme);
-		fouleSommeForces(&(*systeme).foule);
+			//fprintf(stderr, "fouleSommeForces\n");
+		fouleSommeForces(&(*systeme).foule);*/
 
+			// Vérification des valeurs les plus grandes
+		if((*systeme).forceBatimentMax < forceBatiment) (*systeme).forceBatimentMax = forceBatiment;
+		if((*systeme).forceHumainsMax < forceHumains) (*systeme).forceHumainsMax = forceHumains;
+		if((*systeme).forceMursMax < forceMurs) (*systeme).forceMursMax = forceMurs;
+		if((*systeme).forceSommeMax < forceSomme) (*systeme).forceSommeMax = forceSomme;
 			// Incrémentation
 		fouleIncremente(&(*systeme).foule);
 		}
@@ -65,13 +97,14 @@ int systemeEvolution(systemeT * systeme, int duree)
 
 
 
-int systemeForceMurs(systemeT * systeme)
+float systemeForceMurs(systemeT * systeme)
 	{ // Calcul des forces de contact avec les murs
 	int X, Y, Z;
 	int etage;
 	chaineT *iter;
 	iter = (*systeme).foule.premier;
-	float force;
+	float force=0;
+	float forceMax=0;
 
 		// Remise à zéro
 	do
@@ -109,18 +142,21 @@ int systemeForceMurs(systemeT * systeme)
 					force = humainAjouteForceMur(&iter->humain, -1, 1, &(*systeme).batiment.etage[etage].angle[7]);
 				}
 			}
+		if(force>forceMax) forceMax = force;
 		iter=iter->suivant;
 		}
 	while(iter!=(*systeme).foule.premier);
 
-	return (int)force;
+	return forceMax;
 	}
 
-int systemeForceBatiment(systemeT * systeme)
+float systemeForceBatiment(systemeT * systeme)
 	{ // Calcul des forces extérieures
 	int X, Y, Z;	
 	chaineT *iter;
 	iter = (*systeme).foule.premier;
+	float force = 0;
+	float forceMax = 0;
 
 	do
 		{
@@ -151,13 +187,15 @@ int systemeForceBatiment(systemeT * systeme)
 					}
 				else	// Calcul du couplage si l'humain est à l'étage.
 					{
-					humainCouplage(&(iter->humain), &(*systeme).batiment.etage[Z].cellule[X][Y].sens);
+					force = humainCouplage(&(iter->humain), &(*systeme).batiment.etage[Z].cellule[X][Y].sens);
 					}
 				}
 			}
+		if(force>forceMax) forceMax = force;
 		iter=iter->suivant;
 		}
 	while(iter!=(*systeme).foule.premier);
-	return 0;
+
+	return forceMax;
 	}
 

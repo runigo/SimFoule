@@ -1,7 +1,7 @@
 /*
 Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.2  simulateur de foule
+SimFoule 1.2.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -121,7 +121,7 @@ int fouleInertie(fouleT * foule)
 	return 0;
 	}
 
-int fouleSommeForces(fouleT * foule)
+float fouleSommeForces(fouleT * foule)
 	{ // Calcul de la somme des forces extérieures
 	chaineT *iter;
 	iter = (*foule).premier;
@@ -134,10 +134,10 @@ int fouleSommeForces(fouleT * foule)
 		iter=iter->suivant;
 		}
 	while(iter!=(*foule).premier);
-	return 0;
+	return 0.0;
 	}
 
-int fouleForceHumains(fouleT * foule)
+float fouleForceHumains(fouleT * foule)
 	{ // Calcul des forces de contact entre les humains
 	chaineT *iter1;
 	chaineT *iter2;
@@ -167,6 +167,18 @@ int fouleForceHumains(fouleT * foule)
 		iter1=iter1->suivant;
 		}
 	while(iter1!=(*foule).premier);
-	return 0;
+
+		// Force maximale
+	float force = 0;
+	float forceMax = 0;
+	do
+		{
+		force = vecteurNormeCartesien2D(&iter1->humain.forceHumains);
+		if(force > forceMax) forceMax = force;
+		iter1=iter1->suivant;
+		}
+	while(iter1!=(*foule).premier);
+
+	return force;
 	}
 /////////////////////////////////////////////////////////////////////////////////////

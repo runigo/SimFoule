@@ -1,7 +1,7 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.0  simulateur de foule
+SimFoule 1.2.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -64,13 +64,16 @@ int vecteurProduitCartesien(vecteurT * v1, float lambda, vecteurT * v2); // v2 =
 void vecteurSommeCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3); // v3 = v1 + v2
 void vecteurDifferenceCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3); // v3 = v1 - v2
 
+float vecteurNormaliseCartesien(vecteurT * v); // normalise, renvoie la norme initiale
+float vecteurNormeCartesien(vecteurT * v); // Renvoie la norme
+
 float vecteurScalaireCartesien2D(vecteurT * v1, vecteurT * v2);
 int vecteurProduitCartesien2D(vecteurT * v1, float lambda, vecteurT * v2); // v2 = lambda v1
 void vecteurSommeCartesien2D(vecteurT * v1, vecteurT * v2, vecteurT * v3); // v3 = v1 + v2
 void vecteurDifferenceCartesien2D(vecteurT * v1, vecteurT * v2, vecteurT * v3); // v3 = v1 - v2
 
-float vecteurNormaliseCartesien(vecteurT * v); // normalise, renvoie la norme initiale
 float vecteurNormaliseCartesien2D(vecteurT * v); // normalise, renvoie la norme initiale
+float vecteurNormeCartesien2D(vecteurT * v); // Renvoie la norme
 
 int vecteurInitialiseVecteurPhi(vecteurT * pointDeVue, vecteurT * vecteurPhi, float hauteur);
 int vecteurInitialiseVecteurPsi(vecteurT * pointDeVue, vecteurT * vecteurPsi, float largeur);

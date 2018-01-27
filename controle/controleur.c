@@ -1,7 +1,7 @@
 /*
 Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.0  simulateur de foule
+SimFoule 1.2.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -32,23 +32,28 @@ termes.
 
 #include "controleur.h"
 
-int controleurProjection(controleurT * control);
-int controleurEvolutionSysteme(controleurT * control);
-int controleurConstructionGraphique(controleurT * control);
-int controleurActionClavier(controleurT * control);
+int controleurProjection(controleurT * controleur);
+int controleurEvolutionSysteme(controleurT * controleur);
+int controleurConstructionGraphique(controleurT * controleur);
+int controleurActionClavier(controleurT * controleur);
 
-int controleurTraiteEvenement(controleurT * control);
+int controleurTraiteEvenement(controleurT * controleur);
 
-int controleurClavier(controleurT * control);
+int controleurClavier(controleurT * controleur);
 int controleurClavierMaj(controleurT * controleur);
 int controleurClavierCtrl(controleurT * controleur);
-int controleurSouris(controleurT * control);
-void controleurBoutonSouris(controleurT * control, int appui);
+int controleurSouris(controleurT * controleur);
+void controleurBoutonSouris(controleurT * controleur, int appui);
 
-void controleurChangeMode(controleurT * control);
-void controleurChangeVitesse(controleurT * control, float facteur);
+void controleurChangeMode(controleurT * controleur);
+void controleurChangeVitesse(controleurT * controleur, float facteur);
 
-int controleurReinitialisation(controleurT * controleur, int fichier);
+void controleurChangeDessin(int * dessine);
+
+int controleurAfficheForces(controleurT * controleur);
+int controleurAfficheVitesse(controleurT * controleur);
+int controleurAfficheOptions(controleurT * controleur);
+int controleurAfficheHumain(controleurT * controleur);
 
 int controleurDirections(controleurT * controleur)
 	{
@@ -63,6 +68,7 @@ int controleurInitialisation(controleurT * controleur)
 		// Initialisation du controleur
 
 	(*controleur).options.sortie = 0;	// Sortie de SiCP si > 0
+	systemeInitialisation(&(*controleur).systeme, (*controleur).options.dt);
 
 		fprintf(stderr, "  Initialisation de la projection\n");
 	projectionInitialiseCouleurs(&(*controleur).projection, 50, 50, 50, (*controleur).options.fond);
@@ -97,6 +103,7 @@ int controleurReinitialisation(controleurT * controleur, int initial)
 	fouleSuppression(&(*controleur).systeme.foule);
 
 		// Réinitialisation du système
+	systemeInitialisation(&(*controleur).systeme, (*controleur).options.dt);
 
 		fprintf(stderr, "  Réinitialisation du batiment\n");
 	donneesInitialisationBatiment(&(*controleur).systeme.batiment, &(*controleur).options);
@@ -357,7 +364,16 @@ int controleurClavier(controleurT * controleur)
 		case SDLK_F12:
 			controleurChangeVitesse(controleur, 3.1);break;
 
-	// Affichage des information
+	// Affichage des informations
+		case SDLK_F1:
+			controleurAfficheForces(controleur);break;
+	/*	case SDLK_F2:
+			controleurAfficheVitesse(&(*controleur).options.dessineAngle);break;
+		case SDLK_F3:
+			controleurAfficheOptions(&(*controleur).options.dessineMur);break;
+		case SDLK_F4:
+			controleurAfficheHumain(&(*controleur).options.dessineHumain);break;
+*/
 		case SDLK_F5:
 			controleurChangeVitesse(controleur, 0.32);break;
 		case SDLK_F6:
@@ -725,5 +741,51 @@ void controleurBoutonSouris(controleurT * controleur, int appui)
 	(*controleur).appui=appui;
 	return;
 	}
+
+int controleurAfficheForces(controleurT * controleur)
+	{
+	printf("\nForces maximales atteintes\n");
+			// Vérification des valeurs les plus grandes
+	printf("  force Batiment Max = %f\n", (*controleur).systeme.forceBatimentMax);
+	printf("  force Humains Max = %f\n", (*controleur).systeme.forceHumainsMax);
+	printf("  force Murs Max = %f\n", (*controleur).systeme.forceMursMax);
+	printf("  force Somme Max = %f\n", (*controleur).systeme.forceSommeMax);
+	
+	return 0;
+	}
+/*
+int controleurAfficheVitesse(controleurT * controleur)
+	{
+	printf("\nVitesse maximale atteinte\n");
+			// Vérification des valeurs les plus grandes
+	printf("  vitesse Max = %f\n", (*controleur).systeme.foule.vitesseMax);
+	
+	return 0;
+	}
+
+int controleurAfficheOptions(controleurT * controleur)
+	{
+	printf("\nForces maximales atteintes\n");
+			// Vérification des valeurs les plus grandes
+	printf("  force Batiment Max = %f\n", (*controleur).systeme.forceBatimentMax);
+	printf("  force Humains Max = %f\n", (*controleur).systeme.forceHumainsMax);
+	printf("  force Murs Max = %f\n", (*controleur).systeme.forceMursMax);
+	printf("  force Somme Max = %f\n", (*controleur).systeme.forceSommeMax);
+	
+	return 0;
+	}
+
+int controleurAfficheHumain(controleurT * controleur)
+	{
+	printf("\nForces maximales atteintes\n");
+			// Vérification des valeurs les plus grandes
+	printf("  force Batiment Max = %f\n", (*controleur).systeme.forceBatimentMax);
+	printf("  force Humains Max = %f\n", (*controleur).systeme.forceHumainsMax);
+	printf("  force Murs Max = %f\n", (*controleur).systeme.forceMursMax);
+	printf("  force Somme Max = %f\n", (*controleur).systeme.forceSommeMax);
+	
+	return 0;
+	}
+*/
 //////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////

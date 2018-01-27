@@ -1,7 +1,7 @@
 /*
 Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.0  simulateur de foule
+SimFoule 1.2.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -44,7 +44,14 @@ typedef struct SystemeT systemeT;
 		float dt;		//	Discétisation du temps
 		float horloge;		//	Horloge, chronomètre
 
+			// Vérification des valeurs les plus grandes
+		float forceBatimentMax;
+		float forceHumainsMax;
+		float forceMursMax;
+		float forceSommeMax;
 		};
+
+int systemeInitialisation(systemeT * systeme, float dt);
 
 // Évolution temporelle de la foule, "duree" cycle d'évolution
 int systemeEvolution(systemeT * systeme, int duree);

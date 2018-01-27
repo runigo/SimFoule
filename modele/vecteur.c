@@ -1,7 +1,7 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright janvier 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.0  simulateur de foule
+SimFoule 1.2.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -130,6 +130,11 @@ int vecteurProduitCartesien2D(vecteurT * v1, float lambda, vecteurT * v2)
 	return 0;
 	}
 
+float vecteurNormeCartesien(vecteurT * v)
+	{ // Renvoie la norme
+	return sqrt((*v).x*(*v).x+(*v).y*(*v).y+(*v).z*(*v).z);
+	}
+
 float vecteurNormaliseCartesien(vecteurT * v)
 	{ // normalise, renvoie la norme initiale, -1 si nulle
 	float norme = sqrt((*v).x*(*v).x+(*v).y*(*v).y+(*v).z*(*v).z);
@@ -141,6 +146,11 @@ float vecteurNormaliseCartesien(vecteurT * v)
 		}
 	else norme = -1.0;
 	return norme;
+	}
+
+float vecteurNormeCartesien2D(vecteurT * v)
+	{ // Renvoie la norme
+	return sqrt((*v).x*(*v).x+(*v).y*(*v).y);
 	}
 
 float vecteurNormaliseCartesien2D(vecteurT * v)
