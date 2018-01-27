@@ -51,8 +51,9 @@ termes.
 #define CELLULE 14		// Longueur du coté d'une cellule (en pixel)
 #define CELLULESUR2 CELLULE/2	// Demi longueur du coté d'une cellule (en pixel)
 #define HUMAIN 13		// Longueur du coté d'un humain (en pixel)
-#define HUMAINSUR2 HUMAIN/2	// Demi longueur du coté d'un humain (en pixel)
-#define HUMAINetDEMI 3*HUMAIN/2	// Demi longueur du coté d'un humain (en pixel)
+#define HUMAINSUR2 HUMAIN/2		// Demi longueur du coté d'un humain (en pixel)
+#define HUMAINetDEMI 3*HUMAIN/2		// Demi longueur du coté d'un humain (en pixel)
+#define HUMAINunQUART 5*HUMAIN/4	// Demi longueur du coté d'un humain (en pixel)
 
 	#define FENETRE_X BATIMENT_X*CELLULE // Taille de la fenêtre
 	#define FENETRE_Y BATIMENT_Y*CELLULE // Taille de la fenêtre
@@ -84,7 +85,7 @@ termes.
 
 #define INTERACTION_HUMAIN HUMAIN*2.1	// Distance maximale arithmetique de prise en compte des contacts
 #define FORCE_CONTACT_HUMAIN 141	// constante de force de répulsion de contact entre humain
-#define FORCE_CONTACT_MUR 471		// constante de force de répulsion de contact avec les murs
-#define FORCE_COUPLAGE 19		// constante de force de couplage
+#define FORCE_CONTACT_MUR 1171		// constante de force de répulsion de contact avec les murs
+//#define FORCE_COUPLAGE 333		// constante de force de couplage
 #endif
 //////////////////////////////////////////////////////////////////////

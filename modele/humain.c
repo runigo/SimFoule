@@ -177,9 +177,9 @@ float humainAjouteForceHumain(humainT * humain1, humainT * humain2)
 		// Vecteur = unitaire (nouveau1 - nouveau2)
 	float distance = vecteurNormaliseCartesien2D(&vecteur); // normalise, renvoie la norme initiale
 
-	if(distance<HUMAINetDEMI)
+	if(distance<HUMAINunQUART)//etDEMI
 		{
-		force = FORCE_CONTACT_HUMAIN*(*humain1).dt2surM * (HUMAINetDEMI - distance); // norme de la force
+		force = FORCE_CONTACT_HUMAIN*(*humain1).dt2surM * (HUMAINunQUART - distance); // norme de la forceetDEMI
 
 			// Vecteur = force * unitaire
 		vecteurProduitCartesien2D(&vecteur, force, &vecteur); // v2 = lambda v1
@@ -222,9 +222,11 @@ float humainAjouteForceMur(humainT * humain, int DX, int DY, vecteurT * angle)
 		// Vecteur = unitaire (nouveau - mur)
 	float distance = vecteurNormaliseCartesien2D(&vecteur); // normalise, renvoie la norme initiale
 
-	if(distance<HUMAIN) // SUR2
+	float distanceMin = HUMAINSUR2;
+
+	if(distance<distanceMin) // 
 		{
-		force = FORCE_CONTACT_MUR*(*humain).dt2surM*(HUMAIN - distance); // norme de la forceSUR2
+		force = FORCE_CONTACT_MUR*(*humain).dt2surM*(distanceMin - distance); // norme de la forceSUR2
 
 			// Vecteur = force * unitaire
 		vecteurProduitCartesien2D(angle, force, &vecteur); // v2 = lambda v1

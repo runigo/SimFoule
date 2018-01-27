@@ -375,7 +375,7 @@ int controleurClavier(controleurT * controleur)
 			controleurAfficheHumain(&(*controleur).options.dessineHumain);break;
 */
 		case SDLK_F5:
-			controleurChangeVitesse(controleur, 0.32);break;
+			controleurAfficheForces(controleur);break;
 		case SDLK_F6:
 			controleurChangeDessin(&(*controleur).options.dessineAngle);break;
 		case SDLK_F7:

@@ -224,12 +224,12 @@ int etageCalculeSens(etageT * etage, int i, int j)
 	//int angle = 0;
 	int nombre = 0;
 
-	if(celluleDonneVisite(&(*etage).cellule[i+1][j])) // vers angle 0
+	if(celluleDonneVisite(&(*etage).cellule[i+1][j])==1) // vers angle 0
 		{
 		vecteurSommeCartesien2D(&(*etage).angle[0], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
 		nombre++;
 		}
-	if(celluleDonneVisite(&(*etage).cellule[i-1][j])) // vers angle 4
+	if(celluleDonneVisite(&(*etage).cellule[i-1][j])==1) // vers angle 4
 		{
 		if(nombre==0)
 			{
@@ -237,12 +237,12 @@ int etageCalculeSens(etageT * etage, int i, int j)
 			nombre++;
 			}
 		}
-	if(celluleDonneVisite(&(*etage).cellule[i][j+1])) // vers angle 2
+	if(celluleDonneVisite(&(*etage).cellule[i][j+1])==1) // vers angle 2
 		{
 		vecteurSommeCartesien2D(&(*etage).angle[2], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
 		nombre++;
 		}
-	if(celluleDonneVisite(&(*etage).cellule[i][j-1])) // vers angle 6
+	if(celluleDonneVisite(&(*etage).cellule[i][j-1])==1) // vers angle 6
 		{
 		if(nombre<2)
 		vecteurSommeCartesien2D(&(*etage).angle[6], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
