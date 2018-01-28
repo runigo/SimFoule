@@ -67,7 +67,7 @@ void vecteurInitialisePolaire(vecteurT * v, float r, float psi, float phi)
 	return;
 	}
 
-void vecteurCartesienEgale(vecteurT * v1, vecteurT * v2) // v2 = v1
+void vecteurEgaleCartesien(vecteurT * v1, vecteurT * v2) // v2 = v1
 	{
 	(*v2).x=(*v1).x;
 	(*v2).y=(*v1).y;

@@ -220,7 +220,7 @@ float systemeForceBatiment(systemeT * systeme)
 					{
 					dx=(*systeme).batiment.etage[Z].cellule[X][Y].dx;
 					dy=(*systeme).batiment.etage[Z].cellule[X][Y].dy;
-					vecteurCartesienEgale(&(*systeme).batiment.etage[Z].cellule[X][Y].sens, &souhaite); // v2 = v1
+					vecteurEgaleCartesien(&(*systeme).batiment.etage[Z].cellule[X][Y].sens, &souhaite); // v2 = v1
 					angle = (*systeme).batiment.etage[Z].cellule[X][Y].angle;
 					if(angle%2==1)	// 3 possibilité de vitesse souhaité (int)(2*souhaite.y)(int)(2*souhaite.x)
 						{
@@ -232,19 +232,19 @@ float systemeForceBatiment(systemeT * systeme)
 							// Recherche de la cellule la moins dense
 						if(nombreXY < nombreX && nombreXY < nombreY)
 							{	// Vitesse souhaité = diagonale
-							vecteurCartesienEgale(&(*systeme).batiment.etage[Z].cellule[X][Y].sens, &souhaite);
+							vecteurEgaleCartesien(&(*systeme).batiment.etage[Z].cellule[X][Y].sens, &souhaite);
 							}
 						else	// vitesse souhaité = voisin direct X ou Y
 							{
 							if(nombreX<nombreY)
 								{
-								//vecteurCartesienEgale(&(*systeme).batiment.etage[Z].cellule[X][Y].sens, &souhaite);
-								vecteurCartesienEgale(&(*systeme).batiment.etage[Z].cellule[X][Y].sens1, &souhaite);
+								//vecteurEgaleCartesien(&(*systeme).batiment.etage[Z].cellule[X][Y].sens, &souhaite);
+								vecteurEgaleCartesien(&(*systeme).batiment.etage[Z].cellule[X][Y].sens1, &souhaite);
 								}
 							else
 								{
-								//vecteurCartesienEgale(&(*systeme).batiment.etage[Z].cellule[X][Y].sens, &souhaite);
-								vecteurCartesienEgale(&(*systeme).batiment.etage[Z].cellule[X][Y].sens2, &souhaite);
+								//vecteurEgaleCartesien(&(*systeme).batiment.etage[Z].cellule[X][Y].sens, &souhaite);
+								vecteurEgaleCartesien(&(*systeme).batiment.etage[Z].cellule[X][Y].sens2, &souhaite);
 								}
 							}
 						}

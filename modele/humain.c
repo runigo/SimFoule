@@ -97,8 +97,8 @@ float humainCalculVitesse(humainT * humain)
 
 int humainIncremente(humainT * humain)
 	{
-	vecteurCartesienEgale(&(*humain).actuel, &(*humain).ancien); // v2 = v1
-	vecteurCartesienEgale(&(*humain).nouveau, &(*humain).actuel); // v2 = v1
+	vecteurEgaleCartesien(&(*humain).actuel, &(*humain).ancien); // v2 = v1
+	vecteurEgaleCartesien(&(*humain).nouveau, &(*humain).actuel); // v2 = v1
 	return 0;
 	}
 
@@ -253,7 +253,7 @@ int humainAffiche(humainT * humain)
 /*
 
 void vecteurCartesien(vecteurT * v, float x, float y, int z);
-void vecteurCartesienEgale(vecteurT * v1, vecteurT * v2); // v2 = v1
+void vecteurEgaleCartesien(vecteurT * v1, vecteurT * v2); // v2 = v1
 float vecteurScalaireCartesien(vecteurT * v1, vecteurT * v2);
 void vecteurProduitCartesien(vecteurT * v1, vecteurT * v2);
 void vecteurSommeCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3); // v3 = v1 + v2

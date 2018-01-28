@@ -128,7 +128,7 @@ float fouleSommeForces(fouleT * foule)
 
 	do
 		{	// force Batiment + force Murs + force Humains
-		vecteurCartesienEgale(&iter->humain.forceBatiment, &iter->humain.sommeForces); // v2 = v1
+		vecteurEgaleCartesien(&iter->humain.forceBatiment, &iter->humain.sommeForces); // v2 = v1
 		vecteurSommeCartesien(&iter->humain.sommeForces, &iter->humain.forceMurs, &iter->humain.sommeForces); // v3 = v1 + v2
 		vecteurSommeCartesien(&iter->humain.sommeForces, &iter->humain.forceHumains, &iter->humain.sommeForces); // v3 = v1 + v2
 		iter=iter->suivant;

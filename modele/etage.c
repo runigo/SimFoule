@@ -228,18 +228,18 @@ int etageCalculeSens(etageT * etage, int i, int j)
 		{
 		(*etage).cellule[i][j].dx = 1;
 		vecteurSommeCartesien2D(&(*etage).angle[0], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
-		vecteurSommeCartesien2D(&(*etage).angle[0], &(*etage).cellule[i][j].sens1, &(*etage).cellule[i][j].sens1);
+		vecteurEgaleCartesien(&(*etage).angle[0], &(*etage).cellule[i][j].sens1);
 		nombre++;
 		}
 	else
 		{
 		if(celluleDonneVisite(&(*etage).cellule[i-1][j])==1) // vers angle 4
 			{
-			if(nombre==0)
+			//if(nombre==0)
 				{
 				(*etage).cellule[i][j].dx = -1;
 				vecteurSommeCartesien2D(&(*etage).angle[4], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
-				vecteurSommeCartesien2D(&(*etage).angle[4], &(*etage).cellule[i][j].sens1, &(*etage).cellule[i][j].sens1);
+				vecteurEgaleCartesien(&(*etage).angle[4], &(*etage).cellule[i][j].sens1);
 				nombre++;
 				}
 			}
@@ -249,17 +249,17 @@ int etageCalculeSens(etageT * etage, int i, int j)
 		{
 		(*etage).cellule[i][j].dy = 1;
 		vecteurSommeCartesien2D(&(*etage).angle[2], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
-		vecteurSommeCartesien2D(&(*etage).angle[2], &(*etage).cellule[i][j].sens2, &(*etage).cellule[i][j].sens2);
+		vecteurEgaleCartesien(&(*etage).angle[2], &(*etage).cellule[i][j].sens2);
 		nombre++;
 		}
 	else
 		{
 		if(celluleDonneVisite(&(*etage).cellule[i][j-1])==1) // vers angle 6
 			{
-			if(nombre<2)
+			//if(nombre<2)
 			(*etage).cellule[i][j].dy = -1;
 			vecteurSommeCartesien2D(&(*etage).angle[6], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
-			vecteurSommeCartesien2D(&(*etage).angle[6], &(*etage).cellule[i][j].sens2, &(*etage).cellule[i][j].sens2);
+			vecteurEgaleCartesien(&(*etage).angle[6], &(*etage).cellule[i][j].sens2);
 			nombre++;
 			}
 		}
