@@ -19,12 +19,12 @@ option & & valeur &  & commande \\
  &  &  &  & entre les affichages \\
 %{\sf F9}, {\sf F10}, {\sf F11}, {\sf F12}{\sf Entrée}
 \texttt{initial} &  & \texttt{INITIAL\_MIN} < \texttt{initial} < \texttt{INITIAL\_MAX} &  & Numéro du fichier d'initialisation \\
-\texttt{masse} &  & \texttt{MASSE\_MIN} < \texttt{masse} < \texttt{MASSE\_MAX} &  & Masse des humains \\
-\texttt{nervosite} &  & \texttt{NERVOSITE\_MIN} < \texttt{nervosite} < \texttt{NERVOSITE\_MAX} &  & Nervosité des humains \\%{\sf e}, {\sf d}
-%\texttt{nombre} & (nombre > 0 \& nombre < 1099) &  & Nombre d'humain\\
+\texttt{masse} &  & \texttt{MASSE\_MIN} < \texttt{masse} < \texttt{MASSE\_MAX} &  & Masse des mobiles \\
+\texttt{nervosite} &  & \texttt{NERVOSITE\_MIN} < \texttt{nervosite} < \texttt{NERVOSITE\_MAX} &  & Nervosité des mobiles \\%{\sf e}, {\sf d}
+%\texttt{nombre} & (nombre > 0 \& nombre < 1099) &  & Nombre de mobile\\
 \texttt{dessineAngle} &  & = \texttt{0} ou \texttt{1} &  & Dessine ou non les directions \\
 \texttt{dessineMur} &  & = \texttt{0} ou \texttt{1} &  & Dessine ou non les murs \\
-\texttt{dessineHumain} &  & = \texttt{0} ou \texttt{1} &  & Dessine ou non les humains \\
+\texttt{dessineMobile} &  & = \texttt{0} ou \texttt{1} &  & Dessine ou non les mobiles \\
 
 \\
 \texttt{aide} &  &  &  & Affiche l'aide \\
@@ -46,12 +46,12 @@ option & & clavier &  & commande \\
 % &  &  &  & entre les affichages \\
 %
 \texttt{initial} &  & \texttt{Maj} \texttt{a}..\texttt{t} et \texttt{q}..\texttt{g} &  & Réinitialisation \\
-%\texttt{masse} &  & a q &  & Masse des humains \\
-%\texttt{nervosite} &  & z s &  & Nervosité des humains \\%{\sf e}, {\sf d}
-%\texttt{nombre} & (nombre > 0 \& nombre < 1099) &  & Nombre d'humain\\
+%\texttt{masse} &  & a q &  & Masse des mobiles \\
+%\texttt{nervosite} &  & z s &  & Nervosité des mobiles \\%{\sf e}, {\sf d}
+%\texttt{nombre} & (nombre > 0 \& nombre < 1099) &  & Nombre de mobile\\
 \texttt{dessineAngle} &  & \texttt{F6} &  & Dessine ou non les directions \\
 \texttt{dessineMur} &  & \texttt{F7} &  & Dessine ou non les murs \\
-\texttt{dessineHumain} &  & \texttt{F8} &  & Dessine ou non les humains \\
+\texttt{dessineMobile} &  & \texttt{F8} &  & Dessine ou non les mobiles \\
 
 \\
 %\texttt{aide} &  & () &  & Affiche l'aide \\
@@ -70,7 +70,7 @@ Les fichiers d'initialisations peuvent être édités afin de créer des situati
 \begin{tabular}{cccccc}
 entiers & 0 & 1 & 2 &  & 9 \\
 %\hline
-statut & vide & mur & sortie &  & humain \\
+statut & vide & mur & sortie &  & mobile \\
 \end{tabular}
 \end{center}
 %
