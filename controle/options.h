@@ -51,14 +51,14 @@ typedef struct OptionsT optionsT;
 		float dt;		// discrétisation du temps
 		int pause;		// pause après l'affichage en ms
 
-		int nombre;		// Nombre d'humain
-		float masse;		// Masse d'un humain
-		float nervosite;	// Nervosité d'un humain
+		int nombre;		// Nombre de mobile
+		float masse;		// Masse d'un mobile
+		float nervosite;	// Nervosité d'un mobile
 
 			//	Dessin des graphes 0 ou 1
 		int dessineAngle;
 		int dessineMur;
-		int dessineHumain;
+		int dessineMobile;
 
 		};
 

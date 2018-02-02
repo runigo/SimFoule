@@ -1,7 +1,7 @@
 /*
-Copyright décembre 2017, Stephan Runigo
+Copyright février 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.0  simulateur de foule
+SimFoule 1.3  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -32,13 +32,13 @@ termes.
 #ifndef _CHAINE_
 #define _CHAINE_
 
-#include "humain.h"
+#include "mobile.h"
 
 typedef struct ChaineT chaineT;
 	struct ChaineT
 	{
 	struct ChaineT *precedent;
-	humainT humain;
+	mobileT mobile;
 	struct ChaineT *suivant;
 	};
 

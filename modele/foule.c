@@ -32,7 +32,7 @@ termes.
 
 #include "foule.h"
 
-int fouleInitialiseHumain(fouleT * foule);
+int fouleInitialiseMobile(fouleT * foule);
 void fouleInitialiseLimiteInfini(fouleT * foule);
 void fouleCouplage(fouleT * foule);
 void fouleCourantLimite(fouleT * foule);
@@ -54,7 +54,7 @@ int fouleCreation(fouleT * foule)
 		fprintf(stderr, "\n\nfouleCreation : Echec de chaineCreation\n\n");
 		}
 
-	fouleInitialiseHumain(foule);
+	fouleInitialiseMobile(foule);
 
 	return 0;
 	}
@@ -69,13 +69,13 @@ int fouleSuppression(fouleT * foule)
 
 /*------------------------------------------------------------------*/
 
-int fouleInitialiseHumain(fouleT * foule)
+int fouleInitialiseMobile(fouleT * foule)
 	{
 	chaineT *iter=(*foule).premier;
 
 	do
 		{
-		humainInitialise(&iter->humain, (*foule).masse, (*foule).nervosite, (*foule).dt);
+		mobileInitialise(&iter->mobile, (*foule).masse, (*foule).nervosite, (*foule).dt);
 		iter=iter->suivant;
 		}
 	while(iter != (*foule).premier);
@@ -95,7 +95,7 @@ int fouleIncremente(fouleT * foule)
 
 	do
 		{
-		humainIncremente(&(iter->humain));
+		mobileIncremente(&(iter->mobile));
 		iter=iter->suivant;
 		}
 	while (iter!=(*foule).premier);
@@ -111,8 +111,8 @@ int fouleInertie(fouleT * foule)
 
 	do
 		{
-		if((iter->humain).nouveau.z!=-1)
-			humainInertie(&(iter->humain));
+		if((iter->mobile).nouveau.z!=-1)
+			mobileInertie(&(iter->mobile));
 		iter=iter->suivant;
 		}
 	while(iter!=(*foule).premier);
@@ -127,18 +127,18 @@ float fouleSommeForces(fouleT * foule)
 	iter = (*foule).premier;
 
 	do
-		{	// force Batiment + force Murs + force Humains
-		vecteurEgaleCartesien(&iter->humain.forceBatiment, &iter->humain.sommeForces); // v2 = v1
-		vecteurSommeCartesien(&iter->humain.sommeForces, &iter->humain.forceMurs, &iter->humain.sommeForces); // v3 = v1 + v2
-		vecteurSommeCartesien(&iter->humain.sommeForces, &iter->humain.forceHumains, &iter->humain.sommeForces); // v3 = v1 + v2
+		{	// force Batiment + force Murs + force Mobiles
+		vecteurEgaleCartesien(&iter->mobile.forceBatiment, &iter->mobile.sommeForces); // v2 = v1
+		vecteurSommeCartesien(&iter->mobile.sommeForces, &iter->mobile.forceMurs, &iter->mobile.sommeForces); // v3 = v1 + v2
+		vecteurSommeCartesien(&iter->mobile.sommeForces, &iter->mobile.forceMobiles, &iter->mobile.sommeForces); // v3 = v1 + v2
 		iter=iter->suivant;
 		}
 	while(iter!=(*foule).premier);
 	return 0.0;
 	}
 
-float fouleForceHumains(fouleT * foule)
-	{ // Calcul des forces de contact entre les humains
+float fouleForceMobiles(fouleT * foule)
+	{ // Calcul des forces de contact entre les mobiles
 	chaineT *iter1;
 	chaineT *iter2;
 	iter1 = (*foule).premier;
@@ -146,20 +146,20 @@ float fouleForceHumains(fouleT * foule)
 		// Remise à zéro
 	do
 		{
-		vecteurCartesien(&iter1->humain.forceHumains, 0.0, 0.0, 0.0);
+		vecteurCartesien(&iter1->mobile.forceMobiles, 0.0, 0.0, 0.0);
 		iter1=iter1->suivant;
 		}
 	while(iter1!=(*foule).premier);
 
-		// Calcul des interactions de contact entre humains
+		// Calcul des interactions de contact entre mobiles
 	do
 		{	// Calcul des interactions sur iter 1
 		iter2 = iter1->suivant;
 		do
 			{
-			if(humainProximite(&iter1->humain, &iter2->humain)>0)
+			if(mobileProximite(&iter1->mobile, &iter2->mobile)>0)
 				{
-				humainAjouteForceHumain(&iter1->humain, &iter2->humain);
+				mobileAjouteForceMobile(&iter1->mobile, &iter2->mobile);
 				}
 			iter2=iter2->suivant;
 			}
@@ -173,7 +173,7 @@ float fouleForceHumains(fouleT * foule)
 	float forceMax = 0;
 	do
 		{
-		force = vecteurNormeCartesien2D(&iter1->humain.forceHumains);
+		force = vecteurNormeCartesien2D(&iter1->mobile.forceMobiles);
 		if(force > forceMax) forceMax = force;
 		iter1=iter1->suivant;
 		}

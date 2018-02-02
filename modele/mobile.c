@@ -30,125 +30,125 @@ termes.
 */
 
 
-#include "../modele/humain.h"
+#include "../modele/mobile.h"
 
-int humainMemeEtage(humainT * humain1, humainT * humain2);
+int mobileMemeEtage(mobileT * mobile1, mobileT * mobile2);
 	// = 0 si etage différent, 1 si même étage, -1 si sortie
-int humainDistanceArithmetique(humainT * humain1, humainT * humain2);
+int mobileDistanceArithmetique(mobileT * mobile1, mobileT * mobile2);
 	// En pixel, retourne la distance arithmétique (dx+dy)
 
-int humainInitialise(humainT * humain, float masse, float nervosite, float dt)
+int mobileInitialise(mobileT * mobile, float masse, float nervosite, float dt)
 	{
 	int retour = 0;
 
-	vecteurCartesien(&(*humain).vitesse, 0, 0, 0);
-	vecteurCartesien(&(*humain).vitesseSouhaite, 0, 0, 0);
-	vecteurCartesien(&(*humain).forceBatiment, 0, 0, 0);
-	vecteurCartesien(&(*humain).forceHumains, 0, 0, 0);
-	vecteurCartesien(&(*humain).forceMurs, 0, 0, 0);
-	vecteurCartesien(&(*humain).sommeForces, 0, 0, 0);
+	vecteurCartesien(&(*mobile).vitesse, 0, 0, 0);
+	vecteurCartesien(&(*mobile).vitesseSouhaite, 0, 0, 0);
+	vecteurCartesien(&(*mobile).forceBatiment, 0, 0, 0);
+	vecteurCartesien(&(*mobile).forceMobiles, 0, 0, 0);
+	vecteurCartesien(&(*mobile).forceMurs, 0, 0, 0);
+	vecteurCartesien(&(*mobile).sommeForces, 0, 0, 0);
 
-	retour += humainInitialisePosition(humain, 0, 0, 0);
-	retour += humainInitialiseCaractere(humain, masse, nervosite, dt);
+	retour += mobileInitialisePosition(mobile, 0, 0, 0);
+	retour += mobileInitialiseCaractere(mobile, masse, nervosite, dt);
 
 	return retour;
 	}
 
-int humainInitialisePosition(humainT * humain, float x, float y, int z)
+int mobileInitialisePosition(mobileT * mobile, float x, float y, int z)
 	{
-	vecteurCartesien(&(*humain).nouveau, x, y, z);
-	vecteurCartesien(&(*humain).actuel, x, y, z);
-	vecteurCartesien(&(*humain).ancien, x, y, z);
+	vecteurCartesien(&(*mobile).nouveau, x, y, z);
+	vecteurCartesien(&(*mobile).actuel, x, y, z);
+	vecteurCartesien(&(*mobile).ancien, x, y, z);
 
 	return 0;
 	}
 
-int humainInitialiseCaractere(humainT * humain, float masse, float nervosite, float dt)
+int mobileInitialiseCaractere(mobileT * mobile, float masse, float nervosite, float dt)
 	{
 	int retour = 0;
 
-	(*humain).masse = 66.999;
-	(*humain).nervosite = 0.999;
-	(*humain).dt = 0.000333;
+	(*mobile).masse = 66.999;
+	(*mobile).nervosite = 0.999;
+	(*mobile).dt = 0.000333;
 
 	if( masse > MASSE_MIN && masse < MASSE_MAX )
-		(*humain).masse = masse;
+		(*mobile).masse = masse;
 	else retour ++;
 
 	if( nervosite > NERVOSITE_MIN && nervosite < NERVOSITE_MAX )
-		(*humain).nervosite = nervosite;
+		(*mobile).nervosite = nervosite;
 	else retour ++;
 
 	if( dt > DT_MIN && dt < DT_MAX )
-		(*humain).dt = dt;
+		(*mobile).dt = dt;
 	else retour ++;
 
-	(*humain).dtsurtau = dt*nervosite;
-	(*humain).dt2surM = dt*dt/(*humain).masse;
+	(*mobile).dtsurtau = dt*nervosite;
+	(*mobile).dt2surM = dt*dt/(*mobile).masse;
 
 	return retour;
 	}
 
-float humainCalculVitesse(humainT * humain)
+float mobileCalculVitesse(mobileT * mobile)
 	{	// vitesse = nouveau - ancien = vitesse en unité de dt
-	vecteurDifferenceCartesien2D(&(*humain).nouveau, &(*humain).actuel, &(*humain).vitesse); // v3 = v1 - v2
-	return sqrt(vecteurScalaireCartesien2D(&(*humain).vitesse, &(*humain).vitesse));
+	vecteurDifferenceCartesien2D(&(*mobile).nouveau, &(*mobile).actuel, &(*mobile).vitesse); // v3 = v1 - v2
+	return sqrt(vecteurScalaireCartesien2D(&(*mobile).vitesse, &(*mobile).vitesse));
 	}
 
-int humainIncremente(humainT * humain)
+int mobileIncremente(mobileT * mobile)
 	{
-	vecteurEgaleCartesien(&(*humain).actuel, &(*humain).ancien); // v2 = v1
-	vecteurEgaleCartesien(&(*humain).nouveau, &(*humain).actuel); // v2 = v1
+	vecteurEgaleCartesien(&(*mobile).actuel, &(*mobile).ancien); // v2 = v1
+	vecteurEgaleCartesien(&(*mobile).nouveau, &(*mobile).actuel); // v2 = v1
 	return 0;
 	}
 
-int humainInertie(humainT * humain)
+int mobileInertie(mobileT * mobile)
 	{// nouveau = 2 actuel - ancien + somme des forces
 
 		// nouveau = 2 actuel - ancien
-	vecteurSommeCartesien2D(&(*humain).actuel, &(*humain).actuel, &(*humain).nouveau); // v3 = v1 + v2
-	vecteurDifferenceCartesien2D(&(*humain).nouveau, &(*humain).ancien, &(*humain).nouveau); // v3 = v1 - v2
+	vecteurSommeCartesien2D(&(*mobile).actuel, &(*mobile).actuel, &(*mobile).nouveau); // v3 = v1 + v2
+	vecteurDifferenceCartesien2D(&(*mobile).nouveau, &(*mobile).ancien, &(*mobile).nouveau); // v3 = v1 - v2
 
 
 		// nouveau += somme des forces
-	vecteurSommeCartesien2D(&(*humain).sommeForces, &(*humain).nouveau, &(*humain).nouveau); // v3 = v1 + v2
+	vecteurSommeCartesien2D(&(*mobile).sommeForces, &(*mobile).nouveau, &(*mobile).nouveau); // v3 = v1 + v2
 	
 	return 0;
 	}
 
-float humainCouplage(humainT * humain, vecteurT * vitesseSouhaite)
+float mobileCouplage(mobileT * mobile, vecteurT * vitesseSouhaite)
 	{
 		// vitesse = nouveau - actuel
-	vecteurDifferenceCartesien2D(&(*humain).nouveau, &(*humain).actuel, &(*humain).vitesse); // v3 = v1 - v2
+	vecteurDifferenceCartesien2D(&(*mobile).nouveau, &(*mobile).actuel, &(*mobile).vitesse); // v3 = v1 - v2
 
 		// vitesseSouhaite = dt vitesseSouhaite
-	vecteurProduitCartesien2D(vitesseSouhaite, (*humain).dt, &(*humain).vitesseSouhaite); // v2 = lambda v1
+	vecteurProduitCartesien2D(vitesseSouhaite, (*mobile).dt, &(*mobile).vitesseSouhaite); // v2 = lambda v1
 
 		// force = vitesse souhaite - vitesse (le tout fois dt)
-	vecteurDifferenceCartesien2D(&(*humain).vitesseSouhaite, &(*humain).vitesse, &(*humain).forceBatiment); // v3 = v1 - v2
+	vecteurDifferenceCartesien2D(&(*mobile).vitesseSouhaite, &(*mobile).vitesse, &(*mobile).forceBatiment); // v3 = v1 - v2
 
 		//  force = dtsurtau * FORCE_COUPLAGE * force
-	vecteurProduitCartesien2D(&(*humain).forceBatiment, (*humain).dtsurtau, &(*humain).forceBatiment); // v2 = lambda v1
+	vecteurProduitCartesien2D(&(*mobile).forceBatiment, (*mobile).dtsurtau, &(*mobile).forceBatiment); // v2 = lambda v1
 
-	return vecteurNormeCartesien2D(&(*humain).forceBatiment);
+	return vecteurNormeCartesien2D(&(*mobile).forceBatiment);
 	}
 
-int humainMemeEtage(humainT * humain1, humainT * humain2)
+int mobileMemeEtage(mobileT * mobile1, mobileT * mobile2)
 	{	// = 0 si étage différent, 1 si même étage, -1 si sortie
 	int meme = 0;
-	if((*humain1).nouveau.z == -1 || (*humain2).nouveau.z == -1)
+	if((*mobile1).nouveau.z == -1 || (*mobile2).nouveau.z == -1)
 		meme = -1;
 	else
-		if((*humain1).nouveau.z == (*humain2).nouveau.z)
+		if((*mobile1).nouveau.z == (*mobile2).nouveau.z)
 			meme = 1;
 
 	return meme;
 	}
 
-int humainDistanceArithmetique(humainT * humain1, humainT * humain2)
+int mobileDistanceArithmetique(mobileT * mobile1, mobileT * mobile2)
 	{	// En pixel, retourne la distance arithmétique (dx+dy)
-	int X = (*humain1).nouveau.x == (*humain2).nouveau.x;
-	int Y = (*humain1).nouveau.y == (*humain2).nouveau.y;
+	int X = (*mobile1).nouveau.x == (*mobile2).nouveau.x;
+	int Y = (*mobile1).nouveau.y == (*mobile2).nouveau.y;
 	if(X<0)
 		X=-X;
 	if(Y<0)
@@ -156,53 +156,53 @@ int humainDistanceArithmetique(humainT * humain1, humainT * humain2)
 	return X+Y;
 	}
 
-int humainProximite(humainT * humain1, humainT * humain2)
-	{	// retourne 1 si les humains sont proche, 0 sinon
+int mobileProximite(mobileT * mobile1, mobileT * mobile2)
+	{	// retourne 1 si les mobiles sont proche, 0 sinon
 	int proche = 0;
-	if(humainMemeEtage(humain1, humain2)==1)
-		if(humainDistanceArithmetique(humain1, humain2) < INTERACTION_HUMAIN)
+	if(mobileMemeEtage(mobile1, mobile2)==1)
+		if(mobileDistanceArithmetique(mobile1, mobile2) < INTERACTION_MOBILE)
 			proche = 1;
 	return proche;
 	}
 
-float humainAjouteForceHumain(humainT * humain1, humainT * humain2)
+float mobileAjouteForceMobile(mobileT * mobile1, mobileT * mobile2)
 	{
 	float force = 0;
 	vecteurT vecteur; // r = actuel1 - actuel2  puis normalisation
 	vecteurCartesien(&vecteur, 0, 0, 0);
 
 		// Vecteur = nouveau1 - nouveau2
-	vecteurDifferenceCartesien2D(&(*humain1).nouveau, &(*humain2).nouveau, &vecteur); // v3 = v1 - v2
+	vecteurDifferenceCartesien2D(&(*mobile1).nouveau, &(*mobile2).nouveau, &vecteur); // v3 = v1 - v2
 
 		// Vecteur = unitaire (nouveau1 - nouveau2)
 	float distance = vecteurNormaliseCartesien2D(&vecteur); // normalise, renvoie la norme initiale
 
-	if(distance<HUMAINunQUART)//etDEMI
+	if(distance<MOBILEunQUART)//etDEMI
 		{
-		force = FORCE_CONTACT_HUMAIN*(*humain1).dt2surM * (HUMAINunQUART - distance); // norme de la forceetDEMI
+		force = FORCE_CONTACT_MOBILE*(*mobile1).dt2surM * (MOBILEunQUART - distance); // norme de la forceetDEMI
 
 			// Vecteur = force * unitaire
 		vecteurProduitCartesien2D(&vecteur, force, &vecteur); // v2 = lambda v1
 
 			// Ajoute la force sur 1
-		vecteurSommeCartesien2D(&(*humain1).forceHumains, &vecteur, &(*humain1).forceHumains); // v3 = v1 + v2
+		vecteurSommeCartesien2D(&(*mobile1).forceMobiles, &vecteur, &(*mobile1).forceMobiles); // v3 = v1 + v2
 
 			// Vecteur = - vecteur
 		vecteurProduitCartesien2D(&vecteur, force, &vecteur); // v2 = lambda v1
 
 			// Ajoute la force sur 2
-		vecteurSommeCartesien2D(&(*humain2).forceHumains, &vecteur, &(*humain2).forceHumains); // v3 = v1 + v2
+		vecteurSommeCartesien2D(&(*mobile2).forceMobiles, &vecteur, &(*mobile2).forceMobiles); // v3 = v1 + v2
 		}
 
 	return vecteurNormeCartesien2D(&vecteur);
 	}
 
-float humainAjouteForceMur(humainT * humain, int DX, int DY, vecteurT * angle)
+float mobileAjouteForceMur(mobileT * mobile, int DX, int DY, vecteurT * angle)
 	{
 	float force = 0;
-		// Position de l'humain
-	float x = (*humain).nouveau.x;
-	float y = (*humain).nouveau.y;
+		// Position de l'mobile
+	float x = (*mobile).nouveau.x;
+	float y = (*mobile).nouveau.y;
 		// Position de la cellule
 	int X = (int)(x/CELLULE);
 	int Y = (int)(y/CELLULE);
@@ -218,35 +218,35 @@ float humainAjouteForceMur(humainT * humain, int DX, int DY, vecteurT * angle)
 		vecteurCartesien(&vecteur, X*CELLULE + CELLULESUR2 + DX*CELLULESUR2, Y*CELLULE + CELLULESUR2 + DY*CELLULESUR2, 0);
 
 		// Vecteur = nouveau - mur
-	vecteurDifferenceCartesien2D(&(*humain).nouveau, &vecteur, &vecteur); // v3 = v1 - v2
+	vecteurDifferenceCartesien2D(&(*mobile).nouveau, &vecteur, &vecteur); // v3 = v1 - v2
 		// Vecteur = unitaire (nouveau - mur)
 	float distance = vecteurNormaliseCartesien2D(&vecteur); // normalise, renvoie la norme initiale
 
-	float distanceMin = HUMAINSUR2;
+	float distanceMin = MOBILESUR2;
 
 	if(distance<distanceMin) // 
 		{
-		force = FORCE_CONTACT_MUR*(*humain).dt2surM*(distanceMin - distance); // norme de la forceSUR2
+		force = FORCE_CONTACT_MUR*(*mobile).dt2surM*(distanceMin - distance); // norme de la forceSUR2
 
 			// Vecteur = force * unitaire
 		vecteurProduitCartesien2D(angle, force, &vecteur); // v2 = lambda v1
 
 			// Ajoute la force sur 1
-		vecteurSommeCartesien2D(&(*humain).forceMurs, &vecteur, &(*humain).forceMurs); // v3 = v1 + v2
+		vecteurSommeCartesien2D(&(*mobile).forceMurs, &vecteur, &(*mobile).forceMurs); // v3 = v1 + v2
 		}
 
 	return force;
 	}
 
-int humainAffiche(humainT * humain)
+int mobileAffiche(mobileT * mobile)
 	{
-	fprintf(stderr, "\nAffiche humain\n");
-	fprintf(stderr, "  nouveau x : %f , actuel x : %f, ancien x : %f\n", (*humain).nouveau.x, (*humain).actuel.x, (*humain).nouveau.x);
-	fprintf(stderr, "  nouveau y : %f , actuel y : %f, ancien y : %f\n", (*humain).nouveau.y, (*humain).actuel.y, (*humain).nouveau.y);
+	fprintf(stderr, "\nAffiche mobile\n");
+	fprintf(stderr, "  nouveau x : %f , actuel x : %f, ancien x : %f\n", (*mobile).nouveau.x, (*mobile).actuel.x, (*mobile).nouveau.x);
+	fprintf(stderr, "  nouveau y : %f , actuel y : %f, ancien y : %f\n", (*mobile).nouveau.y, (*mobile).actuel.y, (*mobile).nouveau.y);
 
-	fprintf(stderr, "  vitesse x : %f , vitesse y : %f\n", (*humain).vitesse.x, (*humain).vitesse.y);
-	fprintf(stderr, "  vitesseSouhaite x : %f , vitesseSouhaite y : %f\n", (*humain).vitesseSouhaite.x, (*humain).vitesseSouhaite.y);
-	fprintf(stderr, "  forceExterieur x : %f , forceExterieur y : %f\n\n", (*humain).forceBatiment.x, (*humain).forceBatiment.y);
+	fprintf(stderr, "  vitesse x : %f , vitesse y : %f\n", (*mobile).vitesse.x, (*mobile).vitesse.y);
+	fprintf(stderr, "  vitesseSouhaite x : %f , vitesseSouhaite y : %f\n", (*mobile).vitesseSouhaite.x, (*mobile).vitesseSouhaite.y);
+	fprintf(stderr, "  forceExterieur x : %f , forceExterieur y : %f\n\n", (*mobile).forceBatiment.x, (*mobile).forceBatiment.y);
 	return 0;
 	}
 

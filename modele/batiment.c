@@ -46,7 +46,7 @@ int batimentInitialiseVide(batimentT * batiment)
 	}
 
 int batimentInitialise(batimentT * batiment, int numero)
-	{ // Renvoie le nombre d'humain présent
+	{ // Renvoie le nombre de mobiles présent
 	(void)numero;
 	int i, j, k;
 	int nombre = 0;
@@ -80,7 +80,7 @@ int batimentInitialise(batimentT * batiment, int numero)
 		celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2-1]);
 		}
 
-		// Position des humains
+		// Position des mobiles
 	for(k=0;k<BATIMENT_Z;k++)
 		{
 		for(i=BATIMENT_X/2+1;i<BATIMENT_X-1;i++)
@@ -89,7 +89,7 @@ int batimentInitialise(batimentT * batiment, int numero)
 				{
 				if((i+j)/2 == (i+j+1)/2 )
 					{
-					celluleCreationHumain(&(*batiment).etage[k].cellule[i][j]);
+					celluleCreationMobile(&(*batiment).etage[k].cellule[i][j]);
 					nombre++;
 					}
 				}

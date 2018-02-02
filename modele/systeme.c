@@ -43,7 +43,7 @@ int systemeInitialisation(systemeT * systeme, float dt)
 
 		// Vérification des valeurs les plus grandes
 	(*systeme).forceBatimentMax = 0;
-	(*systeme).forceHumainsMax = 0;
+	(*systeme).forceMobilesMax = 0;
 	(*systeme).forceMursMax = 0;
 	(*systeme).forceSommeMax = 0;
 
@@ -56,7 +56,7 @@ int systemeEvolution(systemeT * systeme, int duree)
 	int i;
 		// Vérification des valeurs les plus grandes
 	float forceBatiment;
-	float forceHumains;
+	float forceMobiles;
 	float forceMurs;
 	float forceSomme;
 
@@ -69,13 +69,13 @@ int systemeEvolution(systemeT * systeme, int duree)
 			// Calcul des forces dans la 
 			// nouvelle situation
 		forceBatiment = systemeForceBatiment(systeme);
-		forceHumains = fouleForceHumains(&(*systeme).foule);
+		forceMobiles = fouleForceMobiles(&(*systeme).foule);
 		forceMurs = systemeForceMurs(systeme);
 		forceSomme = fouleSommeForces(&(*systeme).foule);
 		/*	//fprintf(stderr, "systemeForceBatiment\n");
 		systemeForceBatiment(systeme);
-			//fprintf(stderr, "fouleForceHumains\n");
-		fouleForceHumains(&(*systeme).foule);
+			//fprintf(stderr, "fouleForceMobiles\n");
+		fouleForceMobiles(&(*systeme).foule);
 			//fprintf(stderr, "systemeForceMurs\n");
 		systemeForceMurs(systeme);
 			//fprintf(stderr, "fouleSommeForces\n");
@@ -83,14 +83,14 @@ int systemeEvolution(systemeT * systeme, int duree)
 
 			// Vérification des valeurs les plus grandes
 		if((*systeme).forceBatimentMax < forceBatiment) (*systeme).forceBatimentMax = forceBatiment;
-		if((*systeme).forceHumainsMax < forceHumains) (*systeme).forceHumainsMax = forceHumains;
+		if((*systeme).forceMobilesMax < forceMobiles) (*systeme).forceMobilesMax = forceMobiles;
 		if((*systeme).forceMursMax < forceMurs) (*systeme).forceMursMax = forceMurs;
 		if((*systeme).forceSommeMax < forceSomme) (*systeme).forceSommeMax = forceSomme;
 			// Incrémentation
 		fouleIncremente(&(*systeme).foule);
 		}
 
-	//humainAffiche(&(*systeme).foule.premier->humain);
+	//mobileAffiche(&(*systeme).foule.premier->mobile);
 
 	return 0;
 	}
@@ -109,7 +109,7 @@ float systemeForceMurs(systemeT * systeme)
 		// Remise à zéro
 	do
 		{
-		vecteurCartesien(&iter->humain.forceMurs, 0.0, 0.0, 0.0);
+		vecteurCartesien(&iter->mobile.forceMurs, 0.0, 0.0, 0.0);
 		iter=iter->suivant;
 		}
 	while(iter!=(*systeme).foule.premier);
@@ -117,29 +117,29 @@ float systemeForceMurs(systemeT * systeme)
 
 	do
 		{
-		X = (int)(iter->humain.nouveau.x/CELLULE); // Position i de la cellule
-		Y = (int)(iter->humain.nouveau.y/CELLULE); // Position j de la cellule
-		Z = iter->humain.nouveau.z;
+		X = (int)(iter->mobile.nouveau.x/CELLULE); // Position i de la cellule
+		Y = (int)(iter->mobile.nouveau.y/CELLULE); // Position j de la cellule
+		Z = iter->mobile.nouveau.z;
 		for(etage=0;etage<BATIMENT_Z;etage++)
 			{
 			if(Z==etage)
 				{
 				if((*systeme).batiment.etage[Z].cellule[X-1][Y].statut==1)
-					force = humainAjouteForceMur(&iter->humain, -1, 0, &(*systeme).batiment.etage[etage].angle[0]);
+					force = mobileAjouteForceMur(&iter->mobile, -1, 0, &(*systeme).batiment.etage[etage].angle[0]);
 				if((*systeme).batiment.etage[Z].cellule[X-1][Y-1].statut==1)
-					force = humainAjouteForceMur(&iter->humain, -1, -1, &(*systeme).batiment.etage[etage].angle[1]);
+					force = mobileAjouteForceMur(&iter->mobile, -1, -1, &(*systeme).batiment.etage[etage].angle[1]);
 				if((*systeme).batiment.etage[Z].cellule[X][Y-1].statut==1)
-					force = humainAjouteForceMur(&iter->humain, 0, -1, &(*systeme).batiment.etage[etage].angle[2]);
+					force = mobileAjouteForceMur(&iter->mobile, 0, -1, &(*systeme).batiment.etage[etage].angle[2]);
 				if((*systeme).batiment.etage[Z].cellule[X+1][Y-1].statut==1)
-					force = humainAjouteForceMur(&iter->humain, 1, -1, &(*systeme).batiment.etage[etage].angle[3]);
+					force = mobileAjouteForceMur(&iter->mobile, 1, -1, &(*systeme).batiment.etage[etage].angle[3]);
 				if((*systeme).batiment.etage[Z].cellule[X+1][Y].statut==1)
-					force = humainAjouteForceMur(&iter->humain, 1, 0, &(*systeme).batiment.etage[etage].angle[4]);
+					force = mobileAjouteForceMur(&iter->mobile, 1, 0, &(*systeme).batiment.etage[etage].angle[4]);
 				if((*systeme).batiment.etage[Z].cellule[X+1][Y+1].statut==1)
-					force = humainAjouteForceMur(&iter->humain, 1, 1, &(*systeme).batiment.etage[etage].angle[5]);
+					force = mobileAjouteForceMur(&iter->mobile, 1, 1, &(*systeme).batiment.etage[etage].angle[5]);
 				if((*systeme).batiment.etage[Z].cellule[X][Y+1].statut==1)
-					force = humainAjouteForceMur(&iter->humain, 0, 1, &(*systeme).batiment.etage[etage].angle[6]);
+					force = mobileAjouteForceMur(&iter->mobile, 0, 1, &(*systeme).batiment.etage[etage].angle[6]);
 				if((*systeme).batiment.etage[Z].cellule[X-1][Y+1].statut==1)
-					force = humainAjouteForceMur(&iter->humain, -1, 1, &(*systeme).batiment.etage[etage].angle[7]);
+					force = mobileAjouteForceMur(&iter->mobile, -1, 1, &(*systeme).batiment.etage[etage].angle[7]);
 				}
 			}
 		if(force>forceMax) forceMax = force;
@@ -160,11 +160,11 @@ float systemeForceBatiment(systemeT * systeme)
 	float forceMax = 0;
 	vecteurT souhaite; // vitesse souhaité
 	int angle, dx, dy;
-	int nombreX = 0; // nombre d'humain dans les cellules à ateindre
-	int nombreY = 0; // nombre d'humain dans les cellules à ateindre
-	int nombreXY = 0; // nombre d'humain dans les cellules à ateindre
+	int nombreX = 0; // nombre d'mobile dans les cellules à ateindre
+	int nombreY = 0; // nombre d'mobile dans les cellules à ateindre
+	int nombreXY = 0; // nombre d'mobile dans les cellules à ateindre
 
-		// Mise à zéro du nombre d'humain par cellule
+		// Mise à zéro du nombre d'mobile par cellule
 	for(k=0;k<BATIMENT_Z;k++)
 		{
 		for(i=0;i<BATIMENT_X;i++)
@@ -176,11 +176,11 @@ float systemeForceBatiment(systemeT * systeme)
 				}
 			}
 		}
-	do	// Initialisation du nombre d'humain par cellule
+	do	// Initialisation du nombre d'mobile par cellule
 		{
-		X = (int)(iter->humain.nouveau.x/CELLULE);
-		Y = (int)(iter->humain.nouveau.y/CELLULE);
-		Z = iter->humain.nouveau.z;
+		X = (int)(iter->mobile.nouveau.x/CELLULE);
+		Y = (int)(iter->mobile.nouveau.y/CELLULE);
+		Z = iter->mobile.nouveau.z;
 
 		if(Z>-1 && Z<BATIMENT_Z)
 			(*systeme).batiment.etage[Z].cellule[X][Y].nombre++;
@@ -191,30 +191,30 @@ float systemeForceBatiment(systemeT * systeme)
 
 	do	// 
 		{
-		X = (int)(iter->humain.nouveau.x/CELLULE);
-		Y = (int)(iter->humain.nouveau.y/CELLULE);
-		Z = iter->humain.nouveau.z;
+		X = (int)(iter->mobile.nouveau.x/CELLULE);
+		Y = (int)(iter->mobile.nouveau.y/CELLULE);
+		Z = iter->mobile.nouveau.z;
 		if(Z>-1 && Z<BATIMENT_Z)
 			{
 			if((*systeme).batiment.etage[Z].cellule[X][Y].statut==2)
 				{
-				fprintf(stderr, "systemeCouplage : Sortie d'un humain \n");
-				iter->humain.nouveau.z--;
+				fprintf(stderr, "systemeCouplage : Sortie d'un mobile \n");
+				iter->mobile.nouveau.z--;
 				(*systeme).foule.restant--;
 				fprintf(stderr, "systemeCouplage : Il en reste %d dans le batiment \n", (*systeme).foule.restant);
 				fprintf(stderr, "systemeCouplage : chronomètre = %f \n", (*systeme).foule.horloge);
 				}
 			if(X<0 || X>BATIMENT_X)
 				{
-				//fprintf(stderr, "systemeCouplage : humain hors batiment.\n");
-				iter->humain.nouveau.z=-1;
+				//fprintf(stderr, "systemeCouplage : mobile hors batiment.\n");
+				iter->mobile.nouveau.z=-1;
 				}
 			else
 				{
 				if(Y<0 || Y>BATIMENT_Y)
 					{
-					//fprintf(stderr, "systemeCouplage : humain hors batiment.\n");
-					iter->humain.nouveau.z=-1;
+					//fprintf(stderr, "systemeCouplage : mobile hors batiment.\n");
+					iter->mobile.nouveau.z=-1;
 					}
 				else	// Calcul du couplage.
 					{
@@ -224,7 +224,7 @@ float systemeForceBatiment(systemeT * systeme)
 					angle = (*systeme).batiment.etage[Z].cellule[X][Y].angle;
 					if(angle%2==1)	// 3 possibilité de vitesse souhaité (int)(2*souhaite.y)(int)(2*souhaite.x)
 						{
-							// Nombre d'humain dans les cellules à ateindre(int)(2*souhaite.x)(int)(2*souhaite.y)
+							// Nombre d'mobile dans les cellules à ateindre(int)(2*souhaite.x)(int)(2*souhaite.y)
 						nombreX = (*systeme).batiment.etage[Z].cellule[X+dx][Y].nombre;
 						nombreY = (*systeme).batiment.etage[Z].cellule[X][Y+dy].nombre;
 						nombreXY = (*systeme).batiment.etage[Z].cellule[X+dx][Y+dy].nombre;
@@ -248,7 +248,7 @@ float systemeForceBatiment(systemeT * systeme)
 								}
 							}
 						}
-					force = humainCouplage(&(iter->humain), &souhaite);
+					force = mobileCouplage(&(iter->mobile), &souhaite);
 					}
 				}
 			}

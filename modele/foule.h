@@ -42,11 +42,11 @@ typedef struct FouleT fouleT;
 		float dt;		//	Discétisation du temps
 		float horloge;		//	Horloge, chronomètre
 
-		int nombre;		//	Nombre d'humain
-		int restant;		//	Nombre d'humain restant à sortir
-		float masse;		//	Masse d'un humain
+		int nombre;		//	Nombre de mobile
+		int restant;		//	Nombre de mobile restant à sortir
+		float masse;		//	Masse d'un de mobile
 
-		float nervosite;	//	Nervosité des humains
+		float nervosite;	//	Nervosité des de mobiles
 
 		};
 
@@ -60,7 +60,7 @@ int fouleIncremente(fouleT * foule);
 
 	// Calcul des interactions
 float fouleSommeForces(fouleT * foule); // Somme des forces
-float fouleForceHumains(fouleT * foule); // Calcul de la force de couplage entre les humains
+float fouleForceMobiles(fouleT * foule); // Calcul de la force de couplage entre les mobiles
 
 #endif
 

@@ -55,12 +55,12 @@ int optionsTraitement(optionsT * option, int nb, char *opt[])
 		if(strcmp(opt[i], "initial")==0 && opt[i+1]!=NULL)
 			optionsInitial(option, opt[i+1]);	// Numéro du fichier d'initialisation.
 		if(strcmp(opt[i], "nervosite")==0 && opt[i+1]!=NULL)
-			optionsNervosite(option, opt[i+1]);		// Nervosité des humains
+			optionsNervosite(option, opt[i+1]);		// Nervosité des mobiles
 		if(strcmp(opt[i], "masse")==0 && opt[i+1]!=NULL)
-			optionsMasse(option, opt[i+1]);		// Masse des humains
+			optionsMasse(option, opt[i+1]);		// Masse des mobiles
 /*
 		if(strcmp(opt[i], "nombre")==0 && opt[i+1]!=NULL)
-			optionsNombre(option, opt[i+1]);		// Nombre d'humain
+			optionsNombre(option, opt[i+1]);		// Nombre de mobile
 */
 		if(strcmp(opt[i], "fond")==0 && opt[i+1]!=NULL)
 			optionsFond(option, opt[i+1]);	// Couleur du fond
@@ -77,7 +77,7 @@ int optionsTraitement(optionsT * option, int nb, char *opt[])
 			optionsDuree(option, opt[i+1]);	// Nombre d'évolution du système entre les affichages.
 		if(strcmp(opt[i], "dessineMur")==0 && opt[i+1]!=NULL)
 			optionsPause(option, opt[i+1]);	// temps de pause en ms
-		if(strcmp(opt[i], "dessineHumain")==0 && opt[i+1]!=NULL)
+		if(strcmp(opt[i], "dessineMobile")==0 && opt[i+1]!=NULL)
 			optionsMode(option, opt[i+1]);	// Mode -1 : Wait, 1 : Poll
 
 		if(strcmp(opt[i], "aide")==0)
@@ -108,7 +108,7 @@ void optionsInitial(optionsT * option, char *opt)
 	return;
 	}
 
-	// Nervosité des humains maximale Nervosite nervositeNERVOSITE_MAX
+	// Nervosité des mobiles maximale Nervosite nervositeNERVOSITE_MAX
 void optionsNervosite(optionsT * option, char *opt)
 	{
 	float nervosite = atof(opt);
@@ -125,7 +125,7 @@ void optionsNervosite(optionsT * option, char *opt)
 	return;
 	}
 /*
-    	// Nombre d'humains
+    	// Nombre de mobiles
 void optionsNombre(optionsT * options, char *opt)
 	{
 	int nombre = atoi(opt);
@@ -142,7 +142,7 @@ void optionsNombre(optionsT * options, char *opt)
 	return;
 	}
 */
-    	// Masse des humains
+    	// Masse des mobiles
 void optionsMasse(optionsT * option, char *opt)
 	{
 	float masse = atof(opt);
@@ -247,7 +247,7 @@ void optionsMode(optionsT * option, char *opt)
 			//	Dessin des graphes 0 ou 1
 		int dessineAngle;
 		int dessineMur;
-		int dessineHumain;
+		int dessineMobile;
 
     	// dessineAngle
 void optionsDessineAngle(optionsT * option, char *opt)
@@ -283,19 +283,19 @@ void optionsdessineMur(optionsT * option, char *opt)
 	return;
 	}
 
-    	// dessineHumain
-void optionsdessineHumain(optionsT * option, char *opt)
+    	// dessineMobile
+void optionsdessineMobile(optionsT * option, char *opt)
 	{
-	int dessineHumain = atoi(opt);
-	if(dessineHumain>0 && dessineHumain<255)
+	int dessineMobile = atoi(opt);
+	if(dessineMobile>0 && dessineMobile<255)
 		{
-		(*option).dessineHumain = dessineHumain;
-		printf("Option dessineHumain valide, dessineHumain = %d\n", (*option).dessineHumain);
+		(*option).dessineMobile = dessineMobile;
+		printf("Option dessineMobile valide, dessineMobile = %d\n", (*option).dessineMobile);
 		}
 	else
 		{
-		printf("Option dessineHumain non valide, dessineHumain = %d\n", (*option).dessineHumain);
-		printf("Option dessineHumain : 0 < dessineHumain < 255\n");
+		printf("Option dessineMobile non valide, dessineMobile = %d\n", (*option).dessineMobile);
+		printf("Option dessineMobile : 0 < dessineMobile < 255\n");
 		}
 	return;
 	}
@@ -313,12 +313,12 @@ void optionsAide(void)
 	printf(" pause		5 < pause < 555		pause entre les affichages en ms\n");
 
 	printf(" initial	%d < initial < %d	numéro du fichier d'initialisation\n", INITIAL_MIN, INITIAL_MAX);
-	printf(" masse		%d < masse < %d		masse des humains\n", MASSE_MIN, MASSE_MAX);
-	printf(" nervosite	%4.3f < nervosite < %4.1f	nervosité des humains\n", NERVOSITE_MIN, NERVOSITE_MAX);
+	printf(" masse		%d < masse < %d		masse des mobiles\n", MASSE_MIN, MASSE_MAX);
+	printf(" nervosite	%4.3f < nervosite < %4.1f	nervosité des mobiles\n", NERVOSITE_MIN, NERVOSITE_MAX);
 	//printf("	flèches haut, bas, gauche, droite\n\n");
 	printf(" dessineAngle		= 0 ou 1	Dessine ou non les directions\n");
 	printf(" dessineMur		= 0 ou 1	Dessine ou non les murs\n");
-	printf(" dessineHumain		= 0 ou 1	Dessine ou non les humains\n");
+	printf(" dessineMobile		= 0 ou 1	Dessine ou non les mobiles\n");
 
 	printf("\nCOMMANDES CLAVIER\n\n");
 /*
@@ -356,7 +356,7 @@ void optionsAide(void)
 
 	printf("	F6	Dessine ou non les directions\n");
 	printf("	F7	Dessine ou non les murs\n");
-	printf("	F8	Dessine ou non les humains\n");
+	printf("	F8	Dessine ou non les mobiles\n");
 
 	fprintf(stderr, "\nSortie de SimFoule\n");
 	exit(EXIT_FAILURE);

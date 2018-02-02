@@ -62,9 +62,9 @@ struct GrapheT {
 				//				    2
 				
 
-	SDL_Texture *humain;
+	SDL_Texture *mobile;
 
-	pointsT * premier; // Positions des humains
+	pointsT * premier; // Positions des mobiles
 };
 typedef struct GrapheT grapheT;
 
@@ -75,6 +75,6 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe);
 
 void grapheDessineMur(SDL_Renderer *rendu, grapheT * graphe);
 void grapheDessineAngle(SDL_Renderer *rendu, grapheT * graphe);
-void grapheDessineHumain(SDL_Renderer *rendu, grapheT * graphe);
+void grapheDessineMobile(SDL_Renderer *rendu, grapheT * graphe);
 
 #endif

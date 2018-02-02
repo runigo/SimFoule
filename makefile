@@ -1,7 +1,7 @@
 
 # Copyright janvier 2018, Stephan Runigo
 # runigo@free.fr
-# SimFoule 1.0  simulateur de foule
+# SimFoule 1.3  simulateur de foule
 # Ce logiciel est un programme informatique servant à simuler l'évacuation
 # d'une foule dans un batiment et à en donner une représentation graphique.
 # Ce logiciel est régi par la licence CeCILL soumise au droit français et 
@@ -40,8 +40,8 @@ OBJDIR = ./obj
 
 all : $(EXEC)
 
-$(EXEC) : $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/donnees.o $(OBJDIR)/fichier.o $(OBJDIR)/options.o $(OBJDIR)/systeme.o $(OBJDIR)/batiment.o $(OBJDIR)/projection.o $(OBJDIR)/graphe.o $(OBJDIR)/interface.o $(OBJDIR)/points.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/foule.o $(OBJDIR)/chaine.o $(OBJDIR)/humain.o $(OBJDIR)/vecteur.o
-	$(CC) -g  $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/donnees.o $(OBJDIR)/fichier.o $(OBJDIR)/options.o $(OBJDIR)/systeme.o $(OBJDIR)/batiment.o $(OBJDIR)/projection.o $(OBJDIR)/graphe.o $(OBJDIR)/interface.o $(OBJDIR)/points.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/foule.o $(OBJDIR)/chaine.o $(OBJDIR)/humain.o $(OBJDIR)/vecteur.o ` sdl2-config --libs` $(LDFLAGS) -o $(EXEC)
+$(EXEC) : $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/donnees.o $(OBJDIR)/fichier.o $(OBJDIR)/options.o $(OBJDIR)/systeme.o $(OBJDIR)/batiment.o $(OBJDIR)/projection.o $(OBJDIR)/graphe.o $(OBJDIR)/interface.o $(OBJDIR)/points.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/foule.o $(OBJDIR)/chaine.o $(OBJDIR)/mobile.o $(OBJDIR)/vecteur.o
+	$(CC) -g  $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/donnees.o $(OBJDIR)/fichier.o $(OBJDIR)/options.o $(OBJDIR)/systeme.o $(OBJDIR)/batiment.o $(OBJDIR)/projection.o $(OBJDIR)/graphe.o $(OBJDIR)/interface.o $(OBJDIR)/points.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/foule.o $(OBJDIR)/chaine.o $(OBJDIR)/mobile.o $(OBJDIR)/vecteur.o ` sdl2-config --libs` $(LDFLAGS) -o $(EXEC)
 
 $(OBJDIR)/principale.o : controle/principale.c controle/principale.h
 	$(CC) -c -g controle/principale.c $(CFLAGS) -o $@
@@ -88,8 +88,8 @@ $(OBJDIR)/foule.o : modele/foule.c modele/foule.h
 $(OBJDIR)/chaine.o : modele/chaine.c modele/chaine.h
 	$(CC) -c -g modele/chaine.c $(CFLAGS) -o $@
 
-$(OBJDIR)/humain.o : modele/humain.c modele/humain.h
-	$(CC) -c -g modele/humain.c $(CFLAGS) -o $@
+$(OBJDIR)/mobile.o : modele/mobile.c modele/mobile.h
+	$(CC) -c -g modele/mobile.c $(CFLAGS) -o $@
 
 $(OBJDIR)/vecteur.o : modele/vecteur.c modele/vecteur.h
 	$(CC) -c -g modele/vecteur.c $(CFLAGS) -o $@

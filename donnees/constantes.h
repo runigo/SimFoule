@@ -50,10 +50,10 @@ termes.
 
 #define CELLULE 14		// Longueur du coté d'une cellule (en pixel)
 #define CELLULESUR2 CELLULE/2	// Demi longueur du coté d'une cellule (en pixel)
-#define HUMAIN 13		// Longueur du coté d'un humain (en pixel)
-#define HUMAINSUR2 HUMAIN/2		// Demi longueur du coté d'un humain (en pixel)
-#define HUMAINetDEMI 3*HUMAIN/2		// Demi longueur du coté d'un humain (en pixel)
-#define HUMAINunQUART 5*HUMAIN/4	// Demi longueur du coté d'un humain (en pixel)
+#define MOBILE 13		// Longueur du coté d'un mobile (en pixel)
+#define MOBILESUR2 MOBILE/2		// Demi longueur du coté d'un mobile (en pixel)
+#define MOBILEetDEMI 3*MOBILE/2		// Demi longueur du coté d'un mobile (en pixel)
+#define MOBILEunQUART 5*MOBILE/4	// Demi longueur du coté d'un mobile (en pixel)
 
 	#define FENETRE_X BATIMENT_X*CELLULE // Taille de la fenêtre
 	#define FENETRE_Y BATIMENT_Y*CELLULE // Taille de la fenêtre
@@ -61,7 +61,7 @@ termes.
 	#define CELLULE_ETAGE BATIMENT_X*BATIMENT_Y	// Nombre de cellule d'un étage
 	#define CELLULE_BATIMENT CELLULE_ETAGE*BATIMENT_Z	// Nombre de cellule du batiment
 
-	#define NOMBRE_MAX CELLULE_BATIMENT	// Nombre maximale d'humains
+	#define NOMBRE_MAX CELLULE_BATIMENT	// Nombre maximale d'mobiles
 
 
 	//----------         PARAMETRES  TEMPORELLES         -----------//
@@ -74,8 +74,8 @@ termes.
 #define INITIAL_MIN -99	// Fichiers d'initialisation
 #define INITIAL_MAX 99	// Fichiers d'initialisation
 
-#define MASSE_MIN 5	// Masse minimale d'un humain
-#define MASSE_MAX 199	// Masse maximale d'un humain
+#define MASSE_MIN 5	// Masse minimale d'un mobile
+#define MASSE_MAX 199	// Masse maximale d'un mobile
 
 #define NERVOSITE_MAX 19.1	// Nervosité maximale
 #define NERVOSITE_MIN 0.55	// Nervosité minimale
@@ -83,8 +83,8 @@ termes.
 
 	//----------        PARAMETRES  D'INTERACTIONS        -----------//
 
-#define INTERACTION_HUMAIN HUMAIN*2.1	// Distance maximale arithmetique de prise en compte des contacts
-#define FORCE_CONTACT_HUMAIN 141	// constante de force de répulsion de contact entre humain
+#define INTERACTION_MOBILE MOBILE*2.1	// Distance maximale arithmetique de prise en compte des contacts
+#define FORCE_CONTACT_MOBILE 141	// constante de force de répulsion de contact entre mobile
 #define FORCE_CONTACT_MUR 1171		// constante de force de répulsion de contact avec les murs
 //#define FORCE_COUPLAGE 333		// constante de force de couplage
 #endif

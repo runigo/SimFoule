@@ -30,12 +30,12 @@ termes.
 */
 
 
-#ifndef _HUMAIN_
-#define _HUMAIN_
+#ifndef _MOBILE_
+#define _MOBILE_
 
 #include "../modele/vecteur.h"
 
-struct HumainT {
+struct MobileT {
 	vecteurT nouveau;
 	vecteurT actuel;
 	vecteurT ancien;
@@ -45,7 +45,7 @@ struct HumainT {
 	vecteurT vitesseSouhaite;
 
 	vecteurT forceBatiment;
-	vecteurT forceHumains;
+	vecteurT forceMobiles;
 	vecteurT forceMurs;
 	vecteurT sommeForces;
 
@@ -56,21 +56,21 @@ struct HumainT {
 	float dt2surM;
 	float dt;
 };
-typedef struct HumainT humainT;
+typedef struct MobileT mobileT;
 
-int humainInitialise(humainT * humain, float masse, float nervosite, float dt);
-int humainInitialisePosition(humainT * humain, float x, float y, int z); // z=-1 : sortie
-int humainInitialiseCaractere(humainT * humain, float masse, float nervosite, float dt);
+int mobileInitialise(mobileT * mobile, float masse, float nervosite, float dt);
+int mobileInitialisePosition(mobileT * mobile, float x, float y, int z); // z=-1 : sortie
+int mobileInitialiseCaractere(mobileT * mobile, float masse, float nervosite, float dt);
 
-int humainInertie(humainT * humain);
-int humainIncremente(humainT * humain);
+int mobileInertie(mobileT * mobile);
+int mobileIncremente(mobileT * mobile);
 
-int humainProximite(humainT * humain1, humainT * humain2); // retourne 1 si les humains sont proche, 0 sinon
+int mobileProximite(mobileT * mobile1, mobileT * mobile2); // retourne 1 si les mobiles sont proche, 0 sinon
 
-float humainCouplage(humainT * humain, vecteurT * vitesseSouhaite);
-float humainAjouteForceHumain(humainT * humain1, humainT * humain2);
-float humainAjouteForceMur(humainT * humain1, int DX, int DY, vecteurT * angle);
+float mobileCouplage(mobileT * mobile, vecteurT * vitesseSouhaite);
+float mobileAjouteForceMobile(mobileT * mobile1, mobileT * mobile2);
+float mobileAjouteForceMur(mobileT * mobile1, int DX, int DY, vecteurT * angle);
 
-int humainAffiche(humainT * humain);
+int mobileAffiche(mobileT * mobile);
 #endif
 ////////////////////////////////////////////////////////////////////

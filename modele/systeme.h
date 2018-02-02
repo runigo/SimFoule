@@ -46,7 +46,7 @@ typedef struct SystemeT systemeT;
 
 			// Vérification des valeurs les plus grandes
 		float forceBatimentMax;
-		float forceHumainsMax;
+		float forceMobilesMax;
 		float forceMursMax;
 		float forceSommeMax;
 		};

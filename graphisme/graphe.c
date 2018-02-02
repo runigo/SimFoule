@@ -88,15 +88,15 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 		return 0;
 		}
 
-	image = SDL_LoadBMP("./image/humain.bmp");
+	image = SDL_LoadBMP("./image/mobile.bmp");
 	if (!image)
 		{
-		fprintf(stderr,"Erreur chargement image, humain.bmp : %s\n",SDL_GetError());
+		fprintf(stderr,"Erreur chargement image, mobile.bmp : %s\n",SDL_GetError());
 		return 0;
 		}
-	(*graphe).humain = SDL_CreateTextureFromSurface(rendu, image);
+	(*graphe).mobile = SDL_CreateTextureFromSurface(rendu, image);
 	SDL_FreeSurface(image);
-	if ((*graphe).humain == 0)
+	if ((*graphe).mobile == 0)
 		{
 		fprintf(stderr,"grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
 		return 0;
@@ -104,7 +104,7 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
 
 		// Activation de la transparence
 	//SDL_BLENDMODE_NONE || SDL_BLENDMODE_BLEND || SDL_BLENDMODE_ADD || SDL_BLENDMODE_MOD
-	if(SDL_SetTextureBlendMode((*graphe).humain, SDL_BLENDMODE_MOD) < 0)
+	if(SDL_SetTextureBlendMode((*graphe).mobile, SDL_BLENDMODE_MOD) < 0)
 		fprintf(stderr, "grapheInitialisation : Erreur SDL_SetRenderDrawBlendMode : %s.", SDL_GetError());
 
 	image = SDL_LoadBMP("./image/sortie.bmp");
@@ -343,13 +343,13 @@ void grapheDessineAngle(SDL_Renderer *rendu, grapheT * graphe)
 	return;
 	}
 
-void grapheDessineHumain(SDL_Renderer *rendu, grapheT * graphe)
+void grapheDessineMobile(SDL_Renderer *rendu, grapheT * graphe)
 	{
-	SDL_Rect coordonnee = {0, 0, HUMAIN, HUMAIN};
+	SDL_Rect coordonnee = {0, 0, MOBILE, MOBILE};
 
 	pointsT *iterGraph=(*graphe).premier;
 
-	int centrage = (HUMAIN)/2;
+	int centrage = (MOBILE)/2;
 
 	do
 		{
@@ -358,8 +358,8 @@ void grapheDessineHumain(SDL_Renderer *rendu, grapheT * graphe)
 		// int plan[BATIMENT_X][BATIMENT_Y][BATIMENT_Z]; // Plan du batiment		À UTILISER ICI ?
 				// 0 : libre, 1 : mur, 2 : sortie		if(iterGraph->zm=(*graphe).plan[][][])
 
-		if(iterGraph->zm!=-1) // dessine les humains de l'étage
-			SDL_RenderCopy(rendu, (*graphe).humain, NULL, &coordonnee);
+		if(iterGraph->zm!=-1) // dessine les mobiles de l'étage
+			SDL_RenderCopy(rendu, (*graphe).mobile, NULL, &coordonnee);
 
 		iterGraph = iterGraph->suivant;
 		}
@@ -368,10 +368,10 @@ void grapheDessineHumain(SDL_Renderer *rendu, grapheT * graphe)
 	return;
 	}
 /*
-void grapheDessineHumain(SDL_Renderer *rendu, grapheT * graphe)
+void grapheDessineMobile(SDL_Renderer *rendu, grapheT * graphe)
 	{
 	int i, j;
-	SDL_Rect coordonnee = {0, 0, HUMAIN, HUMAIN};
+	SDL_Rect coordonnee = {0, 0, MOBILE, MOBILE};
 	for(i=0;i<BATIMENT_X;i++)
 		{
 		for(j=0;j<BATIMENT_Y;j++)
@@ -381,7 +381,7 @@ void grapheDessineHumain(SDL_Renderer *rendu, grapheT * graphe)
 				case 9:
 					coordonnee.x = i*CELLULE;
 					coordonnee.y = j*CELLULE;
-					SDL_RenderCopy(rendu, (*graphe).humain, NULL, &coordonnee);
+					SDL_RenderCopy(rendu, (*graphe).mobile, NULL, &coordonnee);
 				break;
 				default:
 					;

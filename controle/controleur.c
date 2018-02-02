@@ -53,7 +53,7 @@ void controleurChangeDessin(int * dessine);
 int controleurAfficheForces(controleurT * controleur);
 int controleurAfficheVitesse(controleurT * controleur);
 int controleurAfficheOptions(controleurT * controleur);
-int controleurAfficheHumain(controleurT * controleur);
+int controleurAfficheMobile(controleurT * controleur);
 
 int controleurDirections(controleurT * controleur)
 	{
@@ -189,8 +189,8 @@ int controleurConstructionGraphique(controleurT * controleur)
 		grapheDessineAngle((*controleur).interface.rendu, &(*controleur).graphe);
 	if((*controleur).options.dessineMur==1)
 		grapheDessineMur((*controleur).interface.rendu, &(*controleur).graphe);
-	if((*controleur).options.dessineHumain==1)
-		grapheDessineHumain((*controleur).interface.rendu, &(*controleur).graphe);
+	if((*controleur).options.dessineMobile==1)
+		grapheDessineMobile((*controleur).interface.rendu, &(*controleur).graphe);
 
 		//fprintf(stderr, "Mise à jour de l'affichage\n");
 	interfaceMiseAJour(&(*controleur).interface);
@@ -372,7 +372,7 @@ int controleurClavier(controleurT * controleur)
 		case SDLK_F3:
 			controleurAfficheOptions(&(*controleur).options.dessineMur);break;
 		case SDLK_F4:
-			controleurAfficheHumain(&(*controleur).options.dessineHumain);break;
+			controleurAfficheMobile(&(*controleur).options.dessineMobile);break;
 */
 		case SDLK_F5:
 			controleurAfficheForces(controleur);break;
@@ -381,7 +381,7 @@ int controleurClavier(controleurT * controleur)
 		case SDLK_F7:
 			controleurChangeDessin(&(*controleur).options.dessineMur);break;
 		case SDLK_F8:
-			controleurChangeDessin(&(*controleur).options.dessineHumain);break;
+			controleurChangeDessin(&(*controleur).options.dessineMobile);break;
 
 	// Conditions aux limites
 /*
@@ -747,7 +747,7 @@ int controleurAfficheForces(controleurT * controleur)
 	printf("\nForces maximales atteintes\n");
 			// Vérification des valeurs les plus grandes
 	printf("  force Batiment Max = %f\n", (*controleur).systeme.forceBatimentMax);
-	printf("  force Humains Max = %f\n", (*controleur).systeme.forceHumainsMax);
+	printf("  force Mobiles Max = %f\n", (*controleur).systeme.forceMobilesMax);
 	printf("  force Murs Max = %f\n", (*controleur).systeme.forceMursMax);
 	printf("  force Somme Max = %f\n", (*controleur).systeme.forceSommeMax);
 	
@@ -768,19 +768,19 @@ int controleurAfficheOptions(controleurT * controleur)
 	printf("\nForces maximales atteintes\n");
 			// Vérification des valeurs les plus grandes
 	printf("  force Batiment Max = %f\n", (*controleur).systeme.forceBatimentMax);
-	printf("  force Humains Max = %f\n", (*controleur).systeme.forceHumainsMax);
+	printf("  force Mobiles Max = %f\n", (*controleur).systeme.forceMobilesMax);
 	printf("  force Murs Max = %f\n", (*controleur).systeme.forceMursMax);
 	printf("  force Somme Max = %f\n", (*controleur).systeme.forceSommeMax);
 	
 	return 0;
 	}
 
-int controleurAfficheHumain(controleurT * controleur)
+int controleurAfficheMobile(controleurT * controleur)
 	{
 	printf("\nForces maximales atteintes\n");
 			// Vérification des valeurs les plus grandes
 	printf("  force Batiment Max = %f\n", (*controleur).systeme.forceBatimentMax);
-	printf("  force Humains Max = %f\n", (*controleur).systeme.forceHumainsMax);
+	printf("  force Mobiles Max = %f\n", (*controleur).systeme.forceMobilesMax);
 	printf("  force Murs Max = %f\n", (*controleur).systeme.forceMursMax);
 	printf("  force Somme Max = %f\n", (*controleur).systeme.forceSommeMax);
 	

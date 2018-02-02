@@ -46,15 +46,15 @@ int donneesOptionsImplicite(optionsT * options)
 
 	(*options).initial=-1;	// Numéro du fichier d'initialisation.
 
-	(*options).nombre=33;	// Nombre d'humain
-	(*options).nervosite=7.7;	// Nervosité des humains
-	(*options).masse=77.77;	// Masse des humains
+	(*options).nombre=33;	// Nombre de mobiles
+	(*options).nervosite=7.7;	// Nervosité des mobiles
+	(*options).masse=77.77;	// Masse des mobiles
 	(*options).dt=0.00666;	// discrétisation du temps
 
 			//	Dessin des graphes 0 ou 1
 	(*options).dessineAngle=0;
 	(*options).dessineMur=1;
-	(*options).dessineHumain=1;
+	(*options).dessineMobile=1;
 	return 0;
 	}
 
@@ -62,7 +62,7 @@ int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 	{
 		printf("    donneesInitialisationBatiment : batimentInitialise %d\n", (*options).initial);
 	(*options).nombre = batimentInitialise(batiment, -1);
-		fprintf(stderr, "    donneesInitialisationBatiment : nombre d'humain = %d\n", (*options).nombre);
+		fprintf(stderr, "    donneesInitialisationBatiment : nombre de mobiles = %d\n", (*options).nombre);
 
 	if( (*options).initial > -1 && (*options).initial < 99)
 		{
@@ -94,11 +94,11 @@ int donneesCreationFoule(fouleT * foule, optionsT * options)
 	(*foule).dt = (*options).dt;		// Discrétisation du temps
 	(*foule).horloge = 0.0;			// Horloge
 
-	(*foule).nombre = (*options).nombre;	// Nombre d'humain
-	(*foule).restant = (*options).nombre;	// Nombre d'humain restant à sortir
+	(*foule).nombre = (*options).nombre;	// Nombre d'mobile
+	(*foule).restant = (*options).nombre;	// Nombre d'mobile restant à sortir
 
-	(*foule).masse = (*options).masse;		// Masse des humains
-	(*foule).nervosite = (*options).nervosite;	// Nervosité des humains
+	(*foule).masse = (*options).masse;		// Masse des mobiles
+	(*foule).nervosite = (*options).nervosite;	// Nervosité des mobiles
 
 		// Création de la chaîne
 	fouleCreation(foule);
@@ -113,7 +113,7 @@ int donneesInitialisationFoule(fouleT * foule, batimentT * batiment)
 	int i, j, k;
 	int compteur = 0;
 
-		// Position des humains
+		// Position des mobiles
 	for(k=0;k<BATIMENT_Z;k++)
 		{
 		for(i=0;i<BATIMENT_X;i++)
@@ -122,16 +122,16 @@ int donneesInitialisationFoule(fouleT * foule, batimentT * batiment)
 				{
 				if((*batiment).etage[k].cellule[i][j].statut == 9)
 					{
-					humainInitialisePosition(&iter->humain, i*CELLULE+centrage, j*CELLULE+centrage, k);
-					//fprintf(stderr, "Initialisation position humain : %d, %d\n", i, j);
-					//fprintf(stderr, "  coordonnées : x= %f, y= %f, z= %d\n", iter->humain.nouveau.x, iter->humain.nouveau.y, iter->humain.nouveau.z);
+					mobileInitialisePosition(&iter->mobile, i*CELLULE+centrage, j*CELLULE+centrage, k);
+					//fprintf(stderr, "Initialisation position mobile : %d, %d\n", i, j);
+					//fprintf(stderr, "  coordonnées : x= %f, y= %f, z= %d\n", iter->mobile.nouveau.x, iter->mobile.nouveau.y, iter->mobile.nouveau.z);
 					iter=iter->suivant;
 					compteur ++;
 					}
 				}
 			}
 		}
-	fprintf(stderr, "    donneesInitialisationFoule : position de %d humains initialisée.\n", compteur);
+	fprintf(stderr, "    donneesInitialisationFoule : position de %d mobiles initialisée.\n", compteur);
 
 	return 0;
 	}

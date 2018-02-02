@@ -62,7 +62,7 @@ double celluleInitialise(celluleT * cellule);
 int celluleCreationMur(celluleT * cellule);
 int celluleCreationSortie(celluleT * cellule);
 int celluleCreationEntree(celluleT * cellule);
-int celluleCreationHumain(celluleT * cellule);
+int celluleCreationMobile(celluleT * cellule);
 
 int celluleDonneStatut(celluleT * cellule);	// 0:libre, 1:mur, 2:sortie
 int celluleInitialiseStatut(celluleT * cellule, int statut);	// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:humain

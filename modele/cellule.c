@@ -67,7 +67,7 @@ int celluleCreationEntree(celluleT * cellule)
 	return 0;
 	}
 
-int celluleCreationHumain(celluleT * cellule)
+int celluleCreationMobile(celluleT * cellule)
 	{
 	(*cellule).statut = 9;
 	return 0;

@@ -88,7 +88,7 @@ int projectionBatimentSens(batimentT * batiment, projectionT * projection, graph
 
 int projectionFoulePoints(fouleT * foule, projectionT * projection, grapheT * graphe)
 	{
-		//	Projette les positions des humains sur le graphe
+		//	Projette les positions des mobiles sur le graphe
 
 	chaineT *iterFoule=(*foule).premier;
 	pointsT *iterGraph=(*graphe).premier;
@@ -96,9 +96,9 @@ int projectionFoulePoints(fouleT * foule, projectionT * projection, grapheT * gr
 
 	do
 		{
-		iterGraph->xm = (int)(iterFoule->humain.nouveau.x);
-		iterGraph->ym = (int)(iterFoule->humain.nouveau.y);
-		iterGraph->zm = (int)(iterFoule->humain.nouveau.z);
+		iterGraph->xm = (int)(iterFoule->mobile.nouveau.x);
+		iterGraph->ym = (int)(iterFoule->mobile.nouveau.y);
+		iterGraph->zm = (int)(iterFoule->mobile.nouveau.z);
 
 		iterGraph = iterGraph->suivant;
 		iterFoule = iterFoule->suivant;
