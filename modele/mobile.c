@@ -37,7 +37,7 @@ int mobileMemeEtage(mobileT * mobile1, mobileT * mobile2);
 int mobileDistanceArithmetique(mobileT * mobile1, mobileT * mobile2);
 	// En pixel, retourne la distance arithmétique (dx+dy)
 
-int mobileInitialise(mobileT * mobile, float masse, float nervosite, float dt)
+int mobileInitialise(mobileT * mobile, int taille, float masse, float nervosite, float dt)
 	{
 	int retour = 0;
 
@@ -49,7 +49,7 @@ int mobileInitialise(mobileT * mobile, float masse, float nervosite, float dt)
 	vecteurCartesien(&(*mobile).sommeForces, 0, 0, 0);
 
 	retour += mobileInitialisePosition(mobile, 0, 0, 0);
-	retour += mobileInitialiseCaractere(mobile, masse, nervosite, dt);
+	retour += mobileChangeCaractere(mobile, taille, masse, nervosite, dt);
 
 	return retour;
 	}
@@ -63,13 +63,15 @@ int mobileInitialisePosition(mobileT * mobile, float x, float y, int z)
 	return 0;
 	}
 
-int mobileInitialiseCaractere(mobileT * mobile, float masse, float nervosite, float dt)
+int mobileChangeCaractere(mobileT * mobile, int taille, float masse, float nervosite, float dt)
 	{
 	int retour = 0;
 
-	(*mobile).masse = 66.999;
-	(*mobile).nervosite = 0.999;
-	(*mobile).dt = 0.000333;
+	(*mobile).taille = taille;
+	(*mobile).rayon = 0.5*taille;
+	(*mobile).masse = masse;
+	(*mobile).nervosite = nervosite;
+	(*mobile).dt = dt;
 
 	if( masse > MASSE_MIN && masse < MASSE_MAX )
 		(*mobile).masse = masse;
@@ -160,8 +162,11 @@ int mobileProximite(mobileT * mobile1, mobileT * mobile2)
 	{	// retourne 1 si les mobiles sont proche, 0 sinon
 	int proche = 0;
 	if(mobileMemeEtage(mobile1, mobile2)==1)
-		if(mobileDistanceArithmetique(mobile1, mobile2) < INTERACTION_MOBILE)
+		{
+		int proximite=(*mobile1).taille + (*mobile2).taille;
+		if(mobileDistanceArithmetique(mobile1, mobile2) < proximite)
 			proche = 1;
+		}
 	return proche;
 	}
 
@@ -176,10 +181,11 @@ float mobileAjouteForceMobile(mobileT * mobile1, mobileT * mobile2)
 
 		// Vecteur = unitaire (nouveau1 - nouveau2)
 	float distance = vecteurNormaliseCartesien2D(&vecteur); // normalise, renvoie la norme initiale
+	float distanceMin=(*mobile1).rayon + (*mobile2).rayon;
 
-	if(distance<MOBILEunQUART)//etDEMI
+	if(distance < distanceMin)	//	Calcul de la force
 		{
-		force = FORCE_CONTACT_MOBILE*(*mobile1).dt2surM * (MOBILEunQUART - distance); // norme de la forceetDEMI
+		force = FORCE_CONTACT_MOBILE*(*mobile1).dt2surM * (distanceMin - distance); // norme de la force
 
 			// Vecteur = force * unitaire
 		vecteurProduitCartesien2D(&vecteur, force, &vecteur); // v2 = lambda v1
@@ -222,7 +228,7 @@ float mobileAjouteForceMur(mobileT * mobile, int DX, int DY, vecteurT * angle)
 		// Vecteur = unitaire (nouveau - mur)
 	float distance = vecteurNormaliseCartesien2D(&vecteur); // normalise, renvoie la norme initiale
 
-	float distanceMin = MOBILESUR2;
+	float distanceMin = (*mobile).rayon;
 
 	if(distance<distanceMin) // 
 		{

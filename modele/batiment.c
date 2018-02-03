@@ -76,6 +76,7 @@ int batimentInitialise(batimentT * batiment, int numero)
 			{
 			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/4][j]);
 			}
+		celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2+1]);
 		celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2]);
 		celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2-1]);
 		}

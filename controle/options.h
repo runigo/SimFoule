@@ -52,6 +52,7 @@ typedef struct OptionsT optionsT;
 		int pause;		// pause après l'affichage en ms
 
 		int nombre;		// Nombre de mobile
+		int taille;		// Taille d'un mobile
 		float masse;		// Masse d'un mobile
 		float nervosite;	// Nervosité d'un mobile
 

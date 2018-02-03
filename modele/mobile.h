@@ -50,6 +50,8 @@ struct MobileT {
 	vecteurT sommeForces;
 
 
+	int taille;
+	float rayon;
 	float masse;
 	float nervosite;
 	float dtsurtau;
@@ -58,9 +60,9 @@ struct MobileT {
 };
 typedef struct MobileT mobileT;
 
-int mobileInitialise(mobileT * mobile, float masse, float nervosite, float dt);
+int mobileInitialise(mobileT * mobile, int taille, float masse, float nervosite, float dt);
 int mobileInitialisePosition(mobileT * mobile, float x, float y, int z); // z=-1 : sortie
-int mobileInitialiseCaractere(mobileT * mobile, float masse, float nervosite, float dt);
+int mobileChangeCaractere(mobileT * mobile, int taille, float masse, float nervosite, float dt);
 
 int mobileInertie(mobileT * mobile);
 int mobileIncremente(mobileT * mobile);

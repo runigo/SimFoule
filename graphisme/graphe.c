@@ -343,13 +343,13 @@ void grapheDessineAngle(SDL_Renderer *rendu, grapheT * graphe)
 	return;
 	}
 
-void grapheDessineMobile(SDL_Renderer *rendu, grapheT * graphe)
+void grapheDessineMobile(SDL_Renderer *rendu, grapheT * graphe, int taille)
 	{
-	SDL_Rect coordonnee = {0, 0, MOBILE, MOBILE};
+	SDL_Rect coordonnee = {0, 0, taille, taille};
 
 	pointsT *iterGraph=(*graphe).premier;
 
-	int centrage = (MOBILE)/2;
+	int centrage = (taille)/2;
 
 	do
 		{

@@ -44,9 +44,10 @@ typedef struct FouleT fouleT;
 
 		int nombre;		//	Nombre de mobile
 		int restant;		//	Nombre de mobile restant à sortir
-		float masse;		//	Masse d'un de mobile
+		int taille;		//	Taille des mobiles
+		float masse;		//	Masse des mobiles
 
-		float nervosite;	//	Nervosité des de mobiles
+		float nervosite;	//	Nervosité des mobiles
 
 		};
 

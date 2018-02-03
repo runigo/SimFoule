@@ -34,6 +34,7 @@ termes.
 
 void optionsInitial(optionsT * option, char *opt);
 void optionsNombre(optionsT * option, char *opt);
+void optionsTaille(optionsT * option, char *opt);
 void optionsMasse(optionsT * option, char *opt);
 void optionsNervosite(optionsT * option, char *opt);
 
@@ -54,36 +55,38 @@ int optionsTraitement(optionsT * option, int nb, char *opt[])
 
 		if(strcmp(opt[i], "initial")==0 && opt[i+1]!=NULL)
 			optionsInitial(option, opt[i+1]);	// Numéro du fichier d'initialisation.
+		if(strcmp(opt[i], "taille")==0 && opt[i+1]!=NULL)
+			optionsTaille(option, opt[i+1]);		// Taille des mobiles
 		if(strcmp(opt[i], "nervosite")==0 && opt[i+1]!=NULL)
 			optionsNervosite(option, opt[i+1]);		// Nervosité des mobiles
 		if(strcmp(opt[i], "masse")==0 && opt[i+1]!=NULL)
-			optionsMasse(option, opt[i+1]);		// Masse des mobiles
+			optionsMasse(option, opt[i+1]);			// Masse des mobiles
 /*
 		if(strcmp(opt[i], "nombre")==0 && opt[i+1]!=NULL)
 			optionsNombre(option, opt[i+1]);		// Nombre de mobile
 */
 		if(strcmp(opt[i], "fond")==0 && opt[i+1]!=NULL)
-			optionsFond(option, opt[i+1]);	// Couleur du fond
+			optionsFond(option, opt[i+1]);		// Couleur du fond
 		if(strcmp(opt[i], "dt")==0 && opt[i+1]!=NULL)
 			optionsDt(option, opt[i+1]);		// discrétisation du temps
 		if(strcmp(opt[i], "duree")==0 && opt[i+1]!=NULL)
 			optionsDuree(option, opt[i+1]);	// Nombre d'évolution du système entre les affichages.
 		if(strcmp(opt[i], "pause")==0 && opt[i+1]!=NULL)
-			optionsPause(option, opt[i+1]);	// temps de pause en ms
+			optionsPause(option, opt[i+1]);		// temps de pause en ms
 		if(strcmp(opt[i], "mode")==0 && opt[i+1]!=NULL)
-			optionsMode(option, opt[i+1]);	// Mode -1 : Wait, 1 : Poll
+			optionsMode(option, opt[i+1]);		// Mode -1 : Wait, 1 : Poll
 
 		if(strcmp(opt[i], "dessineAngle")==0 && opt[i+1]!=NULL)
 			optionsDuree(option, opt[i+1]);	// Nombre d'évolution du système entre les affichages.
 		if(strcmp(opt[i], "dessineMur")==0 && opt[i+1]!=NULL)
-			optionsPause(option, opt[i+1]);	// temps de pause en ms
+			optionsPause(option, opt[i+1]);		// temps de pause en ms
 		if(strcmp(opt[i], "dessineMobile")==0 && opt[i+1]!=NULL)
-			optionsMode(option, opt[i+1]);	// Mode -1 : Wait, 1 : Poll
+			optionsMode(option, opt[i+1]);		// Mode -1 : Wait, 1 : Poll
 
 		if(strcmp(opt[i], "aide")==0)
-			optionsAide();	// Affiche l'aide.
+			optionsAide();		// Affiche l'aide.
 		if(strcmp(opt[i], "help")==0)
-			optionsAide();	// Affiche l'aide.
+			optionsAide();		// Affiche l'aide.
 
   		i++;
   		}
@@ -95,7 +98,7 @@ int optionsTraitement(optionsT * option, int nb, char *opt[])
 void optionsInitial(optionsT * option, char *opt)
 	{
 	int initial = atoi(opt);
-	if(initial>-255 && initial<255)
+	if(initial>INITIAL_MIN && initial<INITIAL_MAX)
 		{
 		(*option).initial = initial;
 		printf("Option initial valide, Initial = %d\n", (*option).initial);
@@ -103,7 +106,25 @@ void optionsInitial(optionsT * option, char *opt)
 	else
 		{
 		printf("Option initial non valide, initial = %d\n", (*option).initial);
-		printf("Option initial : -255 < initial < 255\n");
+		printf("Option initial : %d < initial < %d\n",INITIAL_MIN, INITIAL_MAX);
+		}
+	return;
+	}
+
+    	// Taille des mobiles
+void optionsTaille(optionsT * option, char *opt)
+	{
+	int taille = atoi(opt);
+
+	if(taille>MOBILE_MIN && taille<MOBILE_MAX)
+		{
+		(*option).taille = taille;
+		printf("Option taille valide, taille = %d\n", (*option).taille);
+		}
+	else
+		{
+		printf("Option taille non valide, taille = %d\n", (*option).taille);
+		printf("Option taille : %d < taille < %d\n", MOBILE_MIN, MOBILE_MAX);
 		}
 	return;
 	}
@@ -180,7 +201,7 @@ void optionsFond(optionsT * option, char *opt)
 void optionsDt(optionsT * option, char *opt)
 	{
 	float dt = atof(opt);
-	if(dt>0.0 && dt<DT_MAX)
+	if(dt>DT_MIN && dt<DT_MAX)
 		{
 		(*option).dt = dt;
 		printf("Option dt valide, dt = %f\n", (*option).dt);
@@ -188,7 +209,7 @@ void optionsDt(optionsT * option, char *opt)
 	else
 		{
 		printf("Option dt non valide, dt = %f\n", (*option).dt);
-		printf("Option dt : 0.0 < dt < %f\n", DT_MAX);
+		printf("Option dt : %f < dt < %f\n", DT_MIN, DT_MAX);
 		}
 	return;
 	}
@@ -205,7 +226,7 @@ void optionsDuree(optionsT * option, char *opt)
 	else
 		{
 		printf("Option duree non valide, duree = %d\n", (*option).duree);
-		printf("Option duree : 0.0 < duree < %d\n", DUREE_MAX);
+		printf("Option duree : 0 < duree < %d\n", DUREE_MAX);
 		}
 	return;
 	}
@@ -313,6 +334,7 @@ void optionsAide(void)
 	printf(" pause		5 < pause < 555		pause entre les affichages en ms\n");
 
 	printf(" initial	%d < initial < %d	numéro du fichier d'initialisation\n", INITIAL_MIN, INITIAL_MAX);
+	printf(" taille		%d < taille < %d	taille des mobiles\n", MOBILE_MIN, MOBILE_MAX);
 	printf(" masse		%d < masse < %d		masse des mobiles\n", MASSE_MIN, MASSE_MAX);
 	printf(" nervosite	%4.3f < nervosite < %4.1f	nervosité des mobiles\n", NERVOSITE_MIN, NERVOSITE_MAX);
 	//printf("	flèches haut, bas, gauche, droite\n\n");

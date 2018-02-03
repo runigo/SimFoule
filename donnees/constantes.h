@@ -48,12 +48,12 @@ termes.
 #define BATIMENT_Y 25	// Longueur suivant y du batiment (en nombre de cellule)
 #define BATIMENT_Z 1	// Nombre d'étage
 
-#define CELLULE 14		// Longueur du coté d'une cellule (en pixel)
+#define CELLULE 16		// Longueur du coté d'une cellule (en pixel)
 #define CELLULESUR2 CELLULE/2	// Demi longueur du coté d'une cellule (en pixel)
-#define MOBILE 13		// Longueur du coté d'un mobile (en pixel)
-#define MOBILESUR2 MOBILE/2		// Demi longueur du coté d'un mobile (en pixel)
-#define MOBILEetDEMI 3*MOBILE/2		// Demi longueur du coté d'un mobile (en pixel)
-#define MOBILEunQUART 5*MOBILE/4	// Demi longueur du coté d'un mobile (en pixel)
+//#define MOBILE 25		// Longueur du coté d'un mobile (en pixel)
+//#define MOBILESUR2 MOBILE/2		// Demi longueur du coté d'un mobile (en pixel)
+//#define MOBILEetDEMI 3*MOBILE/2		// Demi longueur du coté d'un mobile (en pixel)
+//#define MOBILEunQUART 5*MOBILE/4	// Demi longueur du coté d'un mobile (en pixel)
 
 	#define FENETRE_X BATIMENT_X*CELLULE // Taille de la fenêtre
 	#define FENETRE_Y BATIMENT_Y*CELLULE // Taille de la fenêtre
@@ -71,8 +71,17 @@ termes.
 
 #define DUREE_MAX 777	// Nombre maximale d'incrémentation entre les affichages
 
+
+	//----------         PARAMETRES  D'INITIALISATION         -----------//
+
 #define INITIAL_MIN -99	// Fichiers d'initialisation
 #define INITIAL_MAX 99	// Fichiers d'initialisation
+
+
+	//----------         PARAMETRES  DES  MOBILES         -----------//
+
+#define MOBILE_MIN 1 // Taille minimale d'un mobile
+#define MOBILE_MAX CELLULE*2 // Taille maximale d'un mobile
 
 #define MASSE_MIN 5	// Masse minimale d'un mobile
 #define MASSE_MAX 199	// Masse maximale d'un mobile
@@ -83,7 +92,7 @@ termes.
 
 	//----------        PARAMETRES  D'INTERACTIONS        -----------//
 
-#define INTERACTION_MOBILE MOBILE*2.1	// Distance maximale arithmetique de prise en compte des contacts
+//#define INTERACTION_MOBILE MOBILE*2.1	// Distance arithmetique de prise en compte des contacts
 #define FORCE_CONTACT_MOBILE 141	// constante de force de répulsion de contact entre mobile
 #define FORCE_CONTACT_MUR 1171		// constante de force de répulsion de contact avec les murs
 //#define FORCE_COUPLAGE 333		// constante de force de couplage

@@ -75,7 +75,7 @@ int fouleInitialiseMobile(fouleT * foule)
 
 	do
 		{
-		mobileInitialise(&iter->mobile, (*foule).masse, (*foule).nervosite, (*foule).dt);
+		mobileInitialise(&iter->mobile, (*foule).taille, (*foule).masse, (*foule).nervosite, (*foule).dt);
 		iter=iter->suivant;
 		}
 	while(iter != (*foule).premier);

@@ -190,7 +190,7 @@ int controleurConstructionGraphique(controleurT * controleur)
 	if((*controleur).options.dessineMur==1)
 		grapheDessineMur((*controleur).interface.rendu, &(*controleur).graphe);
 	if((*controleur).options.dessineMobile==1)
-		grapheDessineMobile((*controleur).interface.rendu, &(*controleur).graphe);
+		grapheDessineMobile((*controleur).interface.rendu, &(*controleur).graphe, (*controleur).options.taille);
 
 		//fprintf(stderr, "Mise à jour de l'affichage\n");
 	interfaceMiseAJour(&(*controleur).interface);

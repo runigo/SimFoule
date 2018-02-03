@@ -75,6 +75,6 @@ int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe);
 
 void grapheDessineMur(SDL_Renderer *rendu, grapheT * graphe);
 void grapheDessineAngle(SDL_Renderer *rendu, grapheT * graphe);
-void grapheDessineMobile(SDL_Renderer *rendu, grapheT * graphe);
+void grapheDessineMobile(SDL_Renderer *rendu, grapheT * graphe, int taille);
 
 #endif

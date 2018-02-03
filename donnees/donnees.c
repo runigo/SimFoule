@@ -48,6 +48,7 @@ int donneesOptionsImplicite(optionsT * options)
 
 	(*options).nombre=33;	// Nombre de mobiles
 	(*options).nervosite=7.7;	// Nervosité des mobiles
+	(*options).taille=CELLULE;	// Taille des mobiles
 	(*options).masse=77.77;	// Masse des mobiles
 	(*options).dt=0.00666;	// discrétisation du temps
 
@@ -97,6 +98,7 @@ int donneesCreationFoule(fouleT * foule, optionsT * options)
 	(*foule).nombre = (*options).nombre;	// Nombre d'mobile
 	(*foule).restant = (*options).nombre;	// Nombre d'mobile restant à sortir
 
+	(*foule).taille = (*options).taille;		// Taille des mobiles
 	(*foule).masse = (*options).masse;		// Masse des mobiles
 	(*foule).nervosite = (*options).nervosite;	// Nervosité des mobiles
 
