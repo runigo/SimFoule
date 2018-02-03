@@ -1,5 +1,5 @@
 /*
-Copyright janvier 2018, Stephan Runigo
+Copyright février 2018, Stephan Runigo
 runigo@free.fr
 Simfoule 1.3  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -164,7 +164,7 @@ float systemeForceBatiment(systemeT * systeme)
 	int nombreY = 0; // nombre d'mobile dans les cellules à ateindre
 	int nombreXY = 0; // nombre d'mobile dans les cellules à ateindre
 
-		// Mise à zéro du nombre d'mobile par cellule
+		// Mise à zéro du nombre de mobile par cellule
 	for(k=0;k<BATIMENT_Z;k++)
 		{
 		for(i=0;i<BATIMENT_X;i++)
@@ -176,7 +176,7 @@ float systemeForceBatiment(systemeT * systeme)
 				}
 			}
 		}
-	do	// Initialisation du nombre d'mobile par cellule
+	do	// Initialisation du nombre de mobile par cellule
 		{
 		X = (int)(iter->mobile.nouveau.x/CELLULE);
 		Y = (int)(iter->mobile.nouveau.y/CELLULE);
@@ -224,7 +224,8 @@ float systemeForceBatiment(systemeT * systeme)
 					angle = (*systeme).batiment.etage[Z].cellule[X][Y].angle;
 					if(angle%2==1)	// 3 possibilité de vitesse souhaité (int)(2*souhaite.y)(int)(2*souhaite.x)
 						{
-							// Nombre d'mobile dans les cellules à ateindre(int)(2*souhaite.x)(int)(2*souhaite.y)
+							// Nombre de mobile dans les cellules à ateindre
+							// (int)(2*souhaite.x)(int)(2*souhaite.y)
 						nombreX = (*systeme).batiment.etage[Z].cellule[X+dx][Y].nombre;
 						nombreY = (*systeme).batiment.etage[Z].cellule[X][Y+dy].nombre;
 						nombreXY = (*systeme).batiment.etage[Z].cellule[X+dx][Y+dy].nombre;

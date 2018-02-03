@@ -1,5 +1,5 @@
 /*
-Copyright janvier 2018, Stephan Runigo
+Copyright février 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.3  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -81,14 +81,14 @@ int etageCreationCelluleSortie(etageT * etage, int i, int j)
 	}
 
 int etageInitialiseStatutCellule(etageT * etage, int i, int j, int statut)
-	{
-	celluleInitialiseStatut(&(*etage).cellule[i][j], statut);	// 0:libre, 1:mur, 2:sortie
+	{// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile lors de l'initialisation
+	celluleInitialiseStatut(&(*etage).cellule[i][j], statut);	
 	return 0;
 	}
 
 int etageDonneStatutCellule(etageT * etage, int i, int j)
-	{
-	return celluleDonneStatut(&(*etage).cellule[i][j]);	// 0:libre, 1:mur, 2:sortie
+	{// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile lors de l'initialisation
+	return celluleDonneStatut(&(*etage).cellule[i][j]);
 	}
 
 int etageCalculDistanceEtSens(etageT * etage)
@@ -121,12 +121,12 @@ int etageCalculDistanceEtSens(etageT * etage)
 			{
 			for(j=0;j<BATIMENT_Y;j++)
 				{
-				if(celluleDonneStatut(&(*etage).cellule[i][j])!=1
-						&& celluleDonneVisite(&(*etage).cellule[i][j])==0
-						&& etageVoisinVisite(etage, i, j)>0)
+				if(celluleDonneStatut(&(*etage).cellule[i][j])!=1 // Cellule non mur
+						&& celluleDonneVisite(&(*etage).cellule[i][j])==0 // Cellule non visité
+						&& etageVoisinVisite(etage, i, j)>0) // Voisins visité
 					{
 					etageCalculeSens(etage, i, j);
-					celluleChangeVisite(&(*etage).cellule[i][j], -1); // Vient d'être visité
+					celluleChangeVisite(&(*etage).cellule[i][j], -1); // Appartient au front
 					sortie = false;
 					}
 				}
@@ -137,7 +137,7 @@ int etageCalculDistanceEtSens(etageT * etage)
 			{
 			for(j=0;j<BATIMENT_Y;j++)
 				{
-				if(celluleDonneVisite(&(*etage).cellule[i][j])<0)
+				if(celluleDonneVisite(&(*etage).cellule[i][j])<0) // Appartient au front
 					{
 					celluleChangeVisite(&(*etage).cellule[i][j], 1); // À été visité
 					}
@@ -149,9 +149,9 @@ int etageCalculDistanceEtSens(etageT * etage)
 			{
 			for(j=0;j<BATIMENT_Y;j++)
 				{
-				if(celluleDonneVisite(&(*etage).cellule[i][j])!=0)
-					{
-					celluleChangeDistance(&(*etage).cellule[i][j], -1); // Ajoute -1 au cellule visitées
+				if(celluleDonneVisite(&(*etage).cellule[i][j])!=0) // À été visité
+					{ // Ajoute -1 à la distance des cellules visitées
+					celluleChangeDistance(&(*etage).cellule[i][j], -1);
 					}
 				}
 			}
@@ -180,14 +180,86 @@ int etageCalculDistanceEtSens(etageT * etage)
 int etageVoisinVisite(etageT * etage, int i, int j) // Retourne le nombre de voisin visité
 	{ // Retourne le nombre de voisin visité
 	int nombre = 0;
+	if(i<BATIMENT_X-1)
 	if(celluleDonneVisite(&(*etage).cellule[i+1][j])>0)
 		nombre++;
+	if(j<BATIMENT_Y-1)
 	if(celluleDonneVisite(&(*etage).cellule[i][j+1])>0)
 		nombre++;
+	if(i>0)
 	if(celluleDonneVisite(&(*etage).cellule[i-1][j])>0)
 		nombre++;
+	if(j>0)
 	if(celluleDonneVisite(&(*etage).cellule[i][j-1])>0)
 		nombre++;
+	return nombre;
+	}
+
+int etageCalculeSens(etageT * etage, int i, int j)
+	{ // Calcul le sens et la direction de la cellule [i][j]
+	  //	en fonction des voisins visité
+	//int angle = 0;
+	int nombre = 0;
+	int nombreXY = 0;
+
+	if(i<BATIMENT_X-1)
+		{
+		if(celluleDonneVisite(&(*etage).cellule[i+1][j])==1) // vers angle 0
+			{
+			(*etage).cellule[i][j].dx = 1;
+			//vecteurSommeCartesien2D(&(*etage).angle[0], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
+			vecteurEgaleCartesien(&(*etage).angle[0], &(*etage).cellule[i][j].sens);
+			vecteurEgaleCartesien(&(*etage).angle[0], &(*etage).cellule[i][j].sens1);
+			nombre++;
+			nombreXY++;
+			}
+		}
+	if(i>0 && nombreXY == 0) // L'angle 4 est défavorisé par rapport à l'angle 0
+		{
+		if(celluleDonneVisite(&(*etage).cellule[i-1][j])==1) // vers angle 4
+			{
+			//if(nombre==0)
+				{
+				(*etage).cellule[i][j].dx = -1;
+				//vecteurSommeCartesien2D(&(*etage).angle[4], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
+				vecteurEgaleCartesien(&(*etage).angle[4], &(*etage).cellule[i][j].sens);
+				vecteurEgaleCartesien(&(*etage).angle[4], &(*etage).cellule[i][j].sens1);
+				nombre++;
+				}
+			}
+		}
+
+	nombreXY = 0;
+
+	if(j<BATIMENT_Y-1)
+		{
+		if(celluleDonneVisite(&(*etage).cellule[i][j+1])==1) // vers angle 2
+			{
+			(*etage).cellule[i][j].dy = 1;
+			vecteurSommeCartesien2D(&(*etage).angle[2], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
+			vecteurEgaleCartesien(&(*etage).angle[2], &(*etage).cellule[i][j].sens2);
+			nombre++;
+			nombreXY++;
+			}
+		}
+	if(j>0 && nombreXY == 0) // L'angle 6 est défavorisé par rapport à l'angle 2
+		{
+		if(celluleDonneVisite(&(*etage).cellule[i][j-1])==1) // vers angle 6
+			{
+			//if(nombre<2)
+			(*etage).cellule[i][j].dy = -1;
+			vecteurSommeCartesien2D(&(*etage).angle[6], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
+			vecteurEgaleCartesien(&(*etage).angle[6], &(*etage).cellule[i][j].sens2);
+			nombre++;
+			}
+		}
+
+	(*etage).cellule[i][j].norme=vecteurNormaliseCartesien2D(&(*etage).cellule[i][j].sens);
+
+	if((*etage).cellule[i][j].norme<0.0)
+		fprintf(stderr, "      ERREUR : etageCalculeSens : norme négative, cellule[%d][%d]\n", i, j);
+	//else
+		//fprintf(stderr, "etageCalculeSens : cellule[%d][%d]\n", i, j);
 	return nombre;
 	}
 
@@ -215,61 +287,6 @@ int etageCalculeDistance(etageT * etage)
 			}
 		}
 	//fprintf(stderr, "  etageCalculeDistance, sortie\n");
-	return 0;
-	}
-
-int etageCalculeSens(etageT * etage, int i, int j)
-	{ // Calcul le sens et la direction de la cellule [i][j]
-	  //	en fonction des voisins visité
-	//int angle = 0;
-	int nombre = 0;
-
-	if(celluleDonneVisite(&(*etage).cellule[i+1][j])==1) // vers angle 0
-		{
-		(*etage).cellule[i][j].dx = 1;
-		vecteurSommeCartesien2D(&(*etage).angle[0], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
-		vecteurEgaleCartesien(&(*etage).angle[0], &(*etage).cellule[i][j].sens1);
-		nombre++;
-		}
-	else
-		{
-		if(celluleDonneVisite(&(*etage).cellule[i-1][j])==1) // vers angle 4
-			{
-			//if(nombre==0)
-				{
-				(*etage).cellule[i][j].dx = -1;
-				vecteurSommeCartesien2D(&(*etage).angle[4], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
-				vecteurEgaleCartesien(&(*etage).angle[4], &(*etage).cellule[i][j].sens1);
-				nombre++;
-				}
-			}
-		}
-
-	if(celluleDonneVisite(&(*etage).cellule[i][j+1])==1) // vers angle 2
-		{
-		(*etage).cellule[i][j].dy = 1;
-		vecteurSommeCartesien2D(&(*etage).angle[2], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
-		vecteurEgaleCartesien(&(*etage).angle[2], &(*etage).cellule[i][j].sens2);
-		nombre++;
-		}
-	else
-		{
-		if(celluleDonneVisite(&(*etage).cellule[i][j-1])==1) // vers angle 6
-			{
-			//if(nombre<2)
-			(*etage).cellule[i][j].dy = -1;
-			vecteurSommeCartesien2D(&(*etage).angle[6], &(*etage).cellule[i][j].sens, &(*etage).cellule[i][j].sens);
-			vecteurEgaleCartesien(&(*etage).angle[6], &(*etage).cellule[i][j].sens2);
-			nombre++;
-			}
-		}
-
-	(*etage).cellule[i][j].norme=vecteurNormaliseCartesien2D(&(*etage).cellule[i][j].sens);
-
-	if((*etage).cellule[i][j].norme<0.0)
-		fprintf(stderr, "      ERREUR : etageCalculeSens : norme négative, cellule[%d][%d]\n", i, j);
-	//else
-		//fprintf(stderr, "etageCalculeSens : cellule[%d][%d]\n", i, j);
 	return 0;
 	}
 

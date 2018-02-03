@@ -1,5 +1,5 @@
 /*
-Copyright janvier 2018, Stephan Runigo
+Copyright février 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.3  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -74,7 +74,7 @@ int celluleCreationMobile(celluleT * cellule)
 	}
 
 int celluleInitialiseStatut(celluleT * cellule, int statut)
-	{	// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:humain
+	{	// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile lors de l'initialisation
 	(*cellule).statut=statut;
 	return 0;
 	}

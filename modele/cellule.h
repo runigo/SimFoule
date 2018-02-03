@@ -1,5 +1,5 @@
 /*
-Copyright janvier 2018, Stephan Runigo
+Copyright février 2018, Stephan Runigo
 runigo@free.fr
 SimFoule 1.3  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
@@ -37,9 +37,9 @@ termes.
 
 struct CelluleT {
 
-	int statut;		// 0:libre, 1:mur, 2:sortie
+	int statut;		// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile lors de l'initialisation
 
-	int visite;		// 1 si initialisé, -1 si visite en cours
+	int visite;		// 1 si initialisé, -1 si visite en cours, appartient au front
 
 	int distance;	// Distance à la sortie
 
@@ -53,7 +53,7 @@ struct CelluleT {
 	vecteurT sens2;	// Direction et sens à suivre, normalisé par l'initialisation.
 	float norme;	// Norme de sens avant la normalisation.
 
-	int nombre;	// nombre d'humain.
+	int nombre;	// nombre de mobile.
 };
 typedef struct CelluleT celluleT;
 
@@ -65,7 +65,7 @@ int celluleCreationEntree(celluleT * cellule);
 int celluleCreationMobile(celluleT * cellule);
 
 int celluleDonneStatut(celluleT * cellule);	// 0:libre, 1:mur, 2:sortie
-int celluleInitialiseStatut(celluleT * cellule, int statut);	// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:humain
+int celluleInitialiseStatut(celluleT * cellule, int statut);	// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile
 
 int celluleDonneVisite(celluleT * cellule);	// 1 si initialisé, -1 si visite en cours
 int celluleChangeVisite(celluleT * cellule, int visite);	// change visite
