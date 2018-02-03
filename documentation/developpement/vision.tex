@@ -3,9 +3,40 @@
 \section{Vision des mobiles}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+Dans la version 1.3, les choix de directions ne se font que dans les cellules ayant été initialisées suivant une direction "diagonale". La direction souhaitée est alors choisies suivant le nombre de mobiles présents dans les cellules à atteindre.
+La version 1.4 doit mettre en place :
+%\begin{itemize}[label=\ding{32}, leftmargin=1.1cm]
+\begin{itemize}[leftmargin=2cm]
+\item Un choix pour les cellules dont la direction initialisée n'est pas "diagonale".
+\item Une diminution du module de la vitesse souhaitée si les cellules à ateindre sont occupées.
+\end{itemize}
+%
+ 
+%
+\subsection{Modélisation}
+%
+Une cellule contient les informations suivantes :
+
+	int statut;		// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile lors de l'initialisation
+
+	int visite;		// 1 si initialisé, -1 si visite en cours
+
+	int distance;	// Distance à la sortie
+
+	int angle;	// Direction et sens des cellule à ateindre [0..7]
+
+	int dx;		// Direction et sens des cellule à ateindre dx
+	int dy;		// Direction et sens des cellule à ateindre dy
+
+	vecteurT sens;	// Direction et sens à suivre, normalisé par l'initialisation.
+	vecteurT sens1;	// Direction et sens à suivre, normalisé par l'initialisation.
+	vecteurT sens2;	// Direction et sens à suivre, normalisé par l'initialisation.
+	float norme;	// Norme de sens avant la normalisation.
+
+	int nombre;	// nombre de mobile.
 %
 \subsection{Champ de vision}
-Les mobiles s'orientent dans la direction associée à leur cellule ($\mathtt{cell}$). Leur champ de vision correspond à un produit scalaire positif de la position relative des obstacles et et de la direction cell
+%Les mobiles s'orientent dans la direction associée à leur cellule ($\mathtt{cell}$). Leur champ de vision correspond à un produit scalaire positif de la position relative des obstacles et et de la direction cell
 \begin{center}
 	\begin{tabular}{rcl}
 	 & \\

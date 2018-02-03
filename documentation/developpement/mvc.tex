@@ -16,14 +16,14 @@
 \end{itemize}
 %
 \subsection{Le modèle}
-Le système est constitué d'une foule et d'un batiment. La foule est constituée d'mobiles, le batiment est constitué d'étage et d'escalier, eux même constitués de cellule.
+Le système est constitué d'une foule et d'un batiment. La foule est constituée de mobiles, le batiment est constitué d'étages, eux même constitués de cellule.
 \begin{itemize}[leftmargin=2cm]
-\item \texttt{batiment} : Ensembles d'étages et d'escaliers. Fonctions de calcul d'interaction entre mobiles et d'évolutions des coordonnées des mobiles.
+\item \texttt{système} : Contient la foule et le batiment. Fonctions de calcul des couplages entre la foule et le batiment, fonctions de mise à jour des forces et de la foule.
+\item \texttt{batiment} : Ensembles d'étages. Fonctions d'initialisation des étages.
 \item \texttt{etage} : Ensemble de cellule. Fonctions de calcul de plus court chemin vers les sorties.
-\item \texttt{escalier} : Liaison entre les étages. 
-\item \texttt{cellule} : Contient des informations (direction vers la sortie, densité de mobile...) et un statut (vide, mur, sortie, entrée)
-\item \texttt{foule} : Ensemble des mobiles.
-\item \texttt{mobile} : nouvelles coordonnées, ancienne et actuel. Forces appliquées. Caractère (nervosité)
+\item \texttt{cellule} : Contient des informations (direction vers la sortie, densité de mobile...) et un statut (vide, mur, sortie, entrée).
+\item \texttt{foule} : Chaine de mobiles. Fonctions de calcul des couplages entre les mobiles, fonctions d'évolutions des coordonnées des mobiles.
+\item \texttt{mobile} : Coordonnées, forces appliquées, paramètres (taille, masse, nervosité).
 \end{itemize}
 %
 \subsection{La vue}
