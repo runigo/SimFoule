@@ -185,7 +185,7 @@ float mobileAjouteForceMobile(mobileT * mobile1, mobileT * mobile2)
 
 	if(distance < distanceMin)	//	Calcul de la force
 		{
-		force = FORCE_CONTACT_MOBILE*(*mobile1).dt2surM * (distanceMin - distance); // norme de la force
+		force = FORCE_CONTACT_MOBILE * (*mobile1).dt2surM * (distanceMin - distance); // norme de la force
 
 			// Vecteur = force * unitaire
 		vecteurProduitCartesien2D(&vecteur, force, &vecteur); // v2 = lambda v1
@@ -194,9 +194,9 @@ float mobileAjouteForceMobile(mobileT * mobile1, mobileT * mobile2)
 		vecteurSommeCartesien2D(&(*mobile1).forceMobiles, &vecteur, &(*mobile1).forceMobiles); // v3 = v1 + v2
 
 			// Vecteur = - vecteur
-		vecteurProduitCartesien2D(&vecteur, force, &vecteur); // v2 = lambda v1
+		vecteurProduitCartesien2D(&vecteur, -1, &vecteur); // v2 = lambda v1
 
-			// Ajoute la force sur 2
+			// Ajoute -force sur 2
 		vecteurSommeCartesien2D(&(*mobile2).forceMobiles, &vecteur, &(*mobile2).forceMobiles); // v3 = v1 + v2
 		}
 

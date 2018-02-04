@@ -1,7 +1,7 @@
 /*
-Copyright janvier 2018, Stephan Runigo
+Copyright février 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.0  simulateur de foule
+SimFoule 1.4  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -109,6 +109,24 @@ int batimentDirections(batimentT * batiment)
 		etageCalculDistanceEtSens(&(*batiment).etage[k]);
 		}
 	//fprintf(stderr, "batimentDirection : Sortie de la fonction\n");
+	return 0;
+	}
+
+int batimentMiseAZeroNombre(batimentT * batiment)
+	{	// Mise à zéro du nombre de mobile par cellule
+	int i, j, k;
+
+	for(k=0;k<BATIMENT_Z;k++)
+		{
+		for(i=0;i<BATIMENT_X;i++)
+			{
+			for(j=0;j<BATIMENT_Y;j++)
+				{
+				if((*batiment).etage[k].cellule[i][j].statut!=1)
+					(*batiment).etage[k].cellule[i][j].nombre=0;
+				}
+			}
+		}
 	return 0;
 	}
 

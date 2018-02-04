@@ -16,24 +16,19 @@ La version 1.4 doit mettre en place :
 \subsection{Modélisation}
 %
 Une cellule contient les informations suivantes :
-
-	int statut;		// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile lors de l'initialisation
-
-	int visite;		// 1 si initialisé, -1 si visite en cours
-
-	int distance;	// Distance à la sortie
-
-	int angle;	// Direction et sens des cellule à ateindre [0..7]
-
-	int dx;		// Direction et sens des cellule à ateindre dx
-	int dy;		// Direction et sens des cellule à ateindre dy
-
-	vecteurT sens;	// Direction et sens à suivre, normalisé par l'initialisation.
-	vecteurT sens1;	// Direction et sens à suivre, normalisé par l'initialisation.
-	vecteurT sens2;	// Direction et sens à suivre, normalisé par l'initialisation.
-	float norme;	// Norme de sens avant la normalisation.
-
-	int nombre;	// nombre de mobile.
+\begin{itemize}[leftmargin=2cm]
+\item int statut;		// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile lors de l'initialisation
+\item int visite;		// 1 si initialisé, -1 si visite en cours
+\item int distance;	// Distance à la sortie
+\item int angle;	// Direction et sens des cellule à ateindre [0..7]
+\item int dx;		// Direction et sens des cellule à ateindre dx
+\item int dy;		// Direction et sens des cellule à ateindre dy
+\item vecteurT sens;	// Direction et sens à suivre, normalisé par l'initialisation.
+\item vecteurT sens1;	// Direction et sens à suivre, normalisé par l'initialisation.
+\item vecteurT sens2;	// Direction et sens à suivre, normalisé par l'initialisation.
+\item float norme;	// Norme de sens avant la normalisation.
+\item int nombre;	// nombre de mobile.
+\end{itemize}
 %
 \subsection{Champ de vision}
 %Les mobiles s'orientent dans la direction associée à leur cellule ($\mathtt{cell}$). Leur champ de vision correspond à un produit scalaire positif de la position relative des obstacles et et de la direction cell

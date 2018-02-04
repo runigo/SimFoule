@@ -173,8 +173,17 @@ int controleurProjection(controleurT * controleur)
 
 int controleurEvolutionSysteme(controleurT * controleur)
 	{
+	if((*controleur).systeme.foule.restant>0)
+		{
 		//fprintf(stderr, "Evolution temporelle de la foule\n");
-	systemeEvolution(&(*controleur).systeme, (*controleur).options.duree);
+		systemeEvolution(&(*controleur).systeme, (*controleur).options.duree);
+		}
+	if((*controleur).systeme.foule.restant==0)
+		{
+		//fprintf(stderr, "Evolution temporelle de la foule\n");
+		controleurAfficheForces(controleur);
+		(*controleur).systeme.foule.restant = -1;
+		}
 
 	return 0;
 	}

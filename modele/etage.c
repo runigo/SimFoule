@@ -1,7 +1,7 @@
 /*
 Copyright février 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.3  simulateur de foule
+SimFoule 1.4  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -37,6 +37,9 @@ int etageVoisinVisite(etageT * etage, int i, int j); // Retourne le nombre de vo
 int etageCalculeDistance(etageT * etage); // Ajoute la distance la plus grande à toutes les cellules
 int etageCalculeAngle(etageT * etage); // Calcul l'angle associé à la direction
 int etageCalculeAngleCellule(etageT * etage, int i, int j); // Calcul l'angle associé à la direction pour la cellule
+
+		//	Calcul de sens1 et sens2 des cellules non diagonales
+//int etageRecalculeSens(etageT * etage);
 
 int etageInitialise(etageT * etage, int niveau)
 	{
@@ -170,6 +173,9 @@ int etageCalculDistanceEtSens(etageT * etage)
 
 		//fprintf(stderr, "    Calcul des directions\n");
 	etageCalculeAngle(etage);
+
+		//fprintf(stderr, "    Calcul de sens1 et sens2 des cellules non diagonales\n");
+	//etageRecalculeSens(etage);
 
 	//etageAffiche(etage);
 
@@ -340,7 +346,26 @@ int etageCalculeAngleCellule(etageT * etage, int i, int j)
 
 	return compteur;
 	}
+/*
+int etageRecalculeSens(etageT * etage)
+	{  // Calcul l'angle associé à la direction
+	int i, j;
 
+	for(i=0;i<BATIMENT_X;i++)
+		{
+		for(j=0;j<BATIMENT_Y;j++)
+			{
+			if(angle%2==0)	// nondiagonale 1,2 ou 3 possibilité de vitesse souhaité
+				{
+				(*systeme).batiment.etage[Z].cellule[X][Y].dx=0;
+				(*systeme).batiment.etage[Z].cellule[X][Y].dy=0;
+				}
+			}
+		}
+
+	return 0;
+	}
+*/
 int etageAffiche(etageT * etage)
 	{
 	int i, j;
