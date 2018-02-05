@@ -91,10 +91,8 @@ termes.
 
 
 	//----------        PARAMETRES  D'INTERACTIONS        -----------//
-
-//#define INTERACTION_MOBILE MOBILE*2.1	// Distance arithmetique de prise en compte des contacts
+#define UNITE_NOTE 0.91		// Unité de note pour la direction souhaitable
 #define FORCE_CONTACT_MOBILE 141	// constante de force de répulsion de contact entre mobile
 #define FORCE_CONTACT_MUR 1171		// constante de force de répulsion de contact avec les murs
-//#define FORCE_COUPLAGE 333		// constante de force de couplage
 #endif
 //////////////////////////////////////////////////////////////////////

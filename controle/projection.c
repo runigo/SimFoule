@@ -1,7 +1,7 @@
 /*
-Copyright janvier 2018, Stephan Runigo
+Copyright février 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.0  simulateur de foule
+SimFoule 1.4  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -70,6 +70,7 @@ int projectionBatimentSens(batimentT * batiment, projectionT * projection, graph
 	{
 			//	Projette la direction de la sortie sur le graphe
 	int i, j, k;
+	int index;
 	(void)projection;
 
 	for(k=0;k<BATIMENT_Z;k++)
@@ -78,7 +79,9 @@ int projectionBatimentSens(batimentT * batiment, projectionT * projection, graph
 			{
 			for(j=0;j<BATIMENT_Y;j++)
 				{
-				(*graphe).angle[i][j][k]=(*batiment).etage[k].cellule[i][j].angle;
+				for(index=0;index<8;index++)
+					if((*batiment).etage[k].cellule[i][j].angle[index]>0.0)
+				(*graphe).angle[i][j][k]=index;
 				}
 			}
 		}

@@ -35,7 +35,9 @@ termes.
 
 float systemeForceBatiment(systemeT * systeme); // Calcul de la force de couplage avec le batiment
 float systemeForceMurs(systemeT * systeme); // Calcul de la force de couplage avec les mur
-		
+
+float systemeVitessesSouhaitees(systemeT * systeme); // Calcul des vitesses souhaitées
+float systemeVitesseSouhaiteeMobile(etageT * etage, int X, int Y, vecteurT * vitesseSouhaite); // Calcul de la vitesse souhaitée
 int systemeCalculDensite(systemeT * systeme); // Initialisation du nombre de mobile par cellule
 
 int systemeInitialisation(systemeT * systeme, float dt)
@@ -57,10 +59,10 @@ int systemeEvolution(systemeT * systeme, int duree)
 	{ // Évolution temporelle de la foule, "duree" cycle d'évolution
 	int i;
 		// Vérification des valeurs les plus grandes
-	float forceBatiment;
-	float forceMobiles;
-	float forceMurs;
-	float forceSomme;
+	float forceBatiment = 0;
+	float forceMobiles = 0;
+	float forceMurs = 0;
+	float forceSomme = 0;
 
 	//	Fait évoluer le système pendant duree*dt
 	for(i=0;i<duree;i++)
@@ -83,6 +85,7 @@ int systemeEvolution(systemeT * systeme, int duree)
 		if((*systeme).forceMobilesMax < forceMobiles) (*systeme).forceMobilesMax = forceMobiles;
 		if((*systeme).forceMursMax < forceMurs) (*systeme).forceMursMax = forceMurs;
 		if((*systeme).forceSommeMax < forceSomme) (*systeme).forceSommeMax = forceSomme;
+
 			// Incrémentation
 		fouleIncremente(&(*systeme).foule);
 		}
@@ -91,8 +94,6 @@ int systemeEvolution(systemeT * systeme, int duree)
 
 	return 0;
 	}
-
-
 
 float systemeForceMurs(systemeT * systeme)
 	{ // Calcul des forces de contact avec les murs
@@ -103,8 +104,7 @@ float systemeForceMurs(systemeT * systeme)
 	float force=0;
 	float forceMax=0;
 
-		// Remise à zéro
-	do
+	do	// Remise à zéro
 		{
 		vecteurCartesien(&iter->mobile.forceMurs, 0.0, 0.0, 0.0);
 		iter=iter->suivant;
@@ -120,25 +120,38 @@ float systemeForceMurs(systemeT * systeme)
 			{
 			if(Z==etage)
 				{
-				if((*systeme).batiment.etage[Z].cellule[X-1][Y].statut==1)
-					force = mobileAjouteForceMur(&iter->mobile, -1, 0, &(*systeme).batiment.etage[etage].angle[0]);
-				if((*systeme).batiment.etage[Z].cellule[X-1][Y-1].statut==1)
-					force = mobileAjouteForceMur(&iter->mobile, -1, -1, &(*systeme).batiment.etage[etage].angle[1]);
-				if((*systeme).batiment.etage[Z].cellule[X][Y-1].statut==1)
-					force = mobileAjouteForceMur(&iter->mobile, 0, -1, &(*systeme).batiment.etage[etage].angle[2]);
-				if((*systeme).batiment.etage[Z].cellule[X+1][Y-1].statut==1)
-					force = mobileAjouteForceMur(&iter->mobile, 1, -1, &(*systeme).batiment.etage[etage].angle[3]);
-				if((*systeme).batiment.etage[Z].cellule[X+1][Y].statut==1)
-					force = mobileAjouteForceMur(&iter->mobile, 1, 0, &(*systeme).batiment.etage[etage].angle[4]);
-				if((*systeme).batiment.etage[Z].cellule[X+1][Y+1].statut==1)
-					force = mobileAjouteForceMur(&iter->mobile, 1, 1, &(*systeme).batiment.etage[etage].angle[5]);
-				if((*systeme).batiment.etage[Z].cellule[X][Y+1].statut==1)
-					force = mobileAjouteForceMur(&iter->mobile, 0, 1, &(*systeme).batiment.etage[etage].angle[6]);
-				if((*systeme).batiment.etage[Z].cellule[X-1][Y+1].statut==1)
-					force = mobileAjouteForceMur(&iter->mobile, -1, 1, &(*systeme).batiment.etage[etage].angle[7]);
+				if(X>0)
+					{
+					if((*systeme).batiment.etage[Z].cellule[X-1][Y].statut==1)
+						force = mobileAjouteForceMur(&iter->mobile, -1, 0, &(*systeme).batiment.etage[etage].angle[0]);
+					if(Y>0)
+						if((*systeme).batiment.etage[Z].cellule[X-1][Y-1].statut==1)
+							force = mobileAjouteForceMur(&iter->mobile, -1, -1, &(*systeme).batiment.etage[etage].angle[1]);
+					if(Y<BATIMENT_Y-1)
+						if((*systeme).batiment.etage[Z].cellule[X-1][Y+1].statut==1)
+						force = mobileAjouteForceMur(&iter->mobile, -1, 1, &(*systeme).batiment.etage[etage].angle[7]);
+					}
+				if(Y>0)
+					if((*systeme).batiment.etage[Z].cellule[X][Y-1].statut==1)
+						force = mobileAjouteForceMur(&iter->mobile, 0, -1, &(*systeme).batiment.etage[etage].angle[2]);
+				if(X<BATIMENT_X-1)
+					{
+					if((*systeme).batiment.etage[Z].cellule[X+1][Y].statut==1)
+						force = mobileAjouteForceMur(&iter->mobile, 1, 0, &(*systeme).batiment.etage[etage].angle[4]);
+					if(Y>0)
+						if((*systeme).batiment.etage[Z].cellule[X+1][Y-1].statut==1)
+							force = mobileAjouteForceMur(&iter->mobile, 1, -1, &(*systeme).batiment.etage[etage].angle[3]);
+					if(Y<BATIMENT_Y-1)
+						if((*systeme).batiment.etage[Z].cellule[X+1][Y+1].statut==1)
+							force = mobileAjouteForceMur(&iter->mobile, 1, 1, &(*systeme).batiment.etage[etage].angle[5]);
+					}
+				if(Y<BATIMENT_Y-1)
+					if((*systeme).batiment.etage[Z].cellule[X][Y+1].statut==1)
+						force = mobileAjouteForceMur(&iter->mobile, 0, 1, &(*systeme).batiment.etage[etage].angle[6]);
 				}
 			}
-		if(force>forceMax) forceMax = force;
+		if(force>forceMax)
+			forceMax = force;
 		iter=iter->suivant;
 		}
 	while(iter!=(*systeme).foule.premier);
@@ -148,25 +161,41 @@ float systemeForceMurs(systemeT * systeme)
 
 float systemeForceBatiment(systemeT * systeme)
 	{ // Calcul de la force liée à la vitesse souhaité
-	int X, Y, Z;
 	chaineT *iter;
 	iter = (*systeme).foule.premier;
 	float force = 0;
 	float forceMax = 0;
-	int angle;
-	int dx, dy;
-	int nombreX = 0; // nombre de mobile dans les cellules à ateindre
-	int nombreY = 0; // nombre de mobile dans les cellules à ateindre
-	int nombreXY = 0; // nombre de mobile dans les cellules à ateindre
 
-		// Initialisation du nombre de mobile par cellule
+		// Calcul du nombre de mobile par cellule
 	systemeCalculDensite(systeme);
 
-	do	// Calcul de la vitesse souhaitée
+		// Calcul de la vitesse souhaitée
+	systemeVitessesSouhaitees(systeme);
+
+	do	// Calcul de la force liée à la vitesse souhaité
 		{
+		force = mobileCouplage(&(iter->mobile), &(iter->mobile.vitesseSouhaite));
+		if(force>forceMax) forceMax = force;
+		iter=iter->suivant;
+		}
+	while(iter!=(*systeme).foule.premier);
+
+	return forceMax;
+	}
+
+float systemeVitessesSouhaitees(systemeT * systeme)
+	{ // Calcul de la vitesse souhaité
+	int X, Y, Z;
+	chaineT *iter;
+	iter = (*systeme).foule.premier;
+	float vitesseSouhaite=0;
+	do	// Calcul des vitesses souhaitées
+		{
+			// Coordonnée de la cellule
 		X = (int)(iter->mobile.nouveau.x/CELLULE);
 		Y = (int)(iter->mobile.nouveau.y/CELLULE);
 		Z = iter->mobile.nouveau.z;
+
 		if(Z>-1 && Z<BATIMENT_Z) // Le mobile est dans un étage
 			{
 			if( X<0 || X>BATIMENT_X || Y<0 || Y>BATIMENT_Y ) // Mobile hors batiment sans passer par une sortie
@@ -185,41 +214,8 @@ float systemeForceBatiment(systemeT * systeme)
 					fprintf(stderr, "systemeCouplage : chronomètre = %f \n", (*systeme).foule.horloge);
 					}
 				else
-					{	// Calcul du couplage.
-					angle = (*systeme).batiment.etage[Z].cellule[X][Y].angle;
-
-						// Première initialisation de la vitesse souhaitée
-					vecteurEgaleCartesien(&(*systeme).batiment.etage[Z].cellule[X][Y].sens, &(iter->mobile.vitesseSouhaite)); // v2 = v1
-
-					if(angle%2==1)	// diagonale : 3 possibilité de vitesse souhaité
-						{
-						dx = (*systeme).batiment.etage[Z].cellule[X][Y].dx;
-						dy = (*systeme).batiment.etage[Z].cellule[X][Y].dy;
-							// Nombre de mobile dans les cellules à ateindre
-							// (int)(2*souhaite.x)(int)(2*souhaite.y)
-						nombreX = (*systeme).batiment.etage[Z].cellule[X+dx][Y].nombre;
-						nombreY = (*systeme).batiment.etage[Z].cellule[X][Y+dy].nombre;
-						nombreXY = (*systeme).batiment.etage[Z].cellule[X+dx][Y+dy].nombre;
-
-							// Recherche de la cellule la moins dense
-						if(nombreXY < nombreX && nombreXY < nombreY)
-							{	// Vitesse souhaité = diagonale
-							vecteurEgaleCartesien(&(*systeme).batiment.etage[Z].cellule[X][Y].sens, &(iter->mobile.vitesseSouhaite));
-							}
-						else	// vitesse souhaité = voisin direct X ou Y
-							{
-							if(nombreX<nombreY)
-								{
-								//vecteurEgaleCartesien(&(*systeme).batiment.etage[Z].cellule[X][Y].sens, &souhaite);
-								vecteurEgaleCartesien(&(*systeme).batiment.etage[Z].cellule[X][Y].sens1, &(iter->mobile.vitesseSouhaite));
-								}
-							else
-								{
-								//vecteurEgaleCartesien(&(*systeme).batiment.etage[Z].cellule[X][Y].sens, &souhaite);
-								vecteurEgaleCartesien(&(*systeme).batiment.etage[Z].cellule[X][Y].sens2, &(iter->mobile.vitesseSouhaite));
-								}
-							}
-						}
+					{	// Initialisation de la vitesse souhaitée	// Calcul de la vitesse souhaitée
+					systemeVitesseSouhaiteeMobile(&(*systeme).batiment.etage[Z], X, Y, &(iter->mobile.vitesseSouhaite));
 					}
 				}
 			}
@@ -227,18 +223,19 @@ float systemeForceBatiment(systemeT * systeme)
 		}
 	while(iter!=(*systeme).foule.premier);
 
-	do	// 
-		{
-		force = mobileCouplage(&(iter->mobile), &(iter->mobile.vitesseSouhaite));
-		if(force>forceMax) forceMax = force;
-		iter=iter->suivant;
-		}
-	while(iter!=(*systeme).foule.premier);
-
-	return forceMax;
+	return vitesseSouhaite;
 	}
 
-		
+float systemeVitesseSouhaiteeMobile(etageT * etage, int X, int Y, vecteurT * vitesseSouhaite)
+	{ // Calcul de la vitesse souhaitée
+	int i;
+	float vitesseSouhaitee = 0;
+	for(i=0;i<8;i++)
+		if((*etage).cellule[X][Y].angle[i]>0)
+			vecteurEgaleCartesien(&(*etage).angle[i], vitesseSouhaite); // v2 = v1
+	return vitesseSouhaitee;
+	}
+
 int systemeCalculDensite(systemeT * systeme)
 	{	// Initialisation du nombre de mobile par cellule
 	int X, Y, Z;
