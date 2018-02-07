@@ -50,7 +50,7 @@ int donneesOptionsImplicite(optionsT * options)
 	(*options).nervosite=7.7;	// Nervosité des mobiles
 	(*options).taille=CELLULE;	// Taille des mobiles
 	(*options).masse=77.77;	// Masse des mobiles
-	(*options).dt=0.00666;	// discrétisation du temps
+	(*options).dt=0.019;	// discrétisation du temps
 
 			//	Dessin des graphes 0 ou 1
 	(*options).dessineAngle=0;
