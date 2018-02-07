@@ -36,13 +36,19 @@ termes.
 #include "../modele/vecteur.h"
 
 struct CelluleT {
+		// Données d'initialisation
 	int statut;		// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile lors de l'initialisation
+
+		// Calcul de plus court chemin
 	int visite;		// 1 si initialisé, -1 si visite en cours (appartient au front)
 	int distance;		// Distance à la sortie
+	int issue;		// Nombre de voisines "direct" à ateindre
+	float interet[8];		// Intérêt à aller dans la direction
+	float note[8];		// Intérêt - nombre
+	int sens;		// Meilleur sens
+
+		// Données dynamiques
 	int nombre;	// nombre de mobile.
-		// Renseignement sur les voisines
-	float angle[8];	// Intérêt à atteindre la cellule
-	float note[8];	// Intérêt - nombre
 };
 typedef struct CelluleT celluleT;
 
@@ -62,6 +68,9 @@ int celluleChangeVisite(celluleT * cellule, int visite);	// change visite
 int celluleDonneDistance(celluleT * cellule);	// Distance à la sortie
 int celluleChangeDistance(celluleT * cellule, int pas);	// Ajoute le pas à la distance
 
+int cellulePositionIssueInf(celluleT * cellule); // Retourne la position de l'issue
+int cellulePositionIssueSup(celluleT * cellule); // Retourne la position de l'issue
+int cellulePositionIssue(celluleT * cellule); // Retourne la position de l'issue
 //int celluleAjouteNombre(celluleT * cellule);	// Ajoute 1 à nombre
 #endif
 

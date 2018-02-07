@@ -36,13 +36,57 @@ int batimentInitialiseVide(batimentT * batiment);
 int batimentInitialiseVide(batimentT * batiment)
 	{
 	int k;
-	//fprintf(stderr, "batimentInitialiseVide : Entrée dans la fonction\n");
 	for(k=0;k<BATIMENT_Z;k++)
 		{
 		etageInitialise(&(*batiment).etage[k], k);
 		}
-	//fprintf(stderr, "batimentInitialiseVide : Sortie de la fonction\n");
 	return 0;
+	}
+
+int batimentInitialiseTest(batimentT * batiment, int numero)
+	{ // Renvoie le nombre de mobiles présent
+	(void)numero;
+	int i, j, k;
+	int nombre = 0;
+
+	batimentInitialiseVide(batiment);
+
+		// Plan du batiment
+	for(k=0;k<BATIMENT_Z;k++)
+		{
+		for(i=0;i<BATIMENT_X;i++)
+			{
+			celluleCreationMur(&(*batiment).etage[k].cellule[i][0]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[i][BATIMENT_Y-1]);
+			}
+		for(j=0;j<BATIMENT_Y;j++)
+			{
+			celluleCreationMur(&(*batiment).etage[k].cellule[0][j]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X-1][j]);
+			}
+		celluleCreationSortie(&(*batiment).etage[k].cellule[(int)BATIMENT_X/2][0]);
+		celluleCreationSortie(&(*batiment).etage[k].cellule[(int)BATIMENT_X/2][BATIMENT_Y-1]);
+		celluleCreationSortie(&(*batiment).etage[k].cellule[BATIMENT_X-1][(int)BATIMENT_Y/2]);
+		celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2]);
+		}
+
+		// Position des mobiles
+	for(k=0;k<BATIMENT_Z;k++)
+		{
+		for(i=1;i<BATIMENT_X-1;i++)
+			{
+			for(j=1;j<BATIMENT_Y-1;j++)
+				{
+				if((i+j)/2 == (i+j+1)/2 )
+					{
+					celluleCreationMobile(&(*batiment).etage[k].cellule[i][j]);
+					nombre++;
+					}
+				}
+			}
+		}
+	//fprintf(stderr, "batimentInitialise : Sortie de la fonction\n");
+	return nombre;
 	}
 
 int batimentInitialise(batimentT * batiment, int numero)
@@ -76,9 +120,10 @@ int batimentInitialise(batimentT * batiment, int numero)
 			{
 			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/4][j]);
 			}
-		celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2+1]);
+		//celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2+1]);
 		celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2]);
-		celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2-1]);
+		//celluleCreationSortie(&(*batiment).etage[k].cellule[BATIMENT_X-1][(int)BATIMENT_Y/2]);
+		//celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2-1]);
 		}
 
 		// Position des mobiles
@@ -101,7 +146,7 @@ int batimentInitialise(batimentT * batiment, int numero)
 	}
 
 int batimentDirections(batimentT * batiment)
-	{
+	{ // Initialisation des directions suivant le chemin le plus court
 	int k;
 	for(k=0;k<BATIMENT_Z;k++)
 		{
@@ -132,8 +177,13 @@ int batimentMiseAZeroNombre(batimentT * batiment)
 
 int batimentAffiche(batimentT * batiment)
 	{
-	(void)batiment;
 	printf("batimentAffiche");
+	int k;
+
+	for(k=0;k<BATIMENT_Z;k++)
+		{
+		etageAffiche(&(*batiment).etage[k]);
+		}
 	return 0;
 	}
 

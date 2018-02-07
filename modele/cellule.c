@@ -35,16 +35,22 @@ termes.
 double celluleInitialise(celluleT * cellule)
 	{
 	int i;
-	//printf("celluleInitialise");
 	(*cellule).statut = 0;		// 0:libre, 1:mur, 2:sortie
+
 	(*cellule).visite = 0;		// Si visité
 	(*cellule).distance = 0;	// Distance à la sortie
-	(*cellule).nombre = 0;		// Nombre de mobile
+	(*cellule).issue = 0;		// Nombre de voisines "direct" à ateindre
+
+	(*cellule).sens = 0;	// Direction et sens à suivre
+
 	for(i=0;i<8;i++)
 		{
-		(*cellule).angle[i]=-1.0;	// Intérêt à ateindre la cellule
-		(*cellule).note[i]=0.0;	// Intérêt - nombre
+		(*cellule).interet[i]=0.0;	// Intérêt à ateindre la cellule
+		(*cellule).note[i]=0.0;		// Intérêt - nombre
 		}
+
+	(*cellule).nombre = 0;		// Nombre de mobile
+
 	return 0;
 	}
 
@@ -99,10 +105,39 @@ int celluleDonneVisite(celluleT * cellule)
 	{	// 1 si la cellule a été visité, -1 si en cours, 0 sinon
 	return (*cellule).visite;
 	}
+
 int celluleChangeVisite(celluleT * cellule, int visite)
 	{	// 1 si la cellule a été visité, -1 si en cours, 0 sinon
 	(*cellule).visite=visite;
 	return 0;
+	}
+
+int cellulePositionIssueSup(celluleT * cellule)
+	{	 // Retourne la position de l'issue "supérieur"
+	int i;
+	int position = 0;
+
+	for(i=7;i>-1;i--)
+		{
+		if ((*cellule).interet[i] > 0)
+			position = i;
+		}
+
+	return position;
+	}
+
+int cellulePositionIssueInf(celluleT * cellule)
+	{	 // Retourne la position de l'issue "inférieur"
+	int i;
+	int position = 0;
+
+	for(i=0;i<8;i++)
+		{
+		if ((*cellule).interet[i] > 0)
+			position = i;
+		}
+
+	return position;
 	}
 
 ////////////////////////////////////////////////////////////////////////

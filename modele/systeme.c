@@ -39,6 +39,7 @@ float systemeForceMurs(systemeT * systeme); // Calcul de la force de couplage av
 float systemeVitessesSouhaitees(systemeT * systeme); // Calcul des vitesses souhaitées
 float systemeVitesseSouhaiteeMobile(etageT * etage, int X, int Y, vecteurT * vitesseSouhaite); // Calcul de la vitesse souhaitée
 int systemeCalculDensite(systemeT * systeme); // Initialisation du nombre de mobile par cellule
+int systemeMiseAJourNoteCellule(etageT * etage, int X, int Y);
 
 int systemeInitialisation(systemeT * systeme, float dt)
 	{
@@ -166,13 +167,14 @@ float systemeForceBatiment(systemeT * systeme)
 	float force = 0;
 	float forceMax = 0;
 
-		// Calcul du nombre de mobile par cellule
+			//fprintf(stderr, "   Calcul du nombre de mobile par cellule\n");
 	systemeCalculDensite(systeme);
 
-		// Calcul de la vitesse souhaitée
+			//fprintf(stderr, "   Calcul de la vitesse souhaitée\n");
 	systemeVitessesSouhaitees(systeme);
 
-	do	// Calcul de la force liée à la vitesse souhaité
+			//fprintf(stderr, "   Calcul de la force liée à la vitesse souhaité\n");
+	do
 		{
 		force = mobileCouplage(&(iter->mobile), &(iter->mobile.vitesseSouhaite));
 		if(force>forceMax) forceMax = force;
@@ -188,7 +190,8 @@ float systemeVitessesSouhaitees(systemeT * systeme)
 	int X, Y, Z;
 	chaineT *iter;
 	iter = (*systeme).foule.premier;
-	float vitesseSouhaite=0;
+	float vitesseSouhaite=0.0;
+
 	do	// Calcul des vitesses souhaitées
 		{
 			// Coordonnée de la cellule
@@ -226,21 +229,37 @@ float systemeVitessesSouhaitees(systemeT * systeme)
 	return vitesseSouhaite;
 	}
 
-float systemeVitesseSouhaiteeMobile(etageT * etage, int X, int Y, vecteurT * vitesseSouhaite)
+float systemeVitesseSouhaiteeMobile(etageT * etage, int X, int Y, vecteurT * vitesseSouhaitee)
 	{ // Calcul de la vitesse souhaitée
 	int i;
-	float vitesseSouhaitee = 0;
+	int indexMax = 0;
+	float max = 0.0;
+	float vitesse = 0.0;
+
+		// Recherche de la meilleur note
 	for(i=0;i<8;i++)
-		if((*etage).cellule[X][Y].angle[i]>0)
-			vecteurEgaleCartesien(&(*etage).angle[i], vitesseSouhaite); // v2 = v1
-	return vitesseSouhaitee;
+		{
+		if((*etage).cellule[X][Y].note[i]>max)
+			{
+			indexMax = i;
+			max = (*etage).cellule[X][Y].note[i];
+			}
+		}
+
+	vecteurEgaleCartesien(&(*etage).angle[indexMax], vitesseSouhaitee); // v2 = v1
+	(*etage).cellule[X][Y].sens = indexMax;
+
+	return vitesse;
 	}
 
 int systemeCalculDensite(systemeT * systeme)
 	{	// Initialisation du nombre de mobile par cellule
+		// et mise à jour de la note
 	int X, Y, Z;
 	chaineT *iter;
 	iter = (*systeme).foule.premier;
+
+	//fprintf(stderr, "systemeCalculDensite, entrée\n");
 
 		// Mise à zéro du nombre de mobile par cellule
 	batimentMiseAZeroNombre(&(*systeme).batiment);
@@ -252,12 +271,83 @@ int systemeCalculDensite(systemeT * systeme)
 		Z = iter->mobile.nouveau.z;
 
 		if(Z>-1 && Z<BATIMENT_Z)
-			(*systeme).batiment.etage[Z].cellule[X][Y].nombre++;
+			{
+			if(X>-1 && X<BATIMENT_X && Y>-1 && Y<BATIMENT_Y)
+				{
+				(*systeme).batiment.etage[Z].cellule[X][Y].nombre++;
+				}
+			else
+				{
+				fprintf(stderr, "ERREUR systemeCalculDensite : XYZ = %d, %d, %d \n", X, Y, Z);
+				}
+			}
 
 		iter=iter->suivant;
 		}
 	while(iter!=(*systeme).foule.premier);
 
+	do
+		{
+		X = (int)(iter->mobile.nouveau.x/CELLULE);
+		Y = (int)(iter->mobile.nouveau.y/CELLULE);
+		Z = iter->mobile.nouveau.z;
+
+		if(Z>-1 && Z<BATIMENT_Z)
+			{
+			if(X>-1 && X<BATIMENT_X && Y>-1 && Y<BATIMENT_Y)
+				{
+				systemeMiseAJourNoteCellule(&(*systeme).batiment.etage[Z], X, Y);
+				}
+			else
+				{
+				fprintf(stderr, "ERREUR systemeCalculDensite : XYZ = %d, %d, %d \n", X, Y, Z);
+				}
+			}
+
+		iter=iter->suivant;
+		}
+	while(iter!=(*systeme).foule.premier);
+
+	//fprintf(stderr, "systemeCalculDensite, sortie\n");
+
 	return 0;
 	}
 
+int systemeMiseAJourNoteCellule(etageT * etage, int X, int Y)
+	{	// Mise à jour de la note de la cellule X Y
+	if(X<BATIMENT_X-1)
+		{
+		(*etage).cellule[X][Y].note[0] = (*etage).cellule[X][Y].interet[0] - (*etage).cellule[X+1][Y].nombre;
+		if(Y<BATIMENT_Y)
+			{
+			(*etage).cellule[X][Y].note[1] = (*etage).cellule[X][Y].interet[1] - (*etage).cellule[X+1][Y+1].nombre;
+			}
+		if(Y>0)
+			{
+			(*etage).cellule[X][Y].note[7] = (*etage).cellule[X][Y].interet[7] - (*etage).cellule[X+1][Y-1].nombre;
+			}
+		}
+	if(X>0)
+		{
+		(*etage).cellule[X][Y].note[4] = (*etage).cellule[X][Y].interet[4] - (*etage).cellule[X-1][Y].nombre;
+		if(Y<BATIMENT_Y)
+			{
+			(*etage).cellule[X][Y].note[3] = (*etage).cellule[X][Y].interet[3] - (*etage).cellule[X-1][Y+1].nombre;
+			}
+		if(Y>0)
+			{
+			(*etage).cellule[X][Y].note[5] = (*etage).cellule[X][Y].interet[5] - (*etage).cellule[X-1][Y-1].nombre;
+			}
+		}
+	if(Y<BATIMENT_Y-1)
+		{
+		(*etage).cellule[X][Y].note[2] = (*etage).cellule[X][Y].interet[2] - (*etage).cellule[X][Y+1].nombre;
+		}
+	if(Y>0)
+		{
+		(*etage).cellule[X][Y].note[6] = (*etage).cellule[X][Y].interet[6] - (*etage).cellule[X][Y-1].nombre;
+		}
+	return 0;
+	}
+
+/////////////////////////////////////////////////////////////////////////////////:

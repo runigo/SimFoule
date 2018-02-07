@@ -11,7 +11,7 @@ La version 1.4 doit mettre en place :
 \item Une diminution du module de la vitesse souhaitée si les cellules à ateindre sont occupées.
 \end{itemize}
 %
- 
+La version 1.3.6 prend en compte le taux d'occupation des cellules à ateindre afin de faire un choix.
 %
 \subsection{Modélisation}
 %
@@ -19,19 +19,16 @@ Une cellule contient les informations suivantes :
 \begin{itemize}[leftmargin=2cm]
 \item int statut;		// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile lors de l'initialisation
 \item int visite;		// 1 si initialisé, -1 si visite en cours
-\item int distance;	// Distance à la sortie
-\item int angle;	// Direction et sens des cellule à ateindre [0..7]
-\item int dx;		// Direction et sens des cellule à ateindre dx
-\item int dy;		// Direction et sens des cellule à ateindre dy
-\item vecteurT sens;	// Direction et sens à suivre, normalisé par l'initialisation.
-\item vecteurT sens1;	// Direction et sens à suivre, normalisé par l'initialisation.
-\item vecteurT sens2;	// Direction et sens à suivre, normalisé par l'initialisation.
-\item float norme;	// Norme de sens avant la normalisation.
-\item int nombre;	// nombre de mobile.
+\item int distance;		// Distance à la sortie
+\item int issue;		// Nombre de voisines "direct" à ateindre
+\item float interet[8];		// Intérêt à aller dans la direction
+\item float note[8];		// Intérêt - nombre(cellule voisine)
+\item int sens;			// Meilleur sens
+\item int nombre;		// nombre de mobile.
 \end{itemize}
 %
 \subsection{Champ de vision}
-%Les mobiles s'orientent dans la direction associée à leur cellule ($\mathtt{cell}$). Leur champ de vision correspond à un produit scalaire positif de la position relative des obstacles et et de la direction cell
+%
 \begin{center}
 	\begin{tabular}{rcl}
 	 & \\
