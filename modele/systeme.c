@@ -234,7 +234,7 @@ float systemeVitesseSouhaiteeMobile(etageT * etage, int X, int Y, vecteurT * vit
 	int i;
 	int indexMax = 0;
 	float max = 0.0;
-	float vitesse = 0.0;
+	float vitesse = 1.0;
 
 		// Recherche de la meilleur note
 	for(i=0;i<8;i++)
@@ -245,8 +245,13 @@ float systemeVitesseSouhaiteeMobile(etageT * etage, int X, int Y, vecteurT * vit
 			max = (*etage).cellule[X][Y].note[i];
 			}
 		}
-
+		// vecteur = 
 	vecteurEgaleCartesien(&(*etage).angle[indexMax], vitesseSouhaitee); // v2 = v1
+
+	vitesse = 0.41*max;//*max;
+
+	vecteurProduitCartesien(vitesseSouhaitee, vitesse, vitesseSouhaitee); // v2 = lambda v1
+
 	(*etage).cellule[X][Y].sens = indexMax;
 
 	return vitesse;

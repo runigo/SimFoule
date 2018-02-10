@@ -1,7 +1,7 @@
 /*
 Copyright février 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.3  simulateur de foule
+SimFoule 1.4  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -550,7 +550,7 @@ int controleurClavierMaj(controleurT * controleur)
 			controleurReinitialisation(controleur, 8);break;
 		case SDLK_p:
 			fprintf(stderr, "Réinitialisation du système\n");
-			controleurReinitialisation(controleur, 9);break;
+			controleurReinitialisation(controleur, -1);break;
 		case SDLK_q:
 			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 10);break;
@@ -580,7 +580,7 @@ int controleurClavierMaj(controleurT * controleur)
 			controleurReinitialisation(controleur, 18);break;
 		case SDLK_m:
 			fprintf(stderr, "Réinitialisation du système\n");
-			controleurReinitialisation(controleur, 19);break;
+			controleurReinitialisation(controleur, -1);break;
 
 /*
 		// Ecriture des fichiers

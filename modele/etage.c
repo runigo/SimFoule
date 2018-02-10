@@ -173,7 +173,7 @@ int etageCalculDistanceEtSens(etageT * etage)
 		//fprintf(stderr, "    Rectification des intérêts\n");
 	etageRectifieInteret(etage);
 
-	//etageAffiche(etage);
+	etageAffiche(etage);
 
 
 	return 0;
@@ -253,7 +253,7 @@ int etageDiffuseInteret(etageT * etage)
 			{
 			if((*etage).cellule[i][j].issue == 0 && (*etage).cellule[i][j].statut != 1)
 				{
-				fprintf(stderr, "ERREUR : etageDiffuseInteret : cellule libre non visitée [%d][%d]\n", i, j);
+				//fprintf(stderr, "ERREUR : etageDiffuseInteret : cellule libre non visitée [%d][%d]\n", i, j);
 				}
 			if((*etage).cellule[i][j].issue == 1 && (*etage).cellule[i][j].statut != 1)
 				{

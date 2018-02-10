@@ -61,14 +61,18 @@ int donneesOptionsImplicite(optionsT * options)
 
 int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 	{
-		printf("    donneesInitialisationBatiment : batimentInitialise %d\n", (*options).initial);
-	(*options).nombre = batimentInitialise(batiment, -1);
-		fprintf(stderr, "    donneesInitialisationBatiment : nombre de mobiles = %d\n", (*options).nombre);
 
 	if( (*options).initial > -1 && (*options).initial < 99)
 		{
+		batimentInitialiseVide(batiment);
 		printf("donneesInitialisationBatiment : fichierLecture\n");
 		(*options).nombre = fichierLecture(batiment, (*options).initial);
+		}
+	else
+		{
+		printf("    donneesInitialisationBatiment : initialisation : %d\n", (*options).initial);
+		(*options).nombre = batimentInitialise(batiment, -1);
+		fprintf(stderr, "    donneesInitialisationBatiment : nombre de mobiles = %d\n", (*options).nombre);
 		}
 	return 0;
 	}
@@ -95,8 +99,8 @@ int donneesCreationFoule(fouleT * foule, optionsT * options)
 	(*foule).dt = (*options).dt;		// Discrétisation du temps
 	(*foule).horloge = 0.0;			// Horloge
 
-	(*foule).nombre = (*options).nombre;	// Nombre d'mobile
-	(*foule).restant = (*options).nombre;	// Nombre d'mobile restant à sortir
+	(*foule).nombre = (*options).nombre;	// Nombre de mobile
+	(*foule).restant = (*options).nombre;	// Nombre de mobile restant à sortir
 
 	(*foule).taille = (*options).taille;		// Taille des mobiles
 	(*foule).masse = (*options).masse;		// Masse des mobiles
@@ -125,8 +129,6 @@ int donneesInitialisationFoule(fouleT * foule, batimentT * batiment)
 				if((*batiment).etage[k].cellule[i][j].statut == 9)
 					{
 					mobileInitialisePosition(&iter->mobile, i*CELLULE+centrage, j*CELLULE+centrage, k);
-					//fprintf(stderr, "Initialisation position mobile : %d, %d\n", i, j);
-					//fprintf(stderr, "  coordonnées : x= %f, y= %f, z= %d\n", iter->mobile.nouveau.x, iter->mobile.nouveau.y, iter->mobile.nouveau.z);
 					iter=iter->suivant;
 					compteur ++;
 					}

@@ -136,7 +136,7 @@ int fichierLecture(batimentT * batiment, int numero)
 		default:
 			;
 		}
-	//fichier = fopen("fluxon.sicp", "r");  /* read */
+
 	if(fichier == NULL)
 		{
 		printf("Erreur d'ouverture du fichier de réinitialisation\n");
@@ -145,6 +145,7 @@ int fichierLecture(batimentT * batiment, int numero)
 	else
 		{
 		int statut;
+		int retour;
 		printf("  Initialisation du batiment %d\n", numero);
 		for(k=0;j<BATIMENT_Z;k++)
 			{
@@ -154,7 +155,9 @@ int fichierLecture(batimentT * batiment, int numero)
 				for(i=0;i<BATIMENT_X-1;i++)
 					{
 					statut = 0;
-					fscanf(fichier, "%d ", &statut);
+					retour=fscanf(fichier, "%d ", &statut);
+					if(retour==0)
+						fprintf(stderr, "Retour fscanf = 0\n");
 					celluleInitialiseStatut(&(*batiment).etage[k].cellule[i][j], statut);
 					}
 				fscanf(fichier, "%d\n", &statut);
@@ -164,7 +167,7 @@ int fichierLecture(batimentT * batiment, int numero)
 		fclose(fichier);
 		}
 
-		// Nombre d' humains
+		// Nombre de mobile
 	int nombre = 0;
 	for(k=0;k<BATIMENT_Z;k++)
 		{
