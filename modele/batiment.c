@@ -33,7 +33,25 @@ termes.
 
 int batimentInitialiseEtageVide(batimentT * batiment);
 int batimentInitialiseFacade(batimentT * batiment);
+int batimentInitialiseMur(batimentT * batiment, int numero);
 int batimentInitialiseMobile(batimentT * batiment, int numero);
+
+int batimentInitialise(batimentT * batiment, int numero)
+	{ // Renvoie le nombre de mobiles présent
+	int nombre = 0;
+
+	//fprintf(stderr, "batimentInitialise : Entrée dans la fonction\n");
+	batimentInitialiseEtageVide(batiment);
+
+		// Plan du batiment
+	batimentInitialiseFacade(batiment);
+	batimentInitialiseMur(batiment, numero);
+
+		// Position des mobiles
+	nombre = batimentInitialiseMobile(batiment, numero);
+
+	return nombre;
+	}
 
 int batimentInitialiseEtageVide(batimentT * batiment)
 	{ // Initialise le batiment vide
@@ -88,7 +106,122 @@ int batimentInitialiseFacade(batimentT * batiment)
 	return 0;
 	}
 
+int batimentInitialiseMur(batimentT * batiment, int numero)
+	{ // Initialise les murs du batiment.
+	int i, j, k;
+	(void)numero;
+
+		// Plan des murs
+	for(k=0;k<BATIMENT_Z;k++)
+		{
+		for(i=0;i<BATIMENT_X/2-1;i++)
+			{
+			celluleCreationMur(&(*batiment).etage[k].cellule[i][BATIMENT_Y/2+2]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[i][BATIMENT_Y/2-2]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X-1-i][BATIMENT_Y/2+2]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X-1-i][BATIMENT_Y/2-2]);
+			}
+		for(j=0;j<BATIMENT_Y/2-1;j++)
+			{
+			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/2+2][j]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/2-2][j]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/2+2][BATIMENT_Y-1-j]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/2-2][BATIMENT_Y-1-j]);
+			}
+		for(j=0;j<BATIMENT_Y/2-1;j++)
+			{
+			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/4-1][j]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[3*BATIMENT_X/4+1][j]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/4-1][BATIMENT_Y-1-j]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[3*BATIMENT_X/4+1][BATIMENT_Y-1-j]);
+			}
+
+		celluleCreationVide(&(*batiment).etage[k].cellule[BATIMENT_X/4-2][BATIMENT_Y/2+2]);
+		celluleCreationVide(&(*batiment).etage[k].cellule[BATIMENT_X/4-3][BATIMENT_Y/2+2]);
+		celluleCreationVide(&(*batiment).etage[k].cellule[BATIMENT_X/4-2][BATIMENT_Y/2-2]);
+		celluleCreationVide(&(*batiment).etage[k].cellule[BATIMENT_X/4-3][BATIMENT_Y/2-2]);
+		
+		celluleCreationVide(&(*batiment).etage[k].cellule[3*BATIMENT_X/4+2][BATIMENT_Y/2+2]);
+		celluleCreationVide(&(*batiment).etage[k].cellule[3*BATIMENT_X/4+3][BATIMENT_Y/2+2]);
+		celluleCreationVide(&(*batiment).etage[k].cellule[3*BATIMENT_X/4+2][BATIMENT_Y/2-2]);
+		celluleCreationVide(&(*batiment).etage[k].cellule[3*BATIMENT_X/4+3][BATIMENT_Y/2-2]);
+		
+		celluleCreationVide(&(*batiment).etage[k].cellule[BATIMENT_X/2+3][BATIMENT_Y/2+2]);
+		celluleCreationVide(&(*batiment).etage[k].cellule[BATIMENT_X/2+4][BATIMENT_Y/2+2]);
+		celluleCreationVide(&(*batiment).etage[k].cellule[BATIMENT_X/2+3][BATIMENT_Y/2-2]);
+		celluleCreationVide(&(*batiment).etage[k].cellule[BATIMENT_X/2+4][BATIMENT_Y/2-2]);
+		
+		celluleCreationVide(&(*batiment).etage[k].cellule[BATIMENT_X/2-3][BATIMENT_Y/2+2]);
+		celluleCreationVide(&(*batiment).etage[k].cellule[BATIMENT_X/2-4][BATIMENT_Y/2+2]);
+		celluleCreationVide(&(*batiment).etage[k].cellule[BATIMENT_X/2-3][BATIMENT_Y/2-2]);
+		celluleCreationVide(&(*batiment).etage[k].cellule[BATIMENT_X/2-4][BATIMENT_Y/2-2]);
+		
+		}
+
+		// Sorties
+	for(k=0;k<BATIMENT_Z;k++)
+		{
+		if((k/2)==((k+1)/2))
+			{
+		celluleCreationSortie(&(*batiment).etage[k].cellule[BATIMENT_X/2+1][0]);
+		celluleCreationSortie(&(*batiment).etage[k].cellule[BATIMENT_X/2-1][0]);
+		celluleCreationSortie(&(*batiment).etage[k].cellule[BATIMENT_X/2][0]);
+			}
+		else
+			{
+		celluleCreationSortie(&(*batiment).etage[k].cellule[BATIMENT_X/2+1][BATIMENT_Y-1]);
+		celluleCreationSortie(&(*batiment).etage[k].cellule[BATIMENT_X/2-1][BATIMENT_Y-1]);
+		celluleCreationSortie(&(*batiment).etage[k].cellule[BATIMENT_X/2][BATIMENT_Y-1]);
+			}
+		}
+
+	return 0;
+	}
+
 int batimentInitialiseMobile(batimentT * batiment, int numero)
+	{ // Renvoie le nombre de mobiles présent
+	(void)numero;
+	int i, j, k;
+	int nombre = 0;
+
+		// Position des mobiles
+	for(k=0;k<BATIMENT_Z;k++)
+		{
+		for(i=0;i<BATIMENT_X/2-2;i++)
+			{
+			for(j=0;j<BATIMENT_Y/2-2;j++)
+				{
+				if((i+j)%3 == 0)
+					{
+					if(celluleDonneStatut(&(*batiment).etage[k].cellule[i][j]) == 0)
+						{
+						celluleCreationMobile(&(*batiment).etage[k].cellule[i][j]);
+						nombre++;
+						}
+					if(celluleDonneStatut(&(*batiment).etage[k].cellule[BATIMENT_X-1-i][j]) == 0)
+						{
+						celluleCreationMobile(&(*batiment).etage[k].cellule[BATIMENT_X-1-i][j]);
+						nombre++;
+						}
+					if(celluleDonneStatut(&(*batiment).etage[k].cellule[i][BATIMENT_Y-1-j]) == 0)
+						{
+						celluleCreationMobile(&(*batiment).etage[k].cellule[i][BATIMENT_Y-1-j]);
+						nombre++;
+						}
+					if(celluleDonneStatut(&(*batiment).etage[k].cellule[BATIMENT_X-1-i][BATIMENT_Y-1-j]) == 0)
+						{
+						celluleCreationMobile(&(*batiment).etage[k].cellule[BATIMENT_X-1-i][BATIMENT_Y-1-j]);
+						nombre++;
+						}
+					}
+				}
+			}
+		}
+
+	return nombre;
+	}
+
+int batimentInitialiseMobileTest(batimentT * batiment, int numero)
 	{ // Renvoie le nombre de mobiles présent
 	(void)numero;
 	int i, j, k;
@@ -181,22 +314,6 @@ int batimentInitialiseTest(batimentT * batiment, int numero)
 			}
 		}
 	//fprintf(stderr, "batimentInitialise : Sortie de la fonction\n");
-	return nombre;
-	}
-
-int batimentInitialise(batimentT * batiment, int numero)
-	{ // Renvoie le nombre de mobiles présent
-	int nombre = 0;
-
-	//fprintf(stderr, "batimentInitialise : Entrée dans la fonction\n");
-	batimentInitialiseEtageVide(batiment);
-
-		// Plan du batiment
-	batimentInitialiseFacade(batiment);
-
-		// Position des mobiles
-	nombre = batimentInitialiseMobile(batiment, numero);
-
 	return nombre;
 	}
 

@@ -57,7 +57,14 @@ double celluleInitialise(celluleT * cellule)
 int celluleCreationMur(celluleT * cellule)
 	{
 	(*cellule).statut = 1;
-	(*cellule).nombre=99;
+	(*cellule).nombre = 99;
+	return 0;
+	}
+
+int celluleCreationVide(celluleT * cellule)
+	{
+	(*cellule).statut = 0;
+	(*cellule).nombre = 0;
 	return 0;
 	}
 

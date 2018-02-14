@@ -55,6 +55,7 @@ typedef struct CelluleT celluleT;
 double celluleInitialise(celluleT * cellule);
 
 int celluleCreationMur(celluleT * cellule);
+int celluleCreationVide(celluleT * cellule);
 int celluleCreationSortie(celluleT * cellule);
 int celluleCreationEntree(celluleT * cellule);
 int celluleCreationMobile(celluleT * cellule);
