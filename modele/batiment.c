@@ -31,16 +31,111 @@ termes.
 
 #include "../modele/batiment.h"
 
-int batimentInitialiseVide(batimentT * batiment);
+int batimentInitialiseEtageVide(batimentT * batiment);
+int batimentInitialiseFacade(batimentT * batiment);
+int batimentInitialiseMobile(batimentT * batiment, int numero);
 
-int batimentInitialiseVide(batimentT * batiment)
-	{
+int batimentInitialiseEtageVide(batimentT * batiment)
+	{ // Initialise le batiment vide
 	int k;
 	for(k=0;k<BATIMENT_Z;k++)
 		{
 		etageInitialise(&(*batiment).etage[k], k);
+		//celluleCreationMobile(&(*batiment).etage[k].cellule[BATIMENT_X/2][BATIMENT_Y/2]);
 		}
+
 	return 0;
+	}
+
+int batimentInitialiseFacade(batimentT * batiment)
+	{ // Initialise les facades du batiment et des sorties.
+	int i, j, k;
+
+	//batimentInitialiseEtageVide(batiment);
+
+		// Plan du batiment
+	for(k=0;k<BATIMENT_Z;k++)
+		{
+		for(i=0;i<BATIMENT_X;i++)
+			{
+			celluleCreationMur(&(*batiment).etage[k].cellule[i][0]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[i][BATIMENT_Y-1]);
+			}
+		for(j=0;j<BATIMENT_Y;j++)
+			{
+			celluleCreationMur(&(*batiment).etage[k].cellule[0][j]);
+			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X-1][j]);
+			}
+		}
+
+		// Sorties
+	for(k=0;k<BATIMENT_Z;k++)
+		{
+		if((k/2)==((k+1)/2))
+			{
+		celluleCreationSortie(&(*batiment).etage[k].cellule[BATIMENT_X/2+1][0]);
+		celluleCreationSortie(&(*batiment).etage[k].cellule[BATIMENT_X/2-1][0]);
+		celluleCreationSortie(&(*batiment).etage[k].cellule[BATIMENT_X/2][0]);
+			}
+		else
+			{
+		celluleCreationSortie(&(*batiment).etage[k].cellule[BATIMENT_X/2+1][BATIMENT_Y-1]);
+		celluleCreationSortie(&(*batiment).etage[k].cellule[BATIMENT_X/2-1][BATIMENT_Y-1]);
+		celluleCreationSortie(&(*batiment).etage[k].cellule[BATIMENT_X/2][BATIMENT_Y-1]);
+			}
+		}
+
+	return 0;
+	}
+
+int batimentInitialiseMobile(batimentT * batiment, int numero)
+	{ // Renvoie le nombre de mobiles présent
+	(void)numero;
+	int i, j, k;
+	int nombre = 0;
+	int dim = 1;
+
+	if(BATIMENT_X > 10)
+		{
+		if(BATIMENT_Y > 10) dim = 2;
+		if(BATIMENT_Y > 30) dim = 3;
+		if(BATIMENT_Y > 50) dim = 4;
+		}
+	else
+		{
+		if(BATIMENT_Y > 30) dim = 2;
+		if(BATIMENT_Y > 50) dim = 3;
+		}
+
+	if(BATIMENT_Y > 10)
+		{
+		if(BATIMENT_X > 10) dim = 2;
+		if(BATIMENT_X > 30) dim = 3;
+		if(BATIMENT_X > 50) dim = 4;
+		}
+	else
+		{
+		if(BATIMENT_X > 30) dim = 2;
+		if(BATIMENT_X > 50) dim = 3;
+		}
+
+		// Position des mobiles
+	for(k=0;k<BATIMENT_Z;k++)
+		{
+		for(i=0;i<BATIMENT_X;i++)
+			{
+			for(j=0;j<BATIMENT_Y;j++)
+				{
+				if((i+j)%dim == 0 && celluleDonneStatut(&(*batiment).etage[k].cellule[i][j]) == 0)
+					{
+					celluleCreationMobile(&(*batiment).etage[k].cellule[i][j]);
+					nombre++;
+					}
+				}
+			}
+		}
+
+	return nombre;
 	}
 
 int batimentInitialiseTest(batimentT * batiment, int numero)
@@ -49,7 +144,7 @@ int batimentInitialiseTest(batimentT * batiment, int numero)
 	int i, j, k;
 	int nombre = 0;
 
-	batimentInitialiseVide(batiment);
+	batimentInitialiseEtageVide(batiment);
 
 		// Plan du batiment
 	for(k=0;k<BATIMENT_Z;k++)
@@ -91,57 +186,17 @@ int batimentInitialiseTest(batimentT * batiment, int numero)
 
 int batimentInitialise(batimentT * batiment, int numero)
 	{ // Renvoie le nombre de mobiles présent
-	(void)numero;
-	int i, j, k;
 	int nombre = 0;
 
 	//fprintf(stderr, "batimentInitialise : Entrée dans la fonction\n");
-	batimentInitialiseVide(batiment);
+	batimentInitialiseEtageVide(batiment);
 
 		// Plan du batiment
-	for(k=0;k<BATIMENT_Z;k++)
-		{
-		for(i=0;i<BATIMENT_X;i++)
-			{
-			celluleCreationMur(&(*batiment).etage[k].cellule[i][0]);
-			celluleCreationMur(&(*batiment).etage[k].cellule[i][BATIMENT_Y-1]);
-			}
-		for(j=0;j<BATIMENT_Y;j++)
-			{
-			celluleCreationMur(&(*batiment).etage[k].cellule[0][j]);
-			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X-1][j]);
-			}
-		for(j=1;j<BATIMENT_Y/2-2;j++)
-			{
-			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/2][j]);
-			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/2][BATIMENT_Y-j-1]);
-			}
-		for(j=4;j<BATIMENT_Y-4;j++)
-			{
-			celluleCreationMur(&(*batiment).etage[k].cellule[BATIMENT_X/4][j]);
-			}
-		//celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2+1]);
-		celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2]);
-		//celluleCreationSortie(&(*batiment).etage[k].cellule[BATIMENT_X-1][(int)BATIMENT_Y/2]);
-		//celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)BATIMENT_Y/2-1]);
-		}
+	batimentInitialiseFacade(batiment);
 
 		// Position des mobiles
-	for(k=0;k<BATIMENT_Z;k++)
-		{
-		for(i=BATIMENT_X/2+1;i<BATIMENT_X-1;i++)
-			{
-			for(j=1;j<BATIMENT_Y-1;j++)
-				{
-				if((i+j)/2 == (i+j+1)/2 )
-					{
-					celluleCreationMobile(&(*batiment).etage[k].cellule[i][j]);
-					nombre++;
-					}
-				}
-			}
-		}
-	//fprintf(stderr, "batimentInitialise : Sortie de la fonction\n");
+	nombre = batimentInitialiseMobile(batiment, numero);
+
 	return nombre;
 	}
 

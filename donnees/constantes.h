@@ -44,8 +44,8 @@ termes.
 
 	//----------         DIMENSIONS  SPATIALES         -----------//
 
-#define BATIMENT_X 25	// Longueur suivant x du batiment (en nombre de cellule)
-#define BATIMENT_Y 25	// Longueur suivant y du batiment (en nombre de cellule)
+#define BATIMENT_X 11	// Longueur suivant x du batiment (en nombre de cellule)
+#define BATIMENT_Y 11	// Longueur suivant y du batiment (en nombre de cellule)
 #define BATIMENT_Z 1	// Nombre d'étage
 
 #define CELLULE 16		// Longueur du coté d'une cellule (en pixel)

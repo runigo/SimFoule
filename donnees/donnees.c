@@ -64,7 +64,8 @@ int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 
 	if( (*options).initial > -1 && (*options).initial < 99)
 		{
-		batimentInitialiseVide(batiment);
+		//batimentInitialiseEtageVide(batiment);
+		(*options).nombre = batimentInitialise(batiment, -1);
 		printf("donneesInitialisationBatiment : fichierLecture\n");
 		(*options).nombre = fichierLecture(batiment, (*options).initial);
 		}
