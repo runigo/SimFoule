@@ -37,7 +37,7 @@ float systemeForceBatiment(systemeT * systeme); // Calcul de la force de couplag
 float systemeForceMurs(systemeT * systeme); // Calcul de la force de couplage avec les mur
 
 float systemeVitessesSouhaitees(systemeT * systeme); // Calcul des vitesses souhaitées
-float systemeVitesseSouhaiteeMobile(etageT * etage, int X, int Y, vecteurT * vitesseSouhaite); // Calcul de la vitesse souhaitée
+float systemeVitesseSouhaiteeMobile(etageT * etage, int X, int Y, mobileT * mobile); // Calcul de la vitesse souhaitée
 int systemeCalculDensite(systemeT * systeme); // Initialisation du nombre de mobile par cellule
 int systemeMiseAJourNoteCellule(etageT * etage, int X, int Y);
 
@@ -176,7 +176,7 @@ float systemeForceBatiment(systemeT * systeme)
 			//fprintf(stderr, "   Calcul de la force liée à la vitesse souhaité\n");
 	do
 		{
-		force = mobileCouplage(&(iter->mobile), &(iter->mobile.vitesseSouhaite));
+		force = mobileCouplage(&(iter->mobile), &(iter->mobile.vitesseSouhaitee));
 		if(force>forceMax) forceMax = force;
 		iter=iter->suivant;
 		}
@@ -218,7 +218,7 @@ float systemeVitessesSouhaitees(systemeT * systeme)
 					}
 				else
 					{	// Initialisation de la vitesse souhaitée	// Calcul de la vitesse souhaitée
-					systemeVitesseSouhaiteeMobile(&(*systeme).batiment.etage[Z], X, Y, &(iter->mobile.vitesseSouhaite));
+					systemeVitesseSouhaiteeMobile(&(*systeme).batiment.etage[Z], X, Y, &(iter->mobile));
 					}
 				}
 			}
@@ -229,7 +229,7 @@ float systemeVitessesSouhaitees(systemeT * systeme)
 	return vitesseSouhaite;
 	}
 
-float systemeVitesseSouhaiteeMobile(etageT * etage, int X, int Y, vecteurT * vitesseSouhaitee)
+float systemeVitesseSouhaiteeMobile(etageT * etage, int X, int Y, mobileT * mobile)
 	{ // Calcul de la vitesse souhaitée
 	int i;
 	int indexMax = 0;
@@ -246,11 +246,11 @@ float systemeVitesseSouhaiteeMobile(etageT * etage, int X, int Y, vecteurT * vit
 			}
 		}
 		// vecteur = 
-	vecteurEgaleCartesien(&(*etage).angle[indexMax], vitesseSouhaitee); // v2 = v1
+	vecteurEgaleCartesien(&(*etage).angle[indexMax], &(*mobile).vitesseSouhaitee); // v2 = v1
 
-	vitesse = 0.41*max;//*max;
+	vitesse = (*mobile).celerite*max;//*max;0.41
 
-	vecteurProduitCartesien(vitesseSouhaitee, vitesse, vitesseSouhaitee); // v2 = lambda v1
+	vecteurProduitCartesien(&(*mobile).vitesseSouhaitee, vitesse, &(*mobile).vitesseSouhaitee); // v2 = lambda v1
 
 	(*etage).cellule[X][Y].sens = indexMax;
 

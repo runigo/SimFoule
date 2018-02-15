@@ -1,7 +1,7 @@
 /*
-Copyright janvier 2018, Stephan Runigo
+Copyright février 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.2.1  simulateur de foule
+SimFoule 1.4  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -42,7 +42,7 @@ int mobileInitialise(mobileT * mobile, int taille, float masse, float nervosite,
 	int retour = 0;
 
 	vecteurCartesien(&(*mobile).vitesse, 0, 0, 0);
-	vecteurCartesien(&(*mobile).vitesseSouhaite, 0, 0, 0);
+	vecteurCartesien(&(*mobile).vitesseSouhaitee, 0, 0, 0);
 	vecteurCartesien(&(*mobile).forceBatiment, 0, 0, 0);
 	vecteurCartesien(&(*mobile).forceMobiles, 0, 0, 0);
 	vecteurCartesien(&(*mobile).forceMurs, 0, 0, 0);
@@ -71,6 +71,7 @@ int mobileChangeCaractere(mobileT * mobile, int taille, float masse, float nervo
 	(*mobile).rayon = 0.5*taille;
 	(*mobile).masse = masse;
 	(*mobile).nervosite = nervosite;
+	(*mobile).celerite = 0.1*nervosite/UNITE_NOTE;
 	(*mobile).dt = dt;
 
 	if( masse > MASSE_MIN && masse < MASSE_MAX )
@@ -118,16 +119,16 @@ int mobileInertie(mobileT * mobile)
 	return 0;
 	}
 
-float mobileCouplage(mobileT * mobile, vecteurT * vitesseSouhaite)
+float mobileCouplage(mobileT * mobile, vecteurT * vitesseSouhaitee)
 	{
 		// vitesse = nouveau - actuel
 	vecteurDifferenceCartesien2D(&(*mobile).nouveau, &(*mobile).actuel, &(*mobile).vitesse); // v3 = v1 - v2
 
 		// vitesseSouhaite = dt vitesseSouhaite
-	vecteurProduitCartesien2D(vitesseSouhaite, (*mobile).dt, &(*mobile).vitesseSouhaite); // v2 = lambda v1
+	vecteurProduitCartesien2D(vitesseSouhaitee, (*mobile).dt, &(*mobile).vitesseSouhaitee); // v2 = lambda v1
 
 		// force = vitesse souhaite - vitesse (le tout fois dt)
-	vecteurDifferenceCartesien2D(&(*mobile).vitesseSouhaite, &(*mobile).vitesse, &(*mobile).forceBatiment); // v3 = v1 - v2
+	vecteurDifferenceCartesien2D(&(*mobile).vitesseSouhaitee, &(*mobile).vitesse, &(*mobile).forceBatiment); // v3 = v1 - v2
 
 		//  force = dtsurtau * FORCE_COUPLAGE * force
 	vecteurProduitCartesien2D(&(*mobile).forceBatiment, (*mobile).dtsurtau, &(*mobile).forceBatiment); // v2 = lambda v1
@@ -251,7 +252,7 @@ int mobileAffiche(mobileT * mobile)
 	fprintf(stderr, "  nouveau y : %f , actuel y : %f, ancien y : %f\n", (*mobile).nouveau.y, (*mobile).actuel.y, (*mobile).nouveau.y);
 
 	fprintf(stderr, "  vitesse x : %f , vitesse y : %f\n", (*mobile).vitesse.x, (*mobile).vitesse.y);
-	fprintf(stderr, "  vitesseSouhaite x : %f , vitesseSouhaite y : %f\n", (*mobile).vitesseSouhaite.x, (*mobile).vitesseSouhaite.y);
+	fprintf(stderr, "  vitesseSouhaite x : %f , vitesseSouhaite y : %f\n", (*mobile).vitesseSouhaitee.x, (*mobile).vitesseSouhaitee.y);
 	fprintf(stderr, "  forceExterieur x : %f , forceExterieur y : %f\n\n", (*mobile).forceBatiment.x, (*mobile).forceBatiment.y);
 	return 0;
 	}

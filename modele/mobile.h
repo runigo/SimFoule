@@ -1,7 +1,7 @@
 /*
-Copyright janvier 2018, Stephan Runigo
+Copyright février 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.2.1  simulateur de foule
+SimFoule 1.4  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -42,7 +42,7 @@ struct MobileT {
 
 	vecteurT vitesse;
 
-	vecteurT vitesseSouhaite;
+	vecteurT vitesseSouhaitee;
 
 	vecteurT forceBatiment;
 	vecteurT forceMobiles;
@@ -54,6 +54,7 @@ struct MobileT {
 	float rayon;
 	float masse;
 	float nervosite;
+	float celerite;
 	float dtsurtau;
 	float dt2surM;
 	float dt;

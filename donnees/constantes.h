@@ -87,7 +87,7 @@ termes.
 
 
 	//----------        PARAMETRES  D'INTERACTIONS        -----------//
-#define UNITE_NOTE 0.51		// Unité de note pour la direction souhaitable
+#define UNITE_NOTE 0.71		// Unité de note pour la direction souhaitable
 #define FORCE_CONTACT_MOBILE 141	// constante de force de répulsion de contact entre mobile
 #define FORCE_CONTACT_MUR 1171		// constante de force de répulsion de contact avec les murs
 #endif
