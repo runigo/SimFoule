@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><diagram program="umlet" version="12.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Actor</type>
+    <coordinates>
+      <x>120</x>
+      <y>180</y>
+      <w>80</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Utilisateur</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>230</x>
+      <y>360</y>
+      <w>160</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>Dessin
+--
+Mur
+Libre
+Humain
+Sortie</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>670</x>
+      <y>330</y>
+      <w>160</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>Simulation
+--
+Redémarrer
+Temps réel
+Accélérer
+Ralentir
+Pause</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>670</x>
+      <y>20</y>
+      <w>160</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>Paramètre
+--
+Agressivité des
+humains
+Diversité des 
+agressivité</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>470</x>
+      <y>400</y>
+      <w>160</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Fichier
+--
+sauvegarder
+charger</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>160</x>
+      <y>170</y>
+      <w>530</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>510;70;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>160</x>
+      <y>180</y>
+      <w>550</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>530;180;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>160</x>
+      <y>200</y>
+      <w>390</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>370;200;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>160</x>
+      <y>210</y>
+      <w>130</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>110;160;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>670</x>
+      <y>170</y>
+      <w>160</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Paramètre
+--
+Calcul des
+directions
+Modification des
+directions</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>160</x>
+      <y>70</y>
+      <w>530</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>510;30;30;120</additional_attributes>
+  </element>
+</diagram>
