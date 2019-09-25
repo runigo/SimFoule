@@ -61,14 +61,14 @@ $(OBJDIR)/donnees.o : donnees/donnees.c donnees/donnees.h
 $(OBJDIR)/fichier.o : donnees/fichier.c donnees/fichier.h
 	$(CC) -c -g donnees/fichier.c $(CFLAGS) -o $@
 
-$(OBJDIR)/graphe.o : graphisme/graphe.c graphisme/graphe.h
-	$(CC) -c -g graphisme/graphe.c $(CFLAGS) -o $@
+$(OBJDIR)/graphe.o : interface/graphe.c interface/graphe.h
+	$(CC) -c -g interface/graphe.c $(CFLAGS) -o $@
 
-$(OBJDIR)/interface.o : graphisme/interface.c graphisme/interface.h
-	$(CC) -c -g graphisme/interface.c $(CFLAGS) -o $@
+$(OBJDIR)/interface.o : interface/interface.c interface/interface.h
+	$(CC) -c -g interface/interface.c $(CFLAGS) -o $@
 
-$(OBJDIR)/points.o : graphisme/points.c graphisme/points.h
-	$(CC) -c -g graphisme/points.c $(CFLAGS) -o $@
+$(OBJDIR)/points.o : interface/points.c interface/points.h
+	$(CC) -c -g interface/points.c $(CFLAGS) -o $@
 
 $(OBJDIR)/systeme.o : modele/systeme.c modele/systeme.h
 	$(CC) -c -g modele/systeme.c $(CFLAGS) -o $@

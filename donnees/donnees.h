@@ -34,7 +34,7 @@ termes.
 #define _DONNEES_
 
 #include "../modele/systeme.h"
-#include "../graphisme/graphe.h"
+#include "../interface/graphe.h"
 #include "../controle/options.h"
 #include "../donnees/fichier.h"
 

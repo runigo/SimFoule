@@ -34,7 +34,7 @@ termes.
 #define _GRAPHE_
 
 #include "interface.h"
-#include "../graphisme/points.h"
+#include "../interface/points.h"
 
 struct GrapheT {
 	SDL_Texture *mur;
