@@ -47,6 +47,86 @@ int projectionInitialiseLongueurs(projectionT * projection, int hauteur, int lar
 	return 0;
 	}
 
+int projectionChangeFenetre(projectionT * projection, int x, int y)
+	{
+	(*projection).hauteur=hauteur;
+	(*projection).largeur=largeur;
+	return 0;
+	}
+
+int projectionSystemeCommandes(systemeT * systeme, projectionT * projection, commandesT * commandes, int duree, int mode)
+	{		// Projette le système sur les commandes
+
+	(void)systeme;
+	(void)projection;
+	(void)commandes;
+	(void)duree;
+	(void)mode;
+
+	float theta;
+	float ratioRotatif = 0.9;
+	float courantJosephson = projectionAbsolue((*systeme).moteurs.courantJosephson);
+
+				//	Projection sur les boutons rotatifs
+/*	 //	Couplage
+	theta = DEUXPI * (*projection).logCouplage * log( (*systeme).couplage / (COUPLAGE_MIN * (*systeme).nombre) );
+	(*commandes).rotatifPositionX[0]=(int)(-ratioRotatif*(*commandes).rotatifX*sin(theta));
+	(*commandes).rotatifPositionY[0]=(int)(ratioRotatif*(*commandes).rotatifY*cos(theta));
+*/
+		//int rotatifPositionX[ROTATIF_COMMANDES]; // Position du bouton rotatif
+		//int rotatifPositionY[ROTATIF_COMMANDES];
+
+
+				//	Projection sur les petits boutons de droite
+/*	int i;
+	for(i=0;i<BOUTON_COMMANDES;i++) (*commandes).boutonEtat[i]=0;
+
+		//int libreFixe;		//	0 : périodiques 1 : libres, 2 : fixes, 
+							//		3 libre-fixe, 4 fixe-libre
+	switch((*systeme).libreFixe)	//	
+		{
+		case 0:
+			(*commandes).boutonEtat[0]=1;break;
+		default:
+			;
+		}
+
+	//	int modeDissipation;	//	0 : nulle 1 : uniforme, 2 : extrémité absorbante.
+	switch((*systeme).modeDissipation)	//	
+		{
+		case 0:
+			(*commandes).boutonEtat[5]=1;break;
+		default:
+			;
+		}
+*/
+				//	Projection sur les petits boutons du bas
+		//	Vitesse de la simulation
+	if(duree<DUREE)
+		{
+			if(duree==1) (*commandes).triangleEtat[5]=-1; else (*commandes).triangleEtat[6]=-1;
+			(*commandes).lineairePositionX=(int)((*commandes).a * duree + (*commandes).b);
+		}
+	else
+		{
+		if(duree>DUREE)
+			{
+			if(duree==DUREE_MAX) (*commandes).triangleEtat[10]=-1; else (*commandes).triangleEtat[9]=-1;
+			(*commandes).lineairePositionX=(int)((*commandes).A * duree + (*commandes).B);
+			}
+		else
+			{
+			(*commandes).triangleEtat[8]=1;
+			}
+		}
+
+	if(mode<0)
+		{
+		(*commandes).triangleEtat[7]=2;
+		}
+	return 0;
+	}
+
 int projectionBatimentPlan(batimentT * batiment, projectionT * projection, grapheT * graphe)
 	{
 			//	Projette la position des murs sur le graphe

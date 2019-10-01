@@ -1,9 +1,9 @@
 /*
-Copyright janvier 2018, Stephan Runigo
+Copyright avril 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.0  simulateur de foule
-Ce logiciel est un programme informatique servant à simuler l'évacuation
-d'une foule dans un batiment et à en donner une représentation graphique.
+SiCP 2.2 simulateur de chaîne de pendules
+Ce logiciel est un programme informatique servant à simuler l'équation
+d'une chaîne de pendules et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
 respectant les principes de diffusion des logiciels libres. Vous pouvez
 utiliser, modifier et/ou redistribuer ce programme sous les conditions
@@ -29,35 +29,29 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 */
 
+// Librement inspiré de 
+// http://piconano2015.wixsite.com/soft/code
+// Copyright 2015 par PicoSoft.
 
-#ifndef _GRAPHE_
-#define _GRAPHE_
+#ifndef _HORLOGE_
+#define _HORLOGE_
 
 #include "interface.h"
-#include "../interface/points.h"
 
-struct GrapheT {
+typedef struct HorlogeT horlogeT;
+	struct HorlogeT
+		{
+		SDL_TimerID horloge;	// timer principal
+		long int depart;	// Départ du chronomètre
+		};
 
-	int plan[BATIMENT_X][BATIMENT_Y][BATIMENT_Z]; // Plan du batiment
-				// 0 : libre, 1 : mur, 2 : sortie
+Uint32 horlogeEvenement(Uint32 it, horlogeT * horloge);
 
-	int angle[BATIMENT_X][BATIMENT_Y][BATIMENT_Z]; // Direction vers la sortie
-				// 0 : droite, 2 : bas, 4 : gauche, 6 : haut
-				//  				    6
-				//	Angles 			 5     7
-				//	 possibles :	4       0
-				//					 3     1
-				//					    2
+int horlogeCreation(horlogeT * horloge);
+int horlogeSuppression(horlogeT * horloge);
+void horlogeChangeSupport(horlogeT * horloge);
 
-	pointsT * premier; // Positions des mobiles
-
-};
-typedef struct GrapheT grapheT;
-
-int grapheCreation(grapheT * graphe, int nombre);
-void grapheSuppression(grapheT * graphe);
-
-int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe);
-
+int horlogeChronoDepart(horlogeT * horloge);
+int horlogeChronoDuree(horlogeT * horloge);
 
 #endif

@@ -1,9 +1,9 @@
 /*
-Copyright janvier 2018, Stephan Runigo
+Copyright avril 2018, Stephan Runigo
 runigo@free.fr
-SimFoule 1.0  simulateur de foule
-Ce logiciel est un programme informatique servant à simuler l'évacuation
-d'une foule dans un batiment et à en donner une représentation graphique.
+SiCP 2.2 simulateur de chaîne de pendules
+Ce logiciel est un programme informatique servant à simuler l'équation
+d'une chaîne de pendules et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
 respectant les principes de diffusion des logiciels libres. Vous pouvez
 utiliser, modifier et/ou redistribuer ce programme sous les conditions
@@ -29,37 +29,61 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 */
 
-#ifndef _CONTROLEUR_
-#define _CONTROLEUR_
+// Librement inspiré de 
+// http://piconano2015.wixsite.com/soft/code
+// Copyright 2015 par PicoSoft.
 
-#include "../donnees/donnees.h"
-#include "../controle/projection.h"
+#include "horloge.h"
 
-typedef struct ControleurT controleurT;
-struct ControleurT
+/*
+	VARIABLES GLOBALES
+*/
+
+SDL_Event user_event;
+int *paramTimer;
+
+/*
+	...............
+*/
+
+Uint32 callTimer(Uint32 it, void *para);
+
+int horlogeCreation(horlogeT * horloge)
 	{
-	optionsT options;		//	Options de la ligne de commande
+		//fprintf(stderr, " Initialisation de l'horloge \n");
 
-	systemeT systeme;		//	Foule et batiment
+	user_event.type=SDL_USEREVENT;
 
-	projectionT projection;		//	projection du systeme sur le graphe
+		// Lancement du Timer principal
+	(*horloge).horloge = SDL_AddTimer(TEMPS_AFFICHAGE, callTimer, &paramTimer);
 
-	grapheT graphe;			//	Représentation graphique du système
+	(*horloge).depart = 0;	// Date du départ du chronomètre
 
-	interfaceT interface;		//	Interface graphique
+	return 0;
+	}
 
-	interfaceT reglage;		//	Autre interface graphique
+Uint32 callTimer(Uint32 it, void *para)
+	{				// Callback du timer principal
+	SDL_PushEvent(&user_event);
+	(void) para;
+	return it;
+	}
 
-	int appui;	//	1 si le bouton de la souris est appuyé, 0 sinon.
+int horlogeSuppression(horlogeT * horloge)
+	{
+	SDL_RemoveTimer((*horloge).horloge);	// Suppression du timer
+	return 0;
+	}
 
-	};
+int horlogeChronoDepart(horlogeT * horloge)
+	{
+	(*horloge).depart = SDL_GetTicks();	// Départ du chronomètre
+	return 0;
+	}
 
-int controleurInitialisation(controleurT * controleur);
+int horlogeChronoDuree(horlogeT * horloge)
+	{					// Durée chronométrée
+	return (int)(SDL_GetTicks() - (*horloge).depart);
+	}
 
-int controleurDirections(controleurT * controleur);
-
-int controleurSimulationGraphique(controleurT * controleur);
-
-int controleurSuppression(controleurT * controleur);
-
-#endif
+//////////////////////////////////////////////////////////////////////////////

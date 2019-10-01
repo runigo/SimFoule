@@ -35,7 +35,7 @@ termes.
 
 #include "../modele/systeme.h"
 #include "../interface/graphe.h"
-#include "../controle/options.h"
+#include "../controleur/options.h"
 #include "../donnees/fichier.h"
 
 int donneesOptionsImplicite(optionsT * options);

@@ -42,6 +42,19 @@ termes.
 
 #define PI 3.14159265359
 
+
+	//	PARAMÈTRES GRAPHIQUES
+
+#define FENETRE_X 892 // Largeur de la fenêtre
+#define FENETRE_Y 550 // Hauteur de la fenêtre
+
+
+#define BOUTON_COMMANDES 17 // Nombres de petits boutons
+#define ROTATIF_COMMANDES 5 // Nombre de boutons rotatifs
+
+#define LINEAIRE_COMMANDES 4 // Nombres de commandes linéaires
+#define TRIANGLE_COMMANDES 21 // Nombres de commandes triangulaires
+
 	//----------         DIMENSIONS  SPATIALES         -----------//
 
 #define BATIMENT_X 25	// Longueur suivant x du batiment (en nombre de cellule)
@@ -51,8 +64,8 @@ termes.
 #define CELLULE 16		// Longueur du coté d'une cellule (en pixel)
 #define CELLULESUR2 CELLULE/2	// Demi longueur du coté d'une cellule (en pixel)
 
-	#define FENETRE_X BATIMENT_X*CELLULE // Taille de la fenêtre
-	#define FENETRE_Y BATIMENT_Y*CELLULE // Taille de la fenêtre
+	//#define FENETRE_X BATIMENT_X*CELLULE // Taille de la fenêtre
+	//#define FENETRE_Y BATIMENT_Y*CELLULE // Taille de la fenêtre
 
 	#define CELLULE_ETAGE BATIMENT_X*BATIMENT_Y	// Nombre de cellule d'un étage
 	#define CELLULE_BATIMENT CELLULE_ETAGE*BATIMENT_Z	// Nombre de cellule du batiment
@@ -65,6 +78,7 @@ termes.
 #define DT_MAX 0.06	// dt maximale
 #define DT_MIN 0.00007	// dt minimale
 
+#define DUREE 100 // Nombre implicite d'incrémentation du système entre deux affichages.
 #define DUREE_MAX 777	// Nombre maximale d'incrémentation entre les affichages
 
 

@@ -36,6 +36,7 @@ termes.
 #include "../modele/foule.h"
 #include "../modele/batiment.h"
 #include "../interface/graphe.h"
+#include "../interface/commandes.h"
 
 typedef struct ProjectionT projectionT;
 	struct ProjectionT
@@ -50,11 +51,15 @@ typedef struct ProjectionT projectionT;
 		};
 
 int projectionInitialiseCouleurs(projectionT * projection, int r, int v, int b, int fond);
+
 int projectionInitialiseLongueurs(projectionT * projection, int hauteur, int largeur);
+int projectionChangeFenetre(projectionT * projection, int largeur, int hauteur);
 
 int projectionBatimentPlan(batimentT * batiment, projectionT * projection, grapheT * graphe);
 int projectionFoulePoints(fouleT * foule, projectionT * projection, grapheT * graphe);
 int projectionBatimentSens(batimentT * batiment, projectionT * projection, grapheT * graphe);
+
+int projectionSystemeCommandes(systemeT * systeme, projectionT * projection, commandesT * commandes, int duree, int mode);
 
 int projectionAffiche(projectionT * projection);
 #endif

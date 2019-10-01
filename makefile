@@ -40,20 +40,20 @@ OBJDIR = ./obj
 
 all : $(EXEC)
 
-$(EXEC) : $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/donnees.o $(OBJDIR)/fichier.o $(OBJDIR)/options.o $(OBJDIR)/systeme.o $(OBJDIR)/batiment.o $(OBJDIR)/projection.o $(OBJDIR)/graphe.o $(OBJDIR)/interface.o $(OBJDIR)/points.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/foule.o $(OBJDIR)/chaine.o $(OBJDIR)/mobile.o $(OBJDIR)/vecteur.o
-	$(CC) -g  $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/donnees.o $(OBJDIR)/fichier.o $(OBJDIR)/options.o $(OBJDIR)/systeme.o $(OBJDIR)/batiment.o $(OBJDIR)/projection.o $(OBJDIR)/graphe.o $(OBJDIR)/interface.o $(OBJDIR)/points.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/foule.o $(OBJDIR)/chaine.o $(OBJDIR)/mobile.o $(OBJDIR)/vecteur.o ` sdl2-config --libs` $(LDFLAGS) -o $(EXEC)
+$(EXEC) : $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/donnees.o $(OBJDIR)/fichier.o $(OBJDIR)/options.o $(OBJDIR)/systeme.o $(OBJDIR)/batiment.o $(OBJDIR)/projection.o $(OBJDIR)/graphe.o $(OBJDIR)/interface.o $(OBJDIR)/commandes.o $(OBJDIR)/graphique.o $(OBJDIR)/horloge.o $(OBJDIR)/points.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/foule.o $(OBJDIR)/chaine.o $(OBJDIR)/mobile.o $(OBJDIR)/vecteur.o
+	$(CC) -g  $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/donnees.o $(OBJDIR)/fichier.o $(OBJDIR)/options.o $(OBJDIR)/systeme.o $(OBJDIR)/batiment.o $(OBJDIR)/projection.o $(OBJDIR)/graphe.o $(OBJDIR)/interface.o $(OBJDIR)/commandes.o $(OBJDIR)/graphique.o $(OBJDIR)/horloge.o $(OBJDIR)/points.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/foule.o $(OBJDIR)/chaine.o $(OBJDIR)/mobile.o $(OBJDIR)/vecteur.o ` sdl2-config --libs` $(LDFLAGS) -o $(EXEC)
 
-$(OBJDIR)/principale.o : controle/principale.c controle/principale.h
-	$(CC) -c -g controle/principale.c $(CFLAGS) -o $@
+$(OBJDIR)/principale.o : controleur/principale.c controleur/principale.h
+	$(CC) -c -g controleur/principale.c $(CFLAGS) -o $@
 
-$(OBJDIR)/controleur.o : controle/controleur.c controle/controleur.h
-	$(CC) -c -g controle/controleur.c $(CFLAGS) -o $@
+$(OBJDIR)/controleur.o : controleur/controleur.c controleur/controleur.h
+	$(CC) -c -g controleur/controleur.c $(CFLAGS) -o $@
 
-$(OBJDIR)/projection.o : controle/projection.c controle/projection.h
-	$(CC) -c -g controle/projection.c $(CFLAGS) -o $@
+$(OBJDIR)/projection.o : controleur/projection.c controleur/projection.h
+	$(CC) -c -g controleur/projection.c $(CFLAGS) -o $@
 
-$(OBJDIR)/options.o : controle/options.c controle/options.h
-	$(CC) -c -g controle/options.c $(CFLAGS) -o $@
+$(OBJDIR)/options.o : controleur/options.c controleur/options.h
+	$(CC) -c -g controleur/options.c $(CFLAGS) -o $@
 
 $(OBJDIR)/donnees.o : donnees/donnees.c donnees/donnees.h
 	$(CC) -c -g donnees/donnees.c $(CFLAGS) -o $@
@@ -66,6 +66,15 @@ $(OBJDIR)/graphe.o : interface/graphe.c interface/graphe.h
 
 $(OBJDIR)/interface.o : interface/interface.c interface/interface.h
 	$(CC) -c -g interface/interface.c $(CFLAGS) -o $@
+
+$(OBJDIR)/commandes.o : interface/commandes.c interface/commandes.h
+	$(CC) -c -g interface/commandes.c $(CFLAGS) -o $@
+
+$(OBJDIR)/horloge.o : interface/horloge.c interface/horloge.h
+	$(CC) -c -g interface/horloge.c $(CFLAGS) -o $@
+
+$(OBJDIR)/graphique.o : interface/graphique.c interface/graphique.h
+	$(CC) -c -g interface/graphique.c $(CFLAGS) -o $@
 
 $(OBJDIR)/points.o : interface/points.c interface/points.h
 	$(CC) -c -g interface/points.c $(CFLAGS) -o $@
