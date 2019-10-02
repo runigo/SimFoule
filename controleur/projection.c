@@ -31,15 +31,6 @@ termes.
 
 #include "projection.h"
 
-int projectionInitialiseCouleurs(projectionT * projection, int r, int v, int b, int fond)
-	{
-	(*projection).rouge=r;
-	(*projection).vert=v;
-	(*projection).bleu=b;
-	(*projection).fond=fond;
-	return 0;
-	}
-
 int projectionInitialiseLongueurs(projectionT * projection, int hauteur, int largeur)
 	{
 	(*projection).hauteur=hauteur;
@@ -47,7 +38,7 @@ int projectionInitialiseLongueurs(projectionT * projection, int hauteur, int lar
 	return 0;
 	}
 
-int projectionChangeFenetre(projectionT * projection, int x, int y)
+int projectionChangeFenetre(projectionT * projection, int hauteur, int largeur)
 	{
 	(*projection).hauteur=hauteur;
 	(*projection).largeur=largeur;
@@ -63,12 +54,11 @@ int projectionSystemeCommandes(systemeT * systeme, projectionT * projection, com
 	(void)duree;
 	(void)mode;
 
-	float theta;
-	float ratioRotatif = 0.9;
-	float courantJosephson = projectionAbsolue((*systeme).moteurs.courantJosephson);
 
 				//	Projection sur les boutons rotatifs
 /*	 //	Couplage
+	float ratioRotatif = 0.9;
+	float theta;
 	theta = DEUXPI * (*projection).logCouplage * log( (*systeme).couplage / (COUPLAGE_MIN * (*systeme).nombre) );
 	(*commandes).rotatifPositionX[0]=(int)(-ratioRotatif*(*commandes).rotatifX*sin(theta));
 	(*commandes).rotatifPositionY[0]=(int)(ratioRotatif*(*commandes).rotatifY*cos(theta));

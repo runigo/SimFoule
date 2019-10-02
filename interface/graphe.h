@@ -57,7 +57,4 @@ typedef struct GrapheT grapheT;
 int grapheCreation(grapheT * graphe, int nombre);
 void grapheSuppression(grapheT * graphe);
 
-int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe);
-
-
 #endif

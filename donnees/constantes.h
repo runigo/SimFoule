@@ -75,6 +75,8 @@ termes.
 
 	//----------         PARAMETRES  TEMPORELLES         -----------//
 
+#define TEMPS_AFFICHAGE 510 // Durée entre les affichages en ms
+
 #define DT_MAX 0.06	// dt maximale
 #define DT_MIN 0.00007	// dt minimale
 

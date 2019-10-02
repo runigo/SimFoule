@@ -39,7 +39,6 @@ void optionsMasse(optionsT * option, char *opt);
 void optionsNervosite(optionsT * option, char *opt);
 
 void optionsDt(optionsT * option, char *opt);
-void optionsFond(optionsT * option, char *opt);
 void optionsPause(optionsT * option, char *opt);
 void optionsMode(optionsT * option, char *opt);
 void optionsDuree(optionsT * option, char *opt);
@@ -65,24 +64,20 @@ int optionsTraitement(optionsT * option, int nb, char *opt[])
 		if(strcmp(opt[i], "nombre")==0 && opt[i+1]!=NULL)
 			optionsNombre(option, opt[i+1]);		// Nombre de mobile
 */
-		if(strcmp(opt[i], "fond")==0 && opt[i+1]!=NULL)
-			optionsFond(option, opt[i+1]);		// Couleur du fond
 		if(strcmp(opt[i], "dt")==0 && opt[i+1]!=NULL)
 			optionsDt(option, opt[i+1]);		// discrétisation du temps
 		if(strcmp(opt[i], "duree")==0 && opt[i+1]!=NULL)
 			optionsDuree(option, opt[i+1]);	// Nombre d'évolution du système entre les affichages.
-		if(strcmp(opt[i], "pause")==0 && opt[i+1]!=NULL)
-			optionsPause(option, opt[i+1]);		// temps de pause en ms
 		if(strcmp(opt[i], "mode")==0 && opt[i+1]!=NULL)
 			optionsMode(option, opt[i+1]);		// Mode -1 : Wait, 1 : Poll
-
+/*
 		if(strcmp(opt[i], "dessineAngle")==0 && opt[i+1]!=NULL)
-			optionsDuree(option, opt[i+1]);	// Nombre d'évolution du système entre les affichages.
+			optionsDuree(option, opt[i+1]);	// Dessin des directions.
 		if(strcmp(opt[i], "dessineMur")==0 && opt[i+1]!=NULL)
-			optionsPause(option, opt[i+1]);		// temps de pause en ms
+			optionsPause(option, opt[i+1]);	// Dessin des murs
 		if(strcmp(opt[i], "dessineMobile")==0 && opt[i+1]!=NULL)
-			optionsMode(option, opt[i+1]);		// Mode -1 : Wait, 1 : Poll
-
+			optionsMode(option, opt[i+1]);	// Dessin des mobiles
+*/
 		if(strcmp(opt[i], "aide")==0)
 			optionsAide();		// Affiche l'aide.
 		if(strcmp(opt[i], "help")==0)
@@ -180,23 +175,6 @@ void optionsMasse(optionsT * option, char *opt)
 	return;
 	}
 
-    	// Couleur du fond 
-void optionsFond(optionsT * option, char *opt)
-	{
-	int fond = atoi(opt);
-	if(fond>0 && fond<255)
-		{
-		(*option).fond = fond;
-		printf("Option fond valide, fond = %d\n", (*option).fond);
-		}
-	else
-		{
-		printf("Option fond non valide, fond = %d\n", (*option).fond);
-		printf("Option fond : 0 < fond < 255\n");
-		}
-	return;
-	}
-
     	// discrétisation du temps 
 void optionsDt(optionsT * option, char *opt)
 	{
@@ -227,23 +205,6 @@ void optionsDuree(optionsT * option, char *opt)
 		{
 		printf("Option duree non valide, duree = %d\n", (*option).duree);
 		printf("Option duree : 0 < duree < %d\n", DUREE_MAX);
-		}
-	return;
-	}
-
-    	// Temps de pause en ms après affichage graphique
-void optionsPause(optionsT * option, char *opt)
-	{
-	int pause = atoi(opt);
-	if(pause>5 || pause<555)
-		{
-		(*option).pause = pause;
-		printf("Option t valide, pause = %d\n", (*option).pause);
-		}
-	else
-		{
-		printf("Option t non valide, pause = %d\n", (*option).pause);
-		printf("Option t : 5 < pause < 555\n");
 		}
 	return;
 	}

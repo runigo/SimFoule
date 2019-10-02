@@ -41,7 +41,7 @@ struct GraphiqueT {
 
 	SDL_Renderer *rendu;		// 	Rendu
 
-	SDL_Texture *SiCP;			//	Texture du fond
+	SDL_Texture *simfoule;			//	Texture du fond
 
 	SDL_Texture *mur;			//	Textures du graphe
 	SDL_Texture *sortie;
@@ -76,15 +76,15 @@ struct GraphiqueT {
 typedef struct GraphiqueT graphiqueT;
 
 int graphiqueDestruction(graphiqueT * graphique);
-int graphiqueInitialisation(graphiqueT * graphique, interfaceT * interface, int taille, int fond);
+int graphiqueInitialisation(graphiqueT * graphique, interfaceT * interface, int taille);
 
 int graphiqueNettoyage(graphiqueT * graphique);
 int graphiqueMiseAJour(graphiqueT * graphique);
 
 int graphiqueCommandes(graphiqueT * graphique, commandesT * commandes);
-void graphiqueDessineMur(SDL_Renderer *rendu, grapheT * graphe);
-void graphiqueDessineAngle(SDL_Renderer *rendu, grapheT * graphe);
-void graphiqueDessineMobile(SDL_Renderer *rendu, grapheT * graphe, int taille);
+void graphiqueDessineMur(graphiqueT * graphique, grapheT * graphe);
+void graphiqueDessineAngle(graphiqueT * graphique, grapheT * graphe);
+void graphiqueDessineMobile(graphiqueT * graphique, grapheT * graphe, int taille);
 
 #endif
 /////////////////////////////////////////////////////////////////

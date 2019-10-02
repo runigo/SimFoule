@@ -35,6 +35,7 @@ termes.
 
 #include "../modele/systeme.h"
 #include "../interface/graphe.h"
+#include "../interface/graphique.h"
 #include "../controleur/options.h"
 #include "../donnees/fichier.h"
 
@@ -43,10 +44,11 @@ int donneesOptionsImplicite(optionsT * options);
 int donneesInitialisationBatiment(batimentT * batiment, optionsT * options);
 int donneesCreationFoule(fouleT * foule, optionsT * options);
 int donneesInitialisationFoule(fouleT * foule, batimentT * batiment);
+
 int donneesCreationGraphe(grapheT * graphe, optionsT * options);
 
 int donneesInitialisationInterface(interfaceT * interface, optionsT * options);
-int donneesInitialisationGraphe(grapheT * graphe, interfaceT * interface);
+int donneesInitialisationGraphique(graphiqueT * graphique, interfaceT * interface, optionsT * options);
 
 int donneesSauvegarde(batimentT * batiment, optionsT * options);
 

@@ -68,12 +68,4 @@ void grapheSuppression(grapheT * graphe)
 	pointsSupprime(&(*graphe).premier);
 	//printf("Graphe supprimé\n");
 	}
-
-int grapheInitialisation(SDL_Renderer *rendu, grapheT * graphe)
-{
-	(void)rendu;
-	(void)graphe;
-	return 0;
-}
-
 /////////////////////////////////////////////////////////////////////////

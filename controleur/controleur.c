@@ -100,13 +100,12 @@ int controleurInitialisation(controleurT * controleur)
 	{
 		// Initialisation du controleur
 
-	(*controleur).options.sortie = 0;	// Sortie de SiCP si > 0
-	(*controleur).modePause = (*controleur).options.mode;		// Evolution système ou pose
+	(*controleur).options.sortie = 0;	// Sortie de SimFoule si > 0
+	(*controleur).modePause = (*controleur).options.mode;		// Evolution système ou pause
 
 	systemeInitialisation(&(*controleur).systeme, (*controleur).options.dt);
 
 		fprintf(stderr, "  Initialisation de la projection\n");
-	projectionInitialiseCouleurs(&(*controleur).projection, 50, 50, 50, (*controleur).options.fond);
 	projectionInitialiseLongueurs(&(*controleur).projection, BATIMENT_X, BATIMENT_Y);
 
 		fprintf(stderr, "  Initialisation du batiment\n");
@@ -119,7 +118,7 @@ int controleurInitialisation(controleurT * controleur)
 		fprintf(stderr, "  Initialisation de l'interface graphique\n");
 	donneesCreationGraphe(&(*controleur).graphe, &(*controleur).options);
 	donneesInitialisationInterface(&(*controleur).interface, &(*controleur).options);
-	donneesInitialisationGraphe(&(*controleur).graphe, &(*controleur).interface);
+	donneesInitialisationGraphique(&(*controleur).graphique, &(*controleur).interface, &(*controleur).options);
 
 	return 0;
 	}
@@ -149,8 +148,6 @@ int controleurReinitialisation(controleurT * controleur, int initial)
 
 		fprintf(stderr, "  Réinitialisation du graphe\n");
 	donneesCreationGraphe(&(*controleur).graphe, &(*controleur).options);
-	//donneesInitialisationInterface(&(*controleur).interface, &(*controleur).options);
-	donneesInitialisationGraphe(&(*controleur).graphe, &(*controleur).interface);
 
 		fprintf(stderr, "Calcul des directions\n");
 	assert(controleurDirections(controleur)==0);
@@ -160,9 +157,12 @@ int controleurReinitialisation(controleurT * controleur, int initial)
 
 int controleurSimulationGraphique(controleurT * controleur)
 	{
+		//fprintf(stderr, "controleurSimulationGraphique\n");
 	do	{
+		//fprintf(stderr, "controleurSimulationGraphique (*controleur).sortie = %d\n", (*controleur).sortie);
 		if (SDL_WaitEvent(&(*controleur).interface.evenement))
 			{
+		fprintf(stderr, "controleurSimulationGraphique, SDL_GetTicks() = %d\n",(int)(SDL_GetTicks()) );
 			controleurTraiteEvenement(controleur);
 			}
 		}
@@ -173,7 +173,7 @@ int controleurSimulationGraphique(controleurT * controleur)
 
 int controleurEvolution(controleurT * controleur)
 	{
-	//printf("Entrée dans controleurEvolution, SDL_GetTicks() = %d\n",(int)(SDL_GetTicks()));
+	printf("Entrée dans controleurEvolution, SDL_GetTicks() = %d\n",(int)(SDL_GetTicks()));
 
 		//fprintf(stderr, "    Durée entre affichage = %d\n",horlogeChronoDuree(&(*controleur).horloge));
 	//horlogeChronoDepart(&(*controleur).horloge);
@@ -269,11 +269,11 @@ int controleurConstructionGraphique(controleurT * controleur)
 
 		//fprintf(stderr, "Dessin des graphes\n");
 	if((*controleur).options.dessineAngle==1)
-		graphiqueDessineAngle((*controleur).graphique.rendu, &(*controleur).graphe);
+		graphiqueDessineAngle(&(*controleur).graphique, &(*controleur).graphe);
 	if((*controleur).options.dessineMur==1)
-		graphiqueDessineMur((*controleur).graphique.rendu, &(*controleur).graphe);
+		graphiqueDessineMur(&(*controleur).graphique, &(*controleur).graphe);
 	if((*controleur).options.dessineMobile==1)
-		graphiqueDessineMobile((*controleur).graphique.rendu, &(*controleur).graphe, (*controleur).options.taille);
+		graphiqueDessineMobile(&(*controleur).graphique, &(*controleur).graphe, (*controleur).options.taille);
 
 		//fprintf(stderr, "Mise à jour de l'affichage\n");
 	graphiqueMiseAJour(&(*controleur).graphique);

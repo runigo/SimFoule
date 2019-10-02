@@ -38,10 +38,7 @@ int donneesOptionsImplicite(optionsT * options)
 		// Préréglage des valeurs optionnelles, 
 		// 	réglage des valeurs implicites
 
-
-	(*options).fond=240;	// couleur du fond de l'affichage
-	(*options).mode = 1;	// -1 : Wait, 1 : Poll
-	(*options).pause=25;	// temps de pause SDL en ms
+	(*options).mode = 1;	// -1 : Pause, 1 : Simulation
 	(*options).duree = 90;	// nombre d'incrémentation de la foule par affichage
 
 	(*options).initial=-1;	// Numéro du fichier d'initialisation.
@@ -143,8 +140,20 @@ int donneesInitialisationFoule(fouleT * foule, batimentT * batiment)
 
 int donneesInitialisationInterface(interfaceT * interface, optionsT * options)
 	{
-		fprintf(stderr, "    donneesInitialisationInterface : Initialisation de la SDL2, fond = %d\n", (*options).fond);
-	interfaceInitialisation(interface, (*options).fond);
+	(void)options;
+		fprintf(stderr, "    donneesInitialisationInterface\n");
+	interfaceInitialisationSDL();
+	interfaceCreation(interface);
+	return 0;
+	}
+
+
+int donneesInitialisationGraphique(graphiqueT * graphique, interfaceT * interface, optionsT * options)
+	{
+		fprintf(stderr, "    donneesInitialisationGraphique\n");
+	graphiqueInitialisation(graphique, interface, (*options).taille);
+	//	fprintf(stderr, "    donneesInitialisationGraphique : sortie\n");
+
 	return 0;
 	}
 
@@ -152,13 +161,6 @@ int donneesCreationGraphe(grapheT * graphe, optionsT * options)
 	{
 		fprintf(stderr, "    donneesCreationGraphe : Création du graphe, nombre = %d\n", (*options).nombre);
 	grapheCreation(graphe, (*options).nombre);
-	return 0;
-	}
-
-int donneesInitialisationGraphe(grapheT * graphe, interfaceT * interface)
-	{
-		fprintf(stderr, "    donneesInitialisationGraphe : Initialisation du graphe\n");
-	grapheInitialisation((*interface).rendu, graphe);
 	return 0;
 	}
 

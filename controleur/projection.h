@@ -33,24 +33,16 @@ termes.
 #ifndef _PROJECTION_
 #define _PROJECTION_
 
-#include "../modele/foule.h"
-#include "../modele/batiment.h"
+#include "../modele/systeme.h"
 #include "../interface/graphe.h"
 #include "../interface/commandes.h"
 
 typedef struct ProjectionT projectionT;
 	struct ProjectionT
 		{
-		int rouge;
-		int vert;
-		int bleu;
-		int fond;
-
 		int hauteur;
 		int largeur;
 		};
-
-int projectionInitialiseCouleurs(projectionT * projection, int r, int v, int b, int fond);
 
 int projectionInitialiseLongueurs(projectionT * projection, int hauteur, int largeur);
 int projectionChangeFenetre(projectionT * projection, int largeur, int hauteur);
