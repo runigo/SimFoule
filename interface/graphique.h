@@ -1,9 +1,9 @@
 /*
-Copyright mai 2018, Stephan Runigo
+Copyright octobre 2019, Stephan Runigo
 runigo@free.fr
-Boltzmann 1.0 simulateur pour les sciences physiques
-Ce logiciel est un programme informatique servant à simuler différents 
-phénomènes physiques et à en donner une représentation graphique.
+SimFoule 2.0  simulateur de foule
+Ce logiciel est un programme informatique servant à simuler l'évacuation
+d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
 respectant les principes de diffusion des logiciels libres. Vous pouvez
 utiliser, modifier et/ou redistribuer ce programme sous les conditions
@@ -81,6 +81,7 @@ int graphiqueInitialisation(graphiqueT * graphique, interfaceT * interface, int 
 int graphiqueNettoyage(graphiqueT * graphique);
 int graphiqueMiseAJour(graphiqueT * graphique);
 
+int graphiqueFond(graphiqueT * graphique);
 int graphiqueCommandes(graphiqueT * graphique, commandesT * commandes);
 void graphiqueDessineMur(graphiqueT * graphique, grapheT * graphe);
 void graphiqueDessineAngle(graphiqueT * graphique, grapheT * graphe);

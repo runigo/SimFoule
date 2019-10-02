@@ -120,6 +120,9 @@ int controleurInitialisation(controleurT * controleur)
 	donneesInitialisationInterface(&(*controleur).interface, &(*controleur).options);
 	donneesInitialisationGraphique(&(*controleur).graphique, &(*controleur).interface, &(*controleur).options);
 
+		fprintf(stderr, " Initialisation horloge SDL\n");
+	horlogeCreation(&(*controleur).horloge);
+
 	return 0;
 	}
 
@@ -159,10 +162,9 @@ int controleurSimulationGraphique(controleurT * controleur)
 	{
 		//fprintf(stderr, "controleurSimulationGraphique\n");
 	do	{
-		//fprintf(stderr, "controleurSimulationGraphique (*controleur).sortie = %d\n", (*controleur).sortie);
+		//fprintf(stderr, "controleurSimulationGraphique, SDL_GetTicks() = %d\n",(int)(SDL_GetTicks()) );
 		if (SDL_WaitEvent(&(*controleur).interface.evenement))
 			{
-		fprintf(stderr, "controleurSimulationGraphique, SDL_GetTicks() = %d\n",(int)(SDL_GetTicks()) );
 			controleurTraiteEvenement(controleur);
 			}
 		}
@@ -173,7 +175,7 @@ int controleurSimulationGraphique(controleurT * controleur)
 
 int controleurEvolution(controleurT * controleur)
 	{
-	printf("Entrée dans controleurEvolution, SDL_GetTicks() = %d\n",(int)(SDL_GetTicks()));
+	//printf("Entrée dans controleurEvolution, SDL_GetTicks() = %d\n",(int)(SDL_GetTicks()));
 
 		//fprintf(stderr, "    Durée entre affichage = %d\n",horlogeChronoDuree(&(*controleur).horloge));
 	//horlogeChronoDepart(&(*controleur).horloge);
@@ -264,8 +266,11 @@ int controleurConstructionGraphique(controleurT * controleur)
 		//fprintf(stderr, "Nettoyage de l'affichage\n");
 	//graphiqueNettoyage(&(*controleur).graphique);
 
+		//fprintf(stderr, "Dessin du fond\n");
+	graphiqueFond(&(*controleur).graphique);
+
 		//fprintf(stderr, "Dessin des Commandes\n");
-	graphiqueCommandes(&(*controleur).graphique, &(*controleur).commandes);
+	//graphiqueCommandes(&(*controleur).graphique, &(*controleur).commandes);
 
 		//fprintf(stderr, "Dessin des graphes\n");
 	if((*controleur).options.dessineAngle==1)

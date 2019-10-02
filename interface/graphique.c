@@ -1,9 +1,9 @@
 /*
-Copyright mai 2018, Stephan Runigo
+Copyright octobre 2019, Stephan Runigo
 runigo@free.fr
-SiCP 2.3 simulateur de chaîne de pendules
-Ce logiciel est un programme informatique servant à simuler l'équation
-d'une chaîne de pendules et à en donner une représentation graphique.
+SimFoule 2.0  simulateur de foule
+Ce logiciel est un programme informatique servant à simuler l'évacuation
+d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
 respectant les principes de diffusion des logiciels libres. Vous pouvez
 utiliser, modifier et/ou redistribuer ce programme sous les conditions
@@ -376,12 +376,20 @@ int graphiqueNettoyage(graphiqueT * graphique)
 	return 0;
 	}
 
-int graphiqueCommandes(graphiqueT * graphique, commandesT * commandes)
+int graphiqueFond(graphiqueT * graphique)
 	{
-		// Dessine le fond et les commandes sélectionées
+		// Dessine le fond 
 	SDL_Rect coordonnee = {0, 0, (*graphique).fenetreX, (*graphique).fenetreY};
 	SDL_RenderCopy((*graphique).rendu, (*graphique).simfoule, NULL, &coordonnee);
 	
+	return 0;
+	}
+
+int graphiqueCommandes(graphiqueT * graphique, commandesT * commandes)
+	{
+		// Dessine les commandes sélectionées
+	
+	SDL_Rect coordonnee = {0, 0, (*graphique).fenetreX, (*graphique).fenetreY};
 	int centrage = 5;
 	coordonnee.w=10;
 	coordonnee.h=10;
