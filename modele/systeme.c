@@ -1,7 +1,7 @@
 /*
-Copyright février 2018, Stephan Runigo
+Copyright octobre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 1.4  simulateur de foule
+SimFoule 2.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -11,16 +11,16 @@ de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
 sur le site "http://www.cecill.info".
 En contrepartie de l'accessibilité au code source et des droits de copie,
 de modification et de redistribution accordés par cette licence, il n'est
-offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
 seule une responsabilité restreinte pèse sur l'auteur du programme, le
 titulaire des droits patrimoniaux et les concédants successifs.
-A cet égard  l'attention de l'utilisateur est attirée sur les risques
-associés au chargement,  à l'utilisation,  à la modification et/ou au
+A cet égard l'attention de l'utilisateur est attirée sur les risques
+associés au chargement, à l'utilisation, à la modification et/ou au
 développement et à la reproduction du logiciel par l'utilisateur étant
 donné sa spécificité de logiciel libre, qui peut le rendre complexe à
 manipuler et qui le réserve donc à des développeurs et des professionnels
-avertis possédant  des  connaissances  informatiques approfondies. Les
-utilisateurs sont donc invités à charger  et  tester  l'adéquation du
+avertis possédant des connaissances informatiques approfondies. Les
+utilisateurs sont donc invités à charger et tester l'adéquation du
 logiciel à leurs besoins dans des conditions permettant d'assurer la
 sécurité de leurs systèmes et ou de leurs données et, plus généralement,
 à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
@@ -203,18 +203,18 @@ float systemeVitessesSouhaitees(systemeT * systeme)
 			{
 			if( X<0 || X>BATIMENT_X || Y<0 || Y>BATIMENT_Y ) // Mobile hors batiment sans passer par une sortie
 				{
-				fprintf(stderr, "ERREUR : systemeCouplage : mobile hors batiment sans passer par une sortie.\n");
+				fprintf(stderr, "ERREUR : systemeVitessesSouhaitees : mobile hors batiment sans passer par une sortie.\n");
 				iter->mobile.nouveau.z=-1; // Abandon du mobile.
 				}
 			else
 				{
 				if((*systeme).batiment.etage[Z].cellule[X][Y].statut==2) // le mobile a atteint une sortie
 					{
-					fprintf(stderr, "systemeCouplage : Sortie d'un mobile \n");
+					//fprintf(stderr, "systemeVitessesSouhaitees : Sortie d'un mobile \n");
 					iter->mobile.nouveau.z--;
 					(*systeme).foule.restant--;
-					fprintf(stderr, "systemeCouplage : Il en reste %d dans le batiment \n", (*systeme).foule.restant);
-					fprintf(stderr, "systemeCouplage : chronomètre = %f \n", (*systeme).foule.horloge);
+					//fprintf(stderr, "systemeVitessesSouhaitees : Il en reste %d dans le batiment \n", (*systeme).foule.restant);
+					//fprintf(stderr, "systemeVitessesSouhaitees : chronomètre = %f \n", (*systeme).foule.horloge);
 					}
 				else
 					{	// Initialisation de la vitesse souhaitée	// Calcul de la vitesse souhaitée

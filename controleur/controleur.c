@@ -37,6 +37,8 @@ int controleurEvolution(controleurT * controleur);
 	int controleurEvolutionSysteme(controleurT * controleur);
 	int controleurConstructionGraphique(controleurT * controleur);
 
+	int controleurBoucle(controleurT * controleur);
+
 	void controleurChangeMode(controleurT * controleur);
 	void controleurChangeVitesse(controleurT * controleur, float facteur);
 	void controleurChangeDessin(int * dessine);
@@ -190,7 +192,10 @@ int controleurEvolution(controleurT * controleur)
 		{
 		//horlogeChronoDepart(&(*controleur).horloge);
 		//fprintf(stderr, "Evolution temporelle du système\n");
-		controleurEvolutionSysteme(controleur);
+		if(controleurEvolutionSysteme(controleur)!=0)
+			{
+			controleurBoucle(controleur);
+			}
 		//fprintf(stderr, "    Durée = %d\n",horlogeChronoDuree(&(*controleur).horloge));
 		}
 
@@ -206,6 +211,22 @@ int controleurEvolution(controleurT * controleur)
 
 	return (*controleur).sortie;
 	}
+
+int controleurBoucle(controleurT * controleur)
+	{
+	fprintf(stderr, "Réinitialisation du système %d\n", (*controleur).options.initial);
+	controleurReinitialisation(controleur, (*controleur).options.initial);
+	if((*controleur).options.initial<19)
+		{
+		(*controleur).options.initial++;
+		}
+	else
+		{
+		(*controleur).options.initial=0;
+		}
+	return 0;
+	}
+
 
 int controleurProjection(controleurT * controleur)
 	{
@@ -254,9 +275,8 @@ int controleurEvolutionSysteme(controleurT * controleur)
 		//fprintf(stderr, "Fin de la simulation\n");
 		controleurAfficheForces(controleur);
 		(*controleur).systeme.foule.restant = -1;
+		return 1;
 		}
-
-
 	return 0;
 	}
 

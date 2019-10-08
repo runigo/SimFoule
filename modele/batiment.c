@@ -1,7 +1,7 @@
 /*
-Copyright février 2018, Stephan Runigo
+Copyright octobre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 1.4  simulateur de foule
+SimFoule 2.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -11,16 +11,16 @@ de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
 sur le site "http://www.cecill.info".
 En contrepartie de l'accessibilité au code source et des droits de copie,
 de modification et de redistribution accordés par cette licence, il n'est
-offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
 seule une responsabilité restreinte pèse sur l'auteur du programme, le
 titulaire des droits patrimoniaux et les concédants successifs.
-A cet égard  l'attention de l'utilisateur est attirée sur les risques
-associés au chargement,  à l'utilisation,  à la modification et/ou au
+A cet égard l'attention de l'utilisateur est attirée sur les risques
+associés au chargement, à l'utilisation, à la modification et/ou au
 développement et à la reproduction du logiciel par l'utilisateur étant
 donné sa spécificité de logiciel libre, qui peut le rendre complexe à
 manipuler et qui le réserve donc à des développeurs et des professionnels
-avertis possédant  des  connaissances  informatiques approfondies. Les
-utilisateurs sont donc invités à charger  et  tester  l'adéquation du
+avertis possédant des connaissances informatiques approfondies. Les
+utilisateurs sont donc invités à charger et tester l'adéquation du
 logiciel à leurs besoins dans des conditions permettant d'assurer la
 sécurité de leurs systèmes et ou de leurs données et, plus généralement,
 à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
@@ -34,7 +34,9 @@ termes.
 int batimentInitialiseEtageVide(batimentT * batiment);
 int batimentInitialiseFacade(batimentT * batiment);
 int batimentInitialiseMur(batimentT * batiment, int numero);
+int batimentInitialiseMurImplicite(batimentT * batiment);
 int batimentInitialiseMobile(batimentT * batiment, int numero);
+int batimentInitialiseMobileImplicite(batimentT * batiment);
 
 int batimentInitialise(batimentT * batiment, int numero)
 	{ // Renvoie le nombre de mobiles présent
@@ -108,8 +110,16 @@ int batimentInitialiseFacade(batimentT * batiment)
 
 int batimentInitialiseMur(batimentT * batiment, int numero)
 	{ // Initialise les murs du batiment.
+	if(numero<0)
+		{
+		batimentInitialiseMurImplicite(batiment);
+		}
+	return 0;
+	}
+
+int batimentInitialiseMurImplicite(batimentT * batiment)
+	{ // Initialise les murs du batiment.
 	int i, j, k;
-	(void)numero;
 
 		// Plan des murs
 	for(k=0;k<BATIMENT_Z;k++)
@@ -180,7 +190,15 @@ int batimentInitialiseMur(batimentT * batiment, int numero)
 
 int batimentInitialiseMobile(batimentT * batiment, int numero)
 	{ // Renvoie le nombre de mobiles présent
-	(void)numero;
+	int nombre = 0;
+	if(numero<0)
+		{
+		nombre = batimentInitialiseMobileImplicite(batiment);
+		}
+	return nombre;
+	}
+int batimentInitialiseMobileImplicite(batimentT * batiment)
+	{ // Renvoie le nombre de mobiles présent
 	int i, j, k;
 	int nombre = 0;
 

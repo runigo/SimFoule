@@ -41,7 +41,7 @@ int donneesOptionsImplicite(optionsT * options)
 	(*options).mode = 1;	// -1 : Pause, 1 : Simulation
 	(*options).duree = 90;	// nombre d'incrémentation de la foule par affichage
 
-	(*options).initial=-1;	// Numéro du fichier d'initialisation.
+	(*options).initial=1;	// Numéro du fichier d'initialisation.
 
 	(*options).nombre=33;	// Nombre de mobiles
 	(*options).nervosite=7.7;	// Nervosité des mobiles
@@ -58,20 +58,23 @@ int donneesOptionsImplicite(optionsT * options)
 
 int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 	{
-
+		//(*options).nombre = fichierLecture(batiment, (*options).initial);
+		//batimentInitialiseEtageVide(batiment);
+		//(*options).nombre = batimentInitialise(batiment, -1);
+		(*options).nombre = batimentInitialise(batiment, -1);
+		printf("    donneesInitialisationBatiment : initialisation : %d\n", (*options).initial);
+		(*options).nombre = fichierLecture(batiment, (*options).initial);
+/*
 	if( (*options).initial > -1 && (*options).initial < 99)
 		{
-		//batimentInitialiseEtageVide(batiment);
-		(*options).nombre = batimentInitialise(batiment, -1);
 		printf("donneesInitialisationBatiment : fichierLecture\n");
-		(*options).nombre = fichierLecture(batiment, (*options).initial);
 		}
 	else
 		{
 		printf("    donneesInitialisationBatiment : initialisation : %d\n", (*options).initial);
 		(*options).nombre = batimentInitialise(batiment, -1);
 		fprintf(stderr, "    donneesInitialisationBatiment : nombre de mobiles = %d\n", (*options).nombre);
-		}
+		}*/
 	return 0;
 	}
 
