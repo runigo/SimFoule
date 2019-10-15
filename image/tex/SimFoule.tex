@@ -37,6 +37,7 @@ the signals and the positions of the different controls.
   scale=\scl,
   panneaucontroles/.style={yellow!30!brown!20!,rounded corners,draw=black,thick},
   lumiereeteinte/.style={yellow!40!brown!30!,draw=yellow!40!brown!60!,thin},
+  lumiererectangle/.style={yellow!40!black!30!,draw=yellow!40!black!60!,thin},
   petitbouton/.style={white,draw=black, thick}]
 %
 %
@@ -48,7 +49,8 @@ the signals and the positions of the different controls.
 %
 %       CAPTEURS
 %
-    \def\positionX{22.7}
+    \def\positionX{24.7}
+%
 %   1
   \begin{scope}[xshift=\positionX cm,yshift=21.1 cm]
     % Draw axes
@@ -57,26 +59,20 @@ the signals and the positions of the different controls.
   \end{scope}
 %
 %   2
-  \begin{scope}[xshift=\positionX cm,yshift=11.9 cm]
+  \begin{scope}[xshift=\positionX cm,yshift=8.9 cm]
     % Draw axes
     \draw [<->,draw=black,thick] (0,7) node (yaxis) [above] {\Large$\acute{e}nergie$}
         |- (11,0) node (xaxis) [right] {$t$};
     \node[scale=0.9] at (-1.45,6.5) {$cin\acute{e}tique$};
     \node[scale=0.9] at (-1.40,5.7) {$couplage$};
   \end{scope}
-%   3
-  \begin{scope}[xshift=\positionX cm,yshift=1.9 cm]
-    % Draw axes
-    \draw [<->,draw=black,thick] (0,7) node (yaxis) [above] {$gauche/droite$}
-        |- (16,0) node (xaxis) [right] {$t$};
-  \end{scope}
 %
+%
+%      PANNEAU  BAS
+%          
 \begin{scope}[xshift=0.5 cm,yshift=0.5cm]
 %
-%          
-%      PANNEAU  BAS
-%
-  \fill[panneaucontroles] (0.5,0.5) rectangle (37.5,5.1);
+  \fill[panneaucontroles] (0.5,0.5) rectangle (38.5,5.1);
 %
 %       Vitesse de la simulation
   \begin{scope}[xshift=0.9 cm,yshift=0.9cm]
@@ -113,7 +109,7 @@ the signals and the positions of the different controls.
   \end{scope}
 %
 %
-%       Réinitialisaation
+%       Réinitialisation
   \begin{scope}[xshift=19.5 cm,yshift=0.9cm]
 
   %panneaucontroles/.style={yellow!30!brown!20!,rounded corners,,thick},
@@ -148,28 +144,36 @@ the signals and the positions of the different controls.
     \node[scale=\scl] at (14.6,2.0) {\Large \textbf{4}};
 
   \end{scope}
+%
+   % Vumètre
+  \begin{scope}[xshift=36.7 cm,yshift=0.9cm]
+
+    \fill[lumiereeteinte] (0,0.4) rectangle (1,3.4);
+    \foreach \i in {0.9,1.4,...,3.4} \draw[lumiereeteinte] (0,\i)-- (1,\i);
+
+  \end{scope}
+%
 \end{scope}
 %
 %      PANNEAU  DROIT
 %
-\begin{scope}[xshift=18.9 cm,yshift=0.0cm]
+\begin{scope}[xshift=19.9 cm,yshift=0.0cm]
 %
-%      PANNEAU  COUPLAGE
+%      PANNEAU  MASSE
 %
-  \fill[panneaucontroles] (20.1,23) rectangle (27.6,29.5);
-  \begin{scope}[xshift=22.7 cm,yshift=26.9cm]
-%         Petits boutons
-    \fill[petitbouton] (3.5,0.95) circle (0.3cm);
-    \node[scale=\scl] at (3.5,1.55) {\Large{Libre}};
-    \fill[petitbouton] (3.5,-0.55) circle (0.3cm);
-    \node[scale=\scl] at (3.5,0.05) {\Large{Fixe}};
-    \fill[petitbouton] (3.5,-2.05) circle (0.3cm);
-    \node[scale=\scl] at (3.5,-1.35) {\Large{Mixte}};
-  %  \fill[petitbouton] (3.5,2.35) circle (0.3cm);
-   % \node[scale=\scl] at (3.5,2.95) {\Large{Périodique}};
+  \begin{scope}[xshift=22.7 cm,yshift=23.5cm]
+  \fill[panneaucontroles] (-2.5,-2) rectangle (5.6,5.7);
+    \fill[petitbouton] (3.5,-1.5) circle (0.3cm);
+    \node[scale=\scl] at (3.5,-0.85) {\Large{Extrémité}};
+    \fill[petitbouton] (3.5,0.1) circle (0.3cm);
+    \node[scale=\scl] at (3.5,0.8) {\Large{Nulle}};
+    \fill[petitbouton] (3.5,1.7) circle (0.3cm);
+    \node[scale=\scl] at (3.5,2.4) {\Large{Uniforme}};
+  \end{scope}
 
 %        Boutons rotatifs
-    \node[scale=\scl] at (0,1.9) {\LARGE \textbf{Couplage}};
+  \begin{scope}[xshift=22.7 cm,yshift=25.1cm]
+    \node[scale=\scl] at (0,2.5) {\LARGE \textbf{Masse}};
     \clip[rounded corners] (-2,-2) rectangle (2,2);
     \fill[black!30!,rounded corners,draw=black,thick] (-2,-2) rectangle (2,2);
     \draw[very thick,rounded corners](-2,-2) rectangle (2,2);
@@ -177,28 +181,7 @@ the signals and the positions of the different controls.
     \foreach \i in {0,30,...,240} \draw[thick] (\i:1.2)--(\i:2.5);
     \foreach \i in {300,330} \draw[thick] (\i:1.2)--(\i:2.5);
   %  \foreach \i in {30,60,...,330} \draw[thick] (\i:1.2)--(\i:2.5);
-    \foreach \i/\j in {15/1.5, 45/1, 75/.5, 105/.3, 135/.2, 165/.1, 195/.05, 225/m, 255/, 285/, 315/M, 345/3} \node[scale=\scl,black] at (\i:1.7) {\j};
-    \fill[blue!30!black!60!,draw=black,thick] (0,0) circle (0.8cm);
-  \end{scope}
-%
-%      PANNEAU  DISSIPATION
-%
-  \fill[panneaucontroles] (20.1,18) rectangle (27.6,23.7);
-  \begin{scope}[xshift=22.7 cm,yshift=20.5cm]
-    \fill[petitbouton] (3.5,-1.5) circle (0.3cm);
-    \node[scale=\scl] at (3.5,-0.85) {\Large{Extrémité}};
-    \fill[petitbouton] (3.5,0.1) circle (0.3cm);
-    \node[scale=\scl] at (3.5,0.8) {\Large{Nulle}};
-    \fill[petitbouton] (3.5,1.7) circle (0.3cm);
-    \node[scale=\scl] at (3.5,2.4) {\Large{Uniforme}};
-
-    \node[scale=\scl] at (0,2.6) {\LARGE \textbf{Dissipation}};
-    \clip[rounded corners] (-2,-2) rectangle (2,2);
-    \fill[black!30!,rounded corners,draw=black,thick] (-2,-2) rectangle (2,2);
-    \draw[very thick,rounded corners](-2,-2) rectangle (2,2);
-    \draw[thick] (0,0) circle (1.0);
-    \foreach \i in {0,30,...,330} \draw[thick] (\i:1.2)--(\i:2.5);
-    \foreach \i/\j in {15/4,45/2.3,75/1.3,105/.7,135/.4,165/.25,195/.1,225/.07,255/.04,285/25,315/13,345/7} \node[scale=\scl,black] at (\i:1.7) {\j};
+    \foreach \i/\j in {15/7, 45/6, 75/5, 105/4, 135/3, 165/2, 195/1, 225/m, 255/, 285/, 315/M, 345/8} \node[scale=\scl,black] at (\i:1.7) {\j};
     \fill[blue!30!black!60!,draw=black,thick] (0,0) circle (0.8cm);
   \end{scope}
 %
@@ -221,8 +204,10 @@ the signals and the positions of the different controls.
     \fill[black!30!,rounded corners,draw=black,thick] (-2,-2) rectangle (2,2);
     \draw[very thick,rounded corners](-2,-2) rectangle (2,2);
     \draw[thick] (0,0) circle (1.0);
-    \foreach \i in {0,30,...,330} \draw[thick] (\i:1.2)--(\i:2.5);
-    \foreach \i/\j in {15/9,45/5,75/3,105/1.8,135/1,165/.6,195/.3,225/.2,255/.1,285/60,315/30,345/18} \node[scale=\scl,black] at (\i:1.7) {\j};
+    \foreach \i in {0,30,...,240} \draw[thick] (\i:1.2)--(\i:2.5);
+    \foreach \i in {300,330} \draw[thick] (\i:1.2)--(\i:2.5);
+  %  \foreach \i in {30,60,...,330} \draw[thick] (\i:1.2)--(\i:2.5);
+    \foreach \i/\j in {15/7, 45/6, 75/5, 105/4, 135/3, 165/2, 195/1, 225/m, 255/, 285/, 315/M, 345/8} \node[scale=\scl,black] at (\i:1.7) {\j};
     \fill[blue!30!black!60!,draw=black,thick] (0,0) circle (0.8cm);
 
   \end{scope}
@@ -246,24 +231,28 @@ the signals and the positions of the different controls.
     \fill[petitbouton] (0,7.7) circle (0.3cm);
     \node[scale=\scl] at (0,8.3) {\Large{Arrêt}};
   \end{scope}
-  \begin{scope}[xshift=22.7 cm,yshift=7.9cm,scale=0.85]
+  \begin{scope}[xshift=22.7 cm,yshift=7.9cm,scale=0.75]
     \node[scale=\scl] at (0,2.6) {\LARGE \textbf{Amplitude}};
     \clip[rounded corners] (-2,-2) rectangle (2,2);
     \fill[black!30!,rounded corners,draw=black,thick] (-2,-2) rectangle (2,2);
     \draw[very thick,rounded corners](-2,-2) rectangle (2,2);
     \draw[thick] (0,0) circle (1.0);
-    \foreach \i in {0,30,...,330} \draw[thick] (\i:1.2)--(\i:2.5);
-    \foreach \i/\j in {15/1.7,45/1.2,75/.9,105/.6,135/.4,165/.3,195/.2,225/.1,255/.07,285/7,315/4,345/2.7} \node[scale=\scl,black] at (\i:1.7) {\j};
+    \foreach \i in {0,30,...,240} \draw[thick] (\i:1.2)--(\i:2.5);
+    \foreach \i in {300,330} \draw[thick] (\i:1.2)--(\i:2.5);
+  %  \foreach \i in {30,60,...,330} \draw[thick] (\i:1.2)--(\i:2.5);
+    \foreach \i/\j in {15/7, 45/6, 75/5, 105/4, 135/3, 165/2, 195/1, 225/m, 255/, 285/, 315/M, 345/8} \node[scale=\scl,black] at (\i:1.7) {\j};
     \fill[blue!30!black!60!,draw=black,thick] (0,0) circle (0.8cm);
   \end{scope}
-  \begin{scope}[xshift=22.7 cm,yshift=3.3cm,scale=0.85]
+  \begin{scope}[xshift=22.7 cm,yshift=3.3cm,scale=0.75]
     \node[scale=\scl] at (0,2.6) {\LARGE \textbf{Fréquence}};
     \clip[rounded corners] (-2,-2) rectangle (2,2);
     \fill[black!30!,rounded corners,draw=black,thick] (-2,-2) rectangle (2,2);
     \draw[very thick,rounded corners](-2,-2) rectangle (2,2);
     \draw[thick] (0,0) circle (1.0);
-    \foreach \i in {0,30,...,330} \draw[thick] (\i:1.2)--(\i:2.5);
-    \foreach \i/\j in {15/10,45/5,75/3,105/1.7,135/1,165/.6,195/.3,225/.2,255/.1,285/60,315/30,345/17} \node[scale=\scl,black] at (\i:1.7) {\j};
+    \foreach \i in {0,30,...,240} \draw[thick] (\i:1.2)--(\i:2.5);
+    \foreach \i in {300,330} \draw[thick] (\i:1.2)--(\i:2.5);
+  %  \foreach \i in {30,60,...,330} \draw[thick] (\i:1.2)--(\i:2.5);
+    \foreach \i/\j in {15/7, 45/6, 75/5, 105/4, 135/3, 165/2, 195/1, 225/m, 255/, 285/, 315/M, 345/8} \node[scale=\scl,black] at (\i:1.7) {\j};
     \fill[blue!30!black!60!,draw=black,thick] (0,0) circle (0.8cm);
   \end{scope}
 \end{scope}

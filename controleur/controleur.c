@@ -524,7 +524,7 @@ int controleurClavierMaj(controleurT * controleur)
 			controleurReinitialisation(controleur, 8);break;
 		case SDLK_p:
 			fprintf(stderr, "Réinitialisation du système\n");
-			controleurReinitialisation(controleur, -1);break;
+			controleurReinitialisation(controleur, 9);break;
 		case SDLK_q:
 			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 10);break;

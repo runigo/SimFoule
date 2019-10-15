@@ -147,7 +147,7 @@ int fichierLecture(batimentT * batiment, int numero)
 		int statut;
 		int retour;
 		printf("  Initialisation du batiment %d\n", numero);
-		for(k=0;j<BATIMENT_Z;k++)
+		for(k=0;k<BATIMENT_Z;k++)
 			{
 			(*batiment).etage[k].etage = k;
 			for(j=0;j<BATIMENT_Y;j++)
@@ -160,10 +160,12 @@ int fichierLecture(batimentT * batiment, int numero)
 						{
 						fprintf(stderr, "Retour fscanf = 0\n");
 						}
+					if(retour<0)
+						{
+						fprintf(stderr, "Retour fscanf < 0\n");
+						}
 					celluleInitialiseStatut(&(*batiment).etage[k].cellule[i][j], statut);
 					}
-				//fscanf(fichier, "%d\n", &statut);
-				//celluleInitialiseStatut(&(*batiment).etage[k].cellule[BATIMENT_X-1][j], statut);
 				}
 			}
 		fclose(fichier);
