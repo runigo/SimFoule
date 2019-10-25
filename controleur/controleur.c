@@ -1,7 +1,7 @@
 /*
-Copyright octobre 2019, Stephan Runigo
+Copyright novembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.0  simulateur de foule
+SimFoule 2.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -130,31 +130,28 @@ int controleurInitialisation(controleurT * controleur)
 
 int controleurReinitialisation(controleurT * controleur, int initial)
 	{
-		// Reinitialisation du controleur
 
 	(*controleur).options.initial = initial;
 
-		// Suppression de la foule et du graphe
+		fprintf(stderr, "Réinitialisation du système %d\n", (*controleur).options.initial);
 
-		fprintf(stderr, "  Suppression du graphe\n");
 	grapheSuppression(&(*controleur).graphe);
-		fprintf(stderr, "  Suppression de la foule\n");
 	fouleSuppression(&(*controleur).systeme.foule);
 
 		// Réinitialisation du système
 	systemeInitialisation(&(*controleur).systeme, (*controleur).options.dt);
 
-		fprintf(stderr, "  Réinitialisation du batiment\n");
+		//fprintf(stderr, "  Réinitialisation du batiment\n");
 	donneesInitialisationBatiment(&(*controleur).systeme.batiment, &(*controleur).options);
 
-		fprintf(stderr, "  Réinitialisation de la foule\n");
+		//fprintf(stderr, "  Réinitialisation de la foule\n");
 	donneesCreationFoule(&(*controleur).systeme.foule, &(*controleur).options);
 	donneesInitialisationFoule(&(*controleur).systeme.foule, &(*controleur).systeme.batiment);
 
-		fprintf(stderr, "  Réinitialisation du graphe\n");
+		//fprintf(stderr, "  Réinitialisation du graphe\n");
 	donneesCreationGraphe(&(*controleur).graphe, &(*controleur).options);
 
-		fprintf(stderr, "Calcul des directions\n");
+		//fprintf(stderr, "Calcul des directions\n");
 	assert(controleurDirections(controleur)==0);
 
 	return 0;
@@ -162,9 +159,7 @@ int controleurReinitialisation(controleurT * controleur, int initial)
 
 int controleurSimulationGraphique(controleurT * controleur)
 	{
-		//fprintf(stderr, "controleurSimulationGraphique\n");
 	do	{
-		//fprintf(stderr, "controleurSimulationGraphique, SDL_GetTicks() = %d\n",(int)(SDL_GetTicks()) );
 		if (SDL_WaitEvent(&(*controleur).interface.evenement))
 			{
 			controleurTraiteEvenement(controleur);
@@ -177,46 +172,34 @@ int controleurSimulationGraphique(controleurT * controleur)
 
 int controleurEvolution(controleurT * controleur)
 	{
-	//printf("Entrée dans controleurEvolution, SDL_GetTicks() = %d\n",(int)(SDL_GetTicks()));
 
-		//fprintf(stderr, "    Durée entre affichage = %d\n",horlogeChronoDuree(&(*controleur).horloge));
-	//horlogeChronoDepart(&(*controleur).horloge);
+	horlogeChrono(&(*controleur).horloge, 0);
 
-		//fprintf(stderr, "Projection du système sur la représentation graphique\n");
 	controleurProjection(controleur);
-		//fprintf(stderr, "    Durée = %d\n",horlogeChronoDuree(&(*controleur).horloge));
 
-
+	horlogeChrono(&(*controleur).horloge, 1);
 
 	if((*controleur).modePause > 0)
 		{
-		//horlogeChronoDepart(&(*controleur).horloge);
-		//fprintf(stderr, "Evolution temporelle du système\n");
 		if(controleurEvolutionSysteme(controleur)!=0)
 			{
 			controleurBoucle(controleur);
 			}
-		//fprintf(stderr, "    Durée = %d\n",horlogeChronoDuree(&(*controleur).horloge));
 		}
 
-	//horlogeChronoDepart(&(*controleur).horloge);
+	horlogeChrono(&(*controleur).horloge, 2);
 
-		//fprintf(stderr, "Mise à jour de la fenêtre graphique\n");
 	controleurConstructionGraphique(controleur);
-		//fprintf(stderr, "    Durée = %d\n",horlogeChronoDuree(&(*controleur).horloge));
 
-	//fprintf(stderr, "    Durée des évolutions = %d\n",horlogeChronoDuree(&(*controleur).horloge));
-
-	//printf("Sortie de controleurEvolution, SDL_GetTicks() = %d\n",(int)(SDL_GetTicks()));
+	horlogeChrono(&(*controleur).horloge, 3);
 
 	return (*controleur).sortie;
 	}
 
 int controleurBoucle(controleurT * controleur)
 	{
-	fprintf(stderr, "Réinitialisation du système %d\n", (*controleur).options.initial);
 	controleurReinitialisation(controleur, (*controleur).options.initial);
-	if((*controleur).options.initial<19)
+	if((*controleur).options.initial<25)
 		{
 		(*controleur).options.initial++;
 		}
@@ -496,86 +479,57 @@ int controleurClavierMaj(controleurT * controleur)
 	// Réinitialisation du système
 		// Lecture des fichier
 		case SDLK_a:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 0);break;
 		case SDLK_z:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 1);break;
 		case SDLK_e:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 2);break;
 		case SDLK_r:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 3);break;
 		case SDLK_t:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 4);break;
 		case SDLK_y:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 5);break;
 		case SDLK_u:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 6);break;
 		case SDLK_i:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 7);break;
 		case SDLK_o:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 8);break;
 		case SDLK_p:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 9);break;
 		case SDLK_q:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 10);break;
 		case SDLK_s:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 11);break;
 		case SDLK_d:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 12);break;
 		case SDLK_f:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 13);break;
 		case SDLK_g:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 14);break;
 		case SDLK_h:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 15);break;
 		case SDLK_j:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 16);break;
 		case SDLK_k:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 17);break;
 		case SDLK_l:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 18);break;
 		case SDLK_m:
-			fprintf(stderr, "Réinitialisation du système\n");
 			controleurReinitialisation(controleur, 19);break;
-
-/*
 		case SDLK_w:
-			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).systeme, &(*controleur).graphe, 20);break;
+			controleurReinitialisation(controleur, 20);break;
 		case SDLK_x:
-			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).systeme, &(*controleur).graphe, 21);break;
+			controleurReinitialisation(controleur, 21);break;
 		case SDLK_c:
-			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).systeme, &(*controleur).graphe, 22);break;
+			controleurReinitialisation(controleur, 22);break;
 		case SDLK_v:
-			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).systeme, &(*controleur).graphe, 23);break;
+			controleurReinitialisation(controleur, 23);break;
 		case SDLK_b:
-			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).systeme, &(*controleur).graphe, 24);break;
+			controleurReinitialisation(controleur, 24);break;
 		case SDLK_n:
-			fprintf(stderr, "Réinitialisation du système\n");
-			fichierLecture(&(*controleur).systeme, &(*controleur).graphe, 25);break;
-*/
+			controleurReinitialisation(controleur, 25);break;
 
 		default:
 			;

@@ -1,7 +1,7 @@
 /*
-Copyright octobre 2019, Stephan Runigo
+Copyright novembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.0  simulateur de foule
+SimFoule 2.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -48,12 +48,13 @@ termes.
 #define FENETRE_X 892 // Largeur de la fenêtre
 #define FENETRE_Y 550 // Hauteur de la fenêtre
 
-
 #define BOUTON_COMMANDES 17 // Nombres de petits boutons
 #define ROTATIF_COMMANDES 5 // Nombre de boutons rotatifs
 
 #define LINEAIRE_COMMANDES 4 // Nombres de commandes linéaires
 #define TRIANGLE_COMMANDES 21 // Nombres de commandes triangulaires
+
+#define DUREE_CAPTEURS 128 // Nombre de points en mémoire
 
 	//----------         DIMENSIONS  SPATIALES         -----------//
 
@@ -70,12 +71,13 @@ termes.
 	#define CELLULE_ETAGE BATIMENT_X*BATIMENT_Y	// Nombre de cellule d'un étage
 	#define CELLULE_BATIMENT CELLULE_ETAGE*BATIMENT_Z	// Nombre de cellule du batiment
 
-	#define NOMBRE_MAX CELLULE_BATIMENT	// Nombre maximale d'mobiles
+	#define NOMBRE_MAX CELLULE_BATIMENT	// Nombre maximale de mobiles
 
 
 	//----------         PARAMETRES  TEMPORELLES         -----------//
 
 #define TEMPS_AFFICHAGE 110 // Durée entre les affichages en ms
+#define MEMOIRE_CHRONO 10 // Nombre de points en mémoire des durées chronométrées
 
 #define DT_MAX 0.06	// dt maximale
 #define DT_MIN 0.00007	// dt minimale

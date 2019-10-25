@@ -1,7 +1,7 @@
 /*
-Copyright octobre 2019, Stephan Runigo
+Copyright novembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.0  simulateur de foule
+SimFoule 2.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -133,6 +133,18 @@ int fichierLecture(batimentT * batiment, int numero)
 			fichier = fopen("./donnees/enregistrement/situation_l.simfoule", "r");break;
 		case 19: // Touche M
 			fichier = fopen("./donnees/enregistrement/situation_m.simfoule", "r");break;
+		case 20: // Touche W
+			fichier = fopen("./donnees/enregistrement/situation_m.simfoule", "r");break;
+		case 21: // Touche X
+			fichier = fopen("./donnees/enregistrement/situation_m.simfoule", "r");break;
+		case 22: // Touche C
+			fichier = fopen("./donnees/enregistrement/situation_m.simfoule", "r");break;
+		case 23: // Touche V
+			fichier = fopen("./donnees/enregistrement/situation_m.simfoule", "r");break;
+		case 24: // Touche B
+			fichier = fopen("./donnees/enregistrement/situation_m.simfoule", "r");break;
+		case 25: // Touche N
+			fichier = fopen("./donnees/enregistrement/situation_m.simfoule", "r");break;
 		default:
 			;
 		}
@@ -158,11 +170,11 @@ int fichierLecture(batimentT * batiment, int numero)
 					retour=fscanf(fichier, "%d", &statut);
 					if(retour==0)
 						{
-						fprintf(stderr, "Retour fscanf = 0\n");
+						fprintf(stderr, "ERREUR : fichierLecture(%d) : Retour fscanf = 0\n", numero);
 						}
 					if(retour<0)
 						{
-						fprintf(stderr, "Retour fscanf < 0\n");
+						fprintf(stderr, "ERREUR : fichierLecture(%d) : Retour fscanf < 0\n", numero);
 						}
 					celluleInitialiseStatut(&(*batiment).etage[k].cellule[i][j], statut);
 					}
@@ -171,7 +183,7 @@ int fichierLecture(batimentT * batiment, int numero)
 		fclose(fichier);
 		}
 
-		// Nombre de mobile
+		// Calcul du nombre de mobile
 	int nombre = 0;
 	for(k=0;k<BATIMENT_Z;k++)
 		{
@@ -184,7 +196,7 @@ int fichierLecture(batimentT * batiment, int numero)
 				}
 			}
 		}
-	//fprintf(stderr, "batimentInitialise : Sortie de la fonction\n");
+
 	return nombre;
 	}
 
