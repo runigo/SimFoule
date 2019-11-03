@@ -479,9 +479,9 @@ void graphiqueDessineMur(graphiqueT * graphique, grapheT * graphe)
 	{
 	int i, j;
 	SDL_Rect coordonnee = {0, 0, CELLULE, CELLULE};
-	for(i=0;i<BATIMENT_X;i++)
+	for(i=0;i<(*graphe).batimentX;i++)
 		{
-		for(j=0;j<BATIMENT_Y;j++)
+		for(j=0;j<(*graphe).batimentY;j++)
 			{
 			switch((*graphe).plan[i][j][0])
 				{
@@ -512,9 +512,9 @@ void graphiqueDessineAngle(graphiqueT * graphique, grapheT * graphe)
 	{
 	int i, j;
 	SDL_Rect coordonnee = {0, 0, CELLULE, CELLULE};
-	for(i=0;i<BATIMENT_X;i++)
+	for(i=0;i<(*graphe).batimentX;i++)
 		{
-		for(j=0;j<BATIMENT_Y;j++)
+		for(j=0;j<(*graphe).batimentY;j++)
 			{
 			switch((*graphe).angle[i][j][0])
 				{

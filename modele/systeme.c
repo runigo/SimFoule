@@ -1,7 +1,7 @@
 /*
-Copyright octobre 2019, Stephan Runigo
+Copyright novembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.0  simulateur de foule
+SimFoule 2.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -117,7 +117,7 @@ float systemeForceMurs(systemeT * systeme)
 		X = (int)(iter->mobile.nouveau.x/CELLULE); // Position i de la cellule
 		Y = (int)(iter->mobile.nouveau.y/CELLULE); // Position j de la cellule
 		Z = iter->mobile.nouveau.z;
-		for(etage=0;etage<BATIMENT_Z;etage++)
+		for(etage=0;etage<(*systeme).batiment.batimentZ;etage++)
 			{
 			if(Z==etage)
 				{
@@ -128,25 +128,25 @@ float systemeForceMurs(systemeT * systeme)
 					if(Y>0)
 						if((*systeme).batiment.etage[Z].cellule[X-1][Y-1].statut==1)
 							force = mobileAjouteForceMur(&iter->mobile, -1, -1, &(*systeme).batiment.etage[etage].angle[1]);
-					if(Y<BATIMENT_Y-1)
+					if(Y<(*systeme).batiment.etage[etage].etageY-1)
 						if((*systeme).batiment.etage[Z].cellule[X-1][Y+1].statut==1)
 						force = mobileAjouteForceMur(&iter->mobile, -1, 1, &(*systeme).batiment.etage[etage].angle[7]);
 					}
 				if(Y>0)
 					if((*systeme).batiment.etage[Z].cellule[X][Y-1].statut==1)
 						force = mobileAjouteForceMur(&iter->mobile, 0, -1, &(*systeme).batiment.etage[etage].angle[2]);
-				if(X<BATIMENT_X-1)
+				if(X<(*systeme).batiment.etage[etage].etageX-1)
 					{
 					if((*systeme).batiment.etage[Z].cellule[X+1][Y].statut==1)
 						force = mobileAjouteForceMur(&iter->mobile, 1, 0, &(*systeme).batiment.etage[etage].angle[4]);
 					if(Y>0)
 						if((*systeme).batiment.etage[Z].cellule[X+1][Y-1].statut==1)
 							force = mobileAjouteForceMur(&iter->mobile, 1, -1, &(*systeme).batiment.etage[etage].angle[3]);
-					if(Y<BATIMENT_Y-1)
+					if(Y<(*systeme).batiment.etage[etage].etageY-1)
 						if((*systeme).batiment.etage[Z].cellule[X+1][Y+1].statut==1)
 							force = mobileAjouteForceMur(&iter->mobile, 1, 1, &(*systeme).batiment.etage[etage].angle[5]);
 					}
-				if(Y<BATIMENT_Y-1)
+				if(Y<(*systeme).batiment.etage[etage].etageY-1)
 					if((*systeme).batiment.etage[Z].cellule[X][Y+1].statut==1)
 						force = mobileAjouteForceMur(&iter->mobile, 0, 1, &(*systeme).batiment.etage[etage].angle[6]);
 				}
@@ -199,9 +199,9 @@ float systemeVitessesSouhaitees(systemeT * systeme)
 		Y = (int)(iter->mobile.nouveau.y/CELLULE);
 		Z = iter->mobile.nouveau.z;
 
-		if(Z>-1 && Z<BATIMENT_Z) // Le mobile est dans un étage
+		if(Z>-1 && Z<(*systeme).batiment.batimentZ) // Le mobile est dans un étage
 			{
-			if( X<0 || X>BATIMENT_X || Y<0 || Y>BATIMENT_Y ) // Mobile hors batiment sans passer par une sortie
+			if( X<0 || X>(*systeme).batiment.etage[Z].etageX || Y<0 || Y>(*systeme).batiment.etage[Z].etageY ) // Mobile hors batiment sans passer par une sortie
 				{
 				fprintf(stderr, "ERREUR : systemeVitessesSouhaitees : mobile hors batiment sans passer par une sortie.\n");
 				iter->mobile.nouveau.z=-1; // Abandon du mobile.
@@ -275,9 +275,9 @@ int systemeCalculDensite(systemeT * systeme)
 		Y = (int)(iter->mobile.nouveau.y/CELLULE);
 		Z = iter->mobile.nouveau.z;
 
-		if(Z>-1 && Z<BATIMENT_Z)
+		if(Z>-1 && Z<(*systeme).batiment.batimentZ)
 			{
-			if(X>-1 && X<BATIMENT_X && Y>-1 && Y<BATIMENT_Y)
+			if(X>-1 && X<(*systeme).batiment.etage[Z].etageX && Y>-1 && Y<(*systeme).batiment.etage[Z].etageY)
 				{
 				(*systeme).batiment.etage[Z].cellule[X][Y].nombre++;
 				}
@@ -297,9 +297,9 @@ int systemeCalculDensite(systemeT * systeme)
 		Y = (int)(iter->mobile.nouveau.y/CELLULE);
 		Z = iter->mobile.nouveau.z;
 
-		if(Z>-1 && Z<BATIMENT_Z)
+		if(Z>-1 && Z<(*systeme).batiment.batimentZ)
 			{
-			if(X>-1 && X<BATIMENT_X && Y>-1 && Y<BATIMENT_Y)
+			if(X>-1 && X<(*systeme).batiment.etage[Z].etageX && Y>-1 && Y<(*systeme).batiment.etage[Z].etageY)
 				{
 				systemeMiseAJourNoteCellule(&(*systeme).batiment.etage[Z], X, Y);
 				}
@@ -320,10 +320,10 @@ int systemeCalculDensite(systemeT * systeme)
 
 int systemeMiseAJourNoteCellule(etageT * etage, int X, int Y)
 	{	// Mise à jour de la note de la cellule X Y
-	if(X<BATIMENT_X-1)
+	if(X<(*etage).etageX-1)
 		{
 		(*etage).cellule[X][Y].note[0] = (*etage).cellule[X][Y].interet[0] - (*etage).cellule[X+1][Y].nombre;
-		if(Y<BATIMENT_Y)
+		if(Y<(*etage).etageY)
 			{
 			(*etage).cellule[X][Y].note[1] = (*etage).cellule[X][Y].interet[1] - (*etage).cellule[X+1][Y+1].nombre;
 			}
@@ -335,7 +335,7 @@ int systemeMiseAJourNoteCellule(etageT * etage, int X, int Y)
 	if(X>0)
 		{
 		(*etage).cellule[X][Y].note[4] = (*etage).cellule[X][Y].interet[4] - (*etage).cellule[X-1][Y].nombre;
-		if(Y<BATIMENT_Y)
+		if(Y<(*etage).etageY)
 			{
 			(*etage).cellule[X][Y].note[3] = (*etage).cellule[X][Y].interet[3] - (*etage).cellule[X-1][Y+1].nombre;
 			}
@@ -344,7 +344,7 @@ int systemeMiseAJourNoteCellule(etageT * etage, int X, int Y)
 			(*etage).cellule[X][Y].note[5] = (*etage).cellule[X][Y].interet[5] - (*etage).cellule[X-1][Y-1].nombre;
 			}
 		}
-	if(Y<BATIMENT_Y-1)
+	if(Y<(*etage).etageY-1)
 		{
 		(*etage).cellule[X][Y].note[2] = (*etage).cellule[X][Y].interet[2] - (*etage).cellule[X][Y+1].nombre;
 		}

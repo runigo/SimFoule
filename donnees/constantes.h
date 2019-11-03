@@ -58,9 +58,13 @@ termes.
 
 	//----------         DIMENSIONS  SPATIALES         -----------//
 
-#define BATIMENT_X 25	// Longueur suivant x du batiment (en nombre de cellule)
-#define BATIMENT_Y 25	// Longueur suivant y du batiment (en nombre de cellule)
-#define BATIMENT_Z 1	// Nombre d'étage
+#define BATIMENT_X_IMP 50	// Longueur implicite suivant x du batiment (en nombre de cellule)
+#define BATIMENT_Y_IMP 25	// Longueur implicite suivant y du batiment (en nombre de cellule)
+#define BATIMENT_Z_IMP 1	// Nombre implicite d'étage
+
+#define BATIMENT_X_MAX 100	// Longueur maximale suivant x du batiment (en nombre de cellule)
+#define BATIMENT_Y_MAX 50	// Longueur maximale suivant y du batiment (en nombre de cellule)
+#define BATIMENT_Z_MAX 3	// Nombre d'étage maximale
 
 #define CELLULE 16		// Longueur du coté d'une cellule (en pixel)
 #define CELLULESUR2 CELLULE/2	// Demi longueur du coté d'une cellule (en pixel)
@@ -68,10 +72,8 @@ termes.
 	//#define FENETRE_X BATIMENT_X*CELLULE // Taille de la fenêtre
 	//#define FENETRE_Y BATIMENT_Y*CELLULE // Taille de la fenêtre
 
-	#define CELLULE_ETAGE BATIMENT_X*BATIMENT_Y	// Nombre de cellule d'un étage
-	#define CELLULE_BATIMENT CELLULE_ETAGE*BATIMENT_Z	// Nombre de cellule du batiment
 
-	#define NOMBRE_MAX CELLULE_BATIMENT	// Nombre maximale de mobiles
+	#define NOMBRE_MAX 1000	// Nombre maximale de mobiles
 
 
 	//----------         PARAMETRES  TEMPORELLES         -----------//

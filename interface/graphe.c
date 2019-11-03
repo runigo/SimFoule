@@ -34,6 +34,30 @@ termes.
 
 	// Création et initialisation
 
+int grapheInitialisation(grapheT * graphe, int batimentX, int batimentY, int batimentZ)
+	{
+	int i, j, k;
+
+	for(k=0;k<BATIMENT_Z_MAX;k++)
+		{
+		for(i=0;i<BATIMENT_X_MAX;i++)
+			{
+			for(j=0;j<BATIMENT_Y_MAX;j++)
+				{
+				(*graphe).plan[i][j][k] = 0;
+				(*graphe).angle[i][j][k] = 0;
+				}
+			}
+		}
+
+	(*graphe).batimentX=batimentX;
+	(*graphe).batimentY=batimentY;
+	(*graphe).batimentZ=batimentZ;
+
+	return 0;
+	}
+
+
 int grapheCreation(grapheT * graphe, int nombre)
 	{
 		//	Création du graphe de la foule

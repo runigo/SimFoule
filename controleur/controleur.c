@@ -108,7 +108,7 @@ int controleurInitialisation(controleurT * controleur)
 	systemeInitialisation(&(*controleur).systeme, (*controleur).options.dt);
 
 		fprintf(stderr, "  Initialisation de la projection\n");
-	projectionInitialiseLongueurs(&(*controleur).projection, BATIMENT_X, BATIMENT_Y);
+	projectionInitialiseLongueurs(&(*controleur).projection, BATIMENT_X_IMP, BATIMENT_Y_IMP);
 
 		fprintf(stderr, "  Initialisation du batiment\n");
 	donneesInitialisationBatiment(&(*controleur).systeme.batiment, &(*controleur).options);
@@ -215,7 +215,7 @@ int controleurProjection(controleurT * controleur)
 	{
 	int x, y; //  fenêtre, puis souris
 
-		// Taille de la fenêtre
+		// Récupération de la taille de la fenêtre
 	SDL_GetWindowSize((*controleur).interface.fenetre, &x, &y);
 
 		// Réinitialisation des commandes si la fenêtre change de taille
@@ -434,7 +434,7 @@ int controleurClavier(controleurT * controleur)
 
 	// Affichage des informations
 		case SDLK_F1:
-			controleurAfficheForces(controleur);break;
+			etageAffiche(&(*controleur).systeme.batiment.etage[0]);break;
 	/*	case SDLK_F2:
 			controleurAfficheVitesse(&(*controleur).options.dessineAngle);break;
 		case SDLK_F3:

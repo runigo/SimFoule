@@ -1,7 +1,7 @@
 /*
-Copyright octobre 2019, Stephan Runigo
+Copyright novembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.0  simulateur de foule
+SimFoule 2.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -53,28 +53,38 @@ int donneesOptionsImplicite(optionsT * options)
 	(*options).dessineAngle=0;
 	(*options).dessineMur=1;
 	(*options).dessineMobile=1;
+
+	(*options).batimentX = BATIMENT_X_IMP;
+	(*options).batimentY = BATIMENT_Y_IMP;
+	(*options).batimentZ = BATIMENT_Z_IMP;
 	return 0;
 	}
 
 int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 	{
-		//(*options).nombre = fichierLecture(batiment, (*options).initial);
-		//batimentInitialiseEtageVide(batiment);
-		//(*options).nombre = batimentInitialise(batiment, -1);
-		(*options).nombre = batimentInitialise(batiment, -1);
-		printf("    donneesInitialisationBatiment : initialisation : %d\n", (*options).initial);
-		(*options).nombre = fichierLecture(batiment, (*options).initial);
+	//(*options).nombre = batimentInitialiseImplicite(batiment);
+	(*options).nombre = fichierLecture(batiment, 1);
+	printf("    donneesInitialisationBatiment : initialisation : %d\n", (*options).initial);
+	(*options).batimentX = (*batiment).etage[0].etageX;
+	(*options).batimentY = (*batiment).etage[0].etageY;
+	(*options).batimentZ = (*batiment).batimentZ;
 /*
-	if( (*options).initial > -1 && (*options).initial < 99)
+	if((*options).initial < 0)
 		{
-		printf("donneesInitialisationBatiment : fichierLecture\n");
+		(*options).nombre = batimentInitialiseImplicite(batiment);
 		}
 	else
 		{
-		printf("    donneesInitialisationBatiment : initialisation : %d\n", (*options).initial);
-		(*options).nombre = batimentInitialise(batiment, -1);
-		fprintf(stderr, "    donneesInitialisationBatiment : nombre de mobiles = %d\n", (*options).nombre);
-		}*/
+		if((*options).initial < 26)
+			{
+		
+			}
+		else
+			{
+			(*options).nombre = batimentInitialiseImplicite(batiment);
+			}
+		}
+*/
 	return 0;
 	}
 
@@ -121,11 +131,11 @@ int donneesInitialisationFoule(fouleT * foule, batimentT * batiment)
 	int compteur = 0;
 
 		// Position des mobiles
-	for(k=0;k<BATIMENT_Z;k++)
+	for(k=0;k<(*batiment).batimentZ;k++)
 		{
-		for(i=0;i<BATIMENT_X;i++)
+		for(i=0;i<(*batiment).etage[k].etageX;i++)
 			{
-			for(j=0;j<BATIMENT_Y;j++)
+			for(j=0;j<(*batiment).etage[k].etageY;j++)
 				{
 				if((*batiment).etage[k].cellule[i][j].statut == 9)
 					{
@@ -162,6 +172,7 @@ int donneesInitialisationGraphique(graphiqueT * graphique, interfaceT * interfac
 
 int donneesCreationGraphe(grapheT * graphe, optionsT * options)
 	{
+	grapheInitialisation(graphe, (*options).batimentX, (*options).batimentY, (*options).batimentZ);
 		fprintf(stderr, "    donneesCreationGraphe : Création du graphe, nombre = %d\n", (*options).nombre);
 	grapheCreation(graphe, (*options).nombre);
 	return 0;

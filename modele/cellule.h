@@ -65,7 +65,8 @@ int celluleInitialiseStatut(celluleT * cellule, int statut);	// 0:libre, 1:mur, 
 
 int celluleDonneVisite(celluleT * cellule);	// 1 si initialisé, -1 si visite en cours
 int celluleChangeVisite(celluleT * cellule, int visite);	// change visite
-
+int celluleDonneIssue(celluleT * cellule);
+int celluleDonneSens(celluleT * cellule);	// sens
 int celluleDonneDistance(celluleT * cellule);	// Distance à la sortie
 int celluleChangeDistance(celluleT * cellule, int pas);	// Ajoute le pas à la distance
 

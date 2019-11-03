@@ -34,10 +34,12 @@ termes.
 
 int fichierEcriture(batimentT * batiment, int numero)
 	{
+	(void)batiment;
+	(void)numero;
 		// Touche W à N : écrit dans les fichiers q à h
 		//	la configuration dessinée
 
-	FILE *fichier;
+/*	FILE *fichier;
 
 	switch (numero)
 		{
@@ -82,7 +84,7 @@ int fichierEcriture(batimentT * batiment, int numero)
 			}
 		fclose(fichier);
 		}
-
+*/
 	return 0;
 	}
 
@@ -156,15 +158,43 @@ int fichierLecture(batimentT * batiment, int numero)
 		}
 	else
 		{
-		int statut;
-		int retour;
+
 		printf("  Initialisation du batiment %d\n", numero);
-		for(k=0;k<BATIMENT_Z;k++)
+
+		int statut=0;
+		int retour=0;
+		int etageX=50;	//	Nombre de cellule suivant x
+		int etageY=25;	//	Nombre de cellule suivant y
+		int etageZ=1;	//	Nombre d'étage
+
+			// Volume du batiment
+
+		retour=fscanf(fichier, "%d %d %d", &etageX, &etageY, &etageZ);
+		if(retour==0)
+			{
+			fprintf(stderr, "ERREUR : fichierLecture(%d) : Retour fscanf = 0\n", numero);
+			}
+		if(retour<0)
+			{
+			fprintf(stderr, "ERREUR : fichierLecture(%d) : Retour fscanf < 0\n", numero);
+			}
+
+		(*batiment).batimentZ=etageZ;
+		
+		for(k=0;k<etageZ;k++)
+			{
+			(*batiment).etage[k].etageX=etageX;
+			(*batiment).etage[k].etageY=etageY;
+			}
+
+			// Plan et occupation du batiment
+
+		for(k=0;k<etageZ;k++)
 			{
 			(*batiment).etage[k].etage = k;
-			for(j=0;j<BATIMENT_Y;j++)
+			for(j=0;j<etageY;j++)
 				{
-				for(i=0;i<BATIMENT_X;i++)
+				for(i=0;i<etageX;i++)
 					{
 					statut = 0;
 					retour=fscanf(fichier, "%d", &statut);
@@ -185,11 +215,11 @@ int fichierLecture(batimentT * batiment, int numero)
 
 		// Calcul du nombre de mobile
 	int nombre = 0;
-	for(k=0;k<BATIMENT_Z;k++)
+	for(k=0;k<(*batiment).batimentZ;k++)
 		{
-		for(i=0;i<BATIMENT_X-1;i++)
+		for(i=0;i<(*batiment).etage[k].etageX;i++)
 			{
-			for(j=0;j<BATIMENT_Y;j++)
+			for(j=0;j<(*batiment).etage[k].etageY;j++)
 				{
 				if(celluleDonneStatut(&(*batiment).etage[k].cellule[i][j])==9)
 					nombre++;

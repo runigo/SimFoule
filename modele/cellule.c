@@ -97,6 +97,16 @@ int celluleDonneStatut(celluleT * cellule)
 	return (*cellule).statut;
 	}
 
+int celluleDonneIssue(celluleT * cellule)
+	{	// Nombre de case à ateindre
+	return (*cellule).issue;
+	}
+
+int celluleDonneSens(celluleT * cellule)
+	{	// Distance à la sortie
+	return (*cellule).sens;
+	}
+
 int celluleDonneDistance(celluleT * cellule)
 	{	// Distance à la sortie
 	return (*cellule).distance;

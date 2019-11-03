@@ -1,7 +1,7 @@
 /*
-Copyright octobre 2019, Stephan Runigo
+Copyright novembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.0  simulateur de foule
+SimFoule 2.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -38,10 +38,14 @@ termes.
 
 struct GrapheT {
 
-	int plan[BATIMENT_X][BATIMENT_Y][BATIMENT_Z]; // Plan du batiment
+	int batimentX;
+	int batimentY;
+	int batimentZ;
+
+	int plan[BATIMENT_X_MAX][BATIMENT_Y_MAX][BATIMENT_Z_MAX]; // Plan du batiment
 				// 0 : libre, 1 : mur, 2 : sortie
 
-	int angle[BATIMENT_X][BATIMENT_Y][BATIMENT_Z]; // Direction vers la sortie
+	int angle[BATIMENT_X_MAX][BATIMENT_Y_MAX][BATIMENT_Z_MAX]; // Direction vers la sortie
 				// 0 : droite, 2 : bas, 4 : gauche, 6 : haut
 				//  				    6
 				//	Angles 			 5     7
@@ -54,6 +58,7 @@ struct GrapheT {
 };
 typedef struct GrapheT grapheT;
 
+int grapheInitialisation(grapheT * graphe, int batimentX, int batimentY, int batimentZ);
 int grapheCreation(grapheT * graphe, int nombre);
 void grapheSuppression(grapheT * graphe);
 

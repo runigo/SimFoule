@@ -42,12 +42,20 @@ int etageRectifieInteret(etageT * etage); // Rectifie l'intérêt à rejoindre l
 int etageCalculSens(etageT * etage);
 int etageCalculSensCellule(etageT * etage, int X, int Y);
 
-int etageInitialise(etageT * etage, int niveau)
+int etageInitialiseSens(etageT * etage);
+
+int etageInitialise(etageT * etage, int etageX, int etageY, int niveau)
 	{
+		// Surface de l'étage
+	(*etage).etageX=etageX;
+	(*etage).etageY=etageY;
+		// Numéro de l'étage
+	(*etage).etage=niveau;
+
 	int i, j;
-	for(i=0;i<BATIMENT_X;i++)
+	for(i=0;i<(*etage).etageX;i++)
 		{
-		for(j=0;j<BATIMENT_Y;j++)
+		for(j=0;j<(*etage).etageY;j++)
 			{
 			celluleInitialise(&(*etage).cellule[i][j]);
 			}
@@ -63,12 +71,34 @@ int etageInitialise(etageT * etage, int niveau)
 	vecteurCartesien(&(*etage).angle[6], 0.0, -1.0, 0);
 	vecteurCartesien(&(*etage).angle[7], 0.7071, -0.7071, 0);
 
-		// Numéro de l'étage
-	(*etage).etage=niveau;
 
 		// Vecteur nul
 	vecteurCartesien(&(*etage).vecteurNul, 0.0, 0.0, 0);
 
+	return 0;
+	}
+
+int etageInitialiseSens(etageT * etage)
+	{
+	int i, j, k;
+	int indexMax = 0;
+	float max = 0.0;
+		fprintf(stderr, "    etageInitialiseSens\n");
+	for(i=0;i<(*etage).etageX;i++)
+		{
+		for(j=0;j<(*etage).etageY;j++)
+			{
+			for(k=0;k<8;k++)	// Recherche du meilleur intérêt
+				{
+				if((*etage).cellule[i][j].interet[k]>max)
+					{
+					indexMax = k;
+					max = (*etage).cellule[i][j].interet[k];
+					}
+				}
+			(*etage).cellule[i][j].sens = indexMax;
+			}
+		}
 	return 0;
 	}
 
@@ -100,11 +130,11 @@ int etageCalculDistanceEtSens(etageT * etage)
 	int i, j;
 	bool sortie=false;
 	int compteur = 0;
-
+	int celluleEtage = (*etage).etageX * (*etage).etageY ;
 		fprintf(stderr, "    Initialisation des sorties\n");
-	for(i=0;i<BATIMENT_X;i++)
+	for(i=0;i<(*etage).etageX;i++)
 		{
-		for(j=0;j<BATIMENT_Y;j++)
+		for(j=0;j<(*etage).etageY;j++)
 			{
 			if(celluleDonneStatut(&(*etage).cellule[i][j]) == 2)
 				{
@@ -119,9 +149,9 @@ int etageCalculDistanceEtSens(etageT * etage)
 		{
 		if(compteur>2)sortie=true;
 
-		for(i=0;i<BATIMENT_X;i++)		// Visite des cellules du front
+		for(i=0;i<(*etage).etageX;i++)		// Visite des cellules du front
 			{
-			for(j=0;j<BATIMENT_Y;j++)
+			for(j=0;j<(*etage).etageY;j++)
 				{
 				if(celluleDonneStatut(&(*etage).cellule[i][j])!=1 // Cellule non mur
 						&& celluleDonneVisite(&(*etage).cellule[i][j])==0 // Cellule non visité
@@ -134,9 +164,9 @@ int etageCalculDistanceEtSens(etageT * etage)
 				}
 			}
 
-		for(i=0;i<BATIMENT_X;i++)	// Marquage des cellules qui viennent d'être visitées
+		for(i=0;i<(*etage).etageX;i++)	// Marquage des cellules qui viennent d'être visitées
 			{
-			for(j=0;j<BATIMENT_Y;j++)
+			for(j=0;j<(*etage).etageY;j++)
 				{
 				if(celluleDonneVisite(&(*etage).cellule[i][j])<0) // Appartient au front
 					{
@@ -145,9 +175,9 @@ int etageCalculDistanceEtSens(etageT * etage)
 				}
 			}
 
-		for(i=0;i<BATIMENT_X;i++)	// Incrémentation des cellules visitées
+		for(i=0;i<(*etage).etageX;i++)	// Incrémentation des cellules visitées
 			{
-			for(j=0;j<BATIMENT_Y;j++)
+			for(j=0;j<(*etage).etageY;j++)
 				{
 				if(celluleDonneVisite(&(*etage).cellule[i][j])!=0) // À été visité
 					{ // Ajoute -1 à la distance des cellules visitées
@@ -156,7 +186,7 @@ int etageCalculDistanceEtSens(etageT * etage)
 				}
 			}
 		compteur++;
-		if(compteur>CELLULE_ETAGE)
+		if(compteur>celluleEtage)
 			{
 			fprintf(stderr, "    ERREUR : etageCalculDistanceEtSens : Il y aurait des cellules inaccessibles ?\n");
 			sortie=true;
@@ -173,8 +203,10 @@ int etageCalculDistanceEtSens(etageT * etage)
 		//fprintf(stderr, "    Rectification des intérêts\n");
 	etageRectifieInteret(etage);
 
-	//etageAffiche(etage);
+		//fprintf(stderr, "    Initialisation des sens\n");
+	etageInitialiseSens(etage);
 
+	etageAffiche(etage);
 
 	return 0;
 	}
@@ -184,10 +216,10 @@ int etageVoisinVisite(etageT * etage, int i, int j)
 	{ // Retourne le nombre de voisin visité
 	int nombre = 0;
 
-	if(i<BATIMENT_X-1)
+	if(i<(*etage).etageX-1)
 		if(celluleDonneVisite(&(*etage).cellule[i+1][j])>0)
 			nombre++;
-	if(j<BATIMENT_Y-1)
+	if(j<(*etage).etageY-1)
 		if(celluleDonneVisite(&(*etage).cellule[i][j+1])>0)
 			nombre++;
 	if(i>0)
@@ -204,7 +236,7 @@ int etageCalculeInteret(etageT * etage, int i, int j)
 	{ // Donne de l'intérêt à aller vers des cellules plus proches de la sortie
 	int nombre = 0;
 
-	if(i<BATIMENT_X-1)
+	if(i<(*etage).etageX-1)
 		{
 		if(celluleDonneVisite(&(*etage).cellule[i+1][j])==1) // vers angle 0
 			{
@@ -220,7 +252,7 @@ int etageCalculeInteret(etageT * etage, int i, int j)
 			nombre++;
 			}
 		}
-	if(j<BATIMENT_Y-1)
+	if(j<(*etage).etageY-1)
 		{
 		if(celluleDonneVisite(&(*etage).cellule[i][j+1])==1) // vers angle 2
 			{
@@ -247,9 +279,9 @@ int etageDiffuseInteret(etageT * etage)
 	int i, j;
 	int index;
 
-	for(i=0;i<BATIMENT_X;i++)
+	for(i=0;i<(*etage).etageX;i++)
 		{
-		for(j=0;j<BATIMENT_Y;j++)
+		for(j=0;j<(*etage).etageY;j++)
 			{
 			if((*etage).cellule[i][j].issue == 0 && (*etage).cellule[i][j].statut != 1)
 				{
@@ -283,9 +315,9 @@ int etageRectifieInteret(etageT * etage)
 	{ // Rectifie l'intérêt à rejoindre les murs
 	int i, j;
 
-	for(i=0;i<BATIMENT_X;i++)
+	for(i=0;i<(*etage).etageX;i++)
 		{
-		for(j=0;j<BATIMENT_Y;j++)
+		for(j=0;j<(*etage).etageY;j++)
 			{
 			if((*etage).cellule[i][j].statut == 1)
 				{
@@ -294,18 +326,18 @@ int etageRectifieInteret(etageT * etage)
 					(*etage).cellule[i-1][j].interet[0]=-99;
 					if(j>0)
 						(*etage).cellule[i-1][j-1].interet[1]=-99;
-					if(j<BATIMENT_Y-1)
+					if(j<(*etage).etageY-1)
 						(*etage).cellule[i-1][j+1].interet[7]=-99;
 					}
-				if(i<BATIMENT_X-1)
+				if(i<(*etage).etageX-1)
 					{
 					(*etage).cellule[i+1][j].interet[4]=-99;
 					if(j>0)
 						(*etage).cellule[i+1][j-1].interet[3]=-99;
-					if(j<BATIMENT_Y-1)
+					if(j<(*etage).etageY-1)
 						(*etage).cellule[i+1][j+1].interet[5]=-99;
 					}
-				if(j<BATIMENT_Y-1)
+				if(j<(*etage).etageY-1)
 					(*etage).cellule[i][j+1].interet[6]=-99;
 				if(j>0)
 					(*etage).cellule[i][j-1].interet[2]=-99;
@@ -320,9 +352,9 @@ int etageCalculSens(etageT * etage)
 	{
 	int i, j;
 
-	for(i=0;i<BATIMENT_X;i++)
+	for(i=0;i<(*etage).etageX;i++)
 		{
-		for(j=0;j<BATIMENT_Y;j++)
+		for(j=0;j<(*etage).etageY;j++)
 			{
 			etageCalculSensCellule(etage, i, j);
 			}
@@ -357,9 +389,9 @@ int etageCalculeDistance(etageT * etage)
 	int i, j;
 	int max = 0;
 
-	for(i=0;i<BATIMENT_X;i++)
+	for(i=0;i<(*etage).etageX;i++)
 		{
-		for(j=0;j<BATIMENT_Y;j++)
+		for(j=0;j<(*etage).etageY;j++)
 			{
 			if( celluleDonneDistance(&(*etage).cellule[i][j]) < max)
 				{
@@ -368,9 +400,9 @@ int etageCalculeDistance(etageT * etage)
 			}
 		}
 	fprintf(stderr, "      etageCalculeDistance, max = %d\n", max);
-	for(i=0;i<BATIMENT_X;i++)
+	for(i=0;i<(*etage).etageX;i++)
 		{
-		for(j=0;j<BATIMENT_Y;j++)
+		for(j=0;j<(*etage).etageY;j++)
 			{
 			celluleChangeDistance(&(*etage).cellule[i][j], -max);
 			}
@@ -384,9 +416,9 @@ int etageAffiche(etageT * etage)
 	int i, j, k;
 
 	printf("etageAffiche distance\n");
-	for(j=0;j<BATIMENT_Y;j++)
+	for(j=0;j<(*etage).etageY;j++)
 		{
-		for(i=0;i<BATIMENT_X;i++)
+		for(i=0;i<(*etage).etageX;i++)
 			{
 			fprintf(stderr, " %2d", celluleDonneDistance(&(*etage).cellule[i][j]));
 			}
@@ -394,9 +426,9 @@ int etageAffiche(etageT * etage)
 		}
 
 	printf("etageAffiche interet\n");
-	for(j=0;j<BATIMENT_Y;j++)
+	for(j=0;j<(*etage).etageY;j++)
 		{
-		for(i=0;i<BATIMENT_X;i++)
+		for(i=0;i<(*etage).etageX;i++)
 			{
 			for(k=0;k<8;k++)
 				{
@@ -410,6 +442,47 @@ int etageAffiche(etageT * etage)
 					}
 				}
 			fprintf(stderr, " ");
+			}
+		fprintf(stderr, " \n");
+		}
+
+	printf("etageAffiche issue\n");
+	for(j=0;j<(*etage).etageY;j++)
+		{
+		for(i=0;i<(*etage).etageX;i++)
+			{
+			fprintf(stderr, " %2d", celluleDonneIssue(&(*etage).cellule[i][j]));
+			}
+		fprintf(stderr, " \n");
+		}
+
+	printf("etageAffiche note\n");
+	for(j=0;j<(*etage).etageY;j++)
+		{
+		for(i=0;i<(*etage).etageX;i++)
+			{
+			for(k=0;k<8;k++)
+				{
+				if((int)((*etage).cellule[i][j].note[k])>-9)
+					{
+					fprintf(stderr, "%d", (int)((*etage).cellule[i][j].note[k]));
+					}
+				else
+					{
+					fprintf(stderr, "m");
+					}
+				}
+			fprintf(stderr, " ");
+			}
+		fprintf(stderr, " \n");
+		}
+
+	printf("etageAffiche sens\n");
+	for(j=0;j<(*etage).etageY;j++)
+		{
+		for(i=0;i<(*etage).etageX;i++)
+			{
+			fprintf(stderr, " %2d", celluleDonneSens(&(*etage).cellule[i][j]));
 			}
 		fprintf(stderr, " \n");
 		}

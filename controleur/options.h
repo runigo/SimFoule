@@ -48,7 +48,6 @@ typedef struct OptionsT optionsT;
 
 		float dt;		// discrétisation du temps
 
-		int nombre;		// Nombre de mobile
 		int taille;		// Taille d'un mobile
 		float masse;		// Masse d'un mobile
 		float nervosite;	// Nervosité d'un mobile
@@ -57,6 +56,11 @@ typedef struct OptionsT optionsT;
 		int dessineAngle;	//	Dessin des directions
 		int dessineMur;		//	Dessin des murs
 		int dessineMobile;	//	Dessin des mobiles
+
+	int nombre;		// Nombre de mobile
+	int batimentX;
+	int batimentY;	// Taille du batiment
+	int batimentZ;
 
 		};
 
