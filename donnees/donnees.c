@@ -44,10 +44,10 @@ int donneesOptionsImplicite(optionsT * options)
 	(*options).initial=1;	// Numéro du fichier d'initialisation.
 
 	(*options).nombre=33;	// Nombre de mobiles
-	(*options).nervosite=7.7;	// Nervosité des mobiles
+	(*options).nervosite=NERVOSITE_IMP;	// Nervosité des mobiles
 	(*options).taille=CELLULE;	// Taille des mobiles
-	(*options).masse=77.77;	// Masse des mobiles
-	(*options).dt=0.019;	// discrétisation du temps
+	(*options).masse=MASSE_IMP;	// Masse des mobiles
+	(*options).dt=DT_IMPLICITE;	// discrétisation du temps
 
 			//	Dessin des graphes 0 ou 1
 	(*options).dessineAngle=0;
@@ -63,8 +63,12 @@ int donneesOptionsImplicite(optionsT * options)
 int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 	{
 	//(*options).nombre = batimentInitialiseImplicite(batiment);
-	(*options).nombre = fichierLecture(batiment, 1);
 	printf("    donneesInitialisationBatiment : initialisation : %d\n", (*options).initial);
+
+	batimentInitialiseVide(batiment);
+
+	(*options).nombre = fichierLecture(batiment, (*options).initial);
+
 	(*options).batimentX = (*batiment).etage[0].etageX;
 	(*options).batimentY = (*batiment).etage[0].etageY;
 	(*options).batimentZ = (*batiment).batimentZ;

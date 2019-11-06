@@ -41,7 +41,7 @@ int batimentInitialiseMobileImplicite(batimentT * batiment);
 int batimentInitialiseImplicite(batimentT * batiment)
 	{ // Renvoie le nombre de mobiles présent
 
-	batimentInitialiseEtageVide(batiment);
+	batimentInitialiseVide(batiment);
 
 	(*batiment).batimentZ = BATIMENT_Z_IMP; // Nombre d'étage
 
@@ -75,11 +75,14 @@ int batimentInitialise(batimentT * batiment, int numero)
 	return nombre;
 	}
 */
-int batimentInitialiseEtageVide(batimentT * batiment)
+int batimentInitialiseVide(batimentT * batiment)
 	{ // Initialise le batiment vide
 	int k;
+	
+	(*batiment).batimentZ = BATIMENT_Z_MAX; // Nombre d'étage
+
 	for(k=0;k<BATIMENT_Z_MAX;k++)
-		{
+		{							// Surface des étages
 		etageInitialise(&(*batiment).etage[k], BATIMENT_X_MAX, BATIMENT_Y_MAX, k);
 		}
 

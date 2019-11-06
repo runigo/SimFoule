@@ -82,6 +82,7 @@ termes.
 #define MEMOIRE_CHRONO 10 // Nombre de points en mémoire des durées chronométrées
 
 #define DT_MAX 0.06	// dt maximale
+#define DT_IMPLICITE 0.019	// dt implicite
 #define DT_MIN 0.00007	// dt minimale
 
 #define DUREE 100 // Nombre implicite d'incrémentation du système entre deux affichages.
@@ -99,15 +100,17 @@ termes.
 #define MOBILE_MIN 1 // Taille minimale d'un mobile
 #define MOBILE_MAX CELLULE*2 // Taille maximale d'un mobile
 
-#define MASSE_MIN 5	// Masse minimale d'un mobile
-#define MASSE_MAX 199	// Masse maximale d'un mobile
+#define MASSE_MIN 15.5	// Masse minimale d'un mobile
+#define MASSE_IMP 77.77	// Masse implicite d'un mobile
+#define MASSE_MAX 199.9	// Masse maximale d'un mobile
 
 #define NERVOSITE_MAX 19.1	// Nervosité maximale
+#define NERVOSITE_IMP 7.7	// Nervosité implicite
 #define NERVOSITE_MIN 0.55	// Nervosité minimale
 
 
 	//----------        PARAMETRES  D'INTERACTIONS        -----------//
-#define UNITE_NOTE 0.71		// Unité de note pour la direction souhaitable
+#define UNITE_NOTE 1.71		// Unité de note pour la direction souhaitable
 #define FORCE_CONTACT_MOBILE 141	// constante de force de répulsion de contact entre mobile
 #define FORCE_CONTACT_MUR 1171		// constante de force de répulsion de contact avec les murs
 #endif

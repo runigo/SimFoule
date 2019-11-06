@@ -1,7 +1,7 @@
 /*
-Copyright février 2018, Stephan Runigo
+Copyright novembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 1.4  simulateur de foule
+SimFoule 2.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -11,16 +11,16 @@ de la licence CeCILL telle que diffusée par le CEA, le CNRS et l'INRIA
 sur le site "http://www.cecill.info".
 En contrepartie de l'accessibilité au code source et des droits de copie,
 de modification et de redistribution accordés par cette licence, il n'est
-offert aux utilisateurs qu'une garantie limitée.  Pour les mêmes raisons,
+offert aux utilisateurs qu'une garantie limitée. Pour les mêmes raisons,
 seule une responsabilité restreinte pèse sur l'auteur du programme, le
 titulaire des droits patrimoniaux et les concédants successifs.
-A cet égard  l'attention de l'utilisateur est attirée sur les risques
-associés au chargement,  à l'utilisation,  à la modification et/ou au
+A cet égard l'attention de l'utilisateur est attirée sur les risques
+associés au chargement, à l'utilisation, à la modification et/ou au
 développement et à la reproduction du logiciel par l'utilisateur étant
 donné sa spécificité de logiciel libre, qui peut le rendre complexe à
 manipuler et qui le réserve donc à des développeurs et des professionnels
-avertis possédant  des  connaissances  informatiques approfondies. Les
-utilisateurs sont donc invités à charger  et  tester  l'adéquation du
+avertis possédant des connaissances informatiques approfondies. Les
+utilisateurs sont donc invités à charger et tester l'adéquation du
 logiciel à leurs besoins dans des conditions permettant d'assurer la
 sécurité de leurs systèmes et ou de leurs données et, plus généralement,
 à l'utiliser et l'exploiter dans les mêmes conditions de sécurité.
@@ -254,27 +254,18 @@ int mobileAffiche(mobileT * mobile)
 	fprintf(stderr, "  vitesse x : %f , vitesse y : %f\n", (*mobile).vitesse.x, (*mobile).vitesse.y);
 	fprintf(stderr, "  vitesseSouhaite x : %f , vitesseSouhaite y : %f\n", (*mobile).vitesseSouhaitee.x, (*mobile).vitesseSouhaitee.y);
 	fprintf(stderr, "  forceExterieur x : %f , forceExterieur y : %f\n\n", (*mobile).forceBatiment.x, (*mobile).forceBatiment.y);
+
+
+	fprintf(stderr, "  rayon : %f\n", (*mobile).rayon);
+	fprintf(stderr, "  masse : %f\n", (*mobile).masse);
+	fprintf(stderr, "  nervosite : %f\n", (*mobile).nervosite);
+	fprintf(stderr, "  celerite : %f\n", (*mobile).celerite);
+	fprintf(stderr, "  dtsurtau : %f\n", (*mobile).dtsurtau);
+	fprintf(stderr, "  dt2surM : %f\n", (*mobile).dt2surM);
+	fprintf(stderr, "  dt : %f\n", (*mobile).dt);
+	fprintf(stderr, "  taille : %d\n\n", (*mobile).taille);
+
 	return 0;
 	}
-
-/*
-
-void vecteurCartesien(vecteurT * v, float x, float y, int z);
-void vecteurEgaleCartesien(vecteurT * v1, vecteurT * v2); // v2 = v1
-float vecteurScalaireCartesien(vecteurT * v1, vecteurT * v2);
-void vecteurProduitCartesien(vecteurT * v1, vecteurT * v2);
-void vecteurSommeCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3); // v3 = v1 + v2
-void vecteurDifferenceCartesien(vecteurT * v1, vecteurT * v2, vecteurT * v3); // v3 = v1 - v2
-	vecteurT nouveau;
-	vecteurT actuel;
-	vecteurT ancien;
-
-	vecteurT vitesse;
-	vecteurT vitesseSouhaite;
-	vecteurT forceExterieur;
-
-	float masse;
-	float nervosite;
-*/
 
 ///////////////////////////////////////////////////////////////////////////

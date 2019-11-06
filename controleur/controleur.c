@@ -173,11 +173,11 @@ int controleurSimulationGraphique(controleurT * controleur)
 int controleurEvolution(controleurT * controleur)
 	{
 
-	horlogeChrono(&(*controleur).horloge, 0);
+	//horlogeChrono(&(*controleur).horloge, 0);
 
 	controleurProjection(controleur);
 
-	horlogeChrono(&(*controleur).horloge, 1);
+	//horlogeChrono(&(*controleur).horloge, 1);
 
 	if((*controleur).modePause > 0)
 		{
@@ -187,11 +187,11 @@ int controleurEvolution(controleurT * controleur)
 			}
 		}
 
-	horlogeChrono(&(*controleur).horloge, 2);
+	//horlogeChrono(&(*controleur).horloge, 2);
 
 	controleurConstructionGraphique(controleur);
 
-	horlogeChrono(&(*controleur).horloge, 3);
+	//horlogeChrono(&(*controleur).horloge, 3);
 
 	return (*controleur).sortie;
 	}
@@ -435,13 +435,15 @@ int controleurClavier(controleurT * controleur)
 	// Affichage des informations
 		case SDLK_F1:
 			etageAffiche(&(*controleur).systeme.batiment.etage[0]);break;
-	/*	case SDLK_F2:
-			controleurAfficheVitesse(&(*controleur).options.dessineAngle);break;
+		case SDLK_F2:
+			mobileAffiche(&(*controleur).systeme.foule.premier->mobile);break;
 		case SDLK_F3:
-			controleurAfficheOptions(&(*controleur).options.dessineMur);break;
+			//controleurAfficheOptions(&(*controleur).options.dessineMur)
+			etageAffiche(&(*controleur).systeme.batiment.etage[0]);break;
 		case SDLK_F4:
-			controleurAfficheMobile(&(*controleur).options.dessineMobile);break;
-*/
+			//controleurAfficheMobile(&(*controleur).options.dessineMobile)
+			etageAffiche(&(*controleur).systeme.batiment.etage[0]);break;
+
 		case SDLK_F5:
 			controleurAfficheForces(controleur);break;
 		case SDLK_F6:

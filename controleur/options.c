@@ -1,7 +1,7 @@
 /*
-Copyright octobre 2019, Stephan Runigo
+Copyright novembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.0  simulateur de foule
+SimFoule 2.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -170,7 +170,7 @@ void optionsMasse(optionsT * option, char *opt)
 	else
 		{
 		printf("Option masse non valide, masse = %f\n", (*option).masse);
-		printf("Option masse : %d < masse < %d\n", MASSE_MIN, MASSE_MAX);
+		printf("Option masse : %f < masse < %f\n", MASSE_MIN, MASSE_MAX);
 		}
 	return;
 	}
@@ -296,7 +296,7 @@ void optionsAide(void)
 
 	printf(" initial	%d < initial < %d	numéro du fichier d'initialisation\n", INITIAL_MIN, INITIAL_MAX);
 	printf(" taille		%d < taille < %d	taille des mobiles\n", MOBILE_MIN, MOBILE_MAX);
-	printf(" masse		%d < masse < %d		masse des mobiles\n", MASSE_MIN, MASSE_MAX);
+	printf(" masse		%f < masse < %f		masse des mobiles\n", MASSE_MIN, MASSE_MAX);
 	printf(" nervosite	%4.3f < nervosite < %4.1f	nervosité des mobiles\n", NERVOSITE_MIN, NERVOSITE_MAX);
 	//printf("	flèches haut, bas, gauche, droite\n\n");
 	printf(" dessineAngle		= 0 ou 1	Dessine ou non les directions\n");
