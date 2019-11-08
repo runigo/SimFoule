@@ -63,7 +63,6 @@ typedef struct MobileT mobileT;
 
 int mobileInitialise(mobileT * mobile, int taille, float masse, float nervosite, float dt);
 int mobileInitialisePosition(mobileT * mobile, float x, float y, int z); // z=-1 : sortie
-int mobileChangeCaractere(mobileT * mobile, int taille, float masse, float nervosite, float dt);
 
 int mobileInertie(mobileT * mobile);
 int mobileIncremente(mobileT * mobile);

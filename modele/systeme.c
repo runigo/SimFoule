@@ -245,9 +245,6 @@ float systemeVitesseSouhaiteeMobile(etageT * etage, int X, int Y, mobileT * mobi
 			max = (*etage).cellule[X][Y].note[i];
 			}
 		}
-		//fprintf(stderr, "max = %d ", (int)max);
-		// vecteur = 
-	//vecteurAffiche(&(*etage).angle[indexMax]);
 
 	vecteurEgaleCartesien(&(*etage).angle[indexMax], &(*mobile).vitesseSouhaitee); // v2 = v1
 

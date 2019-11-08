@@ -105,20 +105,17 @@ int controleurInitialisation(controleurT * controleur)
 	(*controleur).options.sortie = 0;	// Sortie de SimFoule si > 0
 	(*controleur).modePause = (*controleur).options.mode;		// Evolution système ou pause
 
-	systemeInitialisation(&(*controleur).systeme, (*controleur).options.dt);
-
 		fprintf(stderr, "  Initialisation de la projection\n");
 	projectionInitialiseLongueurs(&(*controleur).projection, BATIMENT_X_IMP, BATIMENT_Y_IMP);
 
-		fprintf(stderr, "  Initialisation du batiment\n");
-	donneesInitialisationBatiment(&(*controleur).systeme.batiment, &(*controleur).options);
 
-		fprintf(stderr, "  Initialisation de la foule\n");
-	donneesCreationFoule(&(*controleur).systeme.foule, &(*controleur).options);
-	donneesInitialisationFoule(&(*controleur).systeme.foule, &(*controleur).systeme.batiment);
+		fprintf(stderr, "  Initialisation du système\n");
+	donneesInitialisationSysteme(&(*controleur).systeme, &(*controleur).options);
+
+		fprintf(stderr, "  Initialisation du graphe\n");
+	donneesCreationGraphe(&(*controleur).graphe, &(*controleur).options);
 
 		fprintf(stderr, "  Initialisation de l'interface graphique\n");
-	donneesCreationGraphe(&(*controleur).graphe, &(*controleur).options);
 	donneesInitialisationInterface(&(*controleur).interface, &(*controleur).options);
 	donneesInitialisationGraphique(&(*controleur).graphique, &(*controleur).interface, &(*controleur).options);
 
@@ -139,14 +136,7 @@ int controleurReinitialisation(controleurT * controleur, int initial)
 	fouleSuppression(&(*controleur).systeme.foule);
 
 		// Réinitialisation du système
-	systemeInitialisation(&(*controleur).systeme, (*controleur).options.dt);
-
-		//fprintf(stderr, "  Réinitialisation du batiment\n");
-	donneesInitialisationBatiment(&(*controleur).systeme.batiment, &(*controleur).options);
-
-		//fprintf(stderr, "  Réinitialisation de la foule\n");
-	donneesCreationFoule(&(*controleur).systeme.foule, &(*controleur).options);
-	donneesInitialisationFoule(&(*controleur).systeme.foule, &(*controleur).systeme.batiment);
+	donneesInitialisationSysteme(&(*controleur).systeme, &(*controleur).options);
 
 		//fprintf(stderr, "  Réinitialisation du graphe\n");
 	donneesCreationGraphe(&(*controleur).graphe, &(*controleur).options);

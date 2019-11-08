@@ -45,8 +45,8 @@ termes.
 
 	//	PARAMÈTRES GRAPHIQUES
 
-#define FENETRE_X 892 // Largeur de la fenêtre
-#define FENETRE_Y 550 // Hauteur de la fenêtre
+#define FENETRE_X 1117 // Largeur de la fenêtre
+#define FENETRE_Y 691 // Hauteur de la fenêtre
 
 #define BOUTON_COMMANDES 17 // Nombres de petits boutons
 #define ROTATIF_COMMANDES 5 // Nombre de boutons rotatifs
@@ -98,6 +98,7 @@ termes.
 	//----------         PARAMETRES  DES  MOBILES         -----------//
 
 #define MOBILE_MIN 1 // Taille minimale d'un mobile
+#define MOBILE_IMP CELLULE // Taille maximale d'un mobile
 #define MOBILE_MAX CELLULE*2 // Taille maximale d'un mobile
 
 #define MASSE_MIN 15.5	// Masse minimale d'un mobile

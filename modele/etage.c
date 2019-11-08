@@ -465,7 +465,14 @@ int etageAffiche(etageT * etage)
 				{
 				if((int)((*etage).cellule[i][j].note[k])>-9)
 					{
-					fprintf(stderr, "%d", (int)((*etage).cellule[i][j].note[k]));
+					if((int)((*etage).cellule[i][j].note[k])>0)
+						{
+						fprintf(stderr, "%d", (int)((*etage).cellule[i][j].note[k]));
+						}
+					else
+						{
+						fprintf(stderr, "n");
+						}
 					}
 				else
 					{

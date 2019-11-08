@@ -41,6 +41,9 @@ termes.
 
 int donneesOptionsImplicite(optionsT * options);
 
+int donneesInitialisationSysteme(systemeT * systeme, optionsT * options);
+
+
 int donneesInitialisationBatiment(batimentT * batiment, optionsT * options);
 int donneesCreationFoule(fouleT * foule, optionsT * options);
 int donneesInitialisationFoule(fouleT * foule, batimentT * batiment);

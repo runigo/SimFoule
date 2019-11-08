@@ -32,6 +32,7 @@ termes.
 
 #include "../modele/mobile.h"
 
+int mobileInitialiseParametre(mobileT * mobile, int taille, float masse, float nervosite, float dt);
 int mobileMemeEtage(mobileT * mobile1, mobileT * mobile2);
 	// = 0 si etage différent, 1 si même étage, -1 si sortie
 int mobileDistanceArithmetique(mobileT * mobile1, mobileT * mobile2);
@@ -39,8 +40,6 @@ int mobileDistanceArithmetique(mobileT * mobile1, mobileT * mobile2);
 
 int mobileInitialise(mobileT * mobile, int taille, float masse, float nervosite, float dt)
 	{
-	int retour = 0;
-
 	vecteurCartesien(&(*mobile).vitesse, 0, 0, 0);
 	vecteurCartesien(&(*mobile).vitesseSouhaitee, 0, 0, 0);
 	vecteurCartesien(&(*mobile).forceBatiment, 0, 0, 0);
@@ -48,10 +47,9 @@ int mobileInitialise(mobileT * mobile, int taille, float masse, float nervosite,
 	vecteurCartesien(&(*mobile).forceMurs, 0, 0, 0);
 	vecteurCartesien(&(*mobile).sommeForces, 0, 0, 0);
 
-	retour += mobileInitialisePosition(mobile, 0, 0, 0);
-	retour += mobileChangeCaractere(mobile, taille, masse, nervosite, dt);
+	mobileInitialisePosition(mobile, 0, 0, 0);
 
-	return retour;
+	return mobileInitialiseParametre(mobile, taille, masse, nervosite, dt);
 	}
 
 int mobileInitialisePosition(mobileT * mobile, float x, float y, int z)
@@ -63,30 +61,60 @@ int mobileInitialisePosition(mobileT * mobile, float x, float y, int z)
 	return 0;
 	}
 
-int mobileChangeCaractere(mobileT * mobile, int taille, float masse, float nervosite, float dt)
+int mobileInitialiseParametre(mobileT * mobile, int taille, float masse, float nervosite, float dt)
 	{
 	int retour = 0;
 
 	(*mobile).taille = taille;
-	(*mobile).rayon = 0.5*taille;
 	(*mobile).masse = masse;
 	(*mobile).nervosite = nervosite;
-	(*mobile).celerite = 0.1*nervosite/UNITE_NOTE;
 	(*mobile).dt = dt;
 
-	if( masse > MASSE_MIN && masse < MASSE_MAX )
-		(*mobile).masse = masse;
-	else retour ++;
+	if( (*mobile).taille > MOBILE_MAX )
+		{
+		(*mobile).taille = MOBILE_MAX; retour ++;
+		}
+	else { if( (*mobile).taille < MOBILE_MIN )
+			{
+			(*mobile).taille = MOBILE_MIN; retour ++;
+			}
+		}
 
-	if( nervosite > NERVOSITE_MIN && nervosite < NERVOSITE_MAX )
-		(*mobile).nervosite = nervosite;
-	else retour ++;
+	if( (*mobile).masse >  MASSE_MAX )
+		{
+		(*mobile).masse = MASSE_MAX; retour ++;
+		}
+	else { if( (*mobile).masse < MASSE_MIN )
+			{
+			(*mobile).masse = MASSE_MIN; retour ++;
+			}
+		}
 
-	if( dt > DT_MIN && dt < DT_MAX )
-		(*mobile).dt = dt;
-	else retour ++;
+	if( (*mobile).nervosite > NERVOSITE_MAX )
+		{
+		(*mobile).nervosite = NERVOSITE_MAX; retour ++;
+		}
+	else { if( (*mobile).nervosite < NERVOSITE_MIN )
+			{
+			(*mobile).nervosite = nervosite; retour ++;
+			}
+		}
 
-	(*mobile).dtsurtau = dt*nervosite;
+	if( (*mobile).dt > DT_MAX )
+		{
+		(*mobile).dt = DT_MAX; retour ++;
+		}
+	else
+		{
+		if( (*mobile).dt < DT_MIN )
+			{
+			(*mobile).dt = DT_MIN; retour ++;
+			}
+		}
+
+	(*mobile).celerite = 0.1*nervosite/UNITE_NOTE;
+	(*mobile).rayon = 0.5*(*mobile).taille;
+	(*mobile).dtsurtau = dt*(*mobile).nervosite;
 	(*mobile).dt2surM = dt*dt/(*mobile).masse;
 
 	return retour;
