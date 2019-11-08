@@ -1,7 +1,7 @@
 /*
-Copyright octobre 2019, Stephan Runigo
+Copyright novembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.0  simulateur de foule
+SimFoule 2.1  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -37,48 +37,38 @@ int commandesInitialiseBoutons(commandesT * commandes, int largeur, int hauteur)
 	//	PANNEAU DROIT
 
 		 // Zone des boutons rotatifs
-	(*commandes).rotatifs=(int)(0.833333333333*largeur); // 965 / 1158
+	(*commandes).rotatifs=(int)(0.830797*largeur);
 		// BOUTONS ROTATIFS SUIVANT X
-	(*commandes).rotatifX=(int)(0.020725388601*largeur); // 823       D-G = 24 / 1158 // Rayon suivant X
-	(*commandes).rotatifsCentre=(int)(0.892918825561*largeur); // 1034 // Positon X des boutons rotatifs
+	(*commandes).rotatifX=(int)(0.017*largeur);	//		Rayon suivant X 0.896150
+	(*commandes).rotatifsCentre=(int)(0.879141*largeur); // Position
 		// BOUTONS ROTATIFS SUIVANT Y
-	(*commandes).rotatifY=(int)(0.0322128851541*hauteur); // 23 / 714	Rayon suivant Y
-	(*commandes).rotatifCentre[0]=(int)(0.135854341737*hauteur); // 97	Couplage
-	(*commandes).rotatifCentre[1]=(int)(0.347338935574*hauteur); // 248	Dissipation Positon Y des boutons rotatifs
-	(*commandes).rotatifCentre[2]=(int)(0.560224089636*hauteur); // 400	Josephson
-	(*commandes).rotatifCentre[3]=(int)(0.763305322129*hauteur); // 545	Amplitude
-	(*commandes).rotatifCentre[4]=(int)(0.915966386555*hauteur); // 654	Fréquence
+	(*commandes).rotatifY=(int)(0.025*hauteur);	//		Rayon suivant Y 0.094067
+	(*commandes).rotatifCentre[0]=(int)(0.118669*hauteur); // Masse
+	(*commandes).rotatifCentre[1]=(int)(0.259045*hauteur); // Ecart
+	(*commandes).rotatifCentre[2]=(int)(0.441389*hauteur); // Nervosité
+	(*commandes).rotatifCentre[3]=(int)(0.575977*hauteur); // Ecart
+	(*commandes).rotatifCentre[4]=(int)(0.759768*hauteur); // Simulation
 
 		 // Zone des petits boutons
-	(*commandes).boutons=(int)(0.946459412781*largeur); // 1096 / 1158
+	(*commandes).boutons=(int)(0.931065*largeur);
 		// PETITS BOUTONS SUIVANT X
-	(*commandes).boutonX=(int)(0.0121*largeur); // Rayon suivant X // 14 / 1158
-	(*commandes).boutonsCentre=(int)(0.964*largeur); // 1117 // Positon X des petits boutons
+	(*commandes).boutonX=(int)(0.007*largeur);			//		Rayon suivant X
+	(*commandes).boutonsCentre=(int)(0.950761*largeur);	//	Positon X
 		// PETITS BOUTONS SUIVANT Y
-	(*commandes).boutonY=(int)(0.0168067226891*largeur); // Rayon suivant Y // 12 / 714
-	(*commandes).boutonCentre[0]=(int)(0.0574229691877*hauteur); // 41	Périodique
-	(*commandes).boutonCentre[1]=(int)(0.1035*hauteur); // 74	Libre
-	(*commandes).boutonCentre[2]=(int)(0.1513*hauteur); // 108 	Fixe // Positon Y des petits boutons
-	(*commandes).boutonCentre[3]=(int)(0.203081232493*hauteur); // 145	Mixte
-	(*commandes).boutonCentre[4]=(int)(0.289915966387*hauteur); // 207	Uniforme
-	(*commandes).boutonCentre[5]=(int)(0.3431372549*hauteur); // 245	Nulle
-	(*commandes).boutonCentre[6]=(int)(0.396358543417*hauteur); // 283	Extrémité
-	(*commandes).boutonCentre[7]=(int)(0.478991596639*hauteur); // 342	Marche
-	(*commandes).boutonCentre[8]=(int)(0.526610644258*hauteur); // 376	Arrêt
-	(*commandes).boutonCentre[9]=(int)(0.575*hauteur); // 410	Droite
-	(*commandes).boutonCentre[10]=(int)(0.624*hauteur); // 445	Gauche
-	(*commandes).boutonCentre[11]=(int)(0.7019*hauteur); // 501	Arrêt
-	(*commandes).boutonCentre[12]=(int)(0.75215*hauteur); // 537	Sinus
-	(*commandes).boutonCentre[13]=(int)(0.80117*hauteur); // 572	Carré
-	(*commandes).boutonCentre[14]=(int)(0.851540616246*hauteur); // 608	Impulsion
-	(*commandes).boutonCentre[15]=(int)(0.912*hauteur); // 649	Fluxon
-	(*commandes).boutonCentre[16]=(int)(0.96*hauteur); // 685	Anti F.
+	(*commandes).boutonY=(int)(0.010*largeur); //		Rayon suivant Y
+	(*commandes).boutonCentre[0]=(int)(0.230101*hauteur); // Uniforme
+	(*commandes).boutonCentre[1]=(int)(0.287988*hauteur); //		Aléatoire
+	(*commandes).boutonCentre[2]=(int)(0.542692*hauteur); // 		Uniforme
+	(*commandes).boutonCentre[3]=(int)(0.599132*hauteur); //	Aléatoire
+	(*commandes).boutonCentre[4]=(int)(0.745297*hauteur); //Pause
+	(*commandes).boutonCentre[5]=(int)(0.803184*hauteur); // Max
+	(*commandes).boutonCentre[6]=(int)(0.862518*hauteur); // Implicite
 
 
 	//	PANNEAU BAS
 
 		 // Zone du panneau
-	(*commandes).bas=(int)(0.855742296919*hauteur); // 611 / 714
+	(*commandes).bas=(int)(0.816208*hauteur); //	Suivant Y
 
 		// BOUTONS LINEAIRES SUIVANT Y
 	(*commandes).lineaireY=(int)(0.0392156862745*hauteur); // 693-636/2 =  / 714 // Rayon suivant Y
@@ -91,35 +81,22 @@ int commandesInitialiseBoutons(commandesT * commandes, int largeur, int hauteur)
 	(*commandes).lineaireCentre[3]=(int)(0.406950672646*largeur); // 414+596/2	Simulation > temps réèl	
 
 		// BOUTONS TRIANGULAIRES SUIVANT Y
-	(*commandes).triangleY=(int)(0.0168067226891*hauteur); // Rayon suivant Y // 12 / 714
-	(*commandes).trianglesCentre=(int)(0.920168067227*hauteur); // 657 // Position Y des petits triangles
-	(*commandes).trianglesLumiere=(int)(0.960784313725*hauteur); // 685 // Position Y des lumière
+	(*commandes).triangleY=(int)(0.010*hauteur); // Rayon suivant Y
+	(*commandes).trianglesCentre=(int)(0.888567*hauteur); // Position Y des petits triangles
+	(*commandes).trianglesLumiere=(int)(0.960784313725*hauteur); // Position Y des lumières
 		// BOUTONS TRIANGULAIRES SUIVANT X
-	(*commandes).triangleX=(int)(0.0120898100173*largeur); // Rayon suivant X // 14 / 1158
-	(*commandes).triangleCentre[0]=(int)(0.047495682*largeur); // 	rotation gauche rapide
-	(*commandes).triangleCentre[1]=(int)(0.076856649*largeur); // 	rotation gauche lente
-	(*commandes).triangleCentre[2]=(int)(0.104490501*largeur); //  	arrêt
-	(*commandes).triangleCentre[3]=(int)(0.129533679*largeur); // 	rotation droite lente
-	(*commandes).triangleCentre[4]=(int)(0.158031088*largeur); // 	rotation droite rapide
+	(*commandes).triangleX=(int)(0.007*largeur); // Rayon suivant X
+	(*commandes).triangleCentre[0]=(int)(0.423456*largeur); // 	1
+	(*commandes).triangleCentre[1]=(int)(0.452999*largeur); // 	2
+	(*commandes).triangleCentre[2]=(int)(0.481647*largeur); //  3
+	(*commandes).triangleCentre[3]=(int)(0.510295*largeur); // 	4
+	(*commandes).triangleCentre[4]=(int)(0.538944*largeur); // 	5
+	(*commandes).triangleCentre[5]=(int)(0.568487*largeur); // 	6
 
-	(*commandes).triangleCentre[5]=(int)(0.240932642*largeur); // 	simulation très ralenti
-	(*commandes).triangleCentre[6]=(int)(0.27806563*largeur); // 	simulation ralenti
-	(*commandes).triangleCentre[7]=(int)(0.311744387*largeur); // 	pause
-	(*commandes).triangleCentre[8]=(int)(0.352331606*largeur); // 	temps réèl
-	(*commandes).triangleCentre[9]=(int)(0.385146805*largeur); // 	simulation accéléré
-	(*commandes).triangleCentre[10]=(int)(0.423143351*largeur); // 	simulation trés accéléré
-
-	(*commandes).triangleCentre[11]=(int)(0.511226252*largeur); // 	1
-	(*commandes).triangleCentre[12]=(int)(0.540587219*largeur); // 	2
-	(*commandes).triangleCentre[13]=(int)(0.568221071*largeur); // 	3
-	(*commandes).triangleCentre[14]=(int)(0.59671848*largeur); // 	4
-	(*commandes).triangleCentre[15]=(int)(0.625215889*largeur); // 	5
-	(*commandes).triangleCentre[16]=(int)(0.654576857*largeur); // 	6
-
-	(*commandes).triangleCentre[17]=(int)(0.713298791*largeur); // 	1
-	(*commandes).triangleCentre[18]=(int)(0.7417962*largeur); // 	2
-	(*commandes).triangleCentre[19]=(int)(0.769430052*largeur); // 	3
-	(*commandes).triangleCentre[20]=(int)(0.799654577*largeur); // 	4
+	(*commandes).triangleCentre[6]=(int)(0.627574*largeur); // 	1
+	(*commandes).triangleCentre[7]=(int)(0.657117*largeur); // 	2
+	(*commandes).triangleCentre[8]=(int)(0.685765*largeur); // 	3
+	(*commandes).triangleCentre[9]=(int)(0.714414*largeur); // 	4
 
 		//	Vitesse de la simulation
 

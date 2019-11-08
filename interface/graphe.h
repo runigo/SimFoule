@@ -60,6 +60,6 @@ typedef struct GrapheT grapheT;
 
 int grapheInitialisation(grapheT * graphe, int batimentX, int batimentY, int batimentZ);
 int grapheCreation(grapheT * graphe, int nombre);
-void grapheSuppression(grapheT * graphe);
+int grapheSuppression(grapheT * graphe);
 
 #endif

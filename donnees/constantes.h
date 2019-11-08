@@ -43,20 +43,35 @@ termes.
 #define PI 3.14159265359
 
 
-	//	PARAMÈTRES GRAPHIQUES
+	//	---------------------	PARAMÈTRES GRAPHIQUES	------------//
+
+	//		FENÊTRE
 
 #define FENETRE_X 1117 // Largeur de la fenêtre
 #define FENETRE_Y 691 // Hauteur de la fenêtre
 
-#define BOUTON_COMMANDES 17 // Nombres de petits boutons
-#define ROTATIF_COMMANDES 5 // Nombre de boutons rotatifs
+	//		COMMANDES
+
+#define BOUTON_COMMANDES 7 // Nombres de petits boutons
+#define ROTATIF_COMMANDES 6 // Nombre de boutons rotatifs
 
 #define LINEAIRE_COMMANDES 4 // Nombres de commandes linéaires
-#define TRIANGLE_COMMANDES 21 // Nombres de commandes triangulaires
+#define TRIANGLE_COMMANDES 10 // Nombres de commandes triangulaires
+
+	//		CAPTEURS
 
 #define DUREE_CAPTEURS 128 // Nombre de points en mémoire
 
-	//----------         DIMENSIONS  SPATIALES         -----------//
+	//		TEMPORELLE
+
+#define TEMPS_AFFICHAGE 110 // Durée entre les affichages en ms
+
+#define MEMOIRE_CHRONO 10 // Nombre de points en mémoire des durées chronométrées
+
+
+	//	---------------------	PARAMÈTRES SYSTÈME	------------//
+
+	//		SPATIALES
 
 #define BATIMENT_X_IMP 50	// Longueur implicite suivant x du batiment (en nombre de cellule)
 #define BATIMENT_Y_IMP 25	// Longueur implicite suivant y du batiment (en nombre de cellule)
@@ -69,17 +84,9 @@ termes.
 #define CELLULE 16		// Longueur du coté d'une cellule (en pixel)
 #define CELLULESUR2 CELLULE/2	// Demi longueur du coté d'une cellule (en pixel)
 
-	//#define FENETRE_X BATIMENT_X*CELLULE // Taille de la fenêtre
-	//#define FENETRE_Y BATIMENT_Y*CELLULE // Taille de la fenêtre
+#define NOMBRE_MAX 1000	// Nombre maximale de mobiles
 
-
-	#define NOMBRE_MAX 1000	// Nombre maximale de mobiles
-
-
-	//----------         PARAMETRES  TEMPORELLES         -----------//
-
-#define TEMPS_AFFICHAGE 110 // Durée entre les affichages en ms
-#define MEMOIRE_CHRONO 10 // Nombre de points en mémoire des durées chronométrées
+	//		TEMPORELLES
 
 #define DT_MAX 0.06	// dt maximale
 #define DT_IMPLICITE 0.019	// dt implicite
@@ -88,17 +95,10 @@ termes.
 #define DUREE 100 // Nombre implicite d'incrémentation du système entre deux affichages.
 #define DUREE_MAX 777	// Nombre maximale d'incrémentation entre les affichages
 
-
-	//----------         PARAMETRES  D'INITIALISATION         -----------//
-
-#define INITIAL_MIN -99	// Fichiers d'initialisation
-#define INITIAL_MAX 99	// Fichiers d'initialisation
-
-
-	//----------         PARAMETRES  DES  MOBILES         -----------//
+	//		MOBILES
 
 #define MOBILE_MIN 1 // Taille minimale d'un mobile
-#define MOBILE_IMP CELLULE // Taille maximale d'un mobile
+#define MOBILE_IMP CELLULE // Taille implicite d'un mobile
 #define MOBILE_MAX CELLULE*2 // Taille maximale d'un mobile
 
 #define MASSE_MIN 15.5	// Masse minimale d'un mobile
@@ -109,10 +109,20 @@ termes.
 #define NERVOSITE_IMP 7.7	// Nervosité implicite
 #define NERVOSITE_MIN 0.55	// Nervosité minimale
 
+#define CELERITE_MAX 19.1	// Célérité maximale
+#define CELERITE_IMP 7.7	// Célérité implicite
+#define CELERITE_MIN 0.55	// Célérité minimale
 
-	//----------        PARAMETRES  D'INTERACTIONS        -----------//
+	//		INTERACTIONS
+
 #define UNITE_NOTE 1.71		// Unité de note pour la direction souhaitable
 #define FORCE_CONTACT_MOBILE 141	// constante de force de répulsion de contact entre mobile
 #define FORCE_CONTACT_MUR 1171		// constante de force de répulsion de contact avec les murs
+
+	//		INITIALISATION
+
+#define INITIAL_MIN -99	// Fichiers d'initialisation
+#define INITIAL_MAX 99	// Fichiers d'initialisation
+
 #endif
 //////////////////////////////////////////////////////////////////////

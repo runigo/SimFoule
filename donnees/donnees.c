@@ -41,7 +41,7 @@ int donneesOptionsImplicite(optionsT * options)
 	(*options).mode = 1;	// -1 : Pause, 1 : Simulation
 	(*options).duree = 90;	// nombre d'incrémentation de la foule par affichage
 
-	(*options).initial=-1;	// Numéro du fichier d'initialisation.
+	(*options).initial=0;	// Numéro du fichier d'initialisation.
 
 	(*options).nombre=33;	// Nombre de mobiles
 	(*options).nervosite=NERVOSITE_IMP;	// Nervosité des mobiles
@@ -66,7 +66,7 @@ int donneesOptionsImplicite(optionsT * options)
 int donneesInitialisationSysteme(systemeT * systeme, optionsT * options)
 	{
 
-
+		fprintf(stderr, "  Initialisation du système\n");
 	systemeInitialisation(systeme, (*options).dt);
 
 		fprintf(stderr, "  Initialisation du batiment\n");

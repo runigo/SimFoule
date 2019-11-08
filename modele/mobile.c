@@ -32,11 +32,20 @@ termes.
 
 #include "../modele/mobile.h"
 
+	//		INITIALISATION
 int mobileInitialiseParametre(mobileT * mobile, int taille, float masse, float nervosite, float dt);
+
+	//		ÉVOLUTION
 int mobileMemeEtage(mobileT * mobile1, mobileT * mobile2);
-	// = 0 si etage différent, 1 si même étage, -1 si sortie
 int mobileDistanceArithmetique(mobileT * mobile1, mobileT * mobile2);
-	// En pixel, retourne la distance arithmétique (dx+dy)
+
+	//		CHANGEMENT  DES  PARAMÈTRES
+	//		AFFICHAGE
+
+
+				//				------------------
+				//				  INITIALISATION
+				//				------------------
 
 int mobileInitialise(mobileT * mobile, int taille, float masse, float nervosite, float dt)
 	{
@@ -120,6 +129,11 @@ int mobileInitialiseParametre(mobileT * mobile, int taille, float masse, float n
 	return retour;
 	}
 
+
+				//				-------------
+				//				  ÉVOLUTION
+				//				-------------
+
 float mobileCalculVitesse(mobileT * mobile)
 	{	// vitesse = nouveau - ancien = vitesse en unité de dt
 	vecteurDifferenceCartesien2D(&(*mobile).nouveau, &(*mobile).actuel, &(*mobile).vitesse); // v3 = v1 - v2
@@ -178,25 +192,24 @@ int mobileMemeEtage(mobileT * mobile1, mobileT * mobile2)
 
 int mobileDistanceArithmetique(mobileT * mobile1, mobileT * mobile2)
 	{	// En pixel, retourne la distance arithmétique (dx+dy)
-	int X = (*mobile1).nouveau.x == (*mobile2).nouveau.x;
-	int Y = (*mobile1).nouveau.y == (*mobile2).nouveau.y;
-	if(X<0)
-		X=-X;
-	if(Y<0)
-		Y=-Y;
+	int X = (*mobile1).nouveau.x - (*mobile2).nouveau.x;
+	int Y = (*mobile1).nouveau.y - (*mobile2).nouveau.y;
+
+	if(X<0) { X=-X; }
+	if(Y<0) { Y=-Y; }
+
 	return X+Y;
 	}
 
 int mobileProximite(mobileT * mobile1, mobileT * mobile2)
-	{	// retourne 1 si les mobiles sont proche, 0 sinon
-	int proche = 0;
+	{	// retourne 1 si les mobiles sont proches, 0 sinon
 	if(mobileMemeEtage(mobile1, mobile2)==1)
 		{
 		int proximite=(*mobile1).taille + (*mobile2).taille;
 		if(mobileDistanceArithmetique(mobile1, mobile2) < proximite)
-			proche = 1;
+			return 1;
 		}
-	return proche;
+	return 0;
 	}
 
 float mobileAjouteForceMobile(mobileT * mobile1, mobileT * mobile2)
@@ -272,6 +285,76 @@ float mobileAjouteForceMur(mobileT * mobile, int DX, int DY, vecteurT * angle)
 
 	return force;
 	}
+
+
+					//				-------------------------------
+					//				  CHANGEMENT  DES  PARAMÈTRES
+					//				-------------------------------
+
+int mobileChangeMasse(mobileT * mobile, float facteur)
+	{
+	int retour = 0;
+
+	(*mobile).masse = (*mobile).masse * facteur;
+
+	if( (*mobile).masse >  MASSE_MAX )
+		{
+		(*mobile).masse = MASSE_MAX; retour ++;
+		}
+	else { if( (*mobile).masse < MASSE_MIN )
+			{
+			(*mobile).masse = MASSE_MIN; retour ++;
+			}
+		}
+
+	(*mobile).dt2surM = (*mobile).dt*(*mobile).dt/(*mobile).masse;
+
+	return retour;
+	}
+
+int mobileChangeNervosite(mobileT * mobile, float facteur)
+	{
+	int retour = 0;
+
+	(*mobile).nervosite = (*mobile).nervosite * facteur;
+
+	if( (*mobile).nervosite > NERVOSITE_MAX )
+		{
+		(*mobile).nervosite = NERVOSITE_MAX; retour ++;
+		}
+	else { if( (*mobile).nervosite < NERVOSITE_MIN )
+			{
+			(*mobile).nervosite = NERVOSITE_MIN; retour ++;
+			}
+		}
+
+	(*mobile).dtsurtau = (*mobile).dt*(*mobile).nervosite;
+
+	return retour;
+	}
+
+int mobileChangeCelerite(mobileT * mobile, float facteur)
+	{
+	int retour = 0;
+
+	(*mobile).celerite = (*mobile).celerite * facteur;
+
+	if( (*mobile).celerite > CELERITE_MAX )
+		{
+		(*mobile).celerite = CELERITE_MAX; retour ++;
+		}
+	else { if( (*mobile).celerite < CELERITE_MIN )
+			{
+			(*mobile).celerite = CELERITE_MIN; retour ++;
+			}
+		}
+
+	return retour;
+	}
+
+						//				-------------
+						//				  AFFICHAGE
+						//				-------------
 
 int mobileAffiche(mobileT * mobile)
 	{
