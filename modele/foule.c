@@ -33,15 +33,16 @@ termes.
 #include "foule.h"
 
 	//		CRÉATION  ET  INITIALISATION
-
-	//		ÉVOLUTION  TEMPORELLE
-
-	//		CHANGEMENT  DES  PARAMÈTRES
-
 int fouleInitialiseMobile(fouleT * foule);
 void fouleInitialiseLimiteInfini(fouleT * foule);
+
+	//		ÉVOLUTION  TEMPORELLE
 void fouleCouplage(fouleT * foule);
 void fouleCourantLimite(fouleT * foule);
+
+	//		CHANGEMENT  DES  PARAMÈTRES UNIFORMEs
+	//		CHANGEMENT  DES  PARAMÈTRES STATISTIQUES
+
 
 //void fouleJaugeZero(fouleT * foule);
 
@@ -83,7 +84,11 @@ int fouleInitialiseMobile(fouleT * foule)
 
 	do
 		{
-		mobileInitialise(&iter->mobile, (*foule).taille, (*foule).masse, (*foule).nervosite, (*foule).dt);
+		mobileInitialise(&iter->mobile, (*foule).dt);
+		mobileInitialiseTaille(&iter->mobile, (*foule).taille);
+		mobileInitialiseMasse(&iter->mobile, (*foule).masse);
+		mobileInitialiseNervosite(&iter->mobile, (*foule).nervosite);
+		mobileInitialiseCelerite(&iter->mobile, (*foule).celerite);
 		iter=iter->suivant;
 		}
 	while(iter != (*foule).premier);
@@ -193,7 +198,112 @@ float fouleForceMobiles(fouleT * foule)
 
 
 
-	//		CHANGEMENT  DES  PARAMÈTRES
+	//		CHANGEMENT  DES  PARAMÈTRES UNIFORME
+
+int fouleChangeMasse(fouleT * foule, float facteur)
+	{
+
+	(*foule).masse = (*foule).masse * facteur;
+
+	if( (*foule).masse >  MASSE_MAX )
+		{
+		(*foule).masse = MASSE_MAX;
+		printf("Masse maximale atteinte.");
+		}
+	else { if( (*foule).masse < MASSE_MIN )
+			{
+			(*foule).masse = MASSE_MIN;
+			printf("Masse minimale atteinte.");
+			}
+		}
+
+	float masse = (*foule).masse;
+
+	printf(" Masse = %f\n", masse);
+
+	float dt2surM = (*foule).dt * (*foule).dt / (*foule).masse;
+
+	chaineT *iter=(*foule).premier;
+	do
+		{
+		mobileInitialiseMasseEco(&iter->mobile, masse, dt2surM);
+		iter=iter->suivant;
+		}
+	while(iter != (*foule).premier);
+
+	return 0;
+	}
+
+int fouleChangeNervosite(fouleT * foule, float facteur)
+	{
+
+	(*foule).nervosite = (*foule).nervosite * facteur;
+
+	if( (*foule).nervosite >  NERVOSITE_MAX )
+		{
+		(*foule).nervosite = NERVOSITE_MAX;
+		printf("Nervosité maximale atteinte");
+		}
+	else { if( (*foule).nervosite < NERVOSITE_MIN )
+			{
+			(*foule).nervosite = NERVOSITE_MIN;
+			printf("Nervosité minimale atteinte");
+			}
+		}
+
+	float nervosite = (*foule).nervosite;
+
+	printf("Nervosité = %f\n", nervosite);
+
+	float dtsurtau = (*foule).dt * nervosite;
+
+	chaineT *iter=(*foule).premier;
+	do
+		{
+		mobileInitialiseNervositeEco(&iter->mobile, nervosite, dtsurtau);
+		iter=iter->suivant;
+		}
+	while(iter != (*foule).premier);
+
+	return 0;
+	}
+
+
+int fouleChangeCelerite(fouleT * foule, float facteur)
+	{
+
+	(*foule).celerite = (*foule).celerite * facteur;
+
+	if( (*foule).celerite >  CELERITE_MAX )
+		{
+		(*foule).celerite = CELERITE_MAX;
+		printf("Célérité maximale atteinte.");
+		}
+	else { if( (*foule).celerite < CELERITE_MIN )
+			{
+			(*foule).celerite = CELERITE_MIN;
+			printf("Célérité minimale atteinte.");
+			}
+		}
+
+	float celerite = (*foule).celerite;
+
+	printf("Célérité = %f\n", celerite);
+
+	chaineT *iter=(*foule).premier;
+	do
+		{
+		mobileInitialiseCeleriteEco(&iter->mobile, celerite);
+		iter=iter->suivant;
+		}
+	while(iter != (*foule).premier);
+
+	return 0;
+	}
+
+
+
+	//		CHANGEMENT  DES  PARAMÈTRES SATISTIQUES
 
 int fouleChangeMasseMoyenne(fouleT * foule, float facteur)
 	{

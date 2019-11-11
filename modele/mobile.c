@@ -32,23 +32,24 @@ termes.
 
 #include "../modele/mobile.h"
 
-	//		INITIALISATION
-int mobileInitialiseParametre(mobileT * mobile, int taille, float masse, float nervosite, float dt);
+	//	1	INITIALISATION
+int mobileInitialiseDt(mobileT * mobile, float dt) ;
 
-	//		ÉVOLUTION
+	//	2	ÉVOLUTION
 int mobileMemeEtage(mobileT * mobile1, mobileT * mobile2);
 int mobileDistanceArithmetique(mobileT * mobile1, mobileT * mobile2);
 
-	//		CHANGEMENT  DES  PARAMÈTRES
-	//		AFFICHAGE
+	//	3	CHANGEMENT  DES  PARAMÈTRES
+	//	4	AFFICHAGE
 
 
 				//				------------------
 				//				  INITIALISATION
 				//				------------------
 
-int mobileInitialise(mobileT * mobile, int taille, float masse, float nervosite, float dt)
+int mobileInitialise(mobileT * mobile, float dt)
 	{
+
 	vecteurCartesien(&(*mobile).vitesse, 0, 0, 0);
 	vecteurCartesien(&(*mobile).vitesseSouhaitee, 0, 0, 0);
 	vecteurCartesien(&(*mobile).forceBatiment, 0, 0, 0);
@@ -58,7 +59,14 @@ int mobileInitialise(mobileT * mobile, int taille, float masse, float nervosite,
 
 	mobileInitialisePosition(mobile, 0, 0, 0);
 
-	return mobileInitialiseParametre(mobile, taille, masse, nervosite, dt);
+	mobileInitialiseDt(mobile, dt);
+
+	mobileInitialiseTaille(mobile, MOBILE_IMP);
+	mobileInitialiseMasse(mobile, MASSE_IMP);
+	mobileInitialiseNervosite(mobile, NERVOSITE_IMP);
+	mobileInitialiseCelerite(mobile, CELERITE_IMP);
+
+	return 0;
 	}
 
 int mobileInitialisePosition(mobileT * mobile, float x, float y, int z)
@@ -70,14 +78,30 @@ int mobileInitialisePosition(mobileT * mobile, float x, float y, int z)
 	return 0;
 	}
 
-int mobileInitialiseParametre(mobileT * mobile, int taille, float masse, float nervosite, float dt)
+int mobileInitialiseDt(mobileT * mobile, float dt)
+	{
+	int retour = 0;
+
+	(*mobile).dt = dt;
+
+	if( (*mobile).dt > DT_MAX )
+		{
+		(*mobile).dt = DT_MAX; retour ++;
+		}
+	else { if( (*mobile).dt < DT_MIN )
+			{
+			(*mobile).dt = DT_MIN; retour ++;
+			}
+		}
+
+	return retour;
+	}
+
+int mobileInitialiseTaille(mobileT * mobile, int taille)
 	{
 	int retour = 0;
 
 	(*mobile).taille = taille;
-	(*mobile).masse = masse;
-	(*mobile).nervosite = nervosite;
-	(*mobile).dt = dt;
 
 	if( (*mobile).taille > MOBILE_MAX )
 		{
@@ -89,6 +113,19 @@ int mobileInitialiseParametre(mobileT * mobile, int taille, float masse, float n
 			}
 		}
 
+	(*mobile).rayon = 0.5*(*mobile).taille;
+
+	return retour;
+	}
+
+
+
+int mobileInitialiseMasse(mobileT * mobile, float masse)
+	{
+	int retour = 0;
+
+	(*mobile).masse = masse;
+
 	if( (*mobile).masse >  MASSE_MAX )
 		{
 		(*mobile).masse = MASSE_MAX; retour ++;
@@ -99,36 +136,83 @@ int mobileInitialiseParametre(mobileT * mobile, int taille, float masse, float n
 			}
 		}
 
+	(*mobile).dt2surM = (*mobile).dt*(*mobile).dt/(*mobile).masse;
+
+	return retour;
+	}
+
+
+
+int mobileInitialiseNervosite(mobileT * mobile, float nervosite)
+	{
+	int retour = 0;
+
+	(*mobile).nervosite = nervosite;
+
 	if( (*mobile).nervosite > NERVOSITE_MAX )
 		{
 		(*mobile).nervosite = NERVOSITE_MAX; retour ++;
 		}
 	else { if( (*mobile).nervosite < NERVOSITE_MIN )
 			{
-			(*mobile).nervosite = nervosite; retour ++;
+			(*mobile).nervosite = NERVOSITE_MIN; retour ++;
 			}
 		}
 
-	if( (*mobile).dt > DT_MAX )
-		{
-		(*mobile).dt = DT_MAX; retour ++;
-		}
-	else
-		{
-		if( (*mobile).dt < DT_MIN )
-			{
-			(*mobile).dt = DT_MIN; retour ++;
-			}
-		}
-
-	(*mobile).celerite = 0.1*nervosite/UNITE_NOTE;
-	(*mobile).rayon = 0.5*(*mobile).taille;
-	(*mobile).dtsurtau = dt*(*mobile).nervosite;
-	(*mobile).dt2surM = dt*dt/(*mobile).masse;
+	(*mobile).dtsurtau = (*mobile).dt*(*mobile).nervosite;
 
 	return retour;
 	}
 
+
+int mobileInitialiseCelerite(mobileT * mobile, float celerite)
+	{
+	int retour = 0;
+
+	(*mobile).celerite = celerite;
+
+	if( (*mobile).celerite > CELERITE_MAX )
+		{
+		(*mobile).celerite = CELERITE_MAX; retour ++;
+		}
+	else { if( (*mobile).celerite < CELERITE_MIN )
+			{
+			(*mobile).celerite = CELERITE_MIN; retour ++;
+			}
+		}
+
+	return retour;
+	}
+
+
+	//		Initialisation sans test de valeur
+void mobileInitialiseMasseEco(mobileT * mobile, float masse, float dt2surM)
+	{
+
+	(*mobile).masse = masse;
+
+	(*mobile).dt2surM = dt2surM;
+
+	return;
+	}
+
+void mobileInitialiseNervositeEco(mobileT * mobile, float nervosite, float dtsurtau)
+	{
+
+	(*mobile).nervosite = nervosite;
+
+	(*mobile).dtsurtau = dtsurtau;
+
+	return;
+	}
+
+void mobileInitialiseCeleriteEco(mobileT * mobile, float celerite)
+	{
+
+	(*mobile).celerite = celerite;
+
+	return;
+	}
 
 				//				-------------
 				//				  ÉVOLUTION

@@ -37,6 +37,7 @@ void optionsNombre(optionsT * option, char *opt);
 void optionsTaille(optionsT * option, char *opt);
 void optionsMasse(optionsT * option, char *opt);
 void optionsNervosite(optionsT * option, char *opt);
+void optionsCelerite(optionsT * option, char *opt);
 
 void optionsDt(optionsT * option, char *opt);
 void optionsPause(optionsT * option, char *opt);
@@ -58,6 +59,8 @@ int optionsTraitement(optionsT * option, int nb, char *opt[])
 			optionsTaille(option, opt[i+1]);		// Taille des mobiles
 		if(strcmp(opt[i], "nervosite")==0 && opt[i+1]!=NULL)
 			optionsNervosite(option, opt[i+1]);		// Nervosité des mobiles
+		if(strcmp(opt[i], "celerite")==0 && opt[i+1]!=NULL)
+			optionsCelerite(option, opt[i+1]);		// Célérité des mobiles
 		if(strcmp(opt[i], "masse")==0 && opt[i+1]!=NULL)
 			optionsMasse(option, opt[i+1]);			// Masse des mobiles
 /*
@@ -124,7 +127,7 @@ void optionsTaille(optionsT * option, char *opt)
 	return;
 	}
 
-	// Nervosité des mobiles maximale Nervosite nervositeNERVOSITE_MAX
+	// Nervosité des mobiles
 void optionsNervosite(optionsT * option, char *opt)
 	{
 	float nervosite = atof(opt);
@@ -137,6 +140,23 @@ void optionsNervosite(optionsT * option, char *opt)
 		{
 		printf("Option nervosite non valide, nervosite = %f\n", (*option).nervosite);
 		printf("Option nervosite : %f < nervosite < %f\n", NERVOSITE_MIN, NERVOSITE_MAX);
+		}
+	return;
+	}
+
+	// Célérité des mobiles 
+void optionsCelerite(optionsT * option, char *opt)
+	{
+	float celerite = atof(opt);
+	if(celerite>NERVOSITE_MIN && celerite<NERVOSITE_MAX)
+		{
+		(*option).celerite = celerite;
+		printf("Option celerite valide, celerite = %f\n", (*option).celerite);
+		}
+	else
+		{
+		printf("Option celerite non valide, celerite = %f\n", (*option).celerite);
+		printf("Option celerite : %f < celerite < %f\n", CELERITE_MIN, CELERITE_MAX);
 		}
 	return;
 	}
@@ -298,6 +318,7 @@ void optionsAide(void)
 	printf(" taille		%d < taille < %d	taille des mobiles\n", MOBILE_MIN, MOBILE_MAX);
 	printf(" masse		%f < masse < %f		masse des mobiles\n", MASSE_MIN, MASSE_MAX);
 	printf(" nervosite	%4.3f < nervosite < %4.1f	nervosité des mobiles\n", NERVOSITE_MIN, NERVOSITE_MAX);
+	printf(" celerite	%4.3f < celerite < %4.1f	nervosité des mobiles\n", NERVOSITE_MIN, NERVOSITE_MAX);
 	//printf("	flèches haut, bas, gauche, droite\n\n");
 	printf(" dessineAngle		= 0 ou 1	Dessine ou non les directions\n");
 	printf(" dessineMur		= 0 ou 1	Dessine ou non les murs\n");

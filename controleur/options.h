@@ -48,9 +48,10 @@ typedef struct OptionsT optionsT;
 
 		float dt;		// discrétisation du temps
 
-		int taille;		// Taille d'un mobile
-		float masse;		// Masse d'un mobile
-		float nervosite;	// Nervosité d'un mobile
+		int taille;			// Taille moyenne des mobiles
+		float masse;		// Masse moyenne des mobiles
+		float nervosite;	// Nervosité moyenne des mobiles
+		float celerite;		//	Célérité moyenne des mobiles
 
 			//	Dessin des graphes 0 ou 1
 		int dessineAngle;	//	Dessin des directions

@@ -44,10 +44,12 @@ typedef struct FouleT fouleT;
 
 		int nombre;		//	Nombre de mobile
 		int restant;		//	Nombre de mobile restant à sortir
-		int taille;		//	Taille des mobiles
-		float masse;		//	Masse des mobiles
 
-		float nervosite;	//	Nervosité des mobiles
+		int taille;		//	Taille moyenne des mobiles
+		float masse;		//	Masse moyenne des mobiles
+
+		float nervosite;	//	Nervosité moyenne des mobiles
+		float celerite;	//	Célérité moyenne des mobiles
 
 		};
 
@@ -62,7 +64,11 @@ int fouleIncremente(fouleT * foule);
 float fouleSommeForces(fouleT * foule); // Somme des forces
 float fouleForceMobiles(fouleT * foule); // Calcul de la force de couplage entre les mobiles
 
-	// Changement des paramètres
+	// Changement des paramètres uniformes
+int fouleChangeMasse(fouleT * foule, float facteur);
+int fouleChangeNervosite(fouleT * foule, float facteur);
+int fouleChangeCelerite(fouleT * foule, float facteur);
+	// Changement des paramètres statistique
 int fouleChangeMasseMoyenne(fouleT * foule, float facteur);
 int fouleChangeEcartMasse(fouleT * foule, float facteur);
 int fouleChangeNervositeMoyenne(fouleT * foule, float facteur);

@@ -44,9 +44,13 @@ int donneesOptionsImplicite(optionsT * options)
 	(*options).initial=0;	// Numéro du fichier d'initialisation.
 
 	(*options).nombre=33;	// Nombre de mobiles
-	(*options).nervosite=NERVOSITE_IMP;	// Nervosité des mobiles
-	(*options).taille=CELLULE;	// Taille des mobiles
-	(*options).masse=MASSE_IMP;	// Masse des mobiles
+
+	(*options).taille=CELLULE;	// Taille moyenne des mobiles
+	(*options).masse=MASSE_IMP;	// Masse moyenne des mobiles
+
+	(*options).nervosite=NERVOSITE_IMP;	// Nervosité moyenne des mobiles
+	(*options).celerite = CELERITE_IMP;	//	célérité moyenne des mobiles
+
 	(*options).dt=DT_IMPLICITE;	// discrétisation du temps
 
 			//	Dessin des graphes 0 ou 1
@@ -69,7 +73,7 @@ int donneesInitialisationSysteme(systemeT * systeme, optionsT * options)
 		fprintf(stderr, "  Initialisation du système\n");
 	systemeInitialisation(systeme, (*options).dt);
 
-		fprintf(stderr, "  Initialisation du batiment\n");
+		fprintf(stderr, "  Initialisation du batiment : %d\n", (*options).initial);
 	donneesInitialisationBatiment(&(*systeme).batiment, options);
 
 		fprintf(stderr, "  Création et initialisation de la foule\n");
@@ -83,8 +87,6 @@ int donneesInitialisationSysteme(systemeT * systeme, optionsT * options)
 
 int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 	{
-	//(*options).nombre = batimentInitialiseImplicite(batiment);
-	printf("    donneesInitialisationBatiment : initialisation : %d\n", (*options).initial);
 
 	batimentInitialiseVide(batiment);
 
@@ -111,7 +113,6 @@ int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 	return 0;
 	}
 
-//int donneesSystemeSauvegarde(controleurT * controleur, int numero);
 int donneesSauvegardeBatiment(batimentT * batiment, optionsT * options)
 	{
 		if( (*options).initial > -1 && (*options).initial < 99)
@@ -136,9 +137,11 @@ int donneesCreationFoule(fouleT * foule, optionsT * options)
 	(*foule).nombre = (*options).nombre;	// Nombre de mobile
 	(*foule).restant = (*options).nombre;	// Nombre de mobile restant à sortir
 
-	(*foule).taille = (*options).taille;		// Taille des mobiles
-	(*foule).masse = (*options).masse;		// Masse des mobiles
-	(*foule).nervosite = (*options).nervosite;	// Nervosité des mobiles
+	(*foule).taille = (*options).taille;		// Taille moyenne des mobiles
+	(*foule).masse = (*options).masse;			// Masse moyenne des mobiles
+
+	(*foule).nervosite = (*options).nervosite;	// Nervosité moyenne des mobiles
+	(*foule).celerite = (*options).celerite;	//	Nervosité moyenne des mobiles
 
 		// Création de la chaîne
 	fouleCreation(foule);

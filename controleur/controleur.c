@@ -449,6 +449,19 @@ int controleurClavier(controleurT * controleur)
 			controleurChangeDessin(&(*controleur).options.dessineMobile);break;
 
 
+		case SDLK_a:
+			fouleChangeMasse(&(*controleur).systeme.foule, 1.1);break;
+		case SDLK_q:
+			fouleChangeMasse(&(*controleur).systeme.foule, 0.91);break;
+		case SDLK_z:
+			fouleChangeNervosite(&(*controleur).systeme.foule, 1.1);break;
+		case SDLK_s:
+			fouleChangeNervosite(&(*controleur).systeme.foule, 0.91);break;
+		case SDLK_e:
+			fouleChangeCelerite(&(*controleur).systeme.foule, 1.1);break;
+		case SDLK_d:
+			fouleChangeCelerite(&(*controleur).systeme.foule, 0.91);break;
+
 		default:
 			;
 		}

@@ -103,19 +103,20 @@ termes.
 
 #define MASSE_MIN 15.5	// Masse minimale d'un mobile
 #define MASSE_IMP 77.77	// Masse implicite d'un mobile
-#define MASSE_MAX 199.9	// Masse maximale d'un mobile
+#define MASSE_MAX 155.5	// Masse maximale d'un mobile
 
-#define NERVOSITE_MAX 19.1	// Nervosité maximale
+#define NERVOSITE_MAX 77.7	// Nervosité maximale
 #define NERVOSITE_IMP 7.7	// Nervosité implicite
 #define NERVOSITE_MIN 0.55	// Nervosité minimale
 
-#define CELERITE_MAX 19.1	// Célérité maximale
-#define CELERITE_IMP 7.7	// Célérité implicite
-#define CELERITE_MIN 0.55	// Célérité minimale
+#define CELERITE_MAX 7.7	// Célérité maximale
+#define CELERITE_IMP 1.77	// Célérité implicite
+#define CELERITE_MIN 0.077	// Célérité minimale
 
 	//		INTERACTIONS
 
-#define UNITE_NOTE 1.71		// Unité de note pour la direction souhaitable
+#define UNITE_NOTE 0.55		// Unité de note pour la direction souhaitable
+
 #define FORCE_CONTACT_MOBILE 141	// constante de force de répulsion de contact entre mobile
 #define FORCE_CONTACT_MUR 1171		// constante de force de répulsion de contact avec les murs
 

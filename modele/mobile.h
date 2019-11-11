@@ -63,12 +63,17 @@ typedef struct MobileT mobileT;
 
 	//		INITIALISATION
 
-int mobileInitialise(mobileT * mobile, int taille, float masse, float nervosite, float dt);
+int mobileInitialise(mobileT * mobile, float dt);
 
 int mobileInitialiseTaille(mobileT * mobile, int taille);
 int mobileInitialiseMasse(mobileT * mobile, float masse);
 int mobileInitialiseNervosite(mobileT * mobile, float nervosite);
 int mobileInitialiseCelerite(mobileT * mobile, float celerite);
+
+	//		Initialisation sans test de valeur
+void mobileInitialiseMasseEco(mobileT * mobile, float masse, float dt2surM);
+void mobileInitialiseNervositeEco(mobileT * mobile, float nervosite, float dtsurtau);
+void mobileInitialiseCeleriteEco(mobileT * mobile, float celerite);
 
 int mobileInitialisePosition(mobileT * mobile, float x, float y, int z); // z=-1 : sortie
 
