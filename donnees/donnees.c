@@ -40,18 +40,19 @@ int donneesOptionsImplicite(optionsT * options)
 
 	(*options).mode = 1;	// -1 : Pause, 1 : Simulation
 	(*options).duree = 90;	// nombre d'incrémentation de la foule par affichage
+	(*options).boucle = 1;	// répétition des simulations
 
 	(*options).initial=0;	// Numéro du fichier d'initialisation.
 
 	(*options).nombre=33;	// Nombre de mobiles
 
 	(*options).taille=CELLULE;	// Taille moyenne des mobiles
-	(*options).masse=MASSE_IMP;	// Masse moyenne des mobiles
+	(*options).masse=MASSE_MAX;	// Masse moyenne des mobiles
 
-	(*options).nervosite=NERVOSITE_IMP;	// Nervosité moyenne des mobiles
-	(*options).celerite = CELERITE_IMP;	//	célérité moyenne des mobiles
+	(*options).nervosite=NERVOSITE_MAX;	// Nervosité moyenne des mobiles
+	(*options).celerite = CELERITE_MAX;	//	célérité moyenne des mobiles
 
-	(*options).dt=DT_IMPLICITE;	// discrétisation du temps
+	(*options).dt=DT_MAX;	// discrétisation du temps
 
 			//	Dessin des graphes 0 ou 1
 	(*options).dessineAngle=0;

@@ -44,6 +44,7 @@ int controleurEvolution(controleurT * controleur);
 	void controleurChangeDessin(int * dessine);
 
 
+int controleurKEYDOWN(controleurT * controleur);
 int controleurTraiteEvenement(controleurT * controleur);
 
 	int controleurClavier(controleurT * controleur);
@@ -51,6 +52,7 @@ int controleurTraiteEvenement(controleurT * controleur);
 	int controleurClavierCtrl(controleurT * controleur);
 	int controleurClavierCtrlMaj(controleurT * controleur);
 
+int controleurMemoireOptions(controleurT * controleur);
 
 int controleurCommandes(controleurT * controleur, int zone);
 int controleurInitialiseParametres(controleurT * controleur, int forme);
@@ -105,7 +107,7 @@ int controleurInitialisation(controleurT * controleur)
 
 	int retour = 0;
 
-	(*controleur).options.sortie = 0;	// Sortie de SimFoule si > 0
+	(*controleur).sortie = 0;	// Sortie de SimFoule si > 0
 	(*controleur).modePause = (*controleur).options.mode;		// Evolution système ou pause
 
 		//fprintf(stderr, "  Initialisation de la projection\n");
@@ -136,6 +138,9 @@ int controleurReinitialisation(controleurT * controleur, int initial)
 
 	(*controleur).options.initial = initial;
 
+		//fprintf(stderr, "Enregistrement des options\n");
+	retour += controleurMemoireOptions(controleur);
+
 		fprintf(stderr, "Réinitialisation du système %d\n", (*controleur).options.initial);
 
 	retour += grapheSuppression(&(*controleur).graphe);
@@ -151,6 +156,21 @@ int controleurReinitialisation(controleurT * controleur, int initial)
 	retour += donneesCreationGraphe(&(*controleur).graphe, &(*controleur).options);
 
 	return retour;
+	}
+
+int controleurMemoireOptions(controleurT * controleur)
+	{
+		// Mise en mémoire des paramètres
+
+	(*controleur).options.taille = (*controleur).systeme.foule.taille;	// Taille moyenne des mobiles
+	(*controleur).options.masse = (*controleur).systeme.foule.masse;	// Masse moyenne des mobiles
+
+	(*controleur).options.nervosite = (*controleur).systeme.foule.nervosite;	// Nervosité moyenne des mobiles
+	(*controleur).options.celerite = (*controleur).systeme.foule.celerite;	//	célérité moyenne des mobiles
+
+	(*controleur).options.dt = (*controleur).systeme.foule.dt;	// discrétisation du temps
+
+	return 0;
 	}
 
 int controleurSimulationGraphique(controleurT * controleur)
@@ -194,15 +214,27 @@ int controleurEvolution(controleurT * controleur)
 
 int controleurBoucle(controleurT * controleur)
 	{
+	switch((*controleur).options.boucle)
+		{
+		case 0:
+			if((*controleur).options.initial<25)
+				{
+				(*controleur).options.initial++;
+				}
+			else
+				{
+				(*controleur).options.initial=0;
+				}
+				break;
+		case 2:
+			(*controleur).options.initial=-1;break;
+
+		default:
+			;
+		}
+
 	controleurReinitialisation(controleur, (*controleur).options.initial);
-	if((*controleur).options.initial<25)
-		{
-		(*controleur).options.initial++;
-		}
-	else
-		{
-		(*controleur).options.initial=0;
-		}
+
 	return 0;
 	}
 
@@ -223,7 +255,7 @@ int controleurProjection(controleurT * controleur)
 		commandesInitialiseBoutons(&(*controleur).commandes, x, y);
 		}
 
-		// Réinitialisation des commandes de la souris
+		// Réinitialisation de la position de la souris
 	SDL_PumpEvents();
 	SDL_GetMouseState(&x,&y);
 	commandesInitialiseSouris(&(*controleur).commandes, x, y);
@@ -246,12 +278,10 @@ int controleurEvolutionSysteme(controleurT * controleur)
 
 	if((*controleur).systeme.foule.restant>0)
 		{
-		//fprintf(stderr, "Evolution temporelle de la foule\n");
 		systemeEvolution(&(*controleur).systeme, (*controleur).options.duree);
 		}
 	if((*controleur).systeme.foule.restant==0)
 		{
-		//fprintf(stderr, "Fin de la simulation\n");
 		controleurAfficheForces(controleur);
 		(*controleur).systeme.foule.restant = -1;
 		return 1;
@@ -287,7 +317,6 @@ int controleurConstructionGraphique(controleurT * controleur)
 
 int controleurTraiteEvenement(controleurT * controleur)
 	{
-	int sortie = 0;
 	switch((*controleur).interface.evenement.type)
 		{
 		case SDL_QUIT:
@@ -303,49 +332,52 @@ int controleurTraiteEvenement(controleurT * controleur)
 		case SDL_USEREVENT:
 			controleurEvolution(controleur);break;
 		case SDL_KEYDOWN:
-			{
-			int Maj = 0;
-			int ctrl = 0;
-			if ((((*controleur).interface.evenement.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT)
-			|| (((*controleur).interface.evenement.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT))
-				{
-				Maj = 1;
-				}
-			if ((((*controleur).interface.evenement.key.keysym.mod & KMOD_LCTRL) == KMOD_LCTRL)
-			|| (((*controleur).interface.evenement.key.keysym.mod & KMOD_RCTRL) == KMOD_RCTRL))
-				{
-				ctrl = 1;
-				}
-			if(Maj == 0 && ctrl == 0)
-				{
-				sortie = controleurClavier(controleur);break;
-				}
-			else
-				{
-				if(Maj == 1 && ctrl == 1)
-					{
-					sortie = controleurClavierCtrlMaj(controleur);break;
-					}
-				else
-					{
-					if(Maj == 1 )
-						{
-						sortie = controleurClavierMaj(controleur);break;
-						}
-					else
-						{
-						sortie = controleurClavierCtrl(controleur);break;
-						}
-					}
-				}
-			}
+			controleurKEYDOWN(controleur);break;
 		default:
 			;
 		}
-	if(sortie!=0) (*controleur).sortie = 1;
 	return (*controleur).sortie;
 	}
+int controleurKEYDOWN(controleurT * controleur)
+	{
+	int Maj = 0;
+	int ctrl = 0;
 
+	if ((((*controleur).interface.evenement.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT)
+	|| (((*controleur).interface.evenement.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT))
+		{
+		Maj = 1;
+		}
+	if ((((*controleur).interface.evenement.key.keysym.mod & KMOD_LCTRL) == KMOD_LCTRL)
+	|| (((*controleur).interface.evenement.key.keysym.mod & KMOD_RCTRL) == KMOD_RCTRL))
+		{
+		ctrl = 1;
+		}
+	if(Maj == 0 && ctrl == 0)
+		{
+		return controleurClavier(controleur);
+		}
+	else
+		{
+		if(Maj == 1 && ctrl == 1)
+			{
+			return controleurClavierCtrlMaj(controleur);
+			}
+		else
+			{
+			if(Maj == 1 )
+				{
+				return controleurClavierMaj(controleur);
+				}
+			else
+				{
+				return controleurClavierCtrl(controleur);
+				}
+			}
+		}
+
+	return (*controleur).sortie;
+	}
 void controleurChangeMode(controleurT * controleur)
 	{
 	(*controleur).modePause=-(*controleur).modePause;
@@ -462,6 +494,15 @@ int controleurClavier(controleurT * controleur)
 		case SDLK_d:
 			fouleChangeCelerite(&(*controleur).systeme.foule, 0.91);break;
 
+		case SDLK_w:
+			(*controleur).options.boucle = 0;break;
+		case SDLK_x:
+			(*controleur).options.boucle = 1;break;
+		case SDLK_c:
+			(*controleur).options.boucle = 2;break;
+		case SDLK_n:
+			fprintf(stderr,"controleurClavier");break;
+
 		default:
 			;
 		}
@@ -538,8 +579,10 @@ int controleurClavierMaj(controleurT * controleur)
 			controleurReinitialisation(controleur, 23);break;
 		case SDLK_b:
 			controleurReinitialisation(controleur, 24);break;
+		//case SDLK_n:
+		//	controleurReinitialisation(controleur, 25);break;
 		case SDLK_n:
-			controleurReinitialisation(controleur, 25);break;
+			fprintf(stderr,"controleurClavierMaj");break;
 
 		default:
 			;
@@ -559,6 +602,8 @@ int controleurClavierCtrl(controleurT * controleur)
 			controleurChangeMode(controleur);break;
 		case SDLK_BACKSPACE:
 			controleurChangeMode(controleur);break;
+		case SDLK_n:
+			fprintf(stderr,"controleurClavierCtrl");break;
 
 	// Réinitialisation du système
 	/*	case SDLK_a:
@@ -689,6 +734,8 @@ int controleurClavierCtrlMaj(controleurT * controleur)
 			controleurChangeMode(controleur);break;
 		case SDLK_BACKSPACE:
 			controleurChangeMode(controleur);break;
+		case SDLK_n:
+			fprintf(stderr,"controleurClavierCtrlMaj");break;
 /*
 		// Ecriture des fichiers
 		case SDLK_a:

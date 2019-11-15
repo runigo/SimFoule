@@ -107,8 +107,7 @@ int graphiqueInitialisation(graphiqueT * graphique, interfaceT * interface, int 
 	(*graphique).vert.b = 47;
 	(*graphique).vert.a = 255;
 
-	//SDL_Texture *masse;
-
+/*
 	SDL_Surface *panneau = 0;
 
 	panneau = SDL_LoadBMP("./image/SimFoule.bmp");
@@ -124,7 +123,38 @@ int graphiqueInitialisation(graphiqueT * graphique, interfaceT * interface, int 
 		fprintf(stderr,"ERREUR grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
 		retour++;
 		}
+*/
+	SDL_Surface *panneau = 0;
 
+	panneau = SDL_LoadBMP("./image/SimFouleUniforme.bmp");
+	if (!panneau)
+		{
+		fprintf(stderr,"ERREUR chargement image, ./image/SimFouleUniforme.bmp : %s\n",SDL_GetError());
+		retour++;
+		}
+	(*graphique).simfoule = SDL_CreateTextureFromSurface((*graphique).rendu, panneau);
+	SDL_FreeSurface(panneau);
+	if ((*graphique).simfoule == 0)
+		{
+		fprintf(stderr,"ERREUR grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
+		retour++;
+		}
+/*
+	SDL_Surface *uniforme = 0;
+	uniforme = SDL_LoadBMP("./image/SimFouleUniforme.bmp");
+	if (!uniforme)
+		{
+		fprintf(stderr,"ERREUR chargement image, ./image/SimFouleUuniforme.bmp : %s\n",SDL_GetError());
+		retour++;
+		}
+	(*graphique).simfouleUniforme = SDL_CreateTextureFromSurface((*graphique).rendu, uniforme);
+	SDL_FreeSurface(uniforme);
+	if ((*graphique).simfouleUniforme == 0)
+		{
+		fprintf(stderr,"ERREUR grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
+		retour++;
+		}
+*/
 	SDL_Surface *lumiereVerte = 0;
 
 	lumiereVerte = SDL_LoadBMP("./image/lumiereVerte.bmp");
@@ -367,6 +397,23 @@ int graphiqueInitialisation(graphiqueT * graphique, interfaceT * interface, int 
 		fprintf(stderr,"grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
 		retour++;
 		}
+
+/*
+	image = SDL_LoadBMP("./image/SimFoule.bmp");
+	if (!image)
+		{
+		fprintf(stderr,"ERREUR chargement image, ./image/SimFoule.bmp : %s\n",SDL_GetError());
+		retour++;
+		}
+	(*graphique).simfouleUniforme = SDL_CreateTextureFromSurface((*graphique).rendu, image);
+	SDL_FreeSurface(image);
+	if ((*graphique).simfouleUniforme == 0)
+		{
+		fprintf(stderr,"ERREUR grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
+		retour++;
+		}
+*/
+
 	return retour;
 }
 

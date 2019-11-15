@@ -43,6 +43,8 @@ struct GraphiqueT {
 
 	SDL_Texture *simfoule;			//	Texture du fond
 
+//	SDL_Texture *simfouleUniforme;			//	Texture du fond
+
 	SDL_Texture *mur;			//	Textures du graphe
 	SDL_Texture *sortie;
 	SDL_Texture *entree;

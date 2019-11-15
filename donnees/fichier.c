@@ -136,17 +136,17 @@ int fichierLecture(batimentT * batiment, int numero)
 		case 19: // Touche M
 			fichier = fopen("./donnees/enregistrement/situation_m.simfoule", "r");break;
 		case 20: // Touche W
-			fichier = fopen("./donnees/enregistrement/situation_m.simfoule", "r");break;
+			fichier = fopen("./donnees/enregistrement/situation_w.simfoule", "r");break;
 		case 21: // Touche X
-			fichier = fopen("./donnees/enregistrement/situation_m.simfoule", "r");break;
+			fichier = fopen("./donnees/enregistrement/situation_x.simfoule", "r");break;
 		case 22: // Touche C
-			fichier = fopen("./donnees/enregistrement/situation_m.simfoule", "r");break;
+			fichier = fopen("./donnees/enregistrement/situation_c.simfoule", "r");break;
 		case 23: // Touche V
-			fichier = fopen("./donnees/enregistrement/situation_m.simfoule", "r");break;
+			fichier = fopen("./donnees/enregistrement/situation_v.simfoule", "r");break;
 		case 24: // Touche B
-			fichier = fopen("./donnees/enregistrement/situation_m.simfoule", "r");break;
+			fichier = fopen("./donnees/enregistrement/situation_b.simfoule", "r");break;
 		case 25: // Touche N
-			fichier = fopen("./donnees/enregistrement/situation_m.simfoule", "r");break;
+			fichier = fopen("./donnees/enregistrement/situation_n.simfoule", "r");break;
 		default:
 			;
 		}

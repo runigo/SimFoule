@@ -101,17 +101,17 @@ termes.
 #define MOBILE_IMP CELLULE // Taille implicite d'un mobile
 #define MOBILE_MAX CELLULE*2 // Taille maximale d'un mobile
 
-#define MASSE_MIN 15.5	// Masse minimale d'un mobile
+#define MASSE_MIN 25.5	// Masse minimale d'un mobile
 #define MASSE_IMP 77.77	// Masse implicite d'un mobile
 #define MASSE_MAX 155.5	// Masse maximale d'un mobile
 
-#define NERVOSITE_MAX 77.7	// Nervosité maximale
-#define NERVOSITE_IMP 7.7	// Nervosité implicite
-#define NERVOSITE_MIN 0.55	// Nervosité minimale
+#define NERVOSITE_MAX 7.7	// Nervosité maximale
+#define NERVOSITE_IMP 1.7	// Nervosité implicite
+#define NERVOSITE_MIN 1.1	// Nervosité minimale
 
-#define CELERITE_MAX 7.7	// Célérité maximale
+#define CELERITE_MAX 3.7	// Célérité maximale
 #define CELERITE_IMP 1.77	// Célérité implicite
-#define CELERITE_MIN 0.077	// Célérité minimale
+#define CELERITE_MIN 0.377	// Célérité minimale
 
 	//		INTERACTIONS
 

@@ -44,7 +44,7 @@ typedef struct OptionsT optionsT;
 
 		int duree;	// nombre d'incrémentation du système par affichage
 		int mode;	// -1 : Wait, 1 : Poll
-		int sortie; // sortie de SiCP si > 0
+		int boucle; // répétition des simulations
 
 		float dt;		// discrétisation du temps
 
