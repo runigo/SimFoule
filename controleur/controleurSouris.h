@@ -1,7 +1,7 @@
 /*
-Copyright novembre 2019, Stephan Runigo
+Copyright octobre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.1  simulateur de foule
+SimFoule 2.0  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -29,32 +29,17 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 */
 
-#include "principale.h"
+#ifndef _CONTROLEURSOURIS_
+#define _CONTROLEURSOURIS_
 
-int main(int nb, char *opt[])
-	{
-	controleurT controleur;
+#include "../controleur/controleur.h"
 
-	fprintf(stderr, "\nEntrée dans SimFoule\n");
+int controleurSouris(controleurT * controleur);
+int controleurDefile(controleurT * controleur);
+int controleurDefilePointDeVue(controleurT * controleur);
+int controleurDefileCommandes(controleurT * controleur, int zone);
+void controleurBoutonSouris(controleurT * controleur, int appui);
 
-	fprintf(stderr, "\nInitialisations des valeurs implicites\n");
-	assert(donneesOptionsImplicite(&controleur.options)==0);
+void controleurAfficheSouris(controleurT * controleur);
 
-	fprintf(stderr, "Traitement des options de la ligne de commande\n");
-	assert(optionsTraitement(&controleur.options, nb, opt)==0);
-
-	fprintf(stderr, "Initialisation du controleur\n");
-	assert(controleurInitialisation(&controleur)==0);
-
-	fprintf(stderr, "Simulation graphique du système\n");
-	assert(controleurSimulationGraphique(&controleur)==0);
-
-	fprintf(stderr, "\nSuppression du controleur\n");
-	assert(controleurSuppression(&controleur)==0);
-
-	fprintf(stderr, "\nSortie de SimFoule\n");
-
-	return 0;
-	}
-
-//////////////////////////////////////////////////////////////////
+#endif

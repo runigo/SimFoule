@@ -47,7 +47,7 @@ typedef struct ControleurT controleurT;
 
 		optionsT options;	//	Options de la ligne de commande
 
-		systemeT systeme;	//	Modélisation physique de la chaîne
+		systemeT systeme;	//	Modélisation du batiment et de la foule
 
 		projectionT projection;	//	Paramètre de la projection
 
@@ -70,13 +70,22 @@ typedef struct ControleurT controleurT;
 
 		};
 
-
+	//	INITIALISATION - SUPRESSION
 int controleurInitialisation(controleurT * controleur);
+int controleurSuppression(controleurT * controleur);
 
+int controleurReinitialisation(controleurT * controleur, int initial);
+
+	//	ÉVOLUTION
 int controleurDirections(controleurT * controleur);
-
 int controleurSimulationGraphique(controleurT * controleur);
 
-int controleurSuppression(controleurT * controleur);
+	void controleurChangeMode(controleurT * controleur);
+	void controleurChangeVitesse(controleurT * controleur, float facteur);
+	void controleurChangeDessin(int * dessine);
+
+int controleurAfficheForces(controleurT * controleur);
+
+int controleurCommandes(controleurT * controleur, int zone);
 
 #endif
