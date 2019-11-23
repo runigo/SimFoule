@@ -1,7 +1,7 @@
 /*
-Copyright octobre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.0  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -34,9 +34,8 @@ termes.
 
 #include "../donnees/donnees.h"				//	Conditions initiales
 #include "../controleur/options.h"			//	Options de la ligne de commande
-#include "../controleur/projection.h"		//	Projection du système sur le graphisme.
-//#include "../modele/change.h"				//	Changement des parametres du système
-//#include "../modele/observables.h"			//	Observables du système
+#include "../controleur/projection.h"		//	Projection du système sur le graphisme
+#include "../modele/dessine.h"				//	Dessine la configuration
 #include "../interface/graphique.h"			//	Librairie SDL et représentation graphique
 #include "../interface/horloge.h"			//	Librairie SDL et représentation graphique
 #include "../donnees/fichier.h"
@@ -48,6 +47,8 @@ typedef struct ControleurT controleurT;
 		optionsT options;	//	Options de la ligne de commande
 
 		systemeT systeme;	//	Modélisation du batiment et de la foule
+
+		dessineT dessine;	//	Modélisation du batiment
 
 		projectionT projection;	//	Paramètre de la projection
 
@@ -61,7 +62,8 @@ typedef struct ControleurT controleurT;
 
 		horlogeT horloge;		//	Horloge SDL
 
-			int modePause;		// Evolution système ou pose
+			int modePause;		// 1 : évolution système, -1 : pause
+			int modeDessin;		// 1 : simulation, -1 : construction
 			int sortie;	//	sortie de SiCP si > 0
 
 			int appui;	//	1 si le bouton de la souris est appuyé, 0 sinon.
@@ -80,9 +82,11 @@ int controleurReinitialisation(controleurT * controleur, int initial);
 int controleurDirections(controleurT * controleur);
 int controleurSimulationGraphique(controleurT * controleur);
 
-	void controleurChangeMode(controleurT * controleur);
+int controleurChangeDessin(int * dessine); // dessin des murs, des mobiles, des sens à suivre.
+
+	void controleurChangeModePause(controleurT * controleur);
+	void controleurChangeModeDessin(controleurT * controleur);
 	void controleurChangeVitesse(controleurT * controleur, float facteur);
-	void controleurChangeDessin(int * dessine);
 
 int controleurAfficheForces(controleurT * controleur);
 

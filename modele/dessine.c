@@ -29,17 +29,25 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 */
 
-#ifndef _CONTROLEURSOURIS_
-#define _CONTROLEURSOURIS_
 
-#include "../controleur/controleur.h"
+#include "../modele/dessine.h"
 
-int controleurSouris(controleurT * controleur);
-int controleurDefile(controleurT * controleur);
-int controleurDefilePointDeVue(controleurT * controleur);
-int controleurDefileCommandes(controleurT * controleur, int zone);
-void controleurBoutonSouris(controleurT * controleur, int appui);
+int dessineInitialisation(dessineT * dessine)
+	{
 
-void controleurAfficheSouris(controleurT * controleur);
+	batimentInitialiseVide(&(*dessine).batiment);
 
-#endif
+	(*dessine).statut = 1;		// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile
+
+	return 0;
+	}
+	
+int dessineChangeStatut(dessineT * dessine, int statut)
+	{// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile
+	(*dessine).statut = statut;
+	return 0;
+	}
+
+
+////////////////////////////////////////////////////////////////////////
+

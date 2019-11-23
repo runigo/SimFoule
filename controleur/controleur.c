@@ -1,7 +1,7 @@
 /*
-Copyright novembre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.1  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -46,6 +46,7 @@ int controleurEvolution(controleurT * controleur);
 
 	int controleurBoucle(controleurT * controleur);
 
+int controleurEvolutionDessin(controleurT * controleur);
 
 
 int controleurKEYDOWN(controleurT * controleur);
@@ -97,12 +98,16 @@ int controleurInitialisation(controleurT * controleur)
 
 	(*controleur).sortie = 0;	// Sortie de SimFoule si > 0
 	(*controleur).modePause = (*controleur).options.mode;		// Evolution système ou pause
+	(*controleur).modeDessin = 1;		// 1 : simulation, -1 : construction
 
 		//fprintf(stderr, "  Initialisation de la projection\n");
 	retour += projectionInitialiseLongueurs(&(*controleur).projection, BATIMENT_X_IMP, BATIMENT_Y_IMP);
 
 		//fprintf(stderr, "  Initialisation du système\n");
 	retour += donneesInitialisationSysteme(&(*controleur).systeme, &(*controleur).options);
+
+		//fprintf(stderr, "  Initialisation de dessine\n");
+	retour += dessineInitialisation(&(*controleur).dessine);
 
 		//fprintf(stderr, "Calcul des directions\n");
 	retour += controleurDirections(controleur);
@@ -185,12 +190,19 @@ int controleurEvolution(controleurT * controleur)
 
 	//horlogeChrono(&(*controleur).horloge, 1);
 
-	if((*controleur).modePause > 0)
+	if((*controleur).modeDessin > 0)
 		{
-		if(controleurEvolutionSysteme(controleur)!=0)
+		if((*controleur).modePause > 0)
 			{
-			controleurBoucle(controleur);
+			if(controleurEvolutionSysteme(controleur)!=0)
+				{
+				controleurBoucle(controleur);
+				}
 			}
+		}
+	else
+		{
+		controleurEvolutionDessin(controleur);
 		}
 
 	//horlogeChrono(&(*controleur).horloge, 2);
@@ -253,10 +265,24 @@ int controleurProjection(controleurT * controleur)
 		//	Projection des fonctions sur les graphes
 
 	projectionBatimentPlan(&(*controleur).systeme.batiment, &(*controleur).projection, &(*controleur).graphe);
-
 	projectionBatimentSens(&(*controleur).systeme.batiment, &(*controleur).projection, &(*controleur).graphe);
-
 	projectionFoulePoints(&(*controleur).systeme.foule, &(*controleur).projection, &(*controleur).graphe);
+
+/*
+	if((*controleur).modeDessin > 0)
+		{
+	projectionBatimentPlan(&(*controleur).systeme.batiment, &(*controleur).projection, &(*controleur).graphe);
+	projectionBatimentSens(&(*controleur).systeme.batiment, &(*controleur).projection, &(*controleur).graphe);
+	projectionFoulePoints(&(*controleur).systeme.foule, &(*controleur).projection, &(*controleur).graphe);
+		}
+	else
+		{
+	projectionBatimentPlan(&(*controleur).dessine.batiment, &(*controleur).projection, &(*controleur).graphe);
+		}
+*/
+
+
+
 
 	projectionSystemeCommandes(&(*controleur).systeme, &(*controleur).projection, &(*controleur).commandes, (*controleur).options.duree, (*controleur).modePause);
 
@@ -279,6 +305,14 @@ int controleurEvolutionSysteme(controleurT * controleur)
 	return 0;
 	}
 
+int controleurEvolutionDessin(controleurT * controleur)
+	{
+
+	(void)controleur;
+
+	return 0;
+	}
+
 int controleurConstructionGraphique(controleurT * controleur)
 	{
 
@@ -292,12 +326,26 @@ int controleurConstructionGraphique(controleurT * controleur)
 	//graphiqueCommandes(&(*controleur).graphique, &(*controleur).commandes);
 
 		//fprintf(stderr, "Dessin des graphes\n");
-	if((*controleur).options.dessineAngle==1)
-		graphiqueDessineAngle(&(*controleur).graphique, &(*controleur).graphe);
-	if((*controleur).options.dessineMur==1)
-		graphiqueDessineMur(&(*controleur).graphique, &(*controleur).graphe);
-	if((*controleur).options.dessineMobile==1)
-		graphiqueDessineMobile(&(*controleur).graphique, &(*controleur).graphe, (*controleur).options.taille);
+
+	if((*controleur).modeDessin > 0)
+		{
+		if((*controleur).options.dessineAngle==1)
+			{
+			graphiqueDessineAngle(&(*controleur).graphique, &(*controleur).graphe);
+			}
+		if((*controleur).options.dessineMur==1)
+			{
+			graphiqueDessineMur(&(*controleur).graphique, &(*controleur).graphe);
+			}
+		if((*controleur).options.dessineMobile==1)
+			{
+			graphiqueDessineMobile(&(*controleur).graphique, &(*controleur).graphe, (*controleur).options.taille);
+			}
+		}
+	else
+		{
+		graphiqueDessineStatut(&(*controleur).graphique, &(*controleur).graphe);
+		}
 
 		//fprintf(stderr, "Mise à jour de l'affichage\n");
 	graphiqueMiseAJour(&(*controleur).graphique);
@@ -328,6 +376,7 @@ int controleurTraiteEvenement(controleurT * controleur)
 		}
 	return (*controleur).sortie;
 	}
+
 int controleurKEYDOWN(controleurT * controleur)
 	{
 	int Maj = 0;
@@ -368,10 +417,17 @@ int controleurKEYDOWN(controleurT * controleur)
 
 	return (*controleur).sortie;
 	}
-void controleurChangeMode(controleurT * controleur)
+
+void controleurChangeModePause(controleurT * controleur)
 	{
 	(*controleur).modePause=-(*controleur).modePause;
 
+	return;
+	}
+
+void controleurChangeModeDessin(controleurT * controleur)
+	{
+	(*controleur).modeDessin = -(*controleur).modeDessin;
 	return;
 	}
 
@@ -416,14 +472,18 @@ void controleurChangeVitesse(controleurT * controleur, float facteur)
 	return;
 	}
 
-void controleurChangeDessin(int * dessine)
+int controleurChangeDessin(int * dessine)
 	{
 	if((*dessine)==0)
+		{
 		(*dessine)=1;
+		}
 	else
+		{
 		(*dessine)=0;
+		}
 
-	return;
+	return 0;
 	}
 
 int controleurAfficheForces(controleurT * controleur)
@@ -440,13 +500,20 @@ int controleurAfficheForces(controleurT * controleur)
 
 void controleurAffiche(controleurT * controleur)
 	{
-	(void)controleur;
 /*
-	fprintf(stderr, "(*controleur).graphique.fenetreY = %d\n", (*controleur).graphique.fenetreY);
+	fprintf(stderr, "\n(*controleur).graphique.fenetreY = %d\n", (*controleur).graphique.fenetreY);
 	fprintf(stderr, "(*controleur).commandes.sourisY = %d\n", (*controleur).commandes.sourisY);
 	fprintf(stderr, "(*controleur).graphique.fenetreX = %d\n", (*controleur).graphique.fenetreX);
-	fprintf(stderr, "(*controleur).commandes.sourisX = %d\n", (*controleur).commandes.sourisX);
+	fprintf(stderr, "(*controleur).commandes.sourisX = %d\n\n", (*controleur).commandes.sourisX);
 */
+	fprintf(stderr, "(*controleur).appui = %d\n", (*controleur).appui);
+	fprintf(stderr, "(*controleur).curseurX = %d\n", (*controleur).curseurX);
+	fprintf(stderr, "(*controleur).curseurY = %d\n\n", (*controleur).curseurY);
+
+	fprintf(stderr, "(*controleur).modePause = %d\n", (*controleur).modePause);
+	fprintf(stderr, "(*controleur).modeDessin = %d\n", (*controleur).modeDessin);
+	fprintf(stderr, "(*controleur).sortie = %d\n\n", (*controleur).sortie);
+
 
 	return ;
 	}

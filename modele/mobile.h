@@ -1,7 +1,7 @@
 /*
-Copyright novembre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.1  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -51,10 +51,15 @@ struct MobileT {
 
 
 	int taille;
+
 	float rayon;
 	float masse;
+
 	float nervosite;
 	float celerite;
+
+	int vivacite;	//	"points de vie"
+
 	float dtsurtau;
 	float dt2surM;
 	float dt;
@@ -69,6 +74,8 @@ int mobileInitialiseTaille(mobileT * mobile, int taille);
 int mobileInitialiseMasse(mobileT * mobile, float masse);
 int mobileInitialiseNervosite(mobileT * mobile, float nervosite);
 int mobileInitialiseCelerite(mobileT * mobile, float celerite);
+
+int mobileInitialiseVivacite(mobileT * mobile, float vivacite);
 
 	//		Initialisation sans test de valeur
 void mobileInitialiseMasseEco(mobileT * mobile, float masse, float dt2surM);
@@ -93,6 +100,9 @@ float mobileAjouteForceMur(mobileT * mobile1, int DX, int DY, vecteurT * angle);
 int mobileChangeMasse(mobileT * mobile, float facteur);
 int mobileChangeNervosite(mobileT * mobile, float facteur);
 int mobileChangeCelerite(mobileT * mobile, float facteur);
+
+int mobileChangeVivacite(mobileT * mobile, int impact);
+int mobileImpactVivacite(mobileT * mobile);
 
 	//		AFFICHAGE
 

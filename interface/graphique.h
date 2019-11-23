@@ -1,7 +1,7 @@
 /*
-Copyright octobre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.0  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -88,6 +88,8 @@ int graphiqueCommandes(graphiqueT * graphique, commandesT * commandes);
 void graphiqueDessineMur(graphiqueT * graphique, grapheT * graphe);
 void graphiqueDessineAngle(graphiqueT * graphique, grapheT * graphe);
 void graphiqueDessineMobile(graphiqueT * graphique, grapheT * graphe, int taille);
+
+void graphiqueDessineStatut(graphiqueT * graphique, grapheT * graphe);
 
 #endif
 /////////////////////////////////////////////////////////////////

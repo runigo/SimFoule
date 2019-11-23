@@ -1,7 +1,7 @@
 /*
-Copyright octobre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.0  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -522,6 +522,32 @@ int graphiqueChangeCouleur(graphiqueT * graphique, SDL_Color couleur)
 
 
 		// DESSIN DU GRAPHE
+
+void graphiqueDessineStatut(graphiqueT * graphique, grapheT * graphe)
+	{
+
+	graphiqueDessineMur(graphique, graphe);
+
+	int i, j;
+	SDL_Rect coordonnee = {0, 0, CELLULE, CELLULE};
+	for(i=0;i<(*graphe).batimentX;i++)
+		{
+		for(j=0;j<(*graphe).batimentY;j++)
+			{
+			switch((*graphe).plan[i][j][0])
+				{
+				case 9:
+					coordonnee.x = i*CELLULE;
+					coordonnee.y = j*CELLULE;
+					SDL_RenderCopy((*graphique).rendu, (*graphique).mobile, NULL, &coordonnee);
+				break;
+				default:
+					;
+				}
+			}
+		}
+	return;
+	}
 
 void graphiqueDessineMur(graphiqueT * graphique, grapheT * graphe)
 	{

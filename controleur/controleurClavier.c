@@ -1,7 +1,7 @@
 /*
-Copyright novembre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.1  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -36,11 +36,15 @@ int controleurClavier(controleurT * controleur)
 	{
 	switch ((*controleur).interface.evenement.key.keysym.sym)
 		{
-	// Mode : évolution du système en pause
+	// 1 : simulation, -1 : construction
+		case SDLK_ESCAPE:
+			controleurChangeModeDessin(controleur);break;
+
+	// Mode : évolution du système ou pause
 		case SDLK_RETURN:
-			controleurChangeMode(controleur);break;
+			controleurChangeModePause(controleur);break;
 		case SDLK_BACKSPACE:
-			controleurChangeMode(controleur);break;
+			controleurChangeModePause(controleur);break;
 
 	// Vitesse de la simulation
 		case SDLK_KP_PLUS:
@@ -64,7 +68,6 @@ int controleurClavier(controleurT * controleur)
 		case SDLK_F3:
 			controleurAfficheSouris(controleur);break;
 		case SDLK_F4:
-			//controleurAfficheMobile(&(*controleur).options.dessineMobile)
 			etageAffiche(&(*controleur).systeme.batiment.etage[0]);break;
 
 		case SDLK_F5:
@@ -89,6 +92,17 @@ int controleurClavier(controleurT * controleur)
 			fouleChangeCelerite(&(*controleur).systeme.foule, 1.1);break;
 		case SDLK_d:
 			fouleChangeCelerite(&(*controleur).systeme.foule, 0.91);break;
+
+		case SDLK_u:
+			dessineChangeStatut(&(*controleur).dessine, 3);break;
+		case SDLK_i:
+			dessineChangeStatut(&(*controleur).dessine, 2);break;
+		case SDLK_o:
+			dessineChangeStatut(&(*controleur).dessine, 0);break;
+		case SDLK_p:
+			dessineChangeStatut(&(*controleur).dessine, 9);break;
+		case SDLK_m:
+			dessineChangeStatut(&(*controleur).dessine, 1);break;
 
 		case SDLK_w:
 			(*controleur).options.boucle = 0;break;
@@ -118,9 +132,9 @@ int controleurClavierMaj(controleurT * controleur)
     // Mode : évolution du système en pause
 
 		case SDLK_RETURN:
-			controleurChangeMode(controleur);break;
+			controleurChangeModePause(controleur);break;
 		case SDLK_BACKSPACE:
-			controleurChangeMode(controleur);break;
+			controleurChangeModePause(controleur);break;
 
 
 	// Réinitialisation du système
@@ -195,9 +209,9 @@ int controleurClavierCtrl(controleurT * controleur)
 			(*controleur).sortie = 1;break;
 	// Mode : évolution du système en pause
 		case SDLK_RETURN:
-			controleurChangeMode(controleur);break;
+			controleurChangeModePause(controleur);break;
 		case SDLK_BACKSPACE:
-			controleurChangeMode(controleur);break;
+			controleurChangeModePause(controleur);break;
 		case SDLK_n:
 			fprintf(stderr,"controleurClavierCtrl");break;
 
@@ -327,9 +341,9 @@ int controleurClavierCtrlMaj(controleurT * controleur)
 			(*controleur).sortie = 1;break;
 	// Mode : évolution du système en pause
 		case SDLK_RETURN:
-			controleurChangeMode(controleur);break;
+			controleurChangeModePause(controleur);break;
 		case SDLK_BACKSPACE:
-			controleurChangeMode(controleur);break;
+			controleurChangeModePause(controleur);break;
 		case SDLK_n:
 			fprintf(stderr,"controleurClavierCtrlMaj");break;
 /*
