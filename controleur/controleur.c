@@ -103,6 +103,9 @@ int controleurInitialisation(controleurT * controleur)
 		//fprintf(stderr, "  Initialisation de la projection\n");
 	retour += projectionInitialiseLongueurs(&(*controleur).projection, BATIMENT_X_IMP, BATIMENT_Y_IMP);
 
+		//fprintf(stderr, "  Initialisation des commandes\n");
+	retour += commandesInitialiseBoutons(&(*controleur).commandes, FENETRE_X, FENETRE_Y);
+
 		//fprintf(stderr, "  Initialisation du système\n");
 	retour += donneesInitialisationSysteme(&(*controleur).systeme, &(*controleur).options);
 
@@ -263,12 +266,6 @@ int controleurProjection(controleurT * controleur)
 	commandesInitialiseSouris(&(*controleur).commandes, x, y);
 
 		//	Projection des fonctions sur les graphes
-
-	projectionBatimentPlan(&(*controleur).systeme.batiment, &(*controleur).projection, &(*controleur).graphe);
-	projectionBatimentSens(&(*controleur).systeme.batiment, &(*controleur).projection, &(*controleur).graphe);
-	projectionFoulePoints(&(*controleur).systeme.foule, &(*controleur).projection, &(*controleur).graphe);
-
-/*
 	if((*controleur).modeDessin > 0)
 		{
 	projectionBatimentPlan(&(*controleur).systeme.batiment, &(*controleur).projection, &(*controleur).graphe);
@@ -279,9 +276,6 @@ int controleurProjection(controleurT * controleur)
 		{
 	projectionBatimentPlan(&(*controleur).dessine.batiment, &(*controleur).projection, &(*controleur).graphe);
 		}
-*/
-
-
 
 
 	projectionSystemeCommandes(&(*controleur).systeme, &(*controleur).projection, &(*controleur).commandes, (*controleur).options.duree, (*controleur).modePause);
@@ -360,13 +354,13 @@ int controleurTraiteEvenement(controleurT * controleur)
 		case SDL_QUIT:
 			(*controleur).sortie = 1;break;
 		case SDL_MOUSEWHEEL:
-			controleurDefile(controleur);break;
+			controleurSourisDefile(controleur);break;
 		case SDL_MOUSEMOTION:
-			controleurSouris(controleur);break;
+			controleurSourisMouvement(controleur);break;
 		case SDL_MOUSEBUTTONDOWN:
-			controleurBoutonSouris(controleur, 1);break;
+			controleurSourisBouton(controleur, 1);break;
 		case SDL_MOUSEBUTTONUP:
-			controleurBoutonSouris(controleur, 0);break;
+			controleurSourisBouton(controleur, 0);break;
 		case SDL_USEREVENT:
 			controleurEvolution(controleur);break;
 		case SDL_KEYDOWN:
@@ -422,12 +416,31 @@ void controleurChangeModePause(controleurT * controleur)
 	{
 	(*controleur).modePause=-(*controleur).modePause;
 
+	if((*controleur).modePause > 0)
+		{
+		fprintf(stderr, "modePause : évolution\n");
+		}
+	else
+		{
+		fprintf(stderr, "modePause : pause\n");
+		}
+
 	return;
 	}
 
 void controleurChangeModeDessin(controleurT * controleur)
 	{
 	(*controleur).modeDessin = -(*controleur).modeDessin;
+
+	if((*controleur).modeDessin > 0)
+		{
+		fprintf(stderr, "modeDessin : simulation\n");
+		}
+	else
+		{
+		fprintf(stderr, "modeDessin : construction\n");
+		}
+
 	return;
 	}
 
@@ -498,14 +511,14 @@ int controleurAfficheForces(controleurT * controleur)
 	return 0;
 	}
 
-void controleurAffiche(controleurT * controleur)
+int controleurAffiche(controleurT * controleur)
 	{
-/*
+
 	fprintf(stderr, "\n(*controleur).graphique.fenetreY = %d\n", (*controleur).graphique.fenetreY);
 	fprintf(stderr, "(*controleur).commandes.sourisY = %d\n", (*controleur).commandes.sourisY);
 	fprintf(stderr, "(*controleur).graphique.fenetreX = %d\n", (*controleur).graphique.fenetreX);
 	fprintf(stderr, "(*controleur).commandes.sourisX = %d\n\n", (*controleur).commandes.sourisX);
-*/
+
 	fprintf(stderr, "(*controleur).appui = %d\n", (*controleur).appui);
 	fprintf(stderr, "(*controleur).curseurX = %d\n", (*controleur).curseurX);
 	fprintf(stderr, "(*controleur).curseurY = %d\n\n", (*controleur).curseurY);
@@ -514,8 +527,10 @@ void controleurAffiche(controleurT * controleur)
 	fprintf(stderr, "(*controleur).modeDessin = %d\n", (*controleur).modeDessin);
 	fprintf(stderr, "(*controleur).sortie = %d\n\n", (*controleur).sortie);
 
+	fprintf(stderr, "(*controleur).commandes.boutons = %d\n", (*controleur).commandes.boutons);
 
-	return ;
+
+	return 0;
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////

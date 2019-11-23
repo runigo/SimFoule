@@ -66,7 +66,7 @@ int controleurClavier(controleurT * controleur)
 		case SDLK_F2:
 			mobileAffiche(&(*controleur).systeme.foule.premier->mobile);break;
 		case SDLK_F3:
-			controleurAfficheSouris(controleur);break;
+			controleurAffiche(controleur);break;
 		case SDLK_F4:
 			etageAffiche(&(*controleur).systeme.batiment.etage[0]);break;
 

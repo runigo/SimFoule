@@ -474,10 +474,11 @@ int mobileImpactVivacite(mobileT * mobile)
 	{
 
 	(*mobile).vivacite --;
+	fprintf(stderr, "	mobile.vivacite = %d \n", (*mobile).vivacite);
 
 	if( (*mobile).vivacite < 0 )
 		{
-		fprintf(stderr, "\nMobile supprimé\n");
+		fprintf(stderr, "Mobile supprimé\n\n");
 		(*mobile).nouveau.z=-3; // Abandon du mobile.
 		return 1;
 		}

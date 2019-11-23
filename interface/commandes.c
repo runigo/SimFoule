@@ -1,7 +1,7 @@
 /*
-Copyright novembre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.1  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -48,6 +48,7 @@ int commandesInitialiseBoutons(commandesT * commandes, int largeur, int hauteur)
 	(*commandes).rotatifCentre[2]=(int)(0.441389*hauteur); // Nervosité
 	(*commandes).rotatifCentre[3]=(int)(0.575977*hauteur); // Ecart
 	(*commandes).rotatifCentre[4]=(int)(0.759768*hauteur); // Simulation
+	(*commandes).rotatifCentre[5]=(int)(0.875976*hauteur); // 
 
 		 // Zone des petits boutons
 	(*commandes).boutons=(int)(0.931065*largeur);
@@ -118,7 +119,10 @@ int commandesInitialiseSouris(commandesT * commandes, int sourisX, int sourisY)
 	int rayonX=(*commandes).boutonX;
 	int rayonY=(*commandes).boutonY;
 
-		 
+		// POSITION DE LA SOURIS
+	(*commandes).sourisX = sourisX; // position X de la souris
+	(*commandes).sourisY = sourisY; // position Y de la souris
+
 	if(sourisX>(*commandes).rotatifs)
 		{
 		if(sourisX<(*commandes).boutons)// Zone des boutons rotatifs
@@ -135,9 +139,6 @@ int commandesInitialiseSouris(commandesT * commandes, int sourisX, int sourisY)
 			rayonY=(*commandes).triangleY;
 			}
 		}
-		// POSITION DE LA SOURIS
-	(*commandes).sourisX = sourisX; // position X de la souris
-	(*commandes).sourisY = sourisY; // position Y de la souris
 
 	(*commandes).sourisGauche = sourisX-rayonX; // position X de la souris - RayonBoutonX
 	(*commandes).sourisDroite = sourisX+rayonX; // position X de la souris + RayonBoutonX
@@ -155,7 +156,9 @@ int commandeBoutons(commandesT * commandes)
 		for(i=0;i<BOUTON_COMMANDES;i++)
 			{
 			if((*commandes).boutonCentre[i]>(*commandes).sourisHaut && (*commandes).boutonCentre[i]<(*commandes).sourisBas)
+				{
 				return i;
+				}
 			}
 		}
 	return -1;
@@ -169,7 +172,9 @@ int commandeRotatifs(commandesT * commandes)
 		for(i=0;i<ROTATIF_COMMANDES;i++)
 			{
 			if((*commandes).rotatifCentre[i]>(*commandes).sourisHaut && (*commandes).rotatifCentre[i]<(*commandes).sourisBas)
+				{
 				return i;
+				}
 			}
 		}
 	return -1;
@@ -183,7 +188,9 @@ int commandeTriangles(commandesT * commandes)
 		for(i=0;i<TRIANGLE_COMMANDES;i++)
 			{
 			if((*commandes).triangleCentre[i]>(*commandes).sourisGauche && (*commandes).triangleCentre[i]<(*commandes).sourisDroite)
+				{
 				return i;
+				}
 			}
 		}
 	return -1;
@@ -197,7 +204,9 @@ int commandeLineaires(commandesT * commandes)
 		for(i=0;i<LINEAIRE_COMMANDES;i++)
 			{
 			if((*commandes).lineaireCentre[i]>(*commandes).sourisGauche && (*commandes).lineaireCentre[i]<(*commandes).sourisDroite)
+				{
 				return i;
+				}
 			}
 		}
 	return -1;

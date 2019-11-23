@@ -285,10 +285,7 @@ int systemeCorrigeMur(systemeT * systeme)
 					{
 					iter->mobile.nouveau.x = iter->mobile.actuel.x;
 					iter->mobile.nouveau.y = iter->mobile.actuel.y;
-
 					if(mobileImpactVivacite(&(iter->mobile)) != 0) (*systeme).foule.restant--;
-
-					fprintf(stderr, "	mobile.vivacite = %d \n", iter->mobile.vivacite);
 					}
 				}
 			else

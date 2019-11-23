@@ -1,7 +1,7 @@
 /*
-Copyright novembre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.1  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -31,6 +31,8 @@ termes.
 
 #include "../modele/batiment.h"
 
+	//		INITIALISATION
+
 int batimentInitialiseEtageVide(batimentT * batiment);
 int batimentInitialiseFacade(batimentT * batiment);
 int batimentInitialiseMur(batimentT * batiment, int numero);
@@ -38,12 +40,24 @@ int batimentInitialiseMobile(batimentT * batiment, int numero);
 int batimentInitialiseMurImplicite(batimentT * batiment);
 int batimentInitialiseMobileImplicite(batimentT * batiment);
 
-int batimentInitialiseImplicite(batimentT * batiment)
+	//		ÉVOLUTION
+
+	//		INFORMATION
+
+
+	//		---------  INITIALISATION  ---------  //
+
+int batimentInitialiseImplicite(batimentT * batiment, int niveau)
 	{ // Renvoie le nombre de mobiles présent
 
 	batimentInitialiseVide(batiment);
 
 	(*batiment).batimentZ = BATIMENT_Z_IMP; // Nombre d'étage
+
+	if((niveau > 0) && (niveau <= BATIMENT_Z_MAX))
+		{
+		(*batiment).batimentZ = niveau;
+		}
 
 	int k;
 	for(k=0;k<(*batiment).batimentZ;k++)
@@ -58,23 +72,7 @@ int batimentInitialiseImplicite(batimentT * batiment)
 		// Position des mobiles
 	return batimentInitialiseMobileImplicite(batiment);
 	}
-/*
-int batimentInitialise(batimentT * batiment, int numero)
-	{ // Renvoie le nombre de mobiles présent
-	int nombre = 0;
 
-	batimentInitialiseEtageVide(batiment);
-
-		// Plan du batiment
-	batimentInitialiseFacade(batiment);
-	batimentInitialiseMurImplicite(batiment, numero);
-
-		// Position des mobiles
-	nombre = batimentInitialiseMobile(batiment, numero);
-
-	return nombre;
-	}
-*/
 int batimentInitialiseVide(batimentT * batiment)
 	{ // Initialise le batiment vide
 	int k;
@@ -92,8 +90,6 @@ int batimentInitialiseVide(batimentT * batiment)
 int batimentInitialiseFacade(batimentT * batiment)
 	{ // Initialise les facades du batiment et des sorties.
 	int i, j, k;
-
-	//batimentInitialiseEtageVide(batiment);
 
 		// Plan du batiment
 	for(k=0;k<(*batiment).batimentZ;k++)
@@ -201,17 +197,7 @@ int batimentInitialiseMur(batimentT * batiment, int entier)
 
 	return 0;
 	}
-/*
-int batimentInitialiseMobile(batimentT * batiment, int numero)
-	{ // Renvoie le nombre de mobiles présent
-	int nombre = 0;
-	if(numero<0)
-		{
-		nombre = batimentInitialiseMobileImplicite(batiment);
-		}
-	return nombre;
-	}
-*/
+
 int batimentInitialiseMobileImplicite(batimentT * batiment)
 	{ // Renvoie le nombre de mobiles présent
 	int i, j, k;
@@ -250,115 +236,22 @@ int batimentInitialiseMobileImplicite(batimentT * batiment)
 				}
 			}
 		}
-
-	return nombre;
-	}
-/*
-int batimentInitialiseMobileTest(batimentT * batiment, int numero)
-	{ // Renvoie le nombre de mobiles présent
-	(void)numero;
-	int i, j, k;
-	int nombre = 0;
-	int dim = 1;
-
-	if((*batiment).etage[k].etageX > 10)
-		{
-		if((*batiment).etage[k].etageY > 10) dim = 2;
-		if((*batiment).etage[k].etageY > 30) dim = 3;
-		if((*batiment).etage[k].etageY > 50) dim = 4;
-		}
-	else
-		{
-		if((*batiment).etage[k].etageY > 30) dim = 2;
-		if((*batiment).etage[k].etageY > 50) dim = 3;
-		}
-
-	if((*batiment).etage[k].etageY > 10)
-		{
-		if((*batiment).etage[k].etageX > 10) dim = 2;
-		if((*batiment).etage[k].etageX > 30) dim = 3;
-		if((*batiment).etage[k].etageX > 50) dim = 4;
-		}
-	else
-		{
-		if((*batiment).etage[k].etageX > 30) dim = 2;
-		if((*batiment).etage[k].etageX > 50) dim = 3;
-		}
-
-		// Position des mobiles
-	for(k=0;k<(*batiment).batimentZ;k++)
-		{
-		for(i=0;i<(*batiment).etage[k].etageX;i++)
-			{
-			for(j=0;j<(*batiment).etage[k].etageY;j++)
-				{
-				if((i+j)%dim == 0 && celluleDonneStatut(&(*batiment).etage[k].cellule[i][j]) == 0)
-					{
-					celluleCreationMobile(&(*batiment).etage[k].cellule[i][j]);
-					nombre++;
-					}
-				}
-			}
-		}
-
 	return nombre;
 	}
 
-int batimentInitialiseTest(batimentT * batiment, int numero)
-	{ // Renvoie le nombre de mobiles présent
-	(void)numero;
-	int i, j, k;
-	int nombre = 0;
 
-	batimentInitialiseEtageVide(batiment);
+	//		---------  ÉVOLUTION  ---------  //
 
-		// Plan du batiment
-	for(k=0;k<(*batiment).batimentZ;k++)
-		{
-		for(i=0;i<(*batiment).etage[k].etageX;i++)
-			{
-			celluleCreationMur(&(*batiment).etage[k].cellule[i][0]);
-			celluleCreationMur(&(*batiment).etage[k].cellule[i][(*batiment).etage[k].etageY-1]);
-			}
-		for(j=0;j<(*batiment).etage[k].etageY;j++)
-			{
-			celluleCreationMur(&(*batiment).etage[k].cellule[0][j]);
-			celluleCreationMur(&(*batiment).etage[k].cellule[(*batiment).etage[k].etageX-1][j]);
-			}
-		celluleCreationSortie(&(*batiment).etage[k].cellule[(int)(*batiment).etage[k].etageX/2][0]);
-		celluleCreationSortie(&(*batiment).etage[k].cellule[(int)(*batiment).etage[k].etageX/2][(*batiment).etage[k].etageY-1]);
-		celluleCreationSortie(&(*batiment).etage[k].cellule[(*batiment).etage[k].etageX-1][(int)(*batiment).etage[k].etageY/2]);
-		celluleCreationSortie(&(*batiment).etage[k].cellule[0][(int)(*batiment).etage[k].etageY/2]);
-		}
-
-		// Position des mobiles
-	for(k=0;k<(*batiment).batimentZ;k++)
-		{
-		for(i=1;i<(*batiment).etage[k].etageX-1;i++)
-			{
-			for(j=1;j<(*batiment).etage[k].etageY-1;j++)
-				{
-				if((i+j)/2 == (i+j+1)/2 )
-					{
-					celluleCreationMobile(&(*batiment).etage[k].cellule[i][j]);
-					nombre++;
-					}
-				}
-			}
-		}
-	//fprintf(stderr, "batimentInitialise : Sortie de la fonction\n");
-	return nombre;
-	}
-*/
 int batimentDirections(batimentT * batiment)
 	{ // Initialisation des directions suivant le chemin le plus court
 	int k;
+
 	for(k=0;k<(*batiment).batimentZ;k++)
 		{
 		fprintf(stderr, "  batimentDirection : etageCalculDistanceEtSens étage %d\n", k);
 		etageCalculDistanceEtSens(&(*batiment).etage[k]);
 		}
-	//fprintf(stderr, "batimentDirection : Sortie de la fonction\n");
+
 	return 0;
 	}
 
@@ -372,13 +265,16 @@ int batimentMiseAZeroNombre(batimentT * batiment)
 			{
 			for(j=0;j<(*batiment).etage[k].etageY;j++)
 				{
-				if((*batiment).etage[k].cellule[i][j].statut!=1)
+				if((*batiment).etage[k].cellule[i][j].statut != 1)
 					(*batiment).etage[k].cellule[i][j].nombre=0;
 				}
 			}
 		}
 	return 0;
 	}
+
+
+	//		---------  INFORMATION  ---------  //
 
 int batimentAffiche(batimentT * batiment)
 	{

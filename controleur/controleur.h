@@ -88,8 +88,12 @@ int controleurChangeDessin(int * dessine); // dessin des murs, des mobiles, des 
 	void controleurChangeModeDessin(controleurT * controleur);
 	void controleurChangeVitesse(controleurT * controleur, float facteur);
 
-int controleurAfficheForces(controleurT * controleur);
-
 int controleurCommandes(controleurT * controleur, int zone);
+
+	//		INFORMATION
+
+int controleurAffiche(controleurT * controleur);
+
+int controleurAfficheForces(controleurT * controleur);
 
 #endif

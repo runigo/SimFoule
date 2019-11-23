@@ -93,7 +93,7 @@ int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 
 	if((*options).initial < 0)
 		{
-		(*options).nombre = batimentInitialiseImplicite(batiment);
+		(*options).nombre = batimentInitialiseImplicite(batiment, -(*options).initial);
 		}
 	else
 		{
@@ -103,7 +103,7 @@ int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 			}
 		else
 			{
-			(*options).nombre = batimentInitialiseImplicite(batiment);
+			(*options).nombre = batimentInitialiseImplicite(batiment, (*options).initial);
 			}
 		}
 

@@ -34,12 +34,12 @@ termes.
 
 #include "../controleur/controleur.h"
 
-int controleurSouris(controleurT * controleur);
-int controleurDefile(controleurT * controleur);
-int controleurDefilePointDeVue(controleurT * controleur);
-int controleurDefileCommandes(controleurT * controleur, int zone);
-void controleurBoutonSouris(controleurT * controleur, int appui);
+int controleurSourisBouton(controleurT * controleur, int appui);
 
-void controleurAfficheSouris(controleurT * controleur);
+int controleurSourisMouvement(controleurT * controleur);
+
+int controleurSourisDefile(controleurT * controleur);
+
+int controleurSourisAffiche(controleurT * controleur);
 
 #endif

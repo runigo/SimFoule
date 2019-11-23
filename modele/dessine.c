@@ -35,7 +35,7 @@ termes.
 int dessineInitialisation(dessineT * dessine)
 	{
 
-	batimentInitialiseVide(&(*dessine).batiment);
+	batimentInitialiseImplicite(&(*dessine).batiment, 1);
 
 	(*dessine).statut = 1;		// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile
 
@@ -43,8 +43,12 @@ int dessineInitialisation(dessineT * dessine)
 	}
 	
 int dessineChangeStatut(dessineT * dessine, int statut)
-	{// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile
-	(*dessine).statut = statut;
+	{
+
+	(*dessine).statut = statut; // 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile
+
+	fprintf(stderr, "    dessineChangeStatut : %d\n", (*dessine).statut);
+
 	return 0;
 	}
 

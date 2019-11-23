@@ -32,11 +32,14 @@ termes.
 #include "controleurSouris.h"
 
 
-int controleurDessineStatut(controleurT * controleur);
+int controleurSourisDessineStatut(controleurT * controleur);
 
+int controleurSourisDefilePointDeVue(controleurT * controleur);
+int controleurSourisDefileCommandes(controleurT * controleur, int zone);
 
+int controleurSourisCommandes(controleurT * controleur, int zone);
 
-int controleurSouris(controleurT * controleur)
+int controleurSourisMouvement(controleurT * controleur)
 	{
 	(void)controleur;
 				// Action des mouvements de la souris
@@ -58,30 +61,117 @@ int controleurSouris(controleurT * controleur)
 	return (*controleur).sortie;
 	}
 
-int controleurDefile(controleurT * controleur)
+int controleurSourisDefile(controleurT * controleur)
 	{
 				// Action de la rotation de la mollette
 
 	if((*controleur).commandes.sourisX>(*controleur).commandes.rotatifs)
 		{
-		controleurDefileCommandes(controleur, 1);
+		controleurSourisDefileCommandes(controleur, 1);
 		}
 	else
 		{
 		if((*controleur).commandes.sourisY>(*controleur).commandes.bas)
 			{
-			controleurDefileCommandes(controleur, 3);
+			controleurSourisDefileCommandes(controleur, 3);
 			}
 		else
 			{
-			controleurDefilePointDeVue(controleur);
+			controleurSourisDefilePointDeVue(controleur);
 			}
 		}
 
 	return 0;
 	}
 
-int controleurDefilePointDeVue(controleurT * controleur)
+int controleurSourisDefileCommandes(controleurT * controleur, int zone)
+	{
+	int commande = -1;
+
+	if(zone==1)
+		{
+		commande = commandeRotatifs(&(*controleur).commandes);
+		if((*controleur).interface.evenement.wheel.y > 0) // scroll up
+			{
+			fprintf(stderr, "    controleurDefileCommandes :  > 0\n");
+			switch(commande)
+				{
+				case 0:
+					fouleChangeMasseMoyenne(&(*controleur).systeme.foule, 1.1);break;
+				case 1:
+					fouleChangeEcartMasse(&(*controleur).systeme.foule, 1.1);break;
+				case 2:
+					fouleChangeNervositeMoyenne(&(*controleur).systeme.foule, 1.1);break;
+				case 3:
+					fouleChangeEcartNervosite(&(*controleur).systeme.foule, 1.1);break;
+				case 4:
+					controleurChangeVitesse(controleur, 1.1);break;
+				default:
+					;
+				}
+			}
+		else if((*controleur).interface.evenement.wheel.y < 0) // scroll down
+			{
+			fprintf(stderr, "    controleurDefileCommandes :  < 0\n");
+			switch(commande)	
+				{
+				case 0:
+					fouleChangeMasseMoyenne(&(*controleur).systeme.foule, 0.91);break;
+				case 1:
+					fouleChangeEcartMasse(&(*controleur).systeme.foule, 0.91);break;
+				case 2:
+					fouleChangeNervositeMoyenne(&(*controleur).systeme.foule, 0.91);break;
+				case 3:
+					fouleChangeEcartNervosite(&(*controleur).systeme.foule, 0.91);break;
+				case 4:
+					controleurChangeVitesse(controleur, 0.91);break;
+				default:
+					;
+				}
+			}
+		}
+
+	if(zone==3)
+		{
+		commande = commandeLineaires(&(*controleur).commandes);
+		if((*controleur).interface.evenement.wheel.y > 0) // scroll up
+			{
+			switch(commande)
+				{
+				case 0:
+					controleurSourisDefilePointDeVue(controleur);break;
+				case 1:
+					controleurSourisDefilePointDeVue(controleur);break;
+				case 2:
+					controleurChangeVitesse(controleur, 1.1);break;
+				case 3:
+					controleurChangeVitesse(controleur, 1.1);break;
+				default:
+					;
+				}
+			}
+		else if((*controleur).interface.evenement.wheel.y < 0) // scroll down
+			{
+			switch(commande)	
+				{
+				case 0:
+					controleurSourisDefilePointDeVue(controleur);break;
+				case 1:
+					controleurSourisDefilePointDeVue(controleur);break;
+				case 2:
+					controleurChangeVitesse(controleur, 0.91);break;
+				case 3:
+					controleurChangeVitesse(controleur, 0.91);break;
+				default:
+					;
+				}
+			}
+		}
+
+	return 0;
+	}
+
+int controleurSourisDefilePointDeVue(controleurT * controleur)
 	{
 	(void)controleur;
 
@@ -108,12 +198,14 @@ int controleurDefilePointDeVue(controleurT * controleur)
 	return 0;
 	}
 
-void controleurBoutonSouris(controleurT * controleur, int appui)
+int controleurSourisBouton(controleurT * controleur, int appui)
 	{
 
 				// Action du bouton gauche de la souris
 
 	(*controleur).appui=appui;
+
+	fprintf(stderr, "controleurSourisBouton (*controleur).appui = %d\n", (*controleur).appui);
 	
 	if(appui==1)
 		{
@@ -121,38 +213,44 @@ void controleurBoutonSouris(controleurT * controleur, int appui)
 			{
 			if((*controleur).commandes.sourisX>(*controleur).commandes.boutons)
 				{
-				controleurCommandes(controleur, 2); // Zone petits boutons à droite
+				controleurSourisCommandes(controleur, 2); // Zone petits boutons à droite
 				}
 			else
 				{
-				controleurCommandes(controleur, 1); // Zone rotatifs à droite
+				controleurSourisCommandes(controleur, 1); // Zone rotatifs à droite
 				}
 			}
 		else
 			{
 			if((*controleur).commandes.sourisY>(*controleur).commandes.bas)
 				{
-				controleurCommandes(controleur, 3); // Zone des boutons du bas
+				controleurSourisCommandes(controleur, 3); // Zone des boutons du bas
 				}
 			else
 				{
-				controleurCommandes(controleur, 0); // Zone graphe système
+				controleurSourisCommandes(controleur, 0); // Zone graphe système
 				}
 			}
 		}
+	else
+		{
+		fprintf(stderr, "\n");
+		}
 
-	return;
+	return 0;
 	}
 
-int controleurCommandes(controleurT * controleur, int zone)
+int controleurSourisCommandes(controleurT * controleur, int zone)
 	{
 				// Action du bouton gauche de la souris
 				// dans les zones 0, 2 et 3
 
+	fprintf(stderr, "controleurSourisCommandes zone = %d\n", zone);
+
 	int commande;
 	if(zone==0) // Zone graphe système
 		{
-		controleurDessineStatut(controleur);
+		controleurSourisDessineStatut(controleur);
 		}
 
 	if(zone==2) // Zone petits boutons
@@ -211,107 +309,26 @@ int controleurCommandes(controleurT * controleur, int zone)
 	return 0;
 	}
 
-int controleurDessineStatut(controleurT * controleur)
+int controleurSourisDessineStatut(controleurT * controleur)
 	{
 				// Change le statut de la cellule sélectionnée
-
 	int X = (*controleur).commandes.sourisX / CELLULE ;
 	int Y = (*controleur).commandes.sourisY / CELLULE ;
 
-	celluleInitialiseStatut(&(*controleur).systeme.batiment.etage[0].cellule[X][Y], (*controleur).dessine.statut);
-	//celluleInitialiseStatut(&(*controleur).dessine.batiment.etage[0].cellule[X][Y], (*controleur).dessine.statut);
-
-	return 0;
-	}
-
-int controleurDefileCommandes(controleurT * controleur, int zone)
-	{
-	(void)controleur;
-	(void)zone;
-
-	int commande = -1;
-	if(zone==1)
+	if((*controleur).modeDessin < 0)
 		{
-		commande = commandeRotatifs(&(*controleur).commandes);
-		if((*controleur).interface.evenement.wheel.y > 0) // scroll up
-			{
-			switch(commande)
-				{
-				case 0:
-					fouleChangeMasseMoyenne(&(*controleur).systeme.foule, 1.1);break;
-				case 1:
-					fouleChangeEcartMasse(&(*controleur).systeme.foule, 1.1);break;
-				case 2:
-					fouleChangeNervositeMoyenne(&(*controleur).systeme.foule, 1.1);break;
-				case 3:
-					fouleChangeEcartNervosite(&(*controleur).systeme.foule, 1.1);break;
-				case 4:
-					controleurChangeVitesse(controleur, 1.1);break;
-				default:
-					;
-				}
-			}
-		else if((*controleur).interface.evenement.wheel.y < 0) // scroll down
-			{
-			switch(commande)	
-				{
-				case 0:
-					fouleChangeMasseMoyenne(&(*controleur).systeme.foule, 0.91);break;
-				case 1:
-					fouleChangeEcartMasse(&(*controleur).systeme.foule, 0.91);break;
-				case 2:
-					fouleChangeNervositeMoyenne(&(*controleur).systeme.foule, 0.91);break;
-				case 3:
-					fouleChangeEcartNervosite(&(*controleur).systeme.foule, 0.91);break;
-				case 4:
-					controleurChangeVitesse(controleur, 0.91);break;
-				default:
-					;
-				}
-			}
+		celluleInitialiseStatut(&(*controleur).dessine.batiment.etage[0].cellule[X][Y], (*controleur).dessine.statut);
 		}
-
-	if(zone==3)
+	else
 		{
-		commande = commandeLineaires(&(*controleur).commandes);
-		if((*controleur).interface.evenement.wheel.y > 0) // scroll up
-			{
-			switch(commande)
-				{
-				case 0:
-					controleurDefilePointDeVue(controleur);break;
-				case 1:
-					controleurDefilePointDeVue(controleur);break;
-				case 2:
-					controleurChangeVitesse(controleur, 1.1);break;
-				case 3:
-					controleurChangeVitesse(controleur, 1.1);break;
-				default:
-					;
-				}
-			}
-		else if((*controleur).interface.evenement.wheel.y < 0) // scroll down
-			{
-			switch(commande)	
-				{
-				case 0:
-					controleurDefilePointDeVue(controleur);break;
-				case 1:
-					controleurDefilePointDeVue(controleur);break;
-				case 2:
-					controleurChangeVitesse(controleur, 0.91);break;
-				case 3:
-					controleurChangeVitesse(controleur, 0.91);break;
-				default:
-					;
-				}
-			}
+		fprintf(stderr, "    controleurDessineStatut : %d, %d\n", X, Y);
+		//celluleInitialiseStatut(&(*controleur).systeme.batiment.etage[0].cellule[X][Y], (*controleur).dessine.statut);
 		}
 
 	return 0;
 	}
 
-void controleurAfficheSouris(controleurT * controleur)
+int controleurSourisAffiche(controleurT * controleur)
 	{
 	float ratioX = (*controleur).commandes.sourisX/(float)(*controleur).graphique.fenetreX;
 	float ratioY = (*controleur).commandes.sourisY/(float)(*controleur).graphique.fenetreY;
@@ -325,7 +342,7 @@ void controleurAfficheSouris(controleurT * controleur)
 	fprintf(stderr, "	Rapport suivant X = %f\n", ratioX);
 	fprintf(stderr, "	Rapport suivant Y = %f\n", ratioY);
 
-	return ;
+	return 0;
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////
