@@ -94,15 +94,15 @@ int controleurClavier(controleurT * controleur)
 			fouleChangeCelerite(&(*controleur).systeme.foule, 0.91);break;
 
 		case SDLK_u:
-			dessineChangeStatut(&(*controleur).dessine, 3);break;
+			dessineChangeMotif(&(*controleur).dessine, 3);break;
 		case SDLK_i:
-			dessineChangeStatut(&(*controleur).dessine, 2);break;
+			dessineChangeMotif(&(*controleur).dessine, 2);break;
 		case SDLK_o:
-			dessineChangeStatut(&(*controleur).dessine, 0);break;
+			dessineChangeMotif(&(*controleur).dessine, 0);break;
 		case SDLK_p:
-			dessineChangeStatut(&(*controleur).dessine, 9);break;
+			dessineChangeMotif(&(*controleur).dessine, 9);break;
 		case SDLK_m:
-			dessineChangeStatut(&(*controleur).dessine, 1);break;
+			dessineChangeMotif(&(*controleur).dessine, 1);break;
 
 		case SDLK_w:
 			(*controleur).options.boucle = 0;break;

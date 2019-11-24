@@ -302,7 +302,15 @@ int controleurEvolutionSysteme(controleurT * controleur)
 int controleurEvolutionDessin(controleurT * controleur)
 	{
 
-	(void)controleur;
+	if((*controleur).appui == 1)
+		{
+		int X = (*controleur).commandes.sourisX / CELLULE ;
+		int Y = (*controleur).commandes.sourisY / CELLULE ;
+		dessineProjection(&(*controleur).dessine);	// Projette le niveau 1 sur le niveau 0
+		dessinePositionFinale(&(*controleur).dessine, X, Y); // Enregistre la position actuelle de la souris
+		dessineAjouteTrace(&(*controleur).dessine, 0);	// Ajoute le tracé au niveau 0
+		}
+	//else		{		;		}
 
 	return 0;
 	}
@@ -320,7 +328,6 @@ int controleurConstructionGraphique(controleurT * controleur)
 	//graphiqueCommandes(&(*controleur).graphique, &(*controleur).commandes);
 
 		//fprintf(stderr, "Dessin des graphes\n");
-
 	if((*controleur).modeDessin > 0)
 		{
 		if((*controleur).options.dessineAngle==1)

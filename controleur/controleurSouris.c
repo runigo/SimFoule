@@ -32,12 +32,58 @@ termes.
 #include "controleurSouris.h"
 
 
-int controleurSourisDessineStatut(controleurT * controleur);
+int controleurSourisDessine(controleurT * controleur, int appui);
 
 int controleurSourisDefilePointDeVue(controleurT * controleur);
 int controleurSourisDefileCommandes(controleurT * controleur, int zone);
 
 int controleurSourisCommandes(controleurT * controleur, int zone);
+
+
+int controleurSourisBouton(controleurT * controleur, int appui)
+	{
+
+				// Action du bouton gauche de la souris
+
+	(*controleur).appui=appui;
+
+	//fprintf(stderr, "controleurSourisBouton (*controleur).appui = %d\n", (*controleur).appui);
+	
+	if(appui==1)
+		{
+		if((*controleur).commandes.sourisX>(*controleur).commandes.rotatifs)
+			{
+			if((*controleur).commandes.sourisX>(*controleur).commandes.boutons)
+				{
+				controleurSourisCommandes(controleur, 2); // Zone petits boutons à droite
+				}
+			else
+				{
+				controleurSourisCommandes(controleur, 1); // Zone rotatifs à droite
+				}
+			}
+		else
+			{
+			if((*controleur).commandes.sourisY>(*controleur).commandes.bas)
+				{
+				controleurSourisCommandes(controleur, 3); // Zone des boutons du bas
+				}
+			else
+				{
+				controleurSourisDessine(controleur, 1);
+				//controleurSourisCommandes(controleur, 0); // Zone graphe système
+				}
+			}
+		}
+	else
+		{
+		controleurSourisDessine(controleur, 0);
+		fprintf(stderr, "\n");
+		}
+
+	return 0;
+	}
+
 
 int controleurSourisMouvement(controleurT * controleur)
 	{
@@ -198,48 +244,6 @@ int controleurSourisDefilePointDeVue(controleurT * controleur)
 	return 0;
 	}
 
-int controleurSourisBouton(controleurT * controleur, int appui)
-	{
-
-				// Action du bouton gauche de la souris
-
-	(*controleur).appui=appui;
-
-	fprintf(stderr, "controleurSourisBouton (*controleur).appui = %d\n", (*controleur).appui);
-	
-	if(appui==1)
-		{
-		if((*controleur).commandes.sourisX>(*controleur).commandes.rotatifs)
-			{
-			if((*controleur).commandes.sourisX>(*controleur).commandes.boutons)
-				{
-				controleurSourisCommandes(controleur, 2); // Zone petits boutons à droite
-				}
-			else
-				{
-				controleurSourisCommandes(controleur, 1); // Zone rotatifs à droite
-				}
-			}
-		else
-			{
-			if((*controleur).commandes.sourisY>(*controleur).commandes.bas)
-				{
-				controleurSourisCommandes(controleur, 3); // Zone des boutons du bas
-				}
-			else
-				{
-				controleurSourisCommandes(controleur, 0); // Zone graphe système
-				}
-			}
-		}
-	else
-		{
-		fprintf(stderr, "\n");
-		}
-
-	return 0;
-	}
-
 int controleurSourisCommandes(controleurT * controleur, int zone)
 	{
 				// Action du bouton gauche de la souris
@@ -248,10 +252,6 @@ int controleurSourisCommandes(controleurT * controleur, int zone)
 	fprintf(stderr, "controleurSourisCommandes zone = %d\n", zone);
 
 	int commande;
-	if(zone==0) // Zone graphe système
-		{
-		controleurSourisDessineStatut(controleur);
-		}
 
 	if(zone==2) // Zone petits boutons
 		{
@@ -309,19 +309,28 @@ int controleurSourisCommandes(controleurT * controleur, int zone)
 	return 0;
 	}
 
-int controleurSourisDessineStatut(controleurT * controleur)
+int controleurSourisDessine(controleurT * controleur, int appui)
 	{
 				// Change le statut de la cellule sélectionnée
+
 	int X = (*controleur).commandes.sourisX / CELLULE ;
 	int Y = (*controleur).commandes.sourisY / CELLULE ;
 
 	if((*controleur).modeDessin < 0)
 		{
-		celluleInitialiseStatut(&(*controleur).dessine.batiment.etage[0].cellule[X][Y], (*controleur).dessine.statut);
+		if(appui == 1)
+			{
+			dessinePositionInitiale(&(*controleur).dessine, X, Y);
+			}
+		else
+			{
+			dessinePositionFinale(&(*controleur).dessine, X, Y);
+			dessineAjouteTrace(&(*controleur).dessine, 1);
+			}		
 		}
 	else
 		{
-		fprintf(stderr, "    controleurDessineStatut : %d, %d\n", X, Y);
+		fprintf(stderr, "    controleurSourisDessine, cellule %d, %d\n", X, Y);
 		//celluleInitialiseStatut(&(*controleur).systeme.batiment.etage[0].cellule[X][Y], (*controleur).dessine.statut);
 		}
 
