@@ -30,22 +30,22 @@ termes.
 */
 
 
-#include "../modele/dessine.h"
+#include "../modele/construction.h"
 
 
 	//	-------  INITIALISATION  -------  //
 
-int dessineInitialisation(dessineT * dessine)
+int constructionInitialisation(constructionT * construction)
 	{
 
-	batimentInitialiseVide(&(*dessine).batiment);
+	batimentInitialiseVide(&(*construction).batiment);
 
-	(*dessine).statut = 1;		// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobileé
+	(*construction).statut = 1;		// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobileé
 
-	(*dessine).Xdebut = 1;
-	(*dessine).Ydebut = 1;
-	(*dessine).Xfin = 1;
-	(*dessine).Yfin = 1;
+	(*construction).Xdebut = 1;
+	(*construction).Ydebut = 1;
+	(*construction).Xfin = 1;
+	(*construction).Yfin = 1;
 
 	return 0;
 	}
@@ -53,50 +53,50 @@ int dessineInitialisation(dessineT * dessine)
 
 	//	-------  ÉVOLUTION  -------  //
 
-int dessineProjection(dessineT * dessine)	// Projette le niveau 1 sur le niveau 0
+int constructionProjection(constructionT * construction)	// Projette le niveau 1 sur le niveau 0
 	{
 	int i, j;
-		//fprintf(stderr, "    dessineProjection\n");
-	for(i=0;i<(*dessine).batiment.etage[0].etageX;i++)
+		//fprintf(stderr, "    constructionProjection\n");
+	for(i=0;i<(*construction).batiment.etage[0].etageX;i++)
 		{
-		for(j=0;j<(*dessine).batiment.etage[0].etageY;j++)
+		for(j=0;j<(*construction).batiment.etage[0].etageY;j++)
 			{
-			(*dessine).batiment.etage[0].cellule[i][j].statut = (*dessine).batiment.etage[1].cellule[i][j].statut;
+			(*construction).batiment.etage[0].cellule[i][j].statut = (*construction).batiment.etage[1].cellule[i][j].statut;
 			}
 		}
 	return 0;
 	}
 
-int dessinePositionInitiale(dessineT * dessine, int X, int Y) // Enregistre la position de la souris au moment de l'appui
+int constructionPositionInitiale(constructionT * construction, int X, int Y) // Enregistre la position de la souris au moment de l'appui
 	{
 
-	//fprintf(stderr, "    dessinePositionInitial : %d, %d\n", X, Y);
+	//fprintf(stderr, "    constructionPositionInitial : %d, %d\n", X, Y);
 
-	(*dessine).Xdebut = X;
-	(*dessine).Ydebut = Y;
+	(*construction).Xdebut = X;
+	(*construction).Ydebut = Y;
 
 	return 0;
 	}
 
-int dessinePositionFinale(dessineT * dessine, int X, int Y) // Enregistre la position de la souris actuelle
+int constructionPositionFinale(constructionT * construction, int X, int Y) // Enregistre la position de la souris actuelle
 	{
 
-	//fprintf(stderr, "    dessinePositionFinal : %d, %d\n", X, Y);
+	//fprintf(stderr, "    constructionPositionFinal : %d, %d\n", X, Y);
 
-	(*dessine).Xfin = X;
-	(*dessine).Yfin = Y;
+	(*construction).Xfin = X;
+	(*construction).Yfin = Y;
 
 	return 0;
 	}
 
-int dessineAjouteTrace(dessineT * dessine, int niveau)	// Ajoute le tracé au niveau
+int constructionAjouteTrace(constructionT * construction, int niveau)	// Ajoute le tracé au niveau
 	{
 	int i;
 	int X, Y;
-	int X0 = (*dessine).Xdebut;
-	int Y0 = (*dessine).Ydebut;
-	int X1 = (*dessine).Xfin;
-	int Y1 = (*dessine).Yfin;
+	int X0 = (*construction).Xdebut;
+	int Y0 = (*construction).Ydebut;
+	int X1 = (*construction).Xfin;
+	int Y1 = (*construction).Yfin;
 
 	float x = (X1-X0);
 	float y = (Y1-Y0);
@@ -116,20 +116,20 @@ int dessineAjouteTrace(dessineT * dessine, int niveau)	// Ajoute le tracé au ni
 			Y = Y0 + (int)(i*y);
 			if(X>=0 && Y>=0 && X<BATIMENT_X_MAX && y<BATIMENT_Y_MAX)
 				{
-				celluleInitialiseStatut(&(*dessine).batiment.etage[niveau].cellule[X][Y], (*dessine).statut);
+				celluleInitialiseStatut(&(*construction).batiment.etage[niveau].cellule[X][Y], (*construction).statut);
 				}
 			else
 				{
-				fprintf(stderr, "ERREUR dessineTrace\n");
+				fprintf(stderr, "ERREUR constructionTrace\n");
 				}
 			}
 		}
 	else
 		{
-		celluleInitialiseStatut(&(*dessine).batiment.etage[niveau].cellule[X0][Y0], (*dessine).statut);
+		celluleInitialiseStatut(&(*construction).batiment.etage[niveau].cellule[X0][Y0], (*construction).statut);
 		}
 
-	//fprintf(stderr, "    dessineTrace : %d\n", (*dessine).statut);
+	//fprintf(stderr, "    constructionTrace : %d\n", (*construction).statut);
 
 	return 0;
 	}
@@ -137,12 +137,12 @@ int dessineAjouteTrace(dessineT * dessine, int niveau)	// Ajoute le tracé au ni
 
 	//	-------  CHANGEMENT DES PARAMÈTRES  -------  //
 
-int dessineChangeMotif(dessineT * dessine, int statut)
+int constructionChangeMotif(constructionT * construction, int statut)
 	{	// Change le motif du tracé
 
-	(*dessine).statut = statut; // 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile
+	(*construction).statut = statut; // 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile
 
-	fprintf(stderr, "    dessineChangeStatut : %d\n", (*dessine).statut);
+	fprintf(stderr, "    constructionChangeStatut : %d\n", (*construction).statut);
 
 	return 0;
 	}

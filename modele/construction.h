@@ -30,12 +30,12 @@ termes.
 */
 
 
-#ifndef _DESSINE_
-#define _DESSINE_
+#ifndef _CONSTRUCTION_
+#define _CONSTRUCTION_
 
 #include "../modele/batiment.h"
 
-struct DessineT {
+struct ConstructionT {
 
 		batimentT batiment;
 
@@ -49,25 +49,25 @@ struct DessineT {
 	int Yfin;
 
 };
-typedef struct DessineT dessineT;
+typedef struct ConstructionT constructionT;
 
 	//	INITIALISATION
-int dessineInitialisation(dessineT * dessine);
+int constructionInitialisation(constructionT * construction);
 
 	//	ÉVOLUTION
-int dessineChangeMotif(dessineT * dessine, int statut);	//	Change le motif du tracé
+int constructionChangeMotif(constructionT * construction, int statut);	//	Change le motif du tracé
 
-int dessineDebutTrait(dessineT * dessine, int X, int Y);	//	Bouton de la souris enfoncé
-int dessineFinTrait(dessineT * dessine, int X, int Y);		//	Bouton de la souris relaché
+int constructionDebutTrait(constructionT * construction, int X, int Y);	//	Bouton de la souris enfoncé
+int constructionFinTrait(constructionT * construction, int X, int Y);		//	Bouton de la souris relaché
 
-int dessineProjection(dessineT * dessine);	// Projette le niveau 1 sur le niveau 0
-int dessineAjouteTrace(dessineT * dessine, int niveau);	// Ajoute le tracé au niveau
+int constructionProjection(constructionT * construction);	// Projette le niveau 1 sur le niveau 0
+int constructionAjouteTrace(constructionT * construction, int niveau);	// Ajoute le tracé au niveau
 
-int dessinePositionInitiale(dessineT * dessine, int X, int Y); // Enregistre la position de la souris au moment de l'appui
-int dessinePositionFinale(dessineT * dessine, int X, int Y); // Enregistre la position actuelle de la souris
+int constructionPositionInitiale(constructionT * construction, int X, int Y); // Enregistre la position de la souris au moment de l'appui
+int constructionPositionFinale(constructionT * construction, int X, int Y); // Enregistre la position actuelle de la souris
 
 	//	CHANGEMENT DES PARAMÈTRES
-int dessineChangeMotif(dessineT * dessine, int statut);	//	Change le motif du tracé
+int constructionChangeMotif(constructionT * construction, int statut);	//	Change le motif du tracé
 
 
 

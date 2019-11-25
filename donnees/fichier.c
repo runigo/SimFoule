@@ -36,28 +36,10 @@ int fichierEcriture(batimentT * batiment, int numero)
 	{
 	(void)batiment;
 	(void)numero;
-		// Touche W à N : écrit dans les fichiers q à h
-		//	la configuration dessinée
 
-/*	FILE *fichier;
+	FILE *fichier;
 
-	switch (numero)
-		{
-		case 10: // Touche W
-			fichier = fopen("./donnees/enregistrement/situation_q.simfoule", "w");break;
-		case 11: // Touche X
-			fichier = fopen("./donnees/enregistrement/situation_s.simfoule", "w");break;
-		case 12: // Touche C
-			fichier = fopen("./donnees/enregistrement/situation_d.simfoule", "w");break;
-		case 13: // Touche V
-			fichier = fopen("./donnees/enregistrement/situation_f.simfoule", "w");break;
-		case 14: // Touche B
-			fichier = fopen("./donnees/enregistrement/situation_g.simfoule", "w");break;
-		case 15: // Touche N
-			fichier = fopen("./donnees/enregistrement/situation_h.simfoule", "w");break;
-		default:
-			;
-		}
+	fichier = fopen("./donnees/enregistrement/temporaire.simfoule", "w");
 
 	if(fichier == NULL)
 		{
@@ -68,21 +50,40 @@ int fichierEcriture(batimentT * batiment, int numero)
 		{
 		int statut;
 		int i, j, k;
-		for(k=0;j<BATIMENT_Z;k++)
+
+		int etageX = (*batiment).etage[0].etageX;
+		fprintf(fichier, "%d ", etageX);
+
+		int etageY = (*batiment).etage[0].etageY;
+		fprintf(fichier, "%d ", etageY);
+
+		int batimentZ = (*batiment).batimentZ;
+		fprintf(fichier, "%d\n", batimentZ);
+
+		for(k=0;k<batimentZ;k++)
 			{
 			(*batiment).etage[k].etage = k;
-			for(j=0;j<BATIMENT_Y;j++)
+			for(j=0;j<etageY;j++)
 				{
-				for(i=0;i<BATIMENT_X-1;i++)
+				for(i=0;i<etageX;i++)
 					{
 					statut = celluleDonneStatut(&(*batiment).etage[k].cellule[i][j]);
 					fprintf(fichier, "%d ", statut);
+					//fprintf(stderr, "%d ", statut);
 					}
-				statut = celluleDonneStatut(&(*batiment).etage[k].cellule[BATIMENT_X-1][j]);
-				fprintf(fichier, "%d\n", statut);
+				fprintf(fichier, "\n");
+				//fprintf(stderr, "\n");
 				}
 			}
 		fclose(fichier);
+		}
+/*
+	switch (numero)
+		{
+		case 10: // Touche W
+			fichier = fopen("./donnees/enregistrement/situation_q.simfoule", "w");break;
+		default:
+			;
 		}
 */
 	return 0;

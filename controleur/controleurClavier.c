@@ -94,15 +94,22 @@ int controleurClavier(controleurT * controleur)
 			fouleChangeCelerite(&(*controleur).systeme.foule, 0.91);break;
 
 		case SDLK_u:
-			dessineChangeMotif(&(*controleur).dessine, 3);break;
+			constructionChangeMotif(&(*controleur).construction, 3);break;
 		case SDLK_i:
-			dessineChangeMotif(&(*controleur).dessine, 2);break;
+			constructionChangeMotif(&(*controleur).construction, 2);break;
 		case SDLK_o:
-			dessineChangeMotif(&(*controleur).dessine, 0);break;
+			constructionChangeMotif(&(*controleur).construction, 0);break;
 		case SDLK_p:
-			dessineChangeMotif(&(*controleur).dessine, 9);break;
+			constructionChangeMotif(&(*controleur).construction, 9);break;
 		case SDLK_m:
-			dessineChangeMotif(&(*controleur).dessine, 1);break;
+			constructionChangeMotif(&(*controleur).construction, 1);break;
+
+		case SDLK_j:
+			donneesSauvegardeBatiment(&(*controleur).construction.batiment, &(*controleur).options);break;
+		case SDLK_k:
+			constructionChangeMotif(&(*controleur).construction, 9);break;
+		case SDLK_l:
+			batimentInitialiseVide(&(*controleur).construction.batiment);break;
 
 		case SDLK_w:
 			(*controleur).options.boucle = 0;break;

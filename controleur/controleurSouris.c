@@ -78,7 +78,6 @@ int controleurSourisBouton(controleurT * controleur, int appui)
 	else
 		{
 		controleurSourisDessine(controleur, 0);
-		fprintf(stderr, "\n");
 		}
 
 	return 0;
@@ -320,18 +319,18 @@ int controleurSourisDessine(controleurT * controleur, int appui)
 		{
 		if(appui == 1)
 			{
-			dessinePositionInitiale(&(*controleur).dessine, X, Y);
+			constructionPositionInitiale(&(*controleur).construction, X, Y);
 			}
 		else
 			{
-			dessinePositionFinale(&(*controleur).dessine, X, Y);
-			dessineAjouteTrace(&(*controleur).dessine, 1);
+			constructionPositionFinale(&(*controleur).construction, X, Y);
+			constructionAjouteTrace(&(*controleur).construction, 1);
 			}		
 		}
 	else
 		{
 		fprintf(stderr, "    controleurSourisDessine, cellule %d, %d\n", X, Y);
-		//celluleInitialiseStatut(&(*controleur).systeme.batiment.etage[0].cellule[X][Y], (*controleur).dessine.statut);
+		//celluleInitialiseStatut(&(*controleur).systeme.batiment.etage[0].cellule[X][Y], (*controleur).construction.statut);
 		}
 
 	return 0;

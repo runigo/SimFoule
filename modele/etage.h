@@ -1,7 +1,7 @@
 /*
-Copyright novembre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.1  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -54,14 +54,18 @@ struct EtageT {
 };
 typedef struct EtageT etageT;
 
+	//	INITIALISATION
 int etageInitialise(etageT * etage, int etageX, int etageY, int niveau);
+int etageNormalise(etageT * etage);
 
 int etageCreationCelluleMur(etageT * etage, int X, int Y);
 int etageCreationCelluleSortie(etageT * etage, int X, int Y);
 int etageInitialiseStatutCellule(etageT * etage, int i, int j,int statut);
 int etageDonneStatutCellule(etageT * etage, int i, int j);
 
+	//	ALGORITHME DE PLUS COURT CHEMIN
 int etageCalculDistanceEtSens(etageT * etage);
 
+	//	INFORMATION
 int etageAffiche(etageT * etage);
 #endif

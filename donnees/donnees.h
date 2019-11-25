@@ -34,6 +34,7 @@ termes.
 #define _DONNEES_
 
 #include "../modele/systeme.h"
+#include "../modele/construction.h"
 #include "../interface/graphe.h"
 #include "../interface/graphique.h"
 #include "../controleur/options.h"
@@ -53,7 +54,7 @@ int donneesCreationGraphe(grapheT * graphe, optionsT * options);
 int donneesInitialisationInterface(interfaceT * interface, optionsT * options);
 int donneesInitialisationGraphique(graphiqueT * graphique, interfaceT * interface, optionsT * options);
 
-int donneesSauvegarde(batimentT * batiment, optionsT * options);
+int donneesSauvegardeBatiment(batimentT * batiment, optionsT * options);
 
 //int donneesCreationControleur(controleurT * controleur);
 //int donneesSystemeInitialise(controleurT * controleur, int numero);

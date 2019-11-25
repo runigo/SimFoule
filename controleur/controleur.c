@@ -109,8 +109,8 @@ int controleurInitialisation(controleurT * controleur)
 		//fprintf(stderr, "  Initialisation du système\n");
 	retour += donneesInitialisationSysteme(&(*controleur).systeme, &(*controleur).options);
 
-		//fprintf(stderr, "  Initialisation de dessine\n");
-	retour += dessineInitialisation(&(*controleur).dessine);
+		//fprintf(stderr, "  Initialisation de construction\n");
+	retour += constructionInitialisation(&(*controleur).construction);
 
 		//fprintf(stderr, "Calcul des directions\n");
 	retour += controleurDirections(controleur);
@@ -274,7 +274,7 @@ int controleurProjection(controleurT * controleur)
 		}
 	else
 		{
-	projectionBatimentPlan(&(*controleur).dessine.batiment, &(*controleur).projection, &(*controleur).graphe);
+	projectionBatimentPlan(&(*controleur).construction.batiment, &(*controleur).projection, &(*controleur).graphe);
 		}
 
 
@@ -306,9 +306,9 @@ int controleurEvolutionDessin(controleurT * controleur)
 		{
 		int X = (*controleur).commandes.sourisX / CELLULE ;
 		int Y = (*controleur).commandes.sourisY / CELLULE ;
-		dessineProjection(&(*controleur).dessine);	// Projette le niveau 1 sur le niveau 0
-		dessinePositionFinale(&(*controleur).dessine, X, Y); // Enregistre la position actuelle de la souris
-		dessineAjouteTrace(&(*controleur).dessine, 0);	// Ajoute le tracé au niveau 0
+		constructionProjection(&(*controleur).construction);	// Projette le niveau 1 sur le niveau 0
+		constructionPositionFinale(&(*controleur).construction, X, Y); // Enregistre la position actuelle de la souris
+		constructionAjouteTrace(&(*controleur).construction, 0);	// Ajoute le tracé au niveau 0
 		}
 	//else		{		;		}
 
@@ -492,15 +492,15 @@ void controleurChangeVitesse(controleurT * controleur, float facteur)
 	return;
 	}
 
-int controleurChangeDessin(int * dessine)
+int controleurChangeDessin(int * construction)
 	{
-	if((*dessine)==0)
+	if((*construction)==0)
 		{
-		(*dessine)=1;
+		(*construction)=1;
 		}
 	else
 		{
-		(*dessine)=0;
+		(*construction)=0;
 		}
 
 	return 0;

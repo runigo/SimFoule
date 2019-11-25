@@ -35,7 +35,7 @@ termes.
 #include "../donnees/donnees.h"				//	Conditions initiales
 #include "../controleur/options.h"			//	Options de la ligne de commande
 #include "../controleur/projection.h"		//	Projection du système sur le graphisme
-#include "../modele/dessine.h"				//	Dessine la configuration
+#include "../modele/construction.h"				//	Dessine la configuration
 #include "../interface/graphique.h"			//	Librairie SDL et représentation graphique
 #include "../interface/horloge.h"			//	Librairie SDL et représentation graphique
 #include "../donnees/fichier.h"
@@ -48,7 +48,7 @@ typedef struct ControleurT controleurT;
 
 		systemeT systeme;	//	Modélisation du batiment et de la foule
 
-		dessineT dessine;	//	Modélisation du batiment
+		constructionT construction;	//	Modélisation du batiment
 
 		projectionT projection;	//	Paramètre de la projection
 
@@ -82,7 +82,7 @@ int controleurReinitialisation(controleurT * controleur, int initial);
 int controleurDirections(controleurT * controleur);
 int controleurSimulationGraphique(controleurT * controleur);
 
-int controleurChangeDessin(int * dessine); // dessin des murs, des mobiles, des sens à suivre.
+int controleurChangeDessin(int * construction); // dessin des murs, des mobiles, des sens à suivre.
 
 	void controleurChangeModePause(controleurT * controleur);
 	void controleurChangeModeDessin(controleurT * controleur);

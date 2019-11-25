@@ -116,6 +116,9 @@ int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 
 int donneesSauvegardeBatiment(batimentT * batiment, optionsT * options)
 	{
+
+	batimentNormalise(batiment);
+
 		if( (*options).initial > -1 && (*options).initial < 99)
 			{
 			fichierEcriture(batiment, (*options).initial);
