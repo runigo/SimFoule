@@ -116,18 +116,12 @@ int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 
 int donneesSauvegardeBatiment(batimentT * batiment, optionsT * options)
 	{
+	(void)options;
 
-	batimentNormalise(batiment);
+	batimentNormalise(batiment, 1);
 
-		if( (*options).initial > -1 && (*options).initial < 99)
-			{
-			fichierEcriture(batiment, (*options).initial);
-			}
-		else
-			{
-			printf("donneesSauvegardeBatiment : Erreur lors de la sauvegarde\n");
-			}
-	
+	fichierEcriture(batiment, options);
+
 	return 0;
 	}
 

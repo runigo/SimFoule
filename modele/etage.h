@@ -56,7 +56,7 @@ typedef struct EtageT etageT;
 
 	//	INITIALISATION
 int etageInitialise(etageT * etage, int etageX, int etageY, int niveau);
-int etageNormalise(etageT * etage);
+int etageNormalise(etageT * etage, int etageXY);
 
 int etageCreationCelluleMur(etageT * etage, int X, int Y);
 int etageCreationCelluleSortie(etageT * etage, int X, int Y);

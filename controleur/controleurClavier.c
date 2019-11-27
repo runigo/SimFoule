@@ -222,11 +222,11 @@ int controleurClavierCtrl(controleurT * controleur)
 		case SDLK_n:
 			fprintf(stderr,"controleurClavierCtrl");break;
 
-	// Réinitialisation du système
-	/*	case SDLK_a:
-			fprintf(stderr, "Réinitialisation du système\n");
-			systemeInitialisePosition(&(*controleur).systeme, 0);break;
-		case SDLK_z:
+	// Sauvegarde du système
+		case SDLK_a:
+			fprintf(stderr, "Sauvegarde de la construction\n");
+			donneesSauvegardeBatiment(&(*controleur).construction.batiment, &(*controleur).options);break;
+	/*	case SDLK_z:
 			fprintf(stderr, "Réinitialisation du système\n");
 			systemeInitialisePosition(&(*controleur).systeme, 1);break;
 		case SDLK_e:

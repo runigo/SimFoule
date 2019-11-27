@@ -47,13 +47,13 @@ int batimentInitialiseMobileImplicite(batimentT * batiment);
 
 	//		---------  INITIALISATION  ---------  //
 
-int batimentNormalise(batimentT * batiment)
+int batimentNormalise(batimentT * batiment, int etageXYZ)
 	{ // Supprime les marges
 	int k;
 
 	for(k=0;k<BATIMENT_Z_MAX;k++)
 		{
-		etageNormalise(&(*batiment).etage[k]);
+		etageNormalise(&(*batiment).etage[k], etageXYZ);
 		}
 
 	return 0;

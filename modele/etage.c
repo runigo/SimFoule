@@ -61,12 +61,15 @@ int etageInitialiseSens(etageT * etage);
 
 	//	-------  INITIALISATION  ET  NORMALISATION  -------  //
 
-int etageNormalise(etageT * etage)
+int etageNormalise(etageT * etage, int etageXY)
 	{
 
-	(*etage).etageX = 0;
-	(*etage).etageY = 0;
-/*
+	if(etageXY!=0)	// Initialisation XY
+		{
+		(*etage).etageX = 0;
+		(*etage).etageY = 0;
+		}
+
 	if(etageNonVide(etage)!=0)	// Si l'étage est non vide
 		{
 		do{}
@@ -77,11 +80,15 @@ int etageNormalise(etageT * etage)
 		}
 	else
 		{
+		fprintf(stderr, "	etageNormalise : l'étage %d est vide.\n", (*etage).etage);
 		return 1;
 		}
-*/
-	(*etage).etageX = etageCalculeX(etage);
-	(*etage).etageY = etageCalculeY(etage);
+
+	if(etageXY!=0)	// Initialisation XY
+		{
+		(*etage).etageX = etageCalculeX(etage);
+		(*etage).etageY = etageCalculeY(etage);
+		}
 
 	return 0;
 	}
@@ -103,7 +110,8 @@ int etageNormaliseDecaleX(etageT * etage)
 		{
 		for(i=1;i<BATIMENT_X_MAX;i++)
 			{
-			celluleInitialiseStatut(&(*etage).cellule[i-1][j], celluleDonneStatut(&(*etage).cellule[i][j]));
+			//celluleInitialiseStatut(&(*etage).cellule[i-1][j], celluleDonneStatut(&(*etage).cellule[i][j]));
+			(*etage).cellule[i-1][j].statut = (*etage).cellule[i][j].statut;
 			}
 		}
 
@@ -123,11 +131,12 @@ int etageNormaliseDecaleY(etageT * etage)
 			}
 		}
 
-	for(i=0;i<BATIMENT_Y_MAX;i++)
+	for(i=0;i<BATIMENT_X_MAX;i++)
 		{
-		for(j=1;j<BATIMENT_X_MAX;j++)
+		for(j=1;j<BATIMENT_Y_MAX;j++)
 			{
-			celluleInitialiseStatut(&(*etage).cellule[i][j-1], celluleDonneStatut(&(*etage).cellule[i][j]));
+			//celluleInitialiseStatut(&(*etage).cellule[i][j-1], celluleDonneStatut(&(*etage).cellule[i][j]));
+			(*etage).cellule[i][j-1].statut = (*etage).cellule[i][j].statut;
 			}
 		}
 
