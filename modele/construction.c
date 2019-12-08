@@ -39,6 +39,7 @@ int constructionInitialisation(constructionT * construction)
 	{
 
 	batimentInitialiseVide(&(*construction).batiment);
+	batimentInitialiseVide(&(*construction).normal);
 
 	(*construction).statut = 1;		// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobileé
 
@@ -53,10 +54,11 @@ int constructionInitialisation(constructionT * construction)
 
 	//	-------  ÉVOLUTION  -------  //
 
-int constructionProjection(constructionT * construction)	// Projette le niveau 1 sur le niveau 0
+int constructionProjection(constructionT * construction)
 	{
 	int i, j;
-		//fprintf(stderr, "    constructionProjection\n");
+					// Projette le niveau 1 sur le niveau 0
+
 	for(i=0;i<(*construction).batiment.etage[0].etageX;i++)
 		{
 		for(j=0;j<(*construction).batiment.etage[0].etageY;j++)
@@ -67,10 +69,10 @@ int constructionProjection(constructionT * construction)	// Projette le niveau 1
 	return 0;
 	}
 
-int constructionPositionInitiale(constructionT * construction, int X, int Y) // Enregistre la position de la souris au moment de l'appui
+int constructionPositionInitiale(constructionT * construction, int X, int Y)
 	{
 
-	//fprintf(stderr, "    constructionPositionInitial : %d, %d\n", X, Y);
+	 // Enregistre la position de la souris au moment de l'appui
 
 	(*construction).Xdebut = X;
 	(*construction).Ydebut = Y;
@@ -89,7 +91,7 @@ int constructionPositionFinale(constructionT * construction, int X, int Y) // En
 	return 0;
 	}
 
-int constructionAjouteTrace(constructionT * construction, int niveau)	// Ajoute le tracé au niveau
+int constructionAjouteTrace(constructionT * construction, int niveau)	// Ajoute le tracé sur l'étage
 	{
 	int i;
 	int X, Y;
@@ -129,16 +131,16 @@ int constructionAjouteTrace(constructionT * construction, int niveau)	// Ajoute 
 		celluleInitialiseStatut(&(*construction).batiment.etage[niveau].cellule[X0][Y0], (*construction).statut);
 		}
 
-	//fprintf(stderr, "    constructionTrace : %d\n", (*construction).statut);
-
 	return 0;
 	}
 
 
 	//	-------  CHANGEMENT DES PARAMÈTRES  -------  //
 
+
 int constructionChangeMotif(constructionT * construction, int statut)
-	{	// Change le motif du tracé
+	{
+			// Change le motif du tracé
 
 	(*construction).statut = statut; // 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile
 

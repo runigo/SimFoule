@@ -39,6 +39,8 @@ struct ConstructionT {
 
 		batimentT batiment;
 
+		batimentT normal;
+
 		// Motif du tracé
 	int statut;		// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile
 

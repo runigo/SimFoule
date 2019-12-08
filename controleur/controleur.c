@@ -55,7 +55,7 @@ int controleurTraiteEvenement(controleurT * controleur);
 int controleurMemoireOptions(controleurT * controleur);
 
 
-	//	INITIALISATION - SUPRESSION
+	//	-------  INITIALISATION - SUPRESSION  -------  //
 
 int controleurSuppression(controleurT * controleur)
 	{
@@ -169,7 +169,8 @@ int controleurMemoireOptions(controleurT * controleur)
 	return 0;
 	}
 
-	//	ÉVOLUTION
+
+	//	-------  ÉVOLUTION  -------  //
 
 int controleurSimulationGraphique(controleurT * controleur)
 	{
@@ -189,28 +190,28 @@ int controleurEvolution(controleurT * controleur)
 
 	//horlogeChrono(&(*controleur).horloge, 0);
 
-	controleurProjection(controleur);
+		controleurProjection(controleur);	//	Projections
 
 	//horlogeChrono(&(*controleur).horloge, 1);
 
-	if((*controleur).modeDessin > 0)
-		{
-		if((*controleur).modePause > 0)
+		if((*controleur).modeDessin > 0) // Évolution du système
 			{
-			if(controleurEvolutionSysteme(controleur)!=0)
+			if((*controleur).modePause > 0)
 				{
-				controleurBoucle(controleur);
+				if(controleurEvolutionSysteme(controleur)!=0)
+					{
+					controleurBoucle(controleur);
+					}
 				}
 			}
-		}
-	else
-		{
-		controleurEvolutionDessin(controleur);
-		}
+		else	//	Évolution de la construction
+			{
+			controleurEvolutionDessin(controleur);
+			}
 
 	//horlogeChrono(&(*controleur).horloge, 2);
 
-	controleurConstructionGraphique(controleur);
+		controleurConstructionGraphique(controleur); // Affichage
 
 	//horlogeChrono(&(*controleur).horloge, 3);
 
@@ -272,12 +273,12 @@ int controleurProjection(controleurT * controleur)
 	projectionBatimentSens(&(*controleur).systeme.batiment, &(*controleur).projection, &(*controleur).graphe);
 	projectionFoulePoints(&(*controleur).systeme.foule, &(*controleur).projection, &(*controleur).graphe);
 		}
-	else
+	else	//	Projection de la construction
 		{
 	projectionBatimentPlan(&(*controleur).construction.batiment, &(*controleur).projection, &(*controleur).graphe);
 		}
 
-
+		//	Projection du système sur les commandes
 	projectionSystemeCommandes(&(*controleur).systeme, &(*controleur).projection, &(*controleur).commandes, (*controleur).options.duree, (*controleur).modePause);
 
 	return (*controleur).sortie;
@@ -306,9 +307,9 @@ int controleurEvolutionDessin(controleurT * controleur)
 		{
 		int X = (*controleur).commandes.sourisX / CELLULE ;
 		int Y = (*controleur).commandes.sourisY / CELLULE ;
-		constructionProjection(&(*controleur).construction);	// Projette le niveau 1 sur le niveau 0
+		constructionProjection(&(*controleur).construction);	// Projette le niveau 1 sur l'étage 0
 		constructionPositionFinale(&(*controleur).construction, X, Y); // Enregistre la position actuelle de la souris
-		constructionAjouteTrace(&(*controleur).construction, 0);	// Ajoute le tracé au niveau 0
+		constructionAjouteTrace(&(*controleur).construction, 0);	// Ajoute le tracé sur l'étage 0
 		}
 	//else		{		;		}
 
@@ -343,7 +344,7 @@ int controleurConstructionGraphique(controleurT * controleur)
 			graphiqueDessineMobile(&(*controleur).graphique, &(*controleur).graphe, (*controleur).options.taille);
 			}
 		}
-	else
+	else	//	Dessin de la construction
 		{
 		graphiqueDessineStatut(&(*controleur).graphique, &(*controleur).graphe);
 		}
@@ -446,6 +447,7 @@ void controleurChangeModeDessin(controleurT * controleur)
 	else
 		{
 		fprintf(stderr, "modeDessin : construction\n");
+		grapheInitialisation(&(*controleur).graphe, BATIMENT_X_MAX, BATIMENT_Y_MAX, BATIMENT_Z_IMP);
 		}
 
 	return;

@@ -655,7 +655,8 @@ void graphiqueDessineMobile(graphiqueT * graphique, grapheT * graphe, int taille
 		// int plan[BATIMENT_X][BATIMENT_Y][BATIMENT_Z]; // Plan du batiment		À UTILISER ICI ?
 				// 0 : libre, 1 : mur, 2 : sortie		if(iterGraph->zm=(*graphe).plan[][][])
 
-		if(iterGraph->zm!=-1) // dessine les mobiles de l'étage
+		//if(iterGraph->zm!=-1) // dessine les mobiles de l'étage
+		if(iterGraph->zm > -1) // dessine les mobiles de l'étage
 			SDL_RenderCopy((*graphique).rendu, (*graphique).mobile, NULL, &coordonnee);
 
 		iterGraph = iterGraph->suivant;

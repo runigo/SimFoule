@@ -32,10 +32,10 @@ termes.
 
 #include "fichier.h"
 
-int fichierEcriture(batimentT * batiment, int numero)
+int fichierEcriture(batimentT * batiment, optionsT * options)
 	{
 	(void)batiment;
-	(void)numero;
+	(void)options;
 
 	FILE *fichier;
 
@@ -97,7 +97,7 @@ int fichierLecture(batimentT * batiment, int numero)
 	switch (numero)
 		{
 		case 0: // Touche A
-			fichier = fopen("./donnees/enregistrement/situation_a.simfoule", "r");break;
+			fichier = fopen("./donnees/enregistrement/temporaire.simfoule", "r");break;
 		case 1: // Touche Z
 			fichier = fopen("./donnees/enregistrement/situation_z.simfoule", "r");break;
 		case 2: // Touche E

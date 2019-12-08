@@ -54,6 +54,8 @@ int donneesCreationGraphe(grapheT * graphe, optionsT * options);
 int donneesInitialisationInterface(interfaceT * interface, optionsT * options);
 int donneesInitialisationGraphique(graphiqueT * graphique, interfaceT * interface, optionsT * options);
 
+int donneesSauvegardeConstruction(constructionT * construction, optionsT * options);
+
 int donneesSauvegardeBatiment(batimentT * batiment, optionsT * options);
 
 //int donneesCreationControleur(controleurT * controleur);

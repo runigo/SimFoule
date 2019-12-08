@@ -33,6 +33,9 @@ termes.
 #include "systeme.h"
 
 
+int systemeSortieMobile(systemeT * systeme, mobileT * mobile); // Le mobile a ateint une sortie.
+int systemeAbandonMobile(systemeT * systeme, mobileT * mobile); // Diminue la vitalité et supprimme.
+
 int systemeCorrigeMur(systemeT * systeme);	// Correction des nouvelles positions
 
 float systemeForceBatiment(systemeT * systeme); // Calcul de la force de couplage avec le batiment
@@ -190,6 +193,30 @@ float systemeForceBatiment(systemeT * systeme)
 	return forceMax;
 	}
 
+int systemeAbandonMobile(systemeT * systeme, mobileT * mobile)
+	{ // Diminue la vitalité et supprimme.
+
+	if(mobileChangeVivacite(mobile, 1) < 0) // le mobile est hors service
+		{
+		(*mobile).nouveau.z=-2; // Abandon du mobile.
+		(*systeme).foule.restant--;
+		}
+
+	return 0;
+	}
+
+int systemeSortieMobile(systemeT * systeme, mobileT * mobile)
+	{ // Le mobile a ateint une sortie.
+
+	(*mobile).nouveau.z--;
+	(*systeme).foule.restant--;
+
+					//fprintf(stderr, "systemeSortieMobile : Sortie d'un mobile \n");
+					//fprintf(stderr, "systemeSortieMobile : Il en reste %d dans le batiment \n", (*systeme).foule.restant);
+					//fprintf(stderr, "systemeSortieMobile : chronomètre = %f \n", (*systeme).foule.horloge);
+	return 0;
+	}
+
 float systemeVitessesSouhaitees(systemeT * systeme)
 	{ // Calcul de la vitesse souhaité
 	int X, Y, Z;
@@ -209,17 +236,13 @@ float systemeVitessesSouhaitees(systemeT * systeme)
 			if( X<0 || X>(*systeme).batiment.etage[Z].etageX || Y<0 || Y>(*systeme).batiment.etage[Z].etageY ) // Mobile hors batiment sans passer par une sortie
 				{
 				fprintf(stderr, "ERREUR : systemeVitessesSouhaitees : mobile hors batiment sans passer par une sortie.\n");
-				iter->mobile.nouveau.z=-2; // Abandon du mobile.
+				systemeAbandonMobile(systeme, &(iter->mobile));
 				}
 			else
 				{
 				if((*systeme).batiment.etage[Z].cellule[X][Y].statut==2) // le mobile a atteint une sortie
 					{
-					//fprintf(stderr, "systemeVitessesSouhaitees : Sortie d'un mobile \n");
-					iter->mobile.nouveau.z--;
-					(*systeme).foule.restant--;
-					//fprintf(stderr, "systemeVitessesSouhaitees : Il en reste %d dans le batiment \n", (*systeme).foule.restant);
-					//fprintf(stderr, "systemeVitessesSouhaitees : chronomètre = %f \n", (*systeme).foule.horloge);
+					systemeSortieMobile(systeme, &(iter->mobile));
 					}
 				else
 					{	// Initialisation de la vitesse souhaitée	// Calcul de la vitesse souhaitée
@@ -291,6 +314,7 @@ int systemeCorrigeMur(systemeT * systeme)
 			else
 				{
 				fprintf(stderr, "ERREUR systemeCorrigeMur : XYZ = %d, %d, %d \n", X, Y, Z);
+				systemeAbandonMobile(systeme, &(iter->mobile));
 				}
 			}
 
@@ -329,7 +353,8 @@ int systemeCalculDensite(systemeT * systeme)
 				}
 			else
 				{
-				fprintf(stderr, "ERREUR systemeCalculDensite : XYZ = %d, %d, %d \n", X, Y, Z);
+				fprintf(stderr, "ERREUR systemeCalculDensite, premier do-while, XYZ = %d, %d, %d \n", X, Y, Z);
+				systemeAbandonMobile(systeme, &(iter->mobile));
 				}
 			}
 
@@ -351,7 +376,8 @@ int systemeCalculDensite(systemeT * systeme)
 				}
 			else
 				{
-				fprintf(stderr, "ERREUR systemeCalculDensite : XYZ = %d, %d, %d \n", X, Y, Z);
+				fprintf(stderr, "ERREUR systemeCalculDensite, second do-while : XYZ = %d, %d, %d \n", X, Y, Z);
+				systemeAbandonMobile(systeme, &(iter->mobile));
 				}
 			}
 

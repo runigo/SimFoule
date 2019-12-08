@@ -47,6 +47,19 @@ int batimentInitialiseMobileImplicite(batimentT * batiment);
 
 	//		---------  INITIALISATION  ---------  //
 
+int batimentProjection(batimentT * construction, batimentT * normal)
+	{ // Projette la construction sur normal
+	int k;
+
+	for(k=0;k<BATIMENT_Z_MAX;k++)
+		{
+		etageProjection(&(*construction).etage[k], &(*normal).etage[k]);
+		}
+
+	return 0;
+	}
+
+
 int batimentNormalise(batimentT * batiment, int etageXYZ)
 	{ // Supprime les marges
 	int k;

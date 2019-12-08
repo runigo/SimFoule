@@ -46,6 +46,7 @@ typedef struct BatimentT batimentT;
 int batimentInitialiseVide(batimentT * batiment);
 int batimentInitialiseImplicite(batimentT * batiment, int niveau);
 
+int batimentProjection(batimentT * construction, batimentT * normal);
 int batimentNormalise(batimentT * batiment, int etageXYZ);
 
 	//		ÉVOLUTION

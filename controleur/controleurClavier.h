@@ -33,6 +33,7 @@ termes.
 #define _CONTROLEURCLAVIER_
 
 #include "../controleur/controleur.h"
+#include "../controleur/controleurSouris.h"
 
 	int controleurClavier(controleurT * controleur);
 	int controleurClavierMaj(controleurT * controleur);

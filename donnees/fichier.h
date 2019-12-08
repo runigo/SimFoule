@@ -35,8 +35,9 @@ termes.
 #include <stdio.h>
 
 #include "../modele/batiment.h"
+#include "../controleur/options.h"
 
-int fichierEcriture(batimentT * batiment, int numero);
+int fichierEcriture(batimentT * batiment, optionsT * options);
 int fichierLecture(batimentT * batiment, int numero);
 
 #endif

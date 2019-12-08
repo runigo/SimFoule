@@ -39,7 +39,7 @@ int donneesOptionsImplicite(optionsT * options)
 		// 	réglage des valeurs implicites
 
 	(*options).mode = 1;	// -1 : Pause, 1 : Simulation
-	(*options).duree = 90;	// nombre d'incrémentation de la foule par affichage
+	(*options).duree = 30;	// nombre d'incrémentation de la foule par affichage
 	(*options).boucle = 0;	// répétition des simulations
 
 	(*options).initial=0;	// Numéro du fichier d'initialisation.
@@ -110,6 +110,20 @@ int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 	(*options).batimentX = (*batiment).etage[0].etageX;
 	(*options).batimentY = (*batiment).etage[0].etageY;
 	(*options).batimentZ = (*batiment).batimentZ;
+
+	return 0;
+	}
+
+int donneesSauvegardeConstruction(constructionT * construction, optionsT * options)
+	{
+
+	batimentProjection(&(*construction).batiment, &(*construction).normal);
+
+	batimentNormalise(&(*construction).normal, 1);
+
+	(*construction).normal.batimentZ = 1;
+
+	fichierEcriture(&(*construction).normal, options);
 
 	return 0;
 	}

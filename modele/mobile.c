@@ -462,12 +462,15 @@ int mobileChangeVivacite(mobileT * mobile, int impact)
 
 	(*mobile).vivacite = (*mobile).vivacite - impact;
 
-	if( (*mobile).vivacite < 0 )
-		{
-		fprintf(stderr, "\nMobile supprimé\n"); return 1;
-		}
+	return (*mobile).vivacite;
+	}
 
-	return 0;
+int mobilePerdVivacite(mobileT * mobile)
+	{
+
+	(*mobile).vivacite --;
+
+	return (*mobile).vivacite;
 	}
 
 int mobileImpactVivacite(mobileT * mobile)

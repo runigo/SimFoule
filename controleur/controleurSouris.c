@@ -315,7 +315,7 @@ int controleurSourisDessine(controleurT * controleur, int appui)
 	int X = (*controleur).commandes.sourisX / CELLULE ;
 	int Y = (*controleur).commandes.sourisY / CELLULE ;
 
-	if((*controleur).modeDessin < 0)
+	if((*controleur).modeDessin < 0) // Mode construction
 		{
 		if(appui == 1)
 			{
@@ -324,12 +324,12 @@ int controleurSourisDessine(controleurT * controleur, int appui)
 		else
 			{
 			constructionPositionFinale(&(*controleur).construction, X, Y);
-			constructionAjouteTrace(&(*controleur).construction, 1);
+			constructionAjouteTrace(&(*controleur).construction, 1);	// Ajoute le tracé sur l'étage 1
 			}		
 		}
 	else
 		{
-		fprintf(stderr, "    controleurSourisDessine, cellule %d, %d\n", X, Y);
+		fprintf(stderr, "controleurSourisDessine, mode simulation, cellule %d, %d\n", X, Y);
 		//celluleInitialiseStatut(&(*controleur).systeme.batiment.etage[0].cellule[X][Y], (*controleur).construction.statut);
 		}
 

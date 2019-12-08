@@ -61,6 +61,23 @@ int etageInitialiseSens(etageT * etage);
 
 	//	-------  INITIALISATION  ET  NORMALISATION  -------  //
 
+int etageProjection(etageT * construction, etageT * normal)
+	{ // Projette la construction sur normal
+	int i, j;
+
+	for(j=0;j<BATIMENT_Y_MAX;j++)
+		{
+		for(i=0;i<BATIMENT_X_MAX;i++)
+			{
+			//celluleInitialiseStatut(&(*etage).cellule[i][j], celluleDonneStatut(&(*etage).cellule[i][j]));
+			(*normal).cellule[i][j].statut = (*construction).cellule[i][j].statut;
+			}
+		}
+
+	return 0;
+	}
+
+
 int etageNormalise(etageT * etage, int etageXY)
 	{
 

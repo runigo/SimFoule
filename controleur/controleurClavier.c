@@ -105,7 +105,8 @@ int controleurClavier(controleurT * controleur)
 			constructionChangeMotif(&(*controleur).construction, 1);break;
 
 		case SDLK_j:
-			donneesSauvegardeBatiment(&(*controleur).construction.batiment, &(*controleur).options);break;
+			//donneesSauvegardeBatiment(&(*controleur).construction.batiment, &(*controleur).options);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options);break;
 		case SDLK_k:
 			constructionChangeMotif(&(*controleur).construction, 9);break;
 		case SDLK_l:
@@ -225,7 +226,7 @@ int controleurClavierCtrl(controleurT * controleur)
 	// Sauvegarde du système
 		case SDLK_a:
 			fprintf(stderr, "Sauvegarde de la construction\n");
-			donneesSauvegardeBatiment(&(*controleur).construction.batiment, &(*controleur).options);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options);break;
 	/*	case SDLK_z:
 			fprintf(stderr, "Réinitialisation du système\n");
 			systemeInitialisePosition(&(*controleur).systeme, 1);break;
