@@ -103,10 +103,10 @@ int controleurClavier(controleurT * controleur)
 			constructionChangeMotif(&(*controleur).construction, 9);break;
 		case SDLK_m:
 			constructionChangeMotif(&(*controleur).construction, 1);break;
-
+/*
 		case SDLK_j:
 			//donneesSauvegardeBatiment(&(*controleur).construction.batiment, &(*controleur).options);break;
-			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, &("jj"));break; */
 		case SDLK_k:
 			constructionChangeMotif(&(*controleur).construction, 9);break;
 		case SDLK_l:
@@ -131,11 +131,9 @@ int controleurClavierMaj(controleurT * controleur)
 	{
 	switch ((*controleur).interface.evenement.key.keysym.sym)
 		{
-
-	// Sortie
-
+	// 1 : simulation, -1 : construction
 		case SDLK_ESCAPE:
-			(*controleur).sortie = 1;break;
+			controleurChangeModeDessin(controleur);break;
 
     // Mode : évolution du système en pause
 
@@ -212,9 +210,9 @@ int controleurClavierCtrl(controleurT * controleur)
 	{
 	switch ((*controleur).interface.evenement.key.keysym.sym)
 		{
-	// Sortie
+	// 1 : simulation, -1 : construction
 		case SDLK_ESCAPE:
-			(*controleur).sortie = 1;break;
+			controleurChangeModeDessin(controleur);break;
 	// Mode : évolution du système en pause
 		case SDLK_RETURN:
 			controleurChangeModePause(controleur);break;
@@ -226,7 +224,7 @@ int controleurClavierCtrl(controleurT * controleur)
 	// Sauvegarde du système
 		case SDLK_a:
 			fprintf(stderr, "Sauvegarde de la construction\n");
-			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "aa");break;
 	/*	case SDLK_z:
 			fprintf(stderr, "Réinitialisation du système\n");
 			systemeInitialisePosition(&(*controleur).systeme, 1);break;
@@ -344,9 +342,9 @@ int controleurClavierCtrlMaj(controleurT * controleur)
 	{
 	switch ((*controleur).interface.evenement.key.keysym.sym)
 		{
-	// Sortie
+	// 1 : simulation, -1 : construction
 		case SDLK_ESCAPE:
-			(*controleur).sortie = 1;break;
+			controleurChangeModeDessin(controleur);break;
 	// Mode : évolution du système en pause
 		case SDLK_RETURN:
 			controleurChangeModePause(controleur);break;

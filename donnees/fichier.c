@@ -32,14 +32,22 @@ termes.
 
 #include "fichier.h"
 
-int fichierEcriture(batimentT * batiment, optionsT * options)
+int fichierEcriture(batimentT * batiment, optionsT * options, char * nom)
 	{
-	(void)batiment;
 	(void)options;
+	(void)nom;
 
 	FILE *fichier;
 
-	fichier = fopen("./donnees/enregistrement/temporaire.simfoule", "w");
+	char chemin[120] = "./donnees/enregistrement/construction_";
+
+	char * extension = ".simfoule";
+
+	strncat(chemin, nom, 20);
+
+	strncat(chemin, extension, 40);
+
+	fichier = fopen(chemin, "w");
 
 	if(fichier == NULL)
 		{

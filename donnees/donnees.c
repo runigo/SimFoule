@@ -114,7 +114,7 @@ int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 	return 0;
 	}
 
-int donneesSauvegardeConstruction(constructionT * construction, optionsT * options)
+int donneesSauvegardeConstruction(constructionT * construction, optionsT * options, char * nom)
 	{
 
 	batimentProjection(&(*construction).batiment, &(*construction).normal);
@@ -123,11 +123,11 @@ int donneesSauvegardeConstruction(constructionT * construction, optionsT * optio
 
 	(*construction).normal.batimentZ = 1;
 
-	fichierEcriture(&(*construction).normal, options);
+	fichierEcriture(&(*construction).normal, options, nom);
 
 	return 0;
 	}
-
+/*
 int donneesSauvegardeBatiment(batimentT * batiment, optionsT * options)
 	{
 	(void)options;
@@ -138,7 +138,7 @@ int donneesSauvegardeBatiment(batimentT * batiment, optionsT * options)
 
 	return 0;
 	}
-
+*/
 int donneesCreationFoule(fouleT * foule, optionsT * options)
 	{
 		// Initialisation de la foule
