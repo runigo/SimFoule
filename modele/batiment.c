@@ -301,9 +301,31 @@ int batimentMiseAZeroNombre(batimentT * batiment)
 
 	//		---------  INFORMATION  ---------  //
 
+int batimentNombreMobile(batimentT * batiment)
+	{ // Retourne le nombre de mobiles
+	int i, j, k;
+	int nombre = 0;
+
+	for(k=0;k<BATIMENT_Z_MAX;k++)
+		{
+		for(i=0;i<BATIMENT_X_MAX;i++)
+			{
+			for(j=0;j<BATIMENT_Y_MAX;j++)
+				{
+				if(celluleDonneStatut(&(*batiment).etage[k].cellule[i][j])==9)
+					nombre++;
+				}
+			}
+		}
+
+	printf("	Le batiment contient %d mobiles\n", nombre);
+
+	return nombre;
+	}
+
 int batimentAffiche(batimentT * batiment)
 	{
-	printf("batimentAffiche");
+	printf("batimentAffiche\n");
 	int k;
 
 	for(k=0;k<(*batiment).batimentZ;k++)

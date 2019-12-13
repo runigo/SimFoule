@@ -113,13 +113,23 @@ int controleurClavier(controleurT * controleur)
 			batimentInitialiseVide(&(*controleur).construction.batiment);break;
 
 		case SDLK_w:
+			printf("Option boucle = 0\n");
 			(*controleur).options.boucle = 0;break;
 		case SDLK_x:
+			printf("Option boucle = 1\n");
 			(*controleur).options.boucle = 1;break;
 		case SDLK_c:
+			printf("Option boucle = 2\n");
 			(*controleur).options.boucle = 2;break;
+		case SDLK_v:
+			printf("Option initial = 0\n");
+			(*controleur).options.initial = 0;break;
+		case SDLK_b:
+			printf("Option initial = 1\n");
+			(*controleur).options.initial = 1;break;
 		case SDLK_n:
-			fprintf(stderr,"controleurClavier");break;
+			printf("Option initial = 2\n");
+			(*controleur).options.initial = 2;break;
 
 		default:
 			;
@@ -146,59 +156,57 @@ int controleurClavierMaj(controleurT * controleur)
 	// Réinitialisation du système
 		// Lecture des fichier
 		case SDLK_a:
-			controleurReinitialisation(controleur, 0);break;
+			controleurReinitialisation(controleur, "a");break;
 		case SDLK_z:
-			controleurReinitialisation(controleur, 1);break;
+			controleurReinitialisation(controleur, "z");break;
 		case SDLK_e:
-			controleurReinitialisation(controleur, 2);break;
+			controleurReinitialisation(controleur, "e");break;
 		case SDLK_r:
-			controleurReinitialisation(controleur, 3);break;
+			controleurReinitialisation(controleur, "r");break;
 		case SDLK_t:
-			controleurReinitialisation(controleur, 4);break;
+			controleurReinitialisation(controleur, "t");break;
 		case SDLK_y:
-			controleurReinitialisation(controleur, 5);break;
+			controleurReinitialisation(controleur, "y");break;
 		case SDLK_u:
-			controleurReinitialisation(controleur, 6);break;
+			controleurReinitialisation(controleur, "u");break;
 		case SDLK_i:
-			controleurReinitialisation(controleur, 7);break;
+			controleurReinitialisation(controleur, "i");break;
 		case SDLK_o:
-			controleurReinitialisation(controleur, 8);break;
+			controleurReinitialisation(controleur, "o");break;
 		case SDLK_p:
-			controleurReinitialisation(controleur, 9);break;
+			controleurReinitialisation(controleur, "p");break;
 		case SDLK_q:
-			controleurReinitialisation(controleur, 10);break;
+			controleurReinitialisation(controleur, "q");break;
 		case SDLK_s:
-			controleurReinitialisation(controleur, 11);break;
+			controleurReinitialisation(controleur, "s");break;
 		case SDLK_d:
-			controleurReinitialisation(controleur, 12);break;
+			controleurReinitialisation(controleur, "d");break;
 		case SDLK_f:
-			controleurReinitialisation(controleur, 13);break;
+			controleurReinitialisation(controleur, "f");break;
 		case SDLK_g:
-			controleurReinitialisation(controleur, 14);break;
+			controleurReinitialisation(controleur, "g");break;
 		case SDLK_h:
-			controleurReinitialisation(controleur, 15);break;
+			controleurReinitialisation(controleur, "h");break;
 		case SDLK_j:
-			controleurReinitialisation(controleur, 16);break;
+			controleurReinitialisation(controleur, "j");break;
 		case SDLK_k:
-			controleurReinitialisation(controleur, 17);break;
+			controleurReinitialisation(controleur, "k");break;
 		case SDLK_l:
-			controleurReinitialisation(controleur, 18);break;
+			controleurReinitialisation(controleur, "l");break;
 		case SDLK_m:
-			controleurReinitialisation(controleur, 19);break;
+			controleurReinitialisation(controleur, "m");break;
 		case SDLK_w:
-			controleurReinitialisation(controleur, 20);break;
+			controleurReinitialisation(controleur, "w");break;
 		case SDLK_x:
-			controleurReinitialisation(controleur, 21);break;
+			controleurReinitialisation(controleur, "x");break;
 		case SDLK_c:
-			controleurReinitialisation(controleur, 22);break;
+			controleurReinitialisation(controleur, "c");break;
 		case SDLK_v:
-			controleurReinitialisation(controleur, 23);break;
+			controleurReinitialisation(controleur, "v");break;
 		case SDLK_b:
-			controleurReinitialisation(controleur, 24);break;
-		//case SDLK_n:
-		//	controleurReinitialisation(controleur, 25);break;
+			controleurReinitialisation(controleur, "b");break;
 		case SDLK_n:
-			fprintf(stderr,"controleurClavierMaj");break;
+			controleurReinitialisation(controleur, "n");break;
 
 		default:
 			;
@@ -227,63 +235,63 @@ int controleurClavierCtrl(controleurT * controleur)
 			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "aa");break;
 	/*	case SDLK_z:
 			fprintf(stderr, "Réinitialisation du système\n");
-			systemeInitialisePosition(&(*controleur).systeme, 1);break;
+			systemeInitialisePosition(&(*controleur).systeme, "z");break;
 		case SDLK_e:
 			fprintf(stderr, "Réinitialisation du système\n");
-			systemeInitialisePosition(&(*controleur).systeme, 2);break;
+			systemeInitialisePosition(&(*controleur).systeme, "e");break;
 		case SDLK_r:
 			fprintf(stderr, "Réinitialisation du système\n");
-			systemeInitialisePosition(&(*controleur).systeme, 3);break;
+			systemeInitialisePosition(&(*controleur).systeme, "r");break;
 		case SDLK_t:
 			fprintf(stderr, "Réinitialisation du système\n");
-			systemeInitialisePosition(&(*controleur).systeme, 4);break;
+			systemeInitialisePosition(&(*controleur).systeme, "t");break;
 		case SDLK_y:
 			fprintf(stderr, "Réinitialisation du système\n");
-			systemeInitialisePosition(&(*controleur).systeme, 5);break;
+			systemeInitialisePosition(&(*controleur).systeme, "y");break;
 		case SDLK_u:
 			fprintf(stderr, "Réinitialisation du système\n");
-			systemeInitialisePosition(&(*controleur).systeme, 6);break;
+			systemeInitialisePosition(&(*controleur).systeme, "u");break;
 		case SDLK_i:
 			fprintf(stderr, "Réinitialisation du système\n");
-			systemeInitialisePosition(&(*controleur).systeme, 7);break;
+			systemeInitialisePosition(&(*controleur).systeme, "i");break;
 		case SDLK_o:
 			fprintf(stderr, "Réinitialisation du système\n");
-			systemeInitialisePosition(&(*controleur).systeme, 8);break;
+			systemeInitialisePosition(&(*controleur).systeme, "o");break;
 		case SDLK_p:
 			fprintf(stderr, "Réinitialisation du système\n");
-			systemeInitialisePosition(&(*controleur).systeme, 9);break;
+			systemeInitialisePosition(&(*controleur).systeme, "p");break;
 */
 	// Réinitialisation du système
 /*		case SDLK_a:
 			fprintf(stderr, "Réinitialisation du système\n");
-			systemeInitialisePosition(&(*controleur).systeme, 0);break;
+			systemeInitialisePosition(&(*controleur).systeme, "a");break;
 		case SDLK_z:
 			fprintf(stderr, "Réinitialisation du système\n");
-			systemeInitialisePosition(&(*controleur).systeme, 1);break;
+			systemeInitialisePosition(&(*controleur).systeme, "z");break;
 		case SDLK_e:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 2);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "e");break;
 		case SDLK_r:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 3);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "r");break;
 		case SDLK_t:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 4);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "t");break;
 		case SDLK_y:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 5);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "y");break;
 		case SDLK_u:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 6);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "u");break;
 		case SDLK_i:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 7);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "i");break;
 		case SDLK_o:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 8);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "o");break;
 		case SDLK_p:
 			fprintf(stderr, "Réinitialisation du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 9);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "p");break;
 		case SDLK_q:
 			fprintf(stderr, "Sauvegarde du système\n");
 			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 10);break;
@@ -298,40 +306,40 @@ int controleurClavierCtrl(controleurT * controleur)
 			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 13);break;
 		case SDLK_g:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 14);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "g");break;
 		case SDLK_h:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 15);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "h");break;
 		case SDLK_j:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 16);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "j");break;
 		case SDLK_k:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 17);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "k");break;
 		case SDLK_l:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 18);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "l");break;
 		case SDLK_m:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 19);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "m");break;
 		case SDLK_w:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 20);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "w");break;
 		case SDLK_x:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 21);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "x");break;
 		case SDLK_c:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 22);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "c");break;
 		case SDLK_v:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 23);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "v");break;
 		case SDLK_b:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 24);break;
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "b");break;
 		case SDLK_n:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, 25);break;*/
+			fichierFonction(&(*controleur).systeme, &(*controleur).graphe, "n");break;*/
 		default:
 			;
 		}
@@ -350,88 +358,86 @@ int controleurClavierCtrlMaj(controleurT * controleur)
 			controleurChangeModePause(controleur);break;
 		case SDLK_BACKSPACE:
 			controleurChangeModePause(controleur);break;
-		case SDLK_n:
-			fprintf(stderr,"controleurClavierCtrlMaj");break;
-/*
-		// Ecriture des fichiers
+
+	// Sauvegarde du système
 		case SDLK_a:
-			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 0);break;
+			fprintf(stderr, "Sauvegarde de la construction\n");
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "aa");break;
 		case SDLK_z:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 1);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "z");break;
 		case SDLK_e:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 2);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "e");break;
 		case SDLK_r:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 3);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "r");break;
 		case SDLK_t:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 4);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "t");break;
 		case SDLK_y:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 5);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "y");break;
 		case SDLK_u:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 6);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "u");break;
 		case SDLK_i:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 7);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "i");break;
 		case SDLK_o:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 8);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "o");break;
 		case SDLK_p:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 9);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "p");break;
 		case SDLK_q:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 10);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "q");break;
 		case SDLK_s:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 11);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "s");break;
 		case SDLK_d:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 12);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "d");break;
 		case SDLK_f:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 13);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "f");break;
 		case SDLK_g:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 14);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "g");break;
 		case SDLK_h:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 15);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "h");break;
 		case SDLK_j:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 16);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "j");break;
 		case SDLK_k:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 17);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "k");break;
 		case SDLK_l:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 18);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "l");break;
 		case SDLK_m:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 19);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "m");break;
 		case SDLK_w:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 20);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "w");break;
 		case SDLK_x:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 21);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "x");break;
 		case SDLK_c:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 22);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "c");break;
 		case SDLK_v:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 23);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "v");break;
 		case SDLK_b:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 24);break;
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "b");break;
 		case SDLK_n:
 			fprintf(stderr, "Sauvegarde du système\n");
-			fichierEcriture(&(*controleur).systeme, &(*controleur).graphe, 25);break;*/
+			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, "n");break;
 		default:
 			;
 		}

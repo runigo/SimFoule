@@ -56,6 +56,7 @@ int batimentMiseAZeroNombre(batimentT * batiment);	// Mise à zéro du nombre de
 
 	//		INFORMATION
 
+int batimentNombreMobile(batimentT * batiment); // Retourne le nombre de mobiles
 int batimentAffiche(batimentT * batiment);
 
 #endif

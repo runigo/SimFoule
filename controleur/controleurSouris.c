@@ -282,25 +282,25 @@ int controleurSourisCommandes(controleurT * controleur, int zone)
 		switch(commande)	//	
 			{
 			case 0:
-				controleurReinitialisation(controleur, 20);break;
+				controleurReinitialisation(controleur, "w");break;
 			case 1:
-				controleurReinitialisation(controleur, 21);break;
+				controleurReinitialisation(controleur, "x");break;
 			case 2:
-				controleurReinitialisation(controleur, 22);break;
+				controleurReinitialisation(controleur, "c");break;
 			case 3:
-				controleurReinitialisation(controleur, 23);break;
+				controleurReinitialisation(controleur, "v");break;
 			case 4:
-				controleurReinitialisation(controleur, 24);break;
+				controleurReinitialisation(controleur, "b");break;
 			case 5:
-				controleurReinitialisation(controleur, 25);break;
-			case 6:
+				controleurReinitialisation(controleur, "n");break;
+	/*		case 6:
 				controleurReinitialisation(controleur, -1);break;
 			case 7:
 				controleurReinitialisation(controleur, -2);break;
 			case 8:
 				controleurReinitialisation(controleur, -3);break;
 			case 9:
-				controleurReinitialisation(controleur, -4);break;
+				controleurReinitialisation(controleur, -4);break;*/
 			default:
 				;
 			}

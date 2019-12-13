@@ -128,16 +128,16 @@ int controleurInitialisation(controleurT * controleur)
 	return retour;
 	}
 
-int controleurReinitialisation(controleurT * controleur, int initial)
+int controleurReinitialisation(controleurT * controleur, char *nom)
 	{
 	int retour = 0;
 
-	(*controleur).options.initial = initial;
+	(*controleur).options.nom = nom;
 
 		//fprintf(stderr, "Enregistrement des options\n");
 	retour += controleurMemoireOptions(controleur);
 
-		fprintf(stderr, "Réinitialisation du système %d\n", (*controleur).options.initial);
+		fprintf(stderr, "Réinitialisation du système %s\n", nom);
 
 	retour += grapheSuppression(&(*controleur).graphe);
 	retour += fouleSuppression(&(*controleur).systeme.foule);
@@ -220,6 +220,7 @@ int controleurEvolution(controleurT * controleur)
 
 int controleurBoucle(controleurT * controleur)
 	{
+/*
 	switch((*controleur).options.boucle)
 		{
 		case 0:
@@ -238,8 +239,8 @@ int controleurBoucle(controleurT * controleur)
 		default:
 			;
 		}
-
-	controleurReinitialisation(controleur, (*controleur).options.initial);
+*/
+	controleurReinitialisation(controleur, (*controleur).options.nom);
 
 	return 0;
 	}
@@ -443,6 +444,7 @@ void controleurChangeModeDessin(controleurT * controleur)
 	if((*controleur).modeDessin > 0)
 		{
 		fprintf(stderr, "modeDessin : simulation\n");
+		grapheInitialisation(&(*controleur).graphe, BATIMENT_X_MAX, BATIMENT_Y_MAX, BATIMENT_Z_IMP);
 		}
 	else
 		{

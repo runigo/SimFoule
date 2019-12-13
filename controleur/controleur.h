@@ -76,7 +76,7 @@ typedef struct ControleurT controleurT;
 int controleurInitialisation(controleurT * controleur);
 int controleurSuppression(controleurT * controleur);
 
-int controleurReinitialisation(controleurT * controleur, int initial);
+int controleurReinitialisation(controleurT * controleur, char *nom);
 
 	//	ÉVOLUTION
 int controleurDirections(controleurT * controleur);

@@ -40,28 +40,30 @@ typedef struct OptionsT optionsT;
 	struct OptionsT
 		{
 
-		int initial;	// Numero du fichier d'initialisation
+		int initial;	// 0 : implicite, 1 : construction, 2 : situation
+		char *nom;	// Nom du fichier d'initialisation
 
 		int duree;	// nombre d'incrémentation du système par affichage
-		int mode;	// -1 : Wait, 1 : Poll
-		int boucle; // répétition des simulations
+		int mode;	// -1 : pause, 1 : évolution
+		int boucle; // répétition des simulations si > 0. 1 : même nom initial
 
-		float dt;		// discrétisation du temps
+			//	Mémoire pour la réinitialisation
+			float dt;		// discrétisation du temps
+			int taille;			// Taille moyenne des mobiles
+			float masse;		// Masse moyenne des mobiles
+			float nervosite;	// Nervosité moyenne des mobiles
+			float celerite;		//	Célérité moyenne des mobiles
 
-		int taille;			// Taille moyenne des mobiles
-		float masse;		// Masse moyenne des mobiles
-		float nervosite;	// Nervosité moyenne des mobiles
-		float celerite;		//	Célérité moyenne des mobiles
-
-			//	Dessin des graphes 0 ou 1
+			//	Option de l'affichage du graphe
 		int dessineAngle;	//	Dessin des directions
 		int dessineMur;		//	Dessin des murs
 		int dessineMobile;	//	Dessin des mobiles
 
-	int nombre;		// Nombre de mobile
-	int batimentX;
-	int batimentY;	// Taille du batiment
-	int batimentZ;
+
+			int nombre;		// Nombre de mobile
+			int batimentX;
+			int batimentY;	// Taille du batiment
+			int batimentZ;
 
 		};
 

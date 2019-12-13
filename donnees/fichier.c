@@ -1,7 +1,7 @@
 /*
-Copyright novembre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.1  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -35,7 +35,6 @@ termes.
 int fichierEcriture(batimentT * batiment, optionsT * options, char * nom)
 	{
 	(void)options;
-	(void)nom;
 
 	FILE *fichier;
 
@@ -97,78 +96,36 @@ int fichierEcriture(batimentT * batiment, optionsT * options, char * nom)
 	return 0;
 	}
 
-int fichierLecture(batimentT * batiment, int numero)
+int fichierLecture(batimentT * batiment, optionsT * options, char * nom)
 	{
 	int i, j, k;
-	FILE *fichier; /* pointeur sur FILE */
+	FILE *fichier; // pointeur sur FILE
 
-	switch (numero)
+	char chemin[120] = "./donnees/enregistrement/situation_";
+
+	if((*options).initial == 1)
 		{
-		case 0: // Touche A
-			fichier = fopen("./donnees/enregistrement/temporaire.simfoule", "r");break;
-		case 1: // Touche Z
-			fichier = fopen("./donnees/enregistrement/situation_z.simfoule", "r");break;
-		case 2: // Touche E
-			fichier = fopen("./donnees/enregistrement/situation_e.simfoule", "r");break;
-		case 3: // Touche R
-			fichier = fopen("./donnees/enregistrement/situation_r.simfoule", "r");break;
-		case 4: // Touche T
-			fichier = fopen("./donnees/enregistrement/situation_t.simfoule", "r");break;
-		case 5: // Touche Y
-			fichier = fopen("./donnees/enregistrement/situation_y.simfoule", "r");break;
-		case 6: // Touche U
-			fichier = fopen("./donnees/enregistrement/situation_u.simfoule", "r");break;
-		case 7: // Touche I
-			fichier = fopen("./donnees/enregistrement/situation_i.simfoule", "r");break;
-		case 8: // Touche O
-			fichier = fopen("./donnees/enregistrement/situation_o.simfoule", "r");break;
-		case 9: // Touche P
-			fichier = fopen("./donnees/enregistrement/situation_p.simfoule", "r");break;
-		case 10: // Touche Q
-			fichier = fopen("./donnees/enregistrement/situation_q.simfoule", "r");break;
-		case 11: // Touche S
-			fichier = fopen("./donnees/enregistrement/situation_s.simfoule", "r");break;
-		case 12: // Touche D
-			fichier = fopen("./donnees/enregistrement/situation_d.simfoule", "r");break;
-		case 13: // Touche F
-			fichier = fopen("./donnees/enregistrement/situation_f.simfoule", "r");break;
-		case 14: // Touche G
-			fichier = fopen("./donnees/enregistrement/situation_g.simfoule", "r");break;
-		case 15: // Touche H
-			fichier = fopen("./donnees/enregistrement/situation_h.simfoule", "r");break;
-		case 16: // Touche J
-			fichier = fopen("./donnees/enregistrement/situation_j.simfoule", "r");break;
-		case 17: // Touche K
-			fichier = fopen("./donnees/enregistrement/situation_k.simfoule", "r");break;
-		case 18: // Touche L
-			fichier = fopen("./donnees/enregistrement/situation_l.simfoule", "r");break;
-		case 19: // Touche M
-			fichier = fopen("./donnees/enregistrement/situation_m.simfoule", "r");break;
-		case 20: // Touche W
-			fichier = fopen("./donnees/enregistrement/situation_w.simfoule", "r");break;
-		case 21: // Touche X
-			fichier = fopen("./donnees/enregistrement/situation_x.simfoule", "r");break;
-		case 22: // Touche C
-			fichier = fopen("./donnees/enregistrement/situation_c.simfoule", "r");break;
-		case 23: // Touche V
-			fichier = fopen("./donnees/enregistrement/situation_v.simfoule", "r");break;
-		case 24: // Touche B
-			fichier = fopen("./donnees/enregistrement/situation_b.simfoule", "r");break;
-		case 25: // Touche N
-			fichier = fopen("./donnees/enregistrement/situation_n.simfoule", "r");break;
-		default:
-			;
+		strcpy(chemin,"./donnees/enregistrement/construction_");
 		}
+
+	char * extension = ".simfoule";
+
+	strncat(chemin, nom, 20);
+
+	strncat(chemin, extension, 40);
+
+	fichier = fopen(chemin, "r");
 
 	if(fichier == NULL)
 		{
 		printf("Erreur d'ouverture du fichier de réinitialisation\n");
 		printf("	Vérifier le répertoire donnees/enregistrement\n");
+		return -1;
 		}
 	else
 		{
 
-		printf("  Initialisation du batiment %d\n", numero);
+		printf("  Initialisation du batiment %s\n", chemin);
 
 		int statut=0;
 		int retour=0;
@@ -181,11 +138,11 @@ int fichierLecture(batimentT * batiment, int numero)
 		retour=fscanf(fichier, "%d %d %d", &etageX, &etageY, &etageZ);
 		if(retour==0)
 			{
-			fprintf(stderr, "ERREUR : fichierLecture(%d) : Retour fscanf = 0\n", numero);
+			fprintf(stderr, "ERREUR : fichierLecture(%s) : Retour fscanf = 0\n", chemin);
 			}
 		if(retour<0)
 			{
-			fprintf(stderr, "ERREUR : fichierLecture(%d) : Retour fscanf < 0\n", numero);
+			fprintf(stderr, "ERREUR : fichierLecture(%s) : Retour fscanf < 0\n", chemin);
 			}
 
 		(*batiment).batimentZ=etageZ;
@@ -209,11 +166,11 @@ int fichierLecture(batimentT * batiment, int numero)
 					retour=fscanf(fichier, "%d", &statut);
 					if(retour==0)
 						{
-						fprintf(stderr, "ERREUR : fichierLecture(%d) : Retour fscanf = 0\n", numero);
+						fprintf(stderr, "ERREUR : fichierLecture(%s) : Retour fscanf = 0\n", chemin);
 						}
 					if(retour<0)
 						{
-						fprintf(stderr, "ERREUR : fichierLecture(%d) : Retour fscanf < 0\n", numero);
+						fprintf(stderr, "ERREUR : fichierLecture(%s) : Retour fscanf < 0\n", chemin);
 						}
 					celluleInitialiseStatut(&(*batiment).etage[k].cellule[i][j], statut);
 					}
@@ -222,21 +179,7 @@ int fichierLecture(batimentT * batiment, int numero)
 		fclose(fichier);
 		}
 
-		// Calcul du nombre de mobile
-	int nombre = 0;
-	for(k=0;k<(*batiment).batimentZ;k++)
-		{
-		for(i=0;i<(*batiment).etage[k].etageX;i++)
-			{
-			for(j=0;j<(*batiment).etage[k].etageY;j++)
-				{
-				if(celluleDonneStatut(&(*batiment).etage[k].cellule[i][j])==9)
-					nombre++;
-				}
-			}
-		}
-
-	return nombre;
+	return 0;
 	}
 
 /////////////////////////////////////////////////////////////////////////////////////////////

@@ -40,19 +40,21 @@ int donneesOptionsImplicite(optionsT * options)
 
 	(*options).mode = 1;	// -1 : Pause, 1 : Simulation
 	(*options).duree = 30;	// nombre d'incrémentation de la foule par affichage
-	(*options).boucle = 0;	// répétition des simulations
+	(*options).boucle = 1;	// répétition des simulations
 
-	(*options).initial=0;	// Numéro du fichier d'initialisation.
+	(*options).initial = 1;	// 1 : Initialisation fichier construction.
 
-	(*options).nombre=33;	// Nombre de mobiles
+	(*options).nom = "a";	// Nom du fichier d'initialisation.
 
-	(*options).taille=CELLULE;	// Taille moyenne des mobiles
-	(*options).masse=MASSE_MAX;	// Masse moyenne des mobiles
+	(*options).nombre = 0;	// Nombre de mobiles
 
-	(*options).nervosite=NERVOSITE_MAX;	// Nervosité moyenne des mobiles
+	(*options).taille = CELLULE;	// Taille moyenne des mobiles
+	(*options).masse = MASSE_MAX;	// Masse moyenne des mobiles
+
+	(*options).nervosite = NERVOSITE_MAX;	// Nervosité moyenne des mobiles
 	(*options).celerite = CELERITE_MAX;	//	célérité moyenne des mobiles
 
-	(*options).dt=DT_MAX;	// discrétisation du temps
+	(*options).dt = DT_MAX;	// discrétisation du temps
 
 			//	Dessin des graphes 0 ou 1
 	(*options).dessineAngle=0;
@@ -74,7 +76,7 @@ int donneesInitialisationSysteme(systemeT * systeme, optionsT * options)
 		fprintf(stderr, "  Initialisation du système\n");
 	systemeInitialisation(systeme, (*options).dt);
 
-		fprintf(stderr, "  Initialisation du batiment : %d\n", (*options).initial);
+		fprintf(stderr, "  Initialisation du batiment : %s\n", (*options).nom);
 	donneesInitialisationBatiment(&(*systeme).batiment, options);
 
 		fprintf(stderr, "  Création et initialisation de la foule\n");
@@ -90,7 +92,7 @@ int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 	{
 
 	batimentInitialiseVide(batiment);
-
+/*
 	if((*options).initial < 0)
 		{
 		(*options).nombre = batimentInitialiseImplicite(batiment, -(*options).initial);
@@ -106,6 +108,15 @@ int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 			(*options).nombre = batimentInitialiseImplicite(batiment, (*options).initial);
 			}
 		}
+*/
+
+	if(fichierLecture(batiment, options, (*options).nom) < 0) // Erreur de lecture
+		{
+		printf("	Initialisation implicite du batiment\n");
+		batimentInitialiseImplicite(batiment, -(*options).initial);
+		}
+
+	(*options).nombre = batimentNombreMobile(batiment);
 
 	(*options).batimentX = (*batiment).etage[0].etageX;
 	(*options).batimentY = (*batiment).etage[0].etageY;
