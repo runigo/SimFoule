@@ -171,7 +171,7 @@ int controleurReinitialisation(controleurT * controleur, char *nom)
 int controleurCorrigeDuree(controleurT * controleur)
 	{
 
-	(*controleur).options.duree = 60 - batimentNombreMobile(&(*controleur).systeme.batiment)/2;
+	(*controleur).options.duree = DUREE - batimentNombreMobile(&(*controleur).systeme.batiment)/2;
 
 	if((*controleur).options.duree < 1)
 		{
@@ -278,8 +278,8 @@ int controleurEvolutionModeEco(controleurT * controleur)
 void controleurChangeModeEco(controleurT * controleur, int mode)
 	{
 			//	Évolution de l'étape du mode économie de CPU
-	//(*controleur).modeEco = 1;		// 0 : système-graphique, 1 : (1)système-(1)graphique, n : (n)système-(1)graphique
-	//(*controleur).etapeEco = 1;		// -1 : graphique, 0 : système-graphique, > 0 : système (= étape)
+	// modeEco	// 0 : système-graphique, 1 : (1)système-(1)graphique, n : (n)système-(1)graphique
+	// etapeEco // -1 : graphique, 0 : système-graphique, > 0 : système (= étape)
 
 	if(mode == 0)
 		{

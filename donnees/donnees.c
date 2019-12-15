@@ -39,7 +39,7 @@ int donneesOptionsImplicite(optionsT * options)
 		// 	réglage des valeurs implicites
 
 	(*options).mode = 1;	// -1 : Pause, 1 : Simulation
-	(*options).duree = 30;	// nombre d'incrémentation de la foule par affichage
+	(*options).duree = DUREE;	// nombre d'incrémentation de la foule par affichage
 	(*options).boucle = 1;	// répétition des simulations
 
 	(*options).initial = 1;	// 1 : Initialisation fichier construction.

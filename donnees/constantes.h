@@ -75,8 +75,8 @@ termes.
 
 	//		SPATIALES
 
-#define BATIMENT_X_IMP 50	// Longueur implicite suivant x du batiment (en nombre de cellule)
-#define BATIMENT_Y_IMP 25	// Longueur implicite suivant y du batiment (en nombre de cellule)
+#define BATIMENT_X_IMP 30	// Longueur implicite suivant x du batiment (en nombre de cellule)
+#define BATIMENT_Y_IMP 15	// Longueur implicite suivant y du batiment (en nombre de cellule)
 #define BATIMENT_Z_IMP 1	// Nombre implicite d'étage
 
 #define BATIMENT_X_MAX 60	// Longueur maximale suivant x du batiment (en nombre de cellule)
@@ -85,8 +85,6 @@ termes.
 
 #define CELLULE 16		// Longueur du coté d'une cellule (en pixel)
 #define CELLULESUR2 CELLULE/2	// Demi longueur du coté d'une cellule (en pixel)
-
-#define NOMBRE_MAX 1000	// Nombre maximale de mobiles
 
 	//		TEMPORELLES
 

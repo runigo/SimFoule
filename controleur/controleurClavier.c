@@ -145,11 +145,11 @@ int controleurClavier(controleurT * controleur)
 		case SDLK_y:
 			controleurChangeModeEco(controleur, 2);break;
 		case SDLK_f:
-			controleurChangeModeEco(controleur, 3);break;
+			controleurChangeModeEco(controleur, 13);break;
 		case SDLK_g:
-			controleurChangeModeEco(controleur, 4);break;
+			controleurChangeModeEco(controleur, 49);break;
 		case SDLK_h:
-			controleurChangeModeEco(controleur, 5);break;
+			controleurChangeModeEco(controleur, 99);break;
 
 		default:
 			;
