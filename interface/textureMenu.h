@@ -3,7 +3,7 @@ Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
 SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
-d'une foule dans un batiment et à en donner une représentation graphique.
+d'une foule dans un batiment et à en donner une représentation textureMenu.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
 respectant les principes de diffusion des logiciels libres. Vous pouvez
 utiliser, modifier et/ou redistribuer ce programme sous les conditions
@@ -29,44 +29,36 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 */
 
-#ifndef _GRAPHIQUE_
-#define _GRAPHIQUE_
+#ifndef _TEXTUREMENU_
+#define _TEXTUREMENU_
 
-#include "graphe.h"
-#include "commandes.h"
-#include "textureSysteme.h"
-#include "textureMenu.h"
 #include "affichage.h"
 
+struct TextureMenuT {
 
-struct GraphiqueT {
+	SDL_Texture *simfoule;			//	Image du fond
 
-	affichageT affichage;		// 	Rendu et couleurs
+	SDL_Texture *construction;			//	Menu construction
+		//	 Boutons
+	SDL_Texture *boutonVide;
+	SDL_Texture *boutonMur;
+	SDL_Texture *boutonSortie;
+	SDL_Texture *boutonMobile;
+	SDL_Texture *boutonPoint;
+	SDL_Texture *boutonTrait;
+	SDL_Texture *boutonRectangle;
 
-	textureMenuT textureMenu;
 
-	textureSystemeT textureSysteme;
+		//	 voyants
+	SDL_Texture *lumiereVerte;
+	SDL_Texture *lumiereRouge;
+	SDL_Texture *lumiereOrange;
+	SDL_Texture *lumiereJaune;
 
-	int taille;
-
-		int fenetreX;	// hauteur de la fenêtre
-		int fenetreY;	// largeur de la fenêtre
 };
-typedef struct GraphiqueT graphiqueT;
+typedef struct TextureMenuT textureMenuT;
 
-int graphiqueDestruction(graphiqueT * graphique);
-int graphiqueInitialisation(graphiqueT * graphique, interfaceT * interface, int taille);
-
-int graphiqueNettoyage(graphiqueT * graphique);
-int graphiqueMiseAJour(graphiqueT * graphique);
-
-int graphiqueFond(graphiqueT * graphique);
-int graphiqueCommandes(graphiqueT * graphique, commandesT * commandes);
-void graphiqueDessineMur(graphiqueT * graphique, grapheT * graphe);
-void graphiqueDessineAngle(graphiqueT * graphique, grapheT * graphe);
-void graphiqueDessineMobile(graphiqueT * graphique, grapheT * graphe, int taille);
-
-void graphiqueDessineStatut(graphiqueT * graphique, grapheT * graphe);
+int textureMenuInitialisation(textureMenuT * textureMenu, affichageT * affichage);
 
 #endif
 /////////////////////////////////////////////////////////////////

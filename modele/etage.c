@@ -224,6 +224,7 @@ int etageNonVide(etageT * etage)
 	return nombre;
 	}
 
+
 	//	-------  INITIALISATION  -------  //
 
 int etageInitialise(etageT * etage, int etageX, int etageY, int niveau)
@@ -259,6 +260,42 @@ int etageInitialise(etageT * etage, int etageX, int etageY, int niveau)
 
 	return 0;
 	}
+
+int etageInitialise9(etageT * etage, int etageX, int etageY, int niveau)
+	{
+		// Surface de l'étage
+	(*etage).etageX=etageX;
+	(*etage).etageY=etageY;
+		// Numéro de l'étage
+	(*etage).etage=niveau;
+
+	int i, j;
+	for(i=0;i<(*etage).etageX;i++)
+		{
+		for(j=0;j<(*etage).etageY;j++)
+			{
+			celluleInitialise(&(*etage).cellule[i][j]);
+			celluleCreationMobile(&(*etage).cellule[i][j]);
+			}
+		}
+
+		// 8 vecteurs de direction, normés
+	vecteurCartesien(&(*etage).angle[0], 1.0, 0.0, 0);
+	vecteurCartesien(&(*etage).angle[1], 0.7071, 0.7071, 0);
+	vecteurCartesien(&(*etage).angle[2], 0.0, 1.0, 0);
+	vecteurCartesien(&(*etage).angle[3], -0.7071, 0.7071, 0);
+	vecteurCartesien(&(*etage).angle[4], -1.0, 0.0, 0);
+	vecteurCartesien(&(*etage).angle[5], -0.7071, -0.7071, 0);
+	vecteurCartesien(&(*etage).angle[6], 0.0, -1.0, 0);
+	vecteurCartesien(&(*etage).angle[7], 0.7071, -0.7071, 0);
+
+
+		// Vecteur nul
+	vecteurCartesien(&(*etage).vecteurNul, 0.0, 0.0, 0);
+
+	return 0;
+	}
+
 
 int etageInitialiseSens(etageT * etage)
 	{

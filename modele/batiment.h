@@ -44,6 +44,7 @@ typedef struct BatimentT batimentT;
 	//		INITIALISATION
 
 int batimentInitialiseVide(batimentT * batiment);
+int batimentInitialise9(batimentT * batiment);
 int batimentInitialiseImplicite(batimentT * batiment, int niveau);
 
 int batimentProjection(batimentT * construction, batimentT * normal);

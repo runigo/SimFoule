@@ -64,6 +64,8 @@ typedef struct ControleurT controleurT;
 
 			int modePause;		// 1 : évolution système, -1 : pause
 			int modeDessin;		// 1 : simulation, -1 : construction
+			int modeEco;		// 0 : système-graphique, 1 : (1)système-(1)graphique, n : (n)système-(1)graphique
+			int etapeEco;		// -1 : graphique, 0 : système-graphique, > 0 : système (= étape)
 			int sortie;	//	sortie de SiCP si > 0
 
 			int appui;	//	1 si le bouton de la souris est appuyé, 0 sinon.
@@ -86,6 +88,7 @@ int controleurChangeDessin(int * construction); // dessin des murs, des mobiles,
 
 	void controleurChangeModePause(controleurT * controleur);
 	void controleurChangeModeDessin(controleurT * controleur);
+	void controleurChangeModeEco(controleurT * controleur, int mode);
 	void controleurChangeVitesse(controleurT * controleur, float facteur);
 
 int controleurCommandes(controleurT * controleur, int zone);

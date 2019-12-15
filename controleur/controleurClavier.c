@@ -79,6 +79,7 @@ int controleurClavier(controleurT * controleur)
 		case SDLK_F8:
 			controleurChangeDessin(&(*controleur).options.dessineMobile);break;
 
+		//	AZE QSD : Paramètres foule
 
 		case SDLK_a:
 			fouleChangeMasse(&(*controleur).systeme.foule, 1.1);break;
@@ -92,6 +93,8 @@ int controleurClavier(controleurT * controleur)
 			fouleChangeCelerite(&(*controleur).systeme.foule, 1.1);break;
 		case SDLK_d:
 			fouleChangeCelerite(&(*controleur).systeme.foule, 0.91);break;
+
+		//	UIO PM JKL : Paramètres construction
 
 		case SDLK_u:
 			constructionChangeMotif(&(*controleur).construction, 3);break;
@@ -108,9 +111,11 @@ int controleurClavier(controleurT * controleur)
 			//donneesSauvegardeBatiment(&(*controleur).construction.batiment, &(*controleur).options);break;
 			donneesSauvegardeConstruction(&(*controleur).construction, &(*controleur).options, &("jj"));break; */
 		case SDLK_k:
-			constructionChangeMotif(&(*controleur).construction, 9);break;
+			batimentInitialise9(&(*controleur).construction.batiment);break;
 		case SDLK_l:
 			batimentInitialiseVide(&(*controleur).construction.batiment);break;
+
+		//	WXCVBN : Options boucle et initial
 
 		case SDLK_w:
 			printf("Option boucle = 0\n");
@@ -130,6 +135,21 @@ int controleurClavier(controleurT * controleur)
 		case SDLK_n:
 			printf("Option initial = 2\n");
 			(*controleur).options.initial = 2;break;
+
+		//	RTY FGH : Economie de CPU, controleurChangeModeEco(controleurT * controleur, int mode)
+
+		case SDLK_r:
+			controleurChangeModeEco(controleur, 0);break;
+		case SDLK_t:
+			controleurChangeModeEco(controleur, 1);break;
+		case SDLK_y:
+			controleurChangeModeEco(controleur, 2);break;
+		case SDLK_f:
+			controleurChangeModeEco(controleur, 3);break;
+		case SDLK_g:
+			controleurChangeModeEco(controleur, 4);break;
+		case SDLK_h:
+			controleurChangeModeEco(controleur, 5);break;
 
 		default:
 			;

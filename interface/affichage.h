@@ -29,44 +29,34 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 */
 
-#ifndef _GRAPHIQUE_
-#define _GRAPHIQUE_
+#ifndef _AFFICHAGE_
+#define _AFFICHAGE_
 
-#include "graphe.h"
-#include "commandes.h"
-#include "textureSysteme.h"
-#include "textureMenu.h"
-#include "affichage.h"
+#include "interface.h"
 
 
-struct GraphiqueT {
+struct AffichageT {
 
-	affichageT affichage;		// 	Rendu et couleurs
+	SDL_Renderer *rendu;		// 	Rendu
 
-	textureMenuT textureMenu;
+	SDL_Color fond;			//	Couleurs
+	SDL_Color contraste;
+	SDL_Color orange;
+	SDL_Color jaune;
+	SDL_Color gris;
+	SDL_Color cyan;
+	SDL_Color vert;
 
-	textureSystemeT textureSysteme;
-
-	int taille;
-
-		int fenetreX;	// hauteur de la fenêtre
-		int fenetreY;	// largeur de la fenêtre
 };
-typedef struct GraphiqueT graphiqueT;
+typedef struct AffichageT affichageT;
 
-int graphiqueDestruction(graphiqueT * graphique);
-int graphiqueInitialisation(graphiqueT * graphique, interfaceT * interface, int taille);
+int affichageDestruction(affichageT * affichage);
+int affichageInitialisation(affichageT * affichage, interfaceT * interface);
 
-int graphiqueNettoyage(graphiqueT * graphique);
-int graphiqueMiseAJour(graphiqueT * graphique);
+int affichageNettoyage(affichageT * affichage);
+int affichageMiseAJour(affichageT * affichage);
 
-int graphiqueFond(graphiqueT * graphique);
-int graphiqueCommandes(graphiqueT * graphique, commandesT * commandes);
-void graphiqueDessineMur(graphiqueT * graphique, grapheT * graphe);
-void graphiqueDessineAngle(graphiqueT * graphique, grapheT * graphe);
-void graphiqueDessineMobile(graphiqueT * graphique, grapheT * graphe, int taille);
-
-void graphiqueDessineStatut(graphiqueT * graphique, grapheT * graphe);
+int affichageFond(affichageT * affichage);
 
 #endif
 /////////////////////////////////////////////////////////////////

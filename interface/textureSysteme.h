@@ -3,7 +3,7 @@ Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
 SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
-d'une foule dans un batiment et à en donner une représentation graphique.
+d'une foule dans un batiment et à en donner une représentation textureSysteme.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
 respectant les principes de diffusion des logiciels libres. Vous pouvez
 utiliser, modifier et/ou redistribuer ce programme sous les conditions
@@ -29,44 +29,32 @@ pris connaissance de la licence CeCILL, et que vous en avez accepté les
 termes.
 */
 
-#ifndef _GRAPHIQUE_
-#define _GRAPHIQUE_
+#ifndef _GRAPHIQUESYSTEME_
+#define _GRAPHIQUESYSTEME_
 
-#include "graphe.h"
-#include "commandes.h"
-#include "textureSysteme.h"
-#include "textureMenu.h"
 #include "affichage.h"
 
 
-struct GraphiqueT {
+struct TextureSystemeT {
 
-	affichageT affichage;		// 	Rendu et couleurs
+	SDL_Texture *mur;			//	Textures du graphe
+	SDL_Texture *sortie;
+	SDL_Texture *entree;
+	SDL_Texture *mobile; int taille;	//	Taille des mobiles
 
-	textureMenuT textureMenu;
+	SDL_Texture *direction0;
+	SDL_Texture *direction1;
+	SDL_Texture *direction2;
+	SDL_Texture *direction3;
+	SDL_Texture *direction4;	// Flèches pour illustrer la direction
+	SDL_Texture *direction5;
+	SDL_Texture *direction6;
+	SDL_Texture *direction7;
 
-	textureSystemeT textureSysteme;
-
-	int taille;
-
-		int fenetreX;	// hauteur de la fenêtre
-		int fenetreY;	// largeur de la fenêtre
 };
-typedef struct GraphiqueT graphiqueT;
+typedef struct TextureSystemeT textureSystemeT;
 
-int graphiqueDestruction(graphiqueT * graphique);
-int graphiqueInitialisation(graphiqueT * graphique, interfaceT * interface, int taille);
-
-int graphiqueNettoyage(graphiqueT * graphique);
-int graphiqueMiseAJour(graphiqueT * graphique);
-
-int graphiqueFond(graphiqueT * graphique);
-int graphiqueCommandes(graphiqueT * graphique, commandesT * commandes);
-void graphiqueDessineMur(graphiqueT * graphique, grapheT * graphe);
-void graphiqueDessineAngle(graphiqueT * graphique, grapheT * graphe);
-void graphiqueDessineMobile(graphiqueT * graphique, grapheT * graphe, int taille);
-
-void graphiqueDessineStatut(graphiqueT * graphique, grapheT * graphe);
+int textureSystemeInitialisation(textureSystemeT * textureSysteme, affichageT * affichage);
 
 #endif
 /////////////////////////////////////////////////////////////////

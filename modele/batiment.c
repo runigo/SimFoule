@@ -86,6 +86,17 @@ int batimentInitialiseVide(batimentT * batiment)
 	return 0;
 	}
 
+int batimentInitialise9(batimentT * batiment)
+	{ // Initialise le batiment plein de mobiles
+	
+	batimentInitialiseVide(batiment);
+
+	etageInitialise9(&(*batiment).etage[0], BATIMENT_X_MAX, BATIMENT_Y_MAX, 0);
+	etageInitialise9(&(*batiment).etage[1], BATIMENT_X_MAX, BATIMENT_Y_MAX, 1);
+
+	return 0;
+	}
+
 int batimentInitialiseImplicite(batimentT * batiment, int niveau)
 	{ // Renvoie le nombre de mobiles présent
 

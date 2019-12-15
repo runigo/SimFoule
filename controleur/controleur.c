@@ -35,10 +35,12 @@ termes.
 
 	//	INITIALISATION - SUPRESSION
 
+int controleurCorrigeDuree(controleurT * controleur);
 
 	//	ÉVOLUTION
 
 int controleurEvolution(controleurT * controleur);
+int controleurEvolutionModeEco(controleurT * controleur);
 
 	int controleurProjection(controleurT * controleur);
 	int controleurEvolutionSysteme(controleurT * controleur);
@@ -101,6 +103,8 @@ int controleurInitialisation(controleurT * controleur)
 	(*controleur).sortie = 0;	// Sortie de SimFoule si > 0
 	(*controleur).modePause = (*controleur).options.mode;		// Evolution système ou pause
 	(*controleur).modeDessin = 1;		// 1 : simulation, -1 : construction
+	(*controleur).modeEco = 1;		// 0 : système-graphique, 1 : (1)système-(1)graphique, n : (n)système-(1)graphique
+	(*controleur).etapeEco = 1;		// -1 : graphique, 0 : système-graphique, > 0 : système (= étape)
 
 		//fprintf(stderr, "  Initialisation de la projection\n");
 	retour += projectionInitialiseLongueurs(&(*controleur).projection, BATIMENT_X_IMP, BATIMENT_Y_IMP);
@@ -128,6 +132,8 @@ int controleurInitialisation(controleurT * controleur)
 	retour += horlogeCreation(&(*controleur).horloge);
 
 		controleurProjection(controleur);	//	Projections
+
+		controleurCorrigeDuree(controleur);
 
 	return retour;
 	}
@@ -157,7 +163,22 @@ int controleurReinitialisation(controleurT * controleur, char *nom)
 
 		controleurProjection(controleur);	//	Projections
 
+		controleurCorrigeDuree(controleur);
+
 	return retour;
+	}
+
+int controleurCorrigeDuree(controleurT * controleur)
+	{
+
+	(*controleur).options.duree = 60 - batimentNombreMobile(&(*controleur).systeme.batiment)/2;
+
+	if((*controleur).options.duree < 1)
+		{
+		(*controleur).options.duree = 1;
+		}
+
+	return (*controleur).options.duree;
 	}
 
 int controleurMemoireOptions(controleurT * controleur)
@@ -193,15 +214,18 @@ int controleurSimulationGraphique(controleurT * controleur)
 
 int controleurEvolution(controleurT * controleur)
 	{
-	//horlogeChrono(&(*controleur).horloge, 1);
+	//horlogeChrono(&(*controleur).horloge, 0);
 
 		if((*controleur).modeDessin > 0) // Évolution du système
 			{
 			if((*controleur).modePause > 0)
 				{
-				if(controleurEvolutionSysteme(controleur)!=0)
+				if((*controleur).etapeEco>=0 || (*controleur).modeEco==0)
 					{
-					controleurBoucle(controleur);
+					if(controleurEvolutionSysteme(controleur)!=0)
+						{
+						controleurBoucle(controleur);
+						}
 					}
 				}
 			}
@@ -210,18 +234,69 @@ int controleurEvolution(controleurT * controleur)
 			controleurEvolutionDessin(controleur);
 			}
 
-	//horlogeChrono(&(*controleur).horloge, 2);
-
-		controleurProjection(controleur);	//	Projections
-
 	//horlogeChrono(&(*controleur).horloge, 1);
 
+	if((*controleur).etapeEco<0 || (*controleur).modeDessin<0)
+		{
+		controleurProjection(controleur);	//	Projections
 		controleurConstructionGraphique(controleur); // Affichage
+		}
 
-	//horlogeChrono(&(*controleur).horloge, 3);
+	//horlogeChrono(&(*controleur).horloge, 2);
+
+	controleurEvolutionModeEco(controleur);
 
 	return (*controleur).sortie;
 	}
+
+int controleurEvolutionModeEco(controleurT * controleur)
+	{
+			//	Évolution de l'étape du mode économie de CPU
+	//(*controleur).modeEco = 1;		// 0 : système-graphique, 1 : (1)système-(1)graphique, n : (n)système-(1)graphique
+	//(*controleur).etapeEco = 1;		// -1 : graphique, 0 : système-graphique, > 0 : système (= étape)
+
+	if((*controleur).modeEco == 0)
+		{
+		(*controleur).etapeEco = -1;
+		}
+	else	//	(*controleur).modeEco > 0
+		{
+		switch((*controleur).etapeEco)
+			{
+			case -1:
+				(*controleur).etapeEco = (*controleur).modeEco;break;
+			case 1:
+				(*controleur).etapeEco = -1;break;
+			default:
+				(*controleur).etapeEco --;
+			}
+		}
+
+	return 0;
+	}
+
+void controleurChangeModeEco(controleurT * controleur, int mode)
+	{
+			//	Évolution de l'étape du mode économie de CPU
+	//(*controleur).modeEco = 1;		// 0 : système-graphique, 1 : (1)système-(1)graphique, n : (n)système-(1)graphique
+	//(*controleur).etapeEco = 1;		// -1 : graphique, 0 : système-graphique, > 0 : système (= étape)
+
+	if(mode == 0)
+		{
+		(*controleur).modeEco = 0;		// 0 : système-graphique, 1 : (1)système-(1)graphique, n : (n)système-(1)graphique
+		(*controleur).etapeEco = 0;		// -1 : graphique, 0 : système-graphique, > 0 : système (= étape)
+		}
+	else	//	(*controleur).modeEco > 0
+		{
+		(*controleur).modeEco = mode;		// 0 : système-graphique, 1 : (1)système-(1)graphique, n : (n)système-(1)graphique
+		(*controleur).etapeEco = mode;		// -1 : graphique, 0 : système-graphique, > 0 : système (= étape)
+		}
+
+		printf("controleurChangeModeEco (*controleur).modeEco = %d\n", (*controleur).modeEco);
+
+	return;
+	}
+
 
 int controleurBoucle(controleurT * controleur)
 	{
@@ -309,8 +384,10 @@ int controleurEvolutionSysteme(controleurT * controleur)
 int controleurEvolutionDessin(controleurT * controleur)
 	{
 
+
 	if((*controleur).appui == 1)
 		{
+		//fprintf(stderr, "controleurEvolutionDessin ((*controleur).appui == 1)\n");
 		int X = (*controleur).commandes.sourisX / CELLULE ;
 		int Y = (*controleur).commandes.sourisY / CELLULE ;
 		constructionProjection(&(*controleur).construction);	// Projette le niveau 1 sur l'étage 0

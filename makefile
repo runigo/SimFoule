@@ -40,8 +40,8 @@ OBJDIR = ./obj
 
 all : $(EXEC)
 
-$(EXEC) : $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/controleurClavier.o $(OBJDIR)/controleurSouris.o $(OBJDIR)/donnees.o $(OBJDIR)/fichier.o $(OBJDIR)/options.o $(OBJDIR)/systeme.o $(OBJDIR)/construction.o $(OBJDIR)/batiment.o $(OBJDIR)/projection.o $(OBJDIR)/graphe.o $(OBJDIR)/interface.o $(OBJDIR)/commandes.o $(OBJDIR)/graphique.o $(OBJDIR)/horloge.o $(OBJDIR)/points.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/foule.o $(OBJDIR)/chaine.o $(OBJDIR)/mobile.o $(OBJDIR)/vecteur.o
-	$(CC) -g  $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/controleurClavier.o $(OBJDIR)/controleurSouris.o $(OBJDIR)/donnees.o $(OBJDIR)/fichier.o $(OBJDIR)/options.o $(OBJDIR)/systeme.o $(OBJDIR)/construction.o $(OBJDIR)/batiment.o $(OBJDIR)/projection.o $(OBJDIR)/graphe.o $(OBJDIR)/interface.o $(OBJDIR)/commandes.o $(OBJDIR)/graphique.o $(OBJDIR)/horloge.o $(OBJDIR)/points.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/foule.o $(OBJDIR)/chaine.o $(OBJDIR)/mobile.o $(OBJDIR)/vecteur.o ` sdl2-config --libs` $(LDFLAGS) -o $(EXEC)
+$(EXEC) : $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/controleurClavier.o $(OBJDIR)/controleurSouris.o $(OBJDIR)/donnees.o $(OBJDIR)/fichier.o $(OBJDIR)/options.o $(OBJDIR)/systeme.o $(OBJDIR)/construction.o $(OBJDIR)/batiment.o $(OBJDIR)/projection.o $(OBJDIR)/graphe.o $(OBJDIR)/interface.o $(OBJDIR)/commandes.o $(OBJDIR)/graphique.o $(OBJDIR)/affichage.o $(OBJDIR)/textureSysteme.o $(OBJDIR)/textureMenu.o $(OBJDIR)/horloge.o $(OBJDIR)/points.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/foule.o $(OBJDIR)/chaine.o $(OBJDIR)/mobile.o $(OBJDIR)/vecteur.o
+	$(CC) -g  $(OBJDIR)/principale.o $(OBJDIR)/controleur.o $(OBJDIR)/controleurClavier.o $(OBJDIR)/controleurSouris.o $(OBJDIR)/donnees.o $(OBJDIR)/fichier.o $(OBJDIR)/options.o $(OBJDIR)/systeme.o $(OBJDIR)/construction.o $(OBJDIR)/batiment.o $(OBJDIR)/projection.o $(OBJDIR)/graphe.o $(OBJDIR)/interface.o $(OBJDIR)/commandes.o $(OBJDIR)/graphique.o $(OBJDIR)/affichage.o $(OBJDIR)/textureSysteme.o $(OBJDIR)/textureMenu.o $(OBJDIR)/horloge.o $(OBJDIR)/points.o $(OBJDIR)/etage.o $(OBJDIR)/cellule.o $(OBJDIR)/foule.o $(OBJDIR)/chaine.o $(OBJDIR)/mobile.o $(OBJDIR)/vecteur.o ` sdl2-config --libs` $(LDFLAGS) -o $(EXEC)
 
 $(OBJDIR)/principale.o : controleur/principale.c controleur/principale.h
 	$(CC) -c -g controleur/principale.c $(CFLAGS) -o $@
@@ -79,8 +79,17 @@ $(OBJDIR)/commandes.o : interface/commandes.c interface/commandes.h
 $(OBJDIR)/horloge.o : interface/horloge.c interface/horloge.h
 	$(CC) -c -g interface/horloge.c $(CFLAGS) -o $@
 
+$(OBJDIR)/affichage.o : interface/affichage.c interface/affichage.h
+	$(CC) -c -g interface/affichage.c $(CFLAGS) -o $@
+
 $(OBJDIR)/graphique.o : interface/graphique.c interface/graphique.h
 	$(CC) -c -g interface/graphique.c $(CFLAGS) -o $@
+
+$(OBJDIR)/textureMenu.o : interface/textureMenu.c interface/textureMenu.h
+	$(CC) -c -g interface/textureMenu.c $(CFLAGS) -o $@
+
+$(OBJDIR)/textureSysteme.o : interface/textureSysteme.c interface/textureSysteme.h
+	$(CC) -c -g interface/textureSysteme.c $(CFLAGS) -o $@
 
 $(OBJDIR)/points.o : interface/points.c interface/points.h
 	$(CC) -c -g interface/points.c $(CFLAGS) -o $@
