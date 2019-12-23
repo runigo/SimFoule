@@ -36,13 +36,14 @@ termes.
 
 struct TextureMenuT {
 
-	SDL_Texture *simfoule;			//	Image du fond
+	//SDL_Texture *simfoule;			//	Image du fond
 
 	SDL_Texture *construction;			//	Menu construction
 		//	 Boutons
 	SDL_Texture *boutonVide;
 	SDL_Texture *boutonMur;
 	SDL_Texture *boutonSortie;
+	//SDL_Texture *boutonEntree;
 	SDL_Texture *boutonMobile;
 	SDL_Texture *boutonPoint;
 	SDL_Texture *boutonTrait;

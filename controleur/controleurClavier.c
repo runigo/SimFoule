@@ -68,10 +68,10 @@ int controleurClavier(controleurT * controleur)
 		case SDLK_F3:
 			controleurAffiche(controleur);break;
 		case SDLK_F4:
-			etageAffiche(&(*controleur).systeme.batiment.etage[0]);break;
+			controleurSourisAffiche(controleur);break;
 
 		case SDLK_F5:
-			controleurAfficheForces(controleur);break;
+			controleurAfficheSysteme(controleur);break;
 		case SDLK_F6:
 			controleurChangeDessin(&(*controleur).options.dessineAngle);break;
 		case SDLK_F7:
@@ -136,8 +136,22 @@ int controleurClavier(controleurT * controleur)
 			printf("Option initial = 2\n");
 			(*controleur).options.initial = 2;break;
 
-		//	RTY FGH : Economie de CPU, controleurChangeModeEco(controleurT * controleur, int mode)
+		//	RTY FGH : Test construction
+		case SDLK_r:
+			constructionChangeMotif(&(*controleur).construction, -1);break;
+		case SDLK_t:
+			constructionChangeMotif(&(*controleur).construction, 5);break;
+		case SDLK_y:
+			controleurChangeModeEco(controleur, 2);break;
+		case SDLK_f:
+			constructionChangeTrait(&(*controleur).construction, -1);break;
+		case SDLK_g:
+			constructionChangeTrait(&(*controleur).construction, 5);break;
+		case SDLK_h:
+			controleurChangeModeEco(controleur, 9);break;
 
+/*
+		//	RTY FGH : Economie de CPU, controleurChangeModeEco(controleurT * controleur, int mode)
 		case SDLK_r:
 			controleurChangeModeEco(controleur, 0);break;
 		case SDLK_t:
@@ -150,7 +164,7 @@ int controleurClavier(controleurT * controleur)
 			controleurChangeModeEco(controleur, 49);break;
 		case SDLK_h:
 			controleurChangeModeEco(controleur, 99);break;
-
+*/
 		default:
 			;
 		}

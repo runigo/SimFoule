@@ -97,6 +97,12 @@ int systemeEvolution(systemeT * systeme, int duree)
 
 			// Incrémentation
 		fouleIncremente(&(*systeme).foule);
+
+			// Évolution du chronomètre
+		if((*systeme).foule.restant>0)
+			{
+			(*systeme).horloge += (*systeme).dt;
+			}
 		}
 
 	//mobileAffiche(&(*systeme).foule.premier->mobile);

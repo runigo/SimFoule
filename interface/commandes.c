@@ -82,20 +82,21 @@ int commandesInitialiseBoutons(commandesT * commandes, int largeur, int hauteur)
 	(*commandes).lineaireCentre[3]=(int)(0.406950672646*largeur); // 414+596/2	Simulation > temps réèl	
 
 		// BOUTONS TRIANGULAIRES SUIVANT Y
-	(*commandes).triangleY=(int)(0.010*hauteur); // Rayon suivant Y
-	(*commandes).trianglesCentre=(int)(0.888567*hauteur); // Position Y des petits triangles
-	(*commandes).trianglesLumiere=(int)(0.960784313725*hauteur); // Position Y des lumières
+	(*commandes).triangleY=(int)(0.030*hauteur); // Rayon suivant Y 0.925000
+	(*commandes).trianglesCentre=(int)(0.957500*hauteur); // Position Y des petits triangles
+	(*commandes).trianglesLumiere=(int)(0.957500*hauteur); // Position Y des lumières
 		// BOUTONS TRIANGULAIRES SUIVANT X
-	(*commandes).triangleX=(int)(0.007*largeur); // Rayon suivant X
-	(*commandes).triangleCentre[0]=(int)(0.423456*largeur); // 	1
-	(*commandes).triangleCentre[1]=(int)(0.452999*largeur); // 	2
-	(*commandes).triangleCentre[2]=(int)(0.481647*largeur); //  3
-	(*commandes).triangleCentre[3]=(int)(0.510295*largeur); // 	4
-	(*commandes).triangleCentre[4]=(int)(0.538944*largeur); // 	5
-	(*commandes).triangleCentre[5]=(int)(0.568487*largeur); // 	6
+	(*commandes).triangleX=(int)(0.016*largeur); // Rayon suivant X 0.007500
+	(*commandes).triangleCentre[0]=(int)(0.023750*largeur); // 	vide
+	(*commandes).triangleCentre[1]=(int)(0.065000*largeur); // 	mur
+	(*commandes).triangleCentre[2]=(int)(0.105000*largeur); //  sortie
+	(*commandes).triangleCentre[3]=(int)(0.805000*largeur); // 	entree
+	(*commandes).triangleCentre[4]=(int)(0.143750*largeur); // 	mobile
 
-	(*commandes).triangleCentre[6]=(int)(0.627574*largeur); // 	1
-	(*commandes).triangleCentre[7]=(int)(0.657117*largeur); // 	2
+	(*commandes).triangleCentre[5]=(int)(0.197500*largeur); // 	point
+	(*commandes).triangleCentre[6]=(int)(0.237500*largeur); // 	trait
+	(*commandes).triangleCentre[7]=(int)(0.277500*largeur); // 	rectangle
+
 	(*commandes).triangleCentre[8]=(int)(0.685765*largeur); // 	3
 	(*commandes).triangleCentre[9]=(int)(0.714414*largeur); // 	4
 

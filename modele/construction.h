@@ -44,6 +44,9 @@ struct ConstructionT {
 		// Motif du tracé
 	int statut;		// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile
 
+		// Géométrie du tracé
+	int trait;		// 0:point, 1:trait, 2:rectangle
+
 		// Tracé
 	int Xdebut;	// Position de la souris au moment de l'appui
 	int Ydebut;
@@ -57,8 +60,6 @@ typedef struct ConstructionT constructionT;
 int constructionInitialisation(constructionT * construction);
 
 	//	ÉVOLUTION
-int constructionChangeMotif(constructionT * construction, int statut);	//	Change le motif du tracé
-
 int constructionDebutTrait(constructionT * construction, int X, int Y);	//	Bouton de la souris enfoncé
 int constructionFinTrait(constructionT * construction, int X, int Y);		//	Bouton de la souris relaché
 
@@ -70,6 +71,7 @@ int constructionPositionFinale(constructionT * construction, int X, int Y); // E
 
 	//	CHANGEMENT DES PARAMÈTRES
 int constructionChangeMotif(constructionT * construction, int statut);	//	Change le motif du tracé
+int constructionChangeTrait(constructionT * construction, int trait);	//	Change la géométrie du tracé
 
 
 

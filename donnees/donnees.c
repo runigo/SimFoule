@@ -42,7 +42,7 @@ int donneesOptionsImplicite(optionsT * options)
 	(*options).duree = DUREE;	// nombre d'incrémentation de la foule par affichage
 	(*options).boucle = 1;	// répétition des simulations
 
-	(*options).initial = 1;	// 1 : Initialisation fichier construction.
+	(*options).initial = 1;	// 1 : Initialisation fichier construction. Sino initialisation fichier situation
 
 	(*options).nom = "a";	// Nom du fichier d'initialisation.
 

@@ -34,7 +34,7 @@ termes.
 int textureMenuInitialisation(textureMenuT * textureMenu, affichageT * affichage)
 	{
 	int retour = 0;
-
+/*
 	SDL_Surface *panneau = 0;
 
 	panneau = SDL_LoadBMP("./image/SimFouleUniforme.bmp");
@@ -50,7 +50,7 @@ int textureMenuInitialisation(textureMenuT * textureMenu, affichageT * affichage
 		fprintf(stderr,"ERREUR grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
 		retour++;
 		}
-
+*/
 
 	SDL_Surface *lumiereVerte = 0;
 
@@ -185,6 +185,21 @@ int textureMenuInitialisation(textureMenuT * textureMenu, affichageT * affichage
 		retour++;
 		}
 
+/*
+	image = SDL_LoadBMP("./image/SimFouleBoutonEntree.bmp");
+	if (!image)
+		{
+		fprintf(stderr,"Erreur chargement image, SimFouleBoutonEntree.bmp : %s\n",SDL_GetError());
+		retour++;
+		}
+	(*textureMenu).boutonEntree = SDL_CreateTextureFromSurface((*affichage).rendu, image);
+	SDL_FreeSurface(image);
+	if ((*textureMenu).boutonEntree == 0)
+		{
+		fprintf(stderr,"grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
+		retour++;
+		}
+*/
 
 	image = SDL_LoadBMP("./image/SimFouleBoutonMobile.bmp");
 	if (!image)
@@ -231,14 +246,15 @@ int textureMenuInitialisation(textureMenuT * textureMenu, affichageT * affichage
 		}
 
 
-	image = SDL_LoadBMP("./image/SimFouleBoutonRectangle.bmp");
-	if (!image)
+	SDL_Surface *menu = 0;
+	menu = SDL_LoadBMP("./image/SimFouleConstruction01.bmp");
+	if (!menu)
 		{
-		fprintf(stderr,"Erreur chargement image, SimFouleBoutonRectangle.bmp : %s\n",SDL_GetError());
+		fprintf(stderr,"Erreur chargement image, SimFouleConstruction01.bmp : %s\n",SDL_GetError());
 		retour++;
 		}
-	(*textureMenu).boutonRectangle = SDL_CreateTextureFromSurface((*affichage).rendu, image);
-	SDL_FreeSurface(image);
+	(*textureMenu).boutonRectangle = SDL_CreateTextureFromSurface((*affichage).rendu, menu);
+	SDL_FreeSurface(menu);
 	if ((*textureMenu).boutonRectangle == 0)
 		{
 		fprintf(stderr,"grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());

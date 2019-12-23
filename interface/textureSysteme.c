@@ -211,6 +211,21 @@ int textureSystemeInitialisation(textureSystemeT * textureSysteme, affichageT * 
 		retour++;
 		}
 
+
+	image = SDL_LoadBMP("./image/SimFouleConstruction01.bmp");
+	if (!image)
+		{
+		fprintf(stderr,"Erreur chargement image, SimFouleConstruction01.bmp : %s\n",SDL_GetError());
+		retour++;
+		}
+	(*textureSysteme).construct = SDL_CreateTextureFromSurface((*affichage).rendu, image);
+	SDL_FreeSurface(image);
+	if ((*textureSysteme).sortie == 0)
+		{
+		fprintf(stderr,"grapheInitialisation : Erreur creation texture : %s\n",SDL_GetError());
+		retour++;
+		}
+
 	return retour;
 }
 

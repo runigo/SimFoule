@@ -77,17 +77,35 @@ int graphiqueNettoyage(graphiqueT * graphique)
 	return 0;
 	}
 
-int graphiqueFond(graphiqueT * graphique)
+int graphiqueFond(graphiqueT * graphique, int modeDessin)
 	{
-		// Dessine le fond 
-	SDL_Rect coordonnee = {0, 0, (*graphique).fenetreX, (*graphique).fenetreY};
-
-	SDL_RenderCopy((*graphique).affichage.rendu, (*graphique).textureMenu.simfoule, NULL, &coordonnee);
+	if(modeDessin<0)		//	Menu construction
+		{
+		SDL_Rect coordonnee = {0, (*graphique).fenetreY - 35, 238, 35};
+		//SDL_RenderCopy((*graphique).affichage.rendu, (*graphique).textureSysteme.construct, NULL, &coordonnee);
+		SDL_RenderCopy((*graphique).affichage.rendu, (*graphique).textureMenu.construction, NULL, &coordonnee);
+		}
 	
 	return 0;
 	}
 
-int graphiqueCommandes(graphiqueT * graphique, commandesT * commandes)
+int graphiqueMiseAJour(graphiqueT * graphique)
+	{
+	SDL_RenderPresent((*graphique).affichage.rendu);
+	return 0;
+	}
+
+int graphiqueChangeCouleur(graphiqueT * graphique, SDL_Color couleur)
+	{
+	if(SDL_SetRenderDrawColor((*graphique).affichage.rendu, couleur.r, couleur.g, couleur.b, couleur.a) < 0)
+	return -1;
+	//if(SDL_RenderClear(renderer) < 0)
+		//return -1;
+	return 0;  
+	}
+
+
+int graphiqueCommandesSysteme(graphiqueT * graphique, commandesT * commandes)
 	{
 		// Dessine les commandes sélectionées
 	
@@ -158,22 +176,96 @@ int graphiqueCommandes(graphiqueT * graphique, commandesT * commandes)
 	return 0;
 	}
 
-int graphiqueMiseAJour(graphiqueT * graphique)
+int graphiqueCommandesConstruction(graphiqueT * graphique, commandesT * commandes)
 	{
-	SDL_RenderPresent((*graphique).affichage.rendu);
+		// Dessine les commandes sélectionées
+	
+	SDL_Rect coordonnee = {0, 0, (*graphique).fenetreX, (*graphique).fenetreY};
+	int centrage = 5;
+	coordonnee.w=10;
+	coordonnee.h=10;
+	coordonnee.x = (*commandes).boutonsCentre - centrage;	// Positon X de la zone des petits boutons
+	int i;
+	//int X, Y, x, y;
+			
+	for(i=0;i<BOUTON_COMMANDES;i++)
+		{
+		if((*commandes).boutonEtat[i]==1)
+			{
+			coordonnee.y = (*commandes).boutonCentre[i] - centrage; // Positon Y des petits boutons
+			//	Dessin des petits boutons
+			SDL_RenderCopy((*graphique).affichage.rendu, (*graphique).textureSysteme.mobile, NULL, &coordonnee);
+			}
+		}
+/*
+	graphiqueChangeCouleur(graphique, (*graphique).affichage.orange);
+	X=(*commandes).rotatifsCentre;
+	for(i=0;i<ROTATIF_COMMANDES;i++)
+		{
+		Y=(*commandes).rotatifCentre[i];
+		x=X+(*commandes).rotatifPositionX[i];
+		y=Y+(*commandes).rotatifPositionY[i];
+		SDL_RenderDrawLine((*graphique).affichage.rendu, X-1, Y, x-1, y);
+		SDL_RenderDrawLine((*graphique).affichage.rendu, X, Y-1, x, y-1);
+		SDL_RenderDrawLine((*graphique).affichage.rendu, X+1, Y, x+1, y);
+		SDL_RenderDrawLine((*graphique).affichage.rendu, X, Y+1, x, y+1);
+		}
+*/
+	centrage = 12;
+	coordonnee.w=25;
+	coordonnee.h=25;
+	coordonnee.y = (*commandes).trianglesLumiere - centrage;	// Positon Y de la zone du bas
+
+	if((*commandes).triangleEtat[0]==1)
+		{
+		coordonnee.x = (*commandes).triangleCentre[0] - centrage;
+		SDL_RenderCopy((*graphique).affichage.rendu, (*graphique).textureMenu.boutonVide, NULL, &coordonnee);
+		}
+
+	if((*commandes).triangleEtat[1]==1)
+		{
+		coordonnee.x = (*commandes).triangleCentre[1] - centrage;
+		SDL_RenderCopy((*graphique).affichage.rendu, (*graphique).textureMenu.boutonMur, NULL, &coordonnee);
+		}
+
+	if((*commandes).triangleEtat[2]==1)
+		{
+		coordonnee.x = (*commandes).triangleCentre[2] - centrage;
+		SDL_RenderCopy((*graphique).affichage.rendu, (*graphique).textureMenu.boutonSortie, NULL, &coordonnee);
+		}
+/*
+	if((*commandes).triangleEtat[3]==1)
+		{
+		coordonnee.x = (*commandes).triangleCentre[3] - centrage;
+		//SDL_RenderCopy((*graphique).affichage.rendu, (*graphique).textureMenu.boutonEntree, NULL, &coordonnee);
+		}
+*/
+	if((*commandes).triangleEtat[4]==1)
+		{
+		coordonnee.x = (*commandes).triangleCentre[4] - centrage;
+		SDL_RenderCopy((*graphique).affichage.rendu, (*graphique).textureMenu.boutonMobile, NULL, &coordonnee);
+		}
+
+	if((*commandes).triangleEtat[5]==1)
+		{
+		coordonnee.x = (*commandes).triangleCentre[5] - centrage;
+		SDL_RenderCopy((*graphique).affichage.rendu, (*graphique).textureMenu.boutonPoint, NULL, &coordonnee);
+		}
+
+	if((*commandes).triangleEtat[6]==1)
+		{
+		coordonnee.x = (*commandes).triangleCentre[6] - centrage;
+		SDL_RenderCopy((*graphique).affichage.rendu, (*graphique).textureMenu.boutonTrait, NULL, &coordonnee);
+		}
+
+	if((*commandes).triangleEtat[7]==1)
+		{
+		coordonnee.x = (*commandes).triangleCentre[7] - centrage;
+		SDL_RenderCopy((*graphique).affichage.rendu, (*graphique).textureMenu.boutonRectangle, NULL, &coordonnee);
+		}
+
 	return 0;
 	}
-
-int graphiqueChangeCouleur(graphiqueT * graphique, SDL_Color couleur)
-	{
-	if(SDL_SetRenderDrawColor((*graphique).affichage.rendu, couleur.r, couleur.g, couleur.b, couleur.a) < 0)
-	return -1;
-	//if(SDL_RenderClear(renderer) < 0)
-		//return -1;
-	return 0;  
-	}
-
-
 
 		// DESSIN DU GRAPHE
 

@@ -68,9 +68,7 @@ typedef struct ControleurT controleurT;
 			int etapeEco;		// -1 : graphique, 0 : système-graphique, > 0 : système (= étape)
 			int sortie;	//	sortie de SiCP si > 0
 
-			int appui;	//	1 si le bouton de la souris est appuyé, 0 sinon.
-			int curseurX;	//	Position x de la souris.
-			int curseurY;	//	Position y de la souris
+		int appui;	//	1 si le bouton de la souris est appuyé, 0 sinon.
 
 		};
 
@@ -99,6 +97,6 @@ int controleurCommandes(controleurT * controleur, int zone);
 
 int controleurAffiche(controleurT * controleur);
 
-int controleurAfficheForces(controleurT * controleur);
+int controleurAfficheSysteme(controleurT * controleur);
 
 #endif

@@ -69,7 +69,7 @@ int controleurSourisBouton(controleurT * controleur, int appui)
 int controleurSourisZone(controleurT * controleur)
 	{
 				// Retourne la zone ou se trouve la souris
-int zone = 0;
+	int zone = 0;
 
 	if((*controleur).commandes.sourisX>(*controleur).commandes.rotatifs)
 		{
@@ -302,17 +302,29 @@ int controleurSourisCommandes(controleurT * controleur, int zone)
 		switch(commande)	//	
 			{
 			case 0:
-				controleurReinitialisation(controleur, "w");break;
+				constructionChangeMotif(&(*controleur).construction, 0);break;
 			case 1:
-				controleurReinitialisation(controleur, "x");break;
+				constructionChangeMotif(&(*controleur).construction, 1);break;
 			case 2:
-				controleurReinitialisation(controleur, "c");break;
+				constructionChangeMotif(&(*controleur).construction, 2);break;
 			case 3:
-				controleurReinitialisation(controleur, "v");break;
+				constructionChangeMotif(&(*controleur).construction, 3);break;
 			case 4:
-				controleurReinitialisation(controleur, "b");break;
+				constructionChangeMotif(&(*controleur).construction, 9);break;
 			case 5:
-				controleurReinitialisation(controleur, "n");break;
+				constructionChangeTrait(&(*controleur).construction, 0);break;
+			case 6:
+				constructionChangeTrait(&(*controleur).construction, 1);break;
+			case 7:
+				constructionChangeTrait(&(*controleur).construction, 2);break;
+	/*		case 6:
+				controleurReinitialisation(controleur, -1);break;
+			case 7:
+				controleurReinitialisation(controleur, -2);break;
+			case 8:
+				controleurReinitialisation(controleur, -3);break;
+			case 9:
+				controleurReinitialisation(controleur, -4);break;*/
 	/*		case 6:
 				controleurReinitialisation(controleur, -1);break;
 			case 7:
@@ -332,10 +344,12 @@ int controleurSourisDessine(controleurT * controleur, int appui)
 	{
 				// Change le statut de la cellule sélectionnée
 
+	int zone = controleurSourisZone(controleur);
+
 	int X = (*controleur).commandes.sourisX / CELLULE ;
 	int Y = (*controleur).commandes.sourisY / CELLULE ;
 
-	if((*controleur).modeDessin < 0) // Mode construction
+	if((*controleur).modeDessin < 0 && zone == 0) // Mode construction
 		{
 		if(appui == 1)
 			{
@@ -349,7 +363,7 @@ int controleurSourisDessine(controleurT * controleur, int appui)
 		}
 	else
 		{
-		fprintf(stderr, "controleurSourisDessine, mode simulation, cellule %d, %d\n", X, Y);
+		fprintf(stderr, "controleurSourisDessine, cellule %d, %d\n", X, Y);
 		//celluleInitialiseStatut(&(*controleur).systeme.batiment.etage[0].cellule[X][Y], (*controleur).construction.statut);
 		}
 

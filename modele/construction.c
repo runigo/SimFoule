@@ -41,7 +41,8 @@ int constructionInitialisation(constructionT * construction)
 	batimentInitialiseVide(&(*construction).batiment);
 	batimentInitialiseVide(&(*construction).normal);
 
-	(*construction).statut = 1;		// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobileé
+	(*construction).statut = 1;		// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile
+	(*construction).trait = 1;		// 0:point, 1:trait, 2:rectangle
 
 	(*construction).Xdebut = 1;
 	(*construction).Ydebut = 1;
@@ -142,12 +143,54 @@ int constructionChangeMotif(constructionT * construction, int statut)
 	{
 			// Change le motif du tracé
 
-	(*construction).statut = statut; // 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile
-
-	fprintf(stderr, "    constructionChangeStatut : %d\n", (*construction).statut);
-
+	switch (statut)		// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile
+		{
+	// Sauvegarde du système
+		case 0:
+			fprintf(stderr, "(*construction).statut = libre\n");
+			(*construction).statut = 0;break;
+		case 1:
+			fprintf(stderr, "(*construction).statut = mur\n");
+			(*construction).statut = 1;break;
+		case 2:
+			fprintf(stderr, "(*construction).statut = sortie\n");
+			(*construction).statut = 2;break;
+		case 3:
+			fprintf(stderr, "(*construction).statut = entrée\n");
+			(*construction).statut = 3;break;
+		case 9:
+			fprintf(stderr, "(*construction).statut = mobile\n");
+			(*construction).statut = 9;break;
+		default:
+			fprintf(stderr, "ERREUR constructionChangeMotif statut = %d\n", statut);
+			fprintf(stderr, "	(*construction).statut =  %d\n", (*construction).statut);
+		}
 	return 0;
 	}
+
+
+int constructionChangeTrait(constructionT * construction, int trait)
+	{
+			//	Change la géométrie du tracé
+
+	switch (trait)		// 0:point, 1:trait, 2:rectangle
+		{
+		case 0:
+			fprintf(stderr, "(*construction).trait = point\n");
+			(*construction).trait = 0;break;
+		case 1:
+			fprintf(stderr, "(*construction).trait = trait\n");
+			(*construction).trait = 1;break;
+		case 2:
+			fprintf(stderr, "(*construction).trait = rectangle\n");
+			(*construction).trait = 2;break;
+		default:
+			fprintf(stderr, "ERREUR constructionChangeTrait trait = %d\n", trait);
+			fprintf(stderr, "	(*construction).trait =  %d\n", (*construction).trait);
+		}
+	return 0;
+	}
+
 
 
 ////////////////////////////////////////////////////////////////////////

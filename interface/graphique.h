@@ -60,8 +60,11 @@ int graphiqueInitialisation(graphiqueT * graphique, interfaceT * interface, int 
 int graphiqueNettoyage(graphiqueT * graphique);
 int graphiqueMiseAJour(graphiqueT * graphique);
 
-int graphiqueFond(graphiqueT * graphique);
-int graphiqueCommandes(graphiqueT * graphique, commandesT * commandes);
+int graphiqueFond(graphiqueT * graphique, int modeDessin);
+
+int graphiqueCommandesSysteme(graphiqueT * graphique, commandesT * commandes);
+int graphiqueCommandesConstruction(graphiqueT * graphique, commandesT * commandes);
+
 void graphiqueDessineMur(graphiqueT * graphique, grapheT * graphe);
 void graphiqueDessineAngle(graphiqueT * graphique, grapheT * graphe);
 void graphiqueDessineMobile(graphiqueT * graphique, grapheT * graphe, int taille);

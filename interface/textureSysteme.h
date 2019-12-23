@@ -37,6 +37,7 @@ termes.
 
 struct TextureSystemeT {
 
+	SDL_Texture *construct;			//	Textures du graphe
 	SDL_Texture *mur;			//	Textures du graphe
 	SDL_Texture *sortie;
 	SDL_Texture *entree;

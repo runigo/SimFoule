@@ -163,7 +163,7 @@ int controleurReinitialisation(controleurT * controleur, char *nom)
 
 		controleurProjection(controleur);	//	Projections
 
-		controleurCorrigeDuree(controleur);
+		controleurCorrigeDuree(controleur);	//	En fonction du nombre de mobiles
 
 	return retour;
 	}
@@ -275,28 +275,6 @@ int controleurEvolutionModeEco(controleurT * controleur)
 	return 0;
 	}
 
-void controleurChangeModeEco(controleurT * controleur, int mode)
-	{
-			//	Évolution de l'étape du mode économie de CPU
-	// modeEco	// 0 : système-graphique, 1 : (1)système-(1)graphique, n : (n)système-(1)graphique
-	// etapeEco // -1 : graphique, 0 : système-graphique, > 0 : système (= étape)
-
-	if(mode == 0)
-		{
-		(*controleur).modeEco = 0;		// 0 : système-graphique, 1 : (1)système-(1)graphique, n : (n)système-(1)graphique
-		(*controleur).etapeEco = 0;		// -1 : graphique, 0 : système-graphique, > 0 : système (= étape)
-		}
-	else	//	(*controleur).modeEco > 0
-		{
-		(*controleur).modeEco = mode;		// 0 : système-graphique, 1 : (1)système-(1)graphique, n : (n)système-(1)graphique
-		(*controleur).etapeEco = mode;		// -1 : graphique, 0 : système-graphique, > 0 : système (= étape)
-		}
-
-		printf("controleurChangeModeEco (*controleur).modeEco = %d\n", (*controleur).modeEco);
-
-	return;
-	}
-
 
 int controleurBoucle(controleurT * controleur)
 	{
@@ -347,20 +325,21 @@ int controleurProjection(controleurT * controleur)
 	SDL_GetMouseState(&x,&y);
 	commandesInitialiseSouris(&(*controleur).commandes, x, y);
 
-		//	Projection des fonctions sur les graphes
-	if((*controleur).modeDessin > 0)
+	
+	if((*controleur).modeDessin > 0)	//	Projection du système sur les graphes
 		{
 	projectionBatimentPlan(&(*controleur).systeme.batiment, &(*controleur).projection, &(*controleur).graphe);
 	projectionBatimentSens(&(*controleur).systeme.batiment, &(*controleur).projection, &(*controleur).graphe);
 	projectionFoulePoints(&(*controleur).systeme.foule, &(*controleur).projection, &(*controleur).graphe);
+		//	Projection du système sur les commandes
+	projectionSystemeCommandes(&(*controleur).systeme, &(*controleur).projection, &(*controleur).commandes, (*controleur).options.duree, (*controleur).modePause);
 		}
 	else	//	Projection de la construction
 		{
 	projectionBatimentPlan(&(*controleur).construction.batiment, &(*controleur).projection, &(*controleur).graphe);
+		//	Projection de la construction sur les commandes
+	projectionConstructionCommandes(&(*controleur).construction, &(*controleur).projection, &(*controleur).commandes);
 		}
-
-		//	Projection du système sur les commandes
-	projectionSystemeCommandes(&(*controleur).systeme, &(*controleur).projection, &(*controleur).commandes, (*controleur).options.duree, (*controleur).modePause);
 
 	return (*controleur).sortie;
 	}
@@ -374,7 +353,7 @@ int controleurEvolutionSysteme(controleurT * controleur)
 		}
 	if((*controleur).systeme.foule.restant==0)
 		{
-		controleurAfficheForces(controleur);
+		controleurAfficheSysteme(controleur);
 		(*controleur).systeme.foule.restant = -1;
 		return 1;
 		}
@@ -406,7 +385,7 @@ int controleurConstructionGraphique(controleurT * controleur)
 	graphiqueNettoyage(&(*controleur).graphique);
 
 		//fprintf(stderr, "Dessin du fond\n");
-	//graphiqueFond(&(*controleur).graphique);
+	graphiqueFond(&(*controleur).graphique, (*controleur).modeDessin);
 
 		//fprintf(stderr, "Dessin des Commandes\n");
 	//graphiqueCommandes(&(*controleur).graphique, &(*controleur).commandes);
@@ -430,6 +409,7 @@ int controleurConstructionGraphique(controleurT * controleur)
 	else	//	Dessin de la construction
 		{
 		graphiqueDessineStatut(&(*controleur).graphique, &(*controleur).graphe);
+		graphiqueCommandesConstruction(&(*controleur).graphique, &(*controleur).commandes);
 		}
 
 		//fprintf(stderr, "Mise à jour de l'affichage\n");
@@ -531,12 +511,36 @@ void controleurChangeModeDessin(controleurT * controleur)
 		{
 		fprintf(stderr, "modeDessin : simulation\n");
 		grapheInitialisation(&(*controleur).graphe, BATIMENT_X_MAX, BATIMENT_Y_MAX, BATIMENT_Z_IMP);
+		controleurChangeModeEco(controleur, 1);
 		}
 	else
 		{
 		fprintf(stderr, "modeDessin : construction\n");
 		grapheInitialisation(&(*controleur).graphe, BATIMENT_X_MAX, BATIMENT_Y_MAX, BATIMENT_Z_IMP);
+		controleurChangeModeEco(controleur, 0);
 		}
+
+	return;
+	}
+
+void controleurChangeModeEco(controleurT * controleur, int mode)
+	{
+			//	Évolution de l'étape du mode économie de CPU
+	// modeEco	// 0 : système-graphique, 1 : (1)système-(1)graphique, n : (n)système-(1)graphique
+	// etapeEco // -1 : graphique, 0 : système-graphique, > 0 : système (= étape)
+
+	if(mode == 0)
+		{
+		(*controleur).modeEco = 0;		// 0 : système-graphique, 1 : (1)système-(1)graphique, n : (n)système-(1)graphique
+		(*controleur).etapeEco = 0;		// -1 : graphique, 0 : système-graphique, > 0 : système (= étape)
+		}
+	else	//	(*controleur).modeEco > 0
+		{
+		(*controleur).modeEco = mode;		// 0 : système-graphique, 1 : (1)système-(1)graphique, n : (n)système-(1)graphique
+		(*controleur).etapeEco = mode;		// -1 : graphique, 0 : système-graphique, > 0 : système (= étape)
+		}
+
+		printf("controleurChangeModeEco (*controleur).modeEco = %d\n", (*controleur).modeEco);
 
 	return;
 	}
@@ -599,8 +603,9 @@ int controleurChangeDessin(int * construction)
 
 	//	-------  INFORMATIONS  -------  //
 
-int controleurAfficheForces(controleurT * controleur)
+int controleurAfficheSysteme(controleurT * controleur)
 	{
+	printf("\n  (*controleur).systeme.horloge = %f\n", (*controleur).systeme.horloge);
 	printf("\nForces maximales atteintes\n");
 			// Vérification des valeurs les plus grandes
 	printf("  force Batiment Max = %f\n", (*controleur).systeme.forceBatimentMax);
@@ -619,16 +624,17 @@ int controleurAffiche(controleurT * controleur)
 	fprintf(stderr, "(*controleur).graphique.fenetreX = %d\n", (*controleur).graphique.fenetreX);
 	fprintf(stderr, "(*controleur).commandes.sourisX = %d\n\n", (*controleur).commandes.sourisX);
 
-	fprintf(stderr, "(*controleur).appui = %d\n", (*controleur).appui);
-	fprintf(stderr, "(*controleur).curseurX = %d\n", (*controleur).curseurX);
-	fprintf(stderr, "(*controleur).curseurY = %d\n\n", (*controleur).curseurY);
 
 	fprintf(stderr, "(*controleur).modePause = %d\n", (*controleur).modePause);
 	fprintf(stderr, "(*controleur).modeDessin = %d\n", (*controleur).modeDessin);
+	fprintf(stderr, "(*controleur).modeEco = %d\n", (*controleur).modeEco);
+	fprintf(stderr, "(*controleur).etapeEco = %d\n\n", (*controleur).etapeEco);
+
+	fprintf(stderr, "(*controleur).appui = %d\n", (*controleur).appui);
 	fprintf(stderr, "(*controleur).sortie = %d\n\n", (*controleur).sortie);
 
-	fprintf(stderr, "(*controleur).commandes.boutons = %d\n", (*controleur).commandes.boutons);
-
+	fprintf(stderr, "(*controleur).options.initial = %d\n", (*controleur).options.initial);
+	fprintf(stderr, "(*controleur).options.nom = %s\n", (*controleur).options.nom);
 
 	return 0;
 	}
