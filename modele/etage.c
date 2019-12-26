@@ -1,7 +1,7 @@
 /*
-Copyright novembre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.1  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -32,6 +32,19 @@ termes.
 
 #include "../modele/etage.h"
 
+	//	INITIALISATION  ET  NORMALISATION
+
+int etageNonVide(etageT * etage);	// Si l'étage est non vide
+
+int etageNormaliseDecaleX(etageT * etage);
+int etageNormaliseDecaleY(etageT * etage);
+
+int etageCalculeX(etageT * etage);	//	Calcul et retourne etageX
+int etageCalculeY(etageT * etage);	//	Calcul et retourne etageY
+
+
+	//	ALGORITHME DE PLUS COURT CHEMIN
+
 int etageCalculeInteret(etageT * etage, int i, int j); // Calcul l'intérêt à rejoindre les voisines
 
 int etageVoisinVisite(etageT * etage, int i, int j); // Retourne le nombre de voisines visitées
@@ -43,6 +56,176 @@ int etageCalculSens(etageT * etage);
 int etageCalculSensCellule(etageT * etage, int X, int Y);
 
 int etageInitialiseSens(etageT * etage);
+
+
+
+	//	-------  INITIALISATION  ET  NORMALISATION  -------  //
+
+int etageProjection(etageT * construction, etageT * normal)
+	{ // Projette la construction sur normal
+	int i, j;
+
+	for(j=0;j<BATIMENT_Y_MAX;j++)
+		{
+		for(i=0;i<BATIMENT_X_MAX;i++)
+			{
+			//celluleInitialiseStatut(&(*etage).cellule[i][j], celluleDonneStatut(&(*etage).cellule[i][j]));
+			(*normal).cellule[i][j].statut = (*construction).cellule[i][j].statut;
+			}
+		}
+
+	return 0;
+	}
+
+
+int etageNormalise(etageT * etage, int etageXY)
+	{
+
+	if(etageXY!=0)	// Initialisation XY
+		{
+		(*etage).etageX = 0;
+		(*etage).etageY = 0;
+		}
+
+	if(etageNonVide(etage)!=0)	// Si l'étage est non vide
+		{
+		do{}
+		while(etageNormaliseDecaleX(etage) == 0);
+
+		do{}
+		while(etageNormaliseDecaleY(etage) == 0);
+		}
+	else
+		{
+		fprintf(stderr, "	etageNormalise : l'étage %d est vide.\n", (*etage).etage);
+		return 1;
+		}
+
+	if(etageXY!=0)	// Initialisation XY
+		{
+		(*etage).etageX = etageCalculeX(etage);
+		(*etage).etageY = etageCalculeY(etage);
+		}
+
+	return 0;
+	}
+
+
+int etageNormaliseDecaleX(etageT * etage)
+	{
+	int i, j;
+
+	for(j=0;j<BATIMENT_Y_MAX;j++)
+		{
+		if(celluleDonneStatut(&(*etage).cellule[0][j])!=0)	// Cellule non vide
+			{
+			return 1; // La première colonne contient une cellule non vide
+			}
+		}
+
+	for(j=0;j<BATIMENT_Y_MAX;j++)
+		{
+		for(i=1;i<BATIMENT_X_MAX;i++)
+			{
+			//celluleInitialiseStatut(&(*etage).cellule[i-1][j], celluleDonneStatut(&(*etage).cellule[i][j]));
+			(*etage).cellule[i-1][j].statut = (*etage).cellule[i][j].statut;
+			}
+		}
+
+	return 0;
+	}
+
+
+int etageNormaliseDecaleY(etageT * etage)
+	{
+	int i, j;
+
+	for(i=0;i<BATIMENT_X_MAX;i++)
+		{
+		if(celluleDonneStatut(&(*etage).cellule[i][0])!=0)	// Cellule non vide
+			{
+			return 1; // La première ligne contient une cellule non vide
+			}
+		}
+
+	for(i=0;i<BATIMENT_X_MAX;i++)
+		{
+		for(j=1;j<BATIMENT_Y_MAX;j++)
+			{
+			//celluleInitialiseStatut(&(*etage).cellule[i][j-1], celluleDonneStatut(&(*etage).cellule[i][j]));
+			(*etage).cellule[i][j-1].statut = (*etage).cellule[i][j].statut;
+			}
+		}
+
+	return 0;
+	}
+
+int etageCalculeX(etageT * etage)
+	{	//	Calcul et retourne etageX
+
+	int j;
+	int batimentX = BATIMENT_X_MAX;
+
+	do
+		{
+		for(j=0;j<BATIMENT_Y_MAX;j++)
+			{
+			if(celluleDonneStatut(&(*etage).cellule[batimentX-1][j])!=0)	// Cellule non vide
+				{
+				return batimentX; // La dernière colonne contient une cellule non vide
+				}
+			}
+		batimentX--;
+		}
+	while(batimentX>1);
+
+	return batimentX;
+	}
+
+int etageCalculeY(etageT * etage)
+	{	//	Calcul et retourne etageY
+
+	int i;
+	int batimentY = BATIMENT_Y_MAX;
+
+	do
+		{
+		for(i=0;i<BATIMENT_X_MAX;i++)
+			{
+			if(celluleDonneStatut(&(*etage).cellule[i][batimentY-1])!=0)	// Cellule non vide
+				{
+				return batimentY; // La dernière ligne contient une cellule non vide
+				}
+			}
+		batimentY--;
+		}
+	while(batimentY>0);
+
+	return batimentY;
+	}
+
+int etageNonVide(etageT * etage)
+	{	//	Calcul et retourne etageX
+
+	int i, j;
+	int nombre = 0;
+
+		for(i=0;i<BATIMENT_X_MAX;i++)
+			{
+			for(j=0;j<BATIMENT_Y_MAX;j++)
+				{
+				if(celluleDonneStatut(&(*etage).cellule[i][j])!=0)	// Cellule non vide
+					{
+					nombre++;
+					}
+				}
+			}
+
+	return nombre;
+	}
+
+
+	//	-------  INITIALISATION  -------  //
 
 int etageInitialise(etageT * etage, int etageX, int etageY, int niveau)
 	{
@@ -77,6 +260,42 @@ int etageInitialise(etageT * etage, int etageX, int etageY, int niveau)
 
 	return 0;
 	}
+
+int etageInitialise9(etageT * etage, int etageX, int etageY, int niveau)
+	{
+		// Surface de l'étage
+	(*etage).etageX=etageX;
+	(*etage).etageY=etageY;
+		// Numéro de l'étage
+	(*etage).etage=niveau;
+
+	int i, j;
+	for(i=0;i<(*etage).etageX;i++)
+		{
+		for(j=0;j<(*etage).etageY;j++)
+			{
+			celluleInitialise(&(*etage).cellule[i][j]);
+			celluleCreationMobile(&(*etage).cellule[i][j]);
+			}
+		}
+
+		// 8 vecteurs de direction, normés
+	vecteurCartesien(&(*etage).angle[0], 1.0, 0.0, 0);
+	vecteurCartesien(&(*etage).angle[1], 0.7071, 0.7071, 0);
+	vecteurCartesien(&(*etage).angle[2], 0.0, 1.0, 0);
+	vecteurCartesien(&(*etage).angle[3], -0.7071, 0.7071, 0);
+	vecteurCartesien(&(*etage).angle[4], -1.0, 0.0, 0);
+	vecteurCartesien(&(*etage).angle[5], -0.7071, -0.7071, 0);
+	vecteurCartesien(&(*etage).angle[6], 0.0, -1.0, 0);
+	vecteurCartesien(&(*etage).angle[7], 0.7071, -0.7071, 0);
+
+
+		// Vecteur nul
+	vecteurCartesien(&(*etage).vecteurNul, 0.0, 0.0, 0);
+
+	return 0;
+	}
+
 
 int etageInitialiseSens(etageT * etage)
 	{
@@ -124,6 +343,9 @@ int etageDonneStatutCellule(etageT * etage, int i, int j)
 	{// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile lors de l'initialisation
 	return celluleDonneStatut(&(*etage).cellule[i][j]);
 	}
+
+
+	//	-------  ALGORITHME DE PLUS COURT CHEMIN  -------  //
 
 int etageCalculDistanceEtSens(etageT * etage)
 	{	// Calcul du chemin le plus court vers les sorties
@@ -411,10 +633,19 @@ int etageCalculeDistance(etageT * etage)
 	return 0;
 	}
 
+
+	//	-------  INFORMATION  -------  //
+
 int etageAffiche(etageT * etage)
 	{
-	int i, j, k;
 
+	fprintf(stderr, " Étage n° %d", (*etage).etage);
+	fprintf(stderr, "		etageX = %d", (*etage).etageX);
+	fprintf(stderr, "		etageY = %d", (*etage).etageY);
+
+
+/*
+	int i, j, k;
 	printf("etageAffiche distance\n");
 	for(j=0;j<(*etage).etageY;j++)
 		{
@@ -493,7 +724,7 @@ int etageAffiche(etageT * etage)
 			}
 		fprintf(stderr, " \n");
 		}
-
+*/
 	return 0;
 	}
 

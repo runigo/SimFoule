@@ -1,7 +1,7 @@
 /*
-Copyright octobre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.0  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -34,43 +34,20 @@ termes.
 
 #include "graphe.h"
 #include "commandes.h"
-#include "interface.h"
+#include "textureSysteme.h"
+#include "textureMenu.h"
+#include "affichage.h"
 
 
 struct GraphiqueT {
 
-	SDL_Renderer *rendu;		// 	Rendu
+	affichageT affichage;		// 	Rendu et couleurs
 
-	SDL_Texture *simfoule;			//	Texture du fond
+	textureMenuT textureMenu;
 
-//	SDL_Texture *simfouleUniforme;			//	Texture du fond
+	textureSystemeT textureSysteme;
 
-	SDL_Texture *mur;			//	Textures du graphe
-	SDL_Texture *sortie;
-	SDL_Texture *entree;
-	SDL_Texture *mobile; int taille;	//	Taille des mobiles
-
-	SDL_Texture *direction0;
-	SDL_Texture *direction1;
-	SDL_Texture *direction2;
-	SDL_Texture *direction3;
-	SDL_Texture *direction4;	// Flèches pour illustrer la direction
-	SDL_Texture *direction5;
-	SDL_Texture *direction6;
-	SDL_Texture *direction7;
-
-	SDL_Texture *lumiereVerte;	//	Textures des voyants
-	SDL_Texture *lumiereRouge;
-	SDL_Texture *lumiereOrange;
-	SDL_Texture *lumiereJaune;
-
-	SDL_Color fond;			//	Couleurs
-	SDL_Color contraste;
-	SDL_Color orange;
-	SDL_Color jaune;
-	SDL_Color gris;
-	SDL_Color cyan;
-	SDL_Color vert;
+	int taille;
 
 		int fenetreX;	// hauteur de la fenêtre
 		int fenetreY;	// largeur de la fenêtre
@@ -83,11 +60,16 @@ int graphiqueInitialisation(graphiqueT * graphique, interfaceT * interface, int 
 int graphiqueNettoyage(graphiqueT * graphique);
 int graphiqueMiseAJour(graphiqueT * graphique);
 
-int graphiqueFond(graphiqueT * graphique);
-int graphiqueCommandes(graphiqueT * graphique, commandesT * commandes);
+int graphiqueFond(graphiqueT * graphique, int modeDessin);
+
+int graphiqueCommandesSysteme(graphiqueT * graphique, commandesT * commandes);
+int graphiqueCommandesConstruction(graphiqueT * graphique, commandesT * commandes);
+
 void graphiqueDessineMur(graphiqueT * graphique, grapheT * graphe);
 void graphiqueDessineAngle(graphiqueT * graphique, grapheT * graphe);
 void graphiqueDessineMobile(graphiqueT * graphique, grapheT * graphe, int taille);
+
+void graphiqueDessineStatut(graphiqueT * graphique, grapheT * graphe);
 
 #endif
 /////////////////////////////////////////////////////////////////

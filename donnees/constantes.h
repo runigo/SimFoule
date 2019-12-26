@@ -1,7 +1,7 @@
 /*
-Copyright novembre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.1  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -47,8 +47,10 @@ termes.
 
 	//		FENÊTRE
 
-#define FENETRE_X 1117 // Largeur de la fenêtre
-#define FENETRE_Y 691 // Hauteur de la fenêtre
+//#define FENETRE_X 1117 // Largeur de la fenêtre
+//#define FENETRE_Y 691 // Hauteur de la fenêtre
+#define FENETRE_X 800 // Largeur de la fenêtre
+#define FENETRE_Y 400 // Hauteur de la fenêtre
 
 	//		COMMANDES
 
@@ -73,18 +75,16 @@ termes.
 
 	//		SPATIALES
 
-#define BATIMENT_X_IMP 50	// Longueur implicite suivant x du batiment (en nombre de cellule)
-#define BATIMENT_Y_IMP 25	// Longueur implicite suivant y du batiment (en nombre de cellule)
+#define BATIMENT_X_IMP 30	// Longueur implicite suivant x du batiment (en nombre de cellule)
+#define BATIMENT_Y_IMP 15	// Longueur implicite suivant y du batiment (en nombre de cellule)
 #define BATIMENT_Z_IMP 1	// Nombre implicite d'étage
 
-#define BATIMENT_X_MAX 100	// Longueur maximale suivant x du batiment (en nombre de cellule)
-#define BATIMENT_Y_MAX 50	// Longueur maximale suivant y du batiment (en nombre de cellule)
+#define BATIMENT_X_MAX 60	// Longueur maximale suivant x du batiment (en nombre de cellule)
+#define BATIMENT_Y_MAX 30	// Longueur maximale suivant y du batiment (en nombre de cellule)
 #define BATIMENT_Z_MAX 3	// Nombre d'étage maximale
 
 #define CELLULE 16		// Longueur du coté d'une cellule (en pixel)
 #define CELLULESUR2 CELLULE/2	// Demi longueur du coté d'une cellule (en pixel)
-
-#define NOMBRE_MAX 1000	// Nombre maximale de mobiles
 
 	//		TEMPORELLES
 
@@ -112,6 +112,10 @@ termes.
 #define CELERITE_MAX 3.7	// Célérité maximale
 #define CELERITE_IMP 1.77	// Célérité implicite
 #define CELERITE_MIN 0.377	// Célérité minimale
+
+#define VIVACITE_MAX 11	// Vivacité maximale
+#define VIVACITE_IMP 10	// Vivacité implicite
+#define VIVACITE_MIN 0	// Vivacité minimale
 
 	//		INTERACTIONS
 

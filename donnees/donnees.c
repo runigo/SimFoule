@@ -1,7 +1,7 @@
 /*
-Copyright novembre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.1  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -39,20 +39,22 @@ int donneesOptionsImplicite(optionsT * options)
 		// 	réglage des valeurs implicites
 
 	(*options).mode = 1;	// -1 : Pause, 1 : Simulation
-	(*options).duree = 90;	// nombre d'incrémentation de la foule par affichage
+	(*options).duree = DUREE;	// nombre d'incrémentation de la foule par affichage
 	(*options).boucle = 1;	// répétition des simulations
 
-	(*options).initial=0;	// Numéro du fichier d'initialisation.
+	(*options).initial = 1;	// 1 : Initialisation fichier construction. Sino initialisation fichier situation
 
-	(*options).nombre=33;	// Nombre de mobiles
+	(*options).nom = "a";	// Nom du fichier d'initialisation.
 
-	(*options).taille=CELLULE;	// Taille moyenne des mobiles
-	(*options).masse=MASSE_MAX;	// Masse moyenne des mobiles
+	(*options).nombre = 0;	// Nombre de mobiles
 
-	(*options).nervosite=NERVOSITE_MAX;	// Nervosité moyenne des mobiles
+	(*options).taille = CELLULE;	// Taille moyenne des mobiles
+	(*options).masse = MASSE_MAX;	// Masse moyenne des mobiles
+
+	(*options).nervosite = NERVOSITE_MAX;	// Nervosité moyenne des mobiles
 	(*options).celerite = CELERITE_MAX;	//	célérité moyenne des mobiles
 
-	(*options).dt=DT_MAX;	// discrétisation du temps
+	(*options).dt = DT_MAX;	// discrétisation du temps
 
 			//	Dessin des graphes 0 ou 1
 	(*options).dessineAngle=0;
@@ -74,7 +76,7 @@ int donneesInitialisationSysteme(systemeT * systeme, optionsT * options)
 		fprintf(stderr, "  Initialisation du système\n");
 	systemeInitialisation(systeme, (*options).dt);
 
-		fprintf(stderr, "  Initialisation du batiment : %d\n", (*options).initial);
+		fprintf(stderr, "  Initialisation du batiment : %s\n", (*options).nom);
 	donneesInitialisationBatiment(&(*systeme).batiment, options);
 
 		fprintf(stderr, "  Création et initialisation de la foule\n");
@@ -90,10 +92,10 @@ int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 	{
 
 	batimentInitialiseVide(batiment);
-
+/*
 	if((*options).initial < 0)
 		{
-		(*options).nombre = batimentInitialiseImplicite(batiment);
+		(*options).nombre = batimentInitialiseImplicite(batiment, -(*options).initial);
 		}
 	else
 		{
@@ -103,9 +105,18 @@ int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 			}
 		else
 			{
-			(*options).nombre = batimentInitialiseImplicite(batiment);
+			(*options).nombre = batimentInitialiseImplicite(batiment, (*options).initial);
 			}
 		}
+*/
+
+	if(fichierLecture(batiment, options, (*options).nom) < 0) // Erreur de lecture
+		{
+		printf("	Initialisation implicite du batiment\n");
+		batimentInitialiseImplicite(batiment, -(*options).initial);
+		}
+
+	(*options).nombre = batimentNombreMobile(batiment);
 
 	(*options).batimentX = (*batiment).etage[0].etageX;
 	(*options).batimentY = (*batiment).etage[0].etageY;
@@ -114,20 +125,31 @@ int donneesInitialisationBatiment(batimentT * batiment, optionsT * options)
 	return 0;
 	}
 
-int donneesSauvegardeBatiment(batimentT * batiment, optionsT * options)
+int donneesSauvegardeConstruction(constructionT * construction, optionsT * options, char * nom)
 	{
-		if( (*options).initial > -1 && (*options).initial < 99)
-			{
-			fichierEcriture(batiment, (*options).initial);
-			}
-		else
-			{
-			printf("donneesSauvegardeBatiment : Erreur lors de la sauvegarde\n");
-			}
-	
+
+	batimentProjection(&(*construction).batiment, &(*construction).normal);
+
+	batimentNormalise(&(*construction).normal, 1);
+
+	(*construction).normal.batimentZ = 1;
+
+	fichierEcriture(&(*construction).normal, options, nom);
+
 	return 0;
 	}
+/*
+int donneesSauvegardeBatiment(batimentT * batiment, optionsT * options)
+	{
+	(void)options;
 
+	batimentNormalise(batiment, 1);
+
+	fichierEcriture(batiment, options);
+
+	return 0;
+	}
+*/
 int donneesCreationFoule(fouleT * foule, optionsT * options)
 	{
 		// Initialisation de la foule

@@ -1,7 +1,7 @@
 /*
-Copyright octobre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.0  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -34,12 +34,14 @@ termes.
 
 #include "../controleur/controleur.h"
 
-int controleurSouris(controleurT * controleur);
-int controleurDefile(controleurT * controleur);
-int controleurDefilePointDeVue(controleurT * controleur);
-int controleurDefileCommandes(controleurT * controleur, int zone);
-void controleurBoutonSouris(controleurT * controleur, int appui);
+int controleurSourisZone(controleurT * controleur);
 
-void controleurAfficheSouris(controleurT * controleur);
+int controleurSourisBouton(controleurT * controleur, int appui);
+
+int controleurSourisMouvement(controleurT * controleur);
+
+int controleurSourisDefile(controleurT * controleur);
+
+int controleurSourisAffiche(controleurT * controleur);
 
 #endif

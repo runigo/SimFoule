@@ -1,7 +1,7 @@
 /*
-Copyright novembre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.1  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -32,6 +32,11 @@ termes.
 
 #include "systeme.h"
 
+
+int systemeSortieMobile(systemeT * systeme, mobileT * mobile); // Le mobile a ateint une sortie.
+int systemeAbandonMobile(systemeT * systeme, mobileT * mobile); // Diminue la vitalité et supprimme.
+
+int systemeCorrigeMur(systemeT * systeme);	// Correction des nouvelles positions
 
 float systemeForceBatiment(systemeT * systeme); // Calcul de la force de couplage avec le batiment
 float systemeForceMurs(systemeT * systeme); // Calcul de la force de couplage avec les mur
@@ -71,6 +76,9 @@ int systemeEvolution(systemeT * systeme, int duree)
 			// Déplacement inertiel
 		fouleInertie(&(*systeme).foule);
 
+			// Correction des nouvelles positions
+		systemeCorrigeMur(systeme);
+
 			// Calcul des forces dans la  nouvelle situation
 			//fprintf(stderr, "systemeForceBatiment\n");
 		forceBatiment = systemeForceBatiment(systeme);
@@ -89,6 +97,12 @@ int systemeEvolution(systemeT * systeme, int duree)
 
 			// Incrémentation
 		fouleIncremente(&(*systeme).foule);
+
+			// Évolution du chronomètre
+		if((*systeme).foule.restant>0)
+			{
+			(*systeme).horloge += (*systeme).dt;
+			}
 		}
 
 	//mobileAffiche(&(*systeme).foule.premier->mobile);
@@ -185,6 +199,30 @@ float systemeForceBatiment(systemeT * systeme)
 	return forceMax;
 	}
 
+int systemeAbandonMobile(systemeT * systeme, mobileT * mobile)
+	{ // Diminue la vitalité et supprimme.
+
+	if(mobileChangeVivacite(mobile, 1) < 0) // le mobile est hors service
+		{
+		(*mobile).nouveau.z=-2; // Abandon du mobile.
+		(*systeme).foule.restant--;
+		}
+
+	return 0;
+	}
+
+int systemeSortieMobile(systemeT * systeme, mobileT * mobile)
+	{ // Le mobile a ateint une sortie.
+
+	(*mobile).nouveau.z--;
+	(*systeme).foule.restant--;
+
+					//fprintf(stderr, "systemeSortieMobile : Sortie d'un mobile \n");
+					//fprintf(stderr, "systemeSortieMobile : Il en reste %d dans le batiment \n", (*systeme).foule.restant);
+					//fprintf(stderr, "systemeSortieMobile : chronomètre = %f \n", (*systeme).foule.horloge);
+	return 0;
+	}
+
 float systemeVitessesSouhaitees(systemeT * systeme)
 	{ // Calcul de la vitesse souhaité
 	int X, Y, Z;
@@ -204,17 +242,13 @@ float systemeVitessesSouhaitees(systemeT * systeme)
 			if( X<0 || X>(*systeme).batiment.etage[Z].etageX || Y<0 || Y>(*systeme).batiment.etage[Z].etageY ) // Mobile hors batiment sans passer par une sortie
 				{
 				fprintf(stderr, "ERREUR : systemeVitessesSouhaitees : mobile hors batiment sans passer par une sortie.\n");
-				iter->mobile.nouveau.z=-1; // Abandon du mobile.
+				systemeAbandonMobile(systeme, &(iter->mobile));
 				}
 			else
 				{
 				if((*systeme).batiment.etage[Z].cellule[X][Y].statut==2) // le mobile a atteint une sortie
 					{
-					//fprintf(stderr, "systemeVitessesSouhaitees : Sortie d'un mobile \n");
-					iter->mobile.nouveau.z--;
-					(*systeme).foule.restant--;
-					//fprintf(stderr, "systemeVitessesSouhaitees : Il en reste %d dans le batiment \n", (*systeme).foule.restant);
-					//fprintf(stderr, "systemeVitessesSouhaitees : chronomètre = %f \n", (*systeme).foule.horloge);
+					systemeSortieMobile(systeme, &(iter->mobile));
 					}
 				else
 					{	// Initialisation de la vitesse souhaitée	// Calcul de la vitesse souhaitée
@@ -258,6 +292,47 @@ float systemeVitesseSouhaiteeMobile(etageT * etage, int X, int Y, mobileT * mobi
 	return vitesse;
 	}
 
+int systemeCorrigeMur(systemeT * systeme)
+	{	// Vérification et correction des nouvelles positions
+
+	int X, Y, Z;
+	chaineT *iter;
+	iter = (*systeme).foule.premier;
+
+
+	do
+		{
+		X = (int)(iter->mobile.nouveau.x/CELLULE);
+		Y = (int)(iter->mobile.nouveau.y/CELLULE);
+		Z = iter->mobile.nouveau.z;
+
+		if(Z>-1 && Z<(*systeme).batiment.batimentZ)
+			{
+			if(X>-1 && X<(*systeme).batiment.etage[Z].etageX && Y>-1 && Y<(*systeme).batiment.etage[Z].etageY)
+				{
+				if((*systeme).batiment.etage[Z].cellule[X][Y].statut == 1)
+					{
+					iter->mobile.nouveau.x = iter->mobile.actuel.x;
+					iter->mobile.nouveau.y = iter->mobile.actuel.y;
+					if(mobileImpactVivacite(&(iter->mobile)) != 0) (*systeme).foule.restant--;
+					}
+				}
+			else
+				{
+				fprintf(stderr, "ERREUR systemeCorrigeMur : XYZ = %d, %d, %d \n", X, Y, Z);
+				systemeAbandonMobile(systeme, &(iter->mobile));
+				}
+			}
+
+		iter=iter->suivant;
+		}
+	while(iter!=(*systeme).foule.premier);
+
+	//fprintf(stderr, "systemeCalculDensite, sortie\n");
+
+	return 0;
+	}
+
 int systemeCalculDensite(systemeT * systeme)
 	{	// Initialisation du nombre de mobile par cellule
 		// et mise à jour de la note
@@ -284,7 +359,8 @@ int systemeCalculDensite(systemeT * systeme)
 				}
 			else
 				{
-				fprintf(stderr, "ERREUR systemeCalculDensite : XYZ = %d, %d, %d \n", X, Y, Z);
+				fprintf(stderr, "ERREUR systemeCalculDensite, premier do-while, XYZ = %d, %d, %d \n", X, Y, Z);
+				systemeAbandonMobile(systeme, &(iter->mobile));
 				}
 			}
 
@@ -306,7 +382,8 @@ int systemeCalculDensite(systemeT * systeme)
 				}
 			else
 				{
-				fprintf(stderr, "ERREUR systemeCalculDensite : XYZ = %d, %d, %d \n", X, Y, Z);
+				fprintf(stderr, "ERREUR systemeCalculDensite, second do-while : XYZ = %d, %d, %d \n", X, Y, Z);
+				systemeAbandonMobile(systeme, &(iter->mobile));
 				}
 			}
 

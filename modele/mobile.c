@@ -1,7 +1,7 @@
 /*
-Copyright novembre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.1  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -65,6 +65,8 @@ int mobileInitialise(mobileT * mobile, float dt)
 	mobileInitialiseMasse(mobile, MASSE_IMP);
 	mobileInitialiseNervosite(mobile, NERVOSITE_IMP);
 	mobileInitialiseCelerite(mobile, CELERITE_IMP);
+
+	mobileInitialiseVivacite(mobile, VIVACITE_IMP);
 
 	return 0;
 	}
@@ -178,6 +180,25 @@ int mobileInitialiseCelerite(mobileT * mobile, float celerite)
 	else { if( (*mobile).celerite < CELERITE_MIN )
 			{
 			(*mobile).celerite = CELERITE_MIN; retour ++;
+			}
+		}
+
+	return retour;
+	}
+
+int mobileInitialiseVivacite(mobileT * mobile, float vivacite)
+	{
+	int retour = 0;
+
+	(*mobile).vivacite = vivacite;
+
+	if( (*mobile).vivacite > VIVACITE_MAX )
+		{
+		(*mobile).vivacite = VIVACITE_MAX; retour ++;
+		}
+	else { if( (*mobile).vivacite < VIVACITE_MIN )
+			{
+			(*mobile).vivacite = VIVACITE_MIN; retour ++;
 			}
 		}
 
@@ -435,6 +456,39 @@ int mobileChangeCelerite(mobileT * mobile, float facteur)
 
 	return retour;
 	}
+
+int mobileChangeVivacite(mobileT * mobile, int impact)
+	{
+
+	(*mobile).vivacite = (*mobile).vivacite - impact;
+
+	return (*mobile).vivacite;
+	}
+
+int mobilePerdVivacite(mobileT * mobile)
+	{
+
+	(*mobile).vivacite --;
+
+	return (*mobile).vivacite;
+	}
+
+int mobileImpactVivacite(mobileT * mobile)
+	{
+
+	(*mobile).vivacite --;
+	fprintf(stderr, "	mobile.vivacite = %d \n", (*mobile).vivacite);
+
+	if( (*mobile).vivacite < 0 )
+		{
+		fprintf(stderr, "Mobile supprimé\n\n");
+		(*mobile).nouveau.z=-3; // Abandon du mobile.
+		return 1;
+		}
+
+	return 0;
+	}
+
 
 						//				-------------
 						//				  AFFICHAGE

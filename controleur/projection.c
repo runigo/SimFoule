@@ -1,7 +1,7 @@
 /*
-Copyright novembre 2019, Stephan Runigo
+Copyright décembre 2019, Stephan Runigo
 runigo@free.fr
-SimFoule 2.1  simulateur de foule
+SimFoule 2.2  simulateur de foule
 Ce logiciel est un programme informatique servant à simuler l'évacuation
 d'une foule dans un batiment et à en donner une représentation graphique.
 Ce logiciel est régi par la licence CeCILL soumise au droit français et
@@ -89,8 +89,22 @@ int projectionSystemeCommandes(systemeT * systeme, projectionT * projection, com
 		default:
 			;
 		}
-*/
 				//	Projection sur les petits boutons du bas
+	int i;
+	for(i=0;i<TRIANGLE_COMMANDES;i++) (*commandes).triangleEtat[i]=0;
+
+
+	switch((*systeme).libreFixe)	//	
+		{
+		case 0:
+			(*commandes).boutonEtat[0]=1;break;
+		default:
+			;
+		}
+
+*/
+
+
 		//	Vitesse de la simulation
 	if(duree<DUREE)
 		{
@@ -114,6 +128,84 @@ int projectionSystemeCommandes(systemeT * systeme, projectionT * projection, com
 		{
 		(*commandes).triangleEtat[7]=2;
 		}
+	return 0;
+	}
+
+int projectionConstructionCommandes(constructionT * construction, projectionT * projection, commandesT * commandes)
+	{		// Projette la construction sur les commandes
+
+	(void)projection;
+
+
+				//	Projection sur les boutons rotatifs
+/*	 //	Couplage
+	float ratioRotatif = 0.9;
+	float theta;
+	theta = DEUXPI * (*projection).logCouplage * log( (*systeme).couplage / (COUPLAGE_MIN * (*systeme).nombre) );
+	(*commandes).rotatifPositionX[0]=(int)(-ratioRotatif*(*commandes).rotatifX*sin(theta));
+	(*commandes).rotatifPositionY[0]=(int)(ratioRotatif*(*commandes).rotatifY*cos(theta));
+*/
+		//int rotatifPositionX[ROTATIF_COMMANDES]; // Position du bouton rotatif
+		//int rotatifPositionY[ROTATIF_COMMANDES];
+
+
+				//	Projection sur les petits boutons de droite
+/*	int i;
+	for(i=0;i<BOUTON_COMMANDES;i++) (*commandes).boutonEtat[i]=0;
+
+		//int libreFixe;		//	0 : périodiques 1 : libres, 2 : fixes, 
+							//		3 libre-fixe, 4 fixe-libre
+	switch((*systeme).libreFixe)	//	
+		{
+		case 0:
+			(*commandes).boutonEtat[0]=1;break;
+		default:
+			;
+		}
+
+	//	int modeDissipation;	//	0 : nulle 1 : uniforme, 2 : extrémité absorbante.
+	switch((*systeme).modeDissipation)	//	
+		{
+		case 0:
+			(*commandes).boutonEtat[5]=1;break;
+		default:
+			;
+		}
+*/
+				//	Projection sur les petits boutons du bas
+	int i;
+	for(i=0;i<TRIANGLE_COMMANDES;i++) (*commandes).triangleEtat[i]=0;
+
+		// Motif du tracé
+	switch((*construction).statut)	// 0:libre, 1:mur, 2:sortie, 3:entrée, 9:mobile
+		{
+		case 0:
+			(*commandes).triangleEtat[0]=1;break;
+		case 1:
+			(*commandes).triangleEtat[1]=1;break;
+		case 2:
+			(*commandes).triangleEtat[2]=1;break;
+		case 3:
+			(*commandes).triangleEtat[3]=1;break;
+		case 9:
+			(*commandes).triangleEtat[4]=1;break;
+		default:
+			;
+		}
+
+		// Géométrie du tracé
+	switch((*construction).trait)		// 0:point, 1:trait, 2:rectangle
+		{
+		case 0:
+			(*commandes).triangleEtat[5]=1;break;
+		case 1:
+			(*commandes).triangleEtat[6]=1;break;
+		case 2:
+			(*commandes).triangleEtat[7]=1;break;
+		default:
+			;
+		}
+
 	return 0;
 	}
 

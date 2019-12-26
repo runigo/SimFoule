@@ -39,13 +39,17 @@ option & & clavier &  & commande \\
 %\hline
 %\texttt{fond} &  & \texttt{fond}>0 \& \texttt{fond}<255 &  & Couleur du fond \\
 %\texttt{dt} &  & \texttt{dt} > 0.0 \& \texttt{dt} < \texttt{DT\_MAX} &  & discrétisation du temps \\
-\texttt{duree} &  & 0 < {\sf F9}, {\sf F10}, {\sf F11}, {\sf F12} &  & Nombre d'évolution du \\
+ &  & {\sf F1}, {\sf F5} &  & Informmation \\
+
+\texttt{duree} &  & {\sf F9}, {\sf F10}, {\sf F11}, {\sf F12} &  & Nombre d'évolution du \\
  &  &  &  & système entre deux affichages \\
 \texttt{mode} &  & {\sf Entrée} &  & Avec ou sans attente \\
 %\texttt{pause} &  & 5 < \texttt{pause} < 555 &  & temps de pause en ms \\
 % &  &  &  & entre les affichages \\
 %
-\texttt{initial} &  & \texttt{Maj} \texttt{a}..\texttt{t} et \texttt{q}..\texttt{g} &  & Réinitialisation \\
+\texttt{initial} &  & \texttt{Maj} \texttt{a}..\texttt{z} &  & Réinitialisation \\
+ &  & \texttt{Ctrl} \texttt{a}..\texttt{z} &  & Sauvegarde \\
+ &  & \texttt{Ctrl Maj} \texttt{a}..\texttt{z} &  & Réinitialisation implicite \\
 %\texttt{masse} &  & a q &  & Masse des mobiles \\
 %\texttt{nervosite} &  & z s &  & Nervosité des mobiles \\%{\sf e}, {\sf d}
 %\texttt{nombre} & (nombre > 0 \& nombre < 1099) &  & Nombre de mobile\\
@@ -53,6 +57,31 @@ option & & clavier &  & commande \\
 \texttt{dessineMur} &  & \texttt{F7} &  & Dessine ou non les murs \\
 \texttt{dessineMobile} &  & \texttt{F8} &  & Dessine ou non les mobiles \\
 
+ &  & \texttt{Échap} &  & Mode construction, simulation \\
+
+ &  & \texttt{z, s} &  & Augmente, diminue la nervosité des mobiles \\
+ &  & \texttt{e, d} &  & Augmente, diminue la célérité des mobiles \\
+
+ &  & \texttt{a, q} &  & Augmente, diminue la masse des mobiles \\
+ &  & \texttt{z, s} &  & Augmente, diminue la nervosité des mobiles \\
+ &  & \texttt{e, d} &  & Augmente, diminue la célérité des mobiles \\
+
+ &  & \texttt{w} &  & Boucle les configurations enregistées  \\
+ &  & \texttt{x} &  & Répétition de la configuration \\
+ &  & \texttt{c} &  & Configuration implicite \\
+
+ &  & \texttt{u} &  & Entrée  \\
+ &  & \texttt{i} &  & Sortie \\
+ &  & \texttt{o} &  & Vide \\
+ &  & \texttt{p} &  & Mobile \\
+ &  & \texttt{m} &  & Mur \\
+
+ &  & \texttt{j} &  & Enregistrer  \\
+ &  & \texttt{k} &  & Simuler \\
+ &  & \texttt{l} &  & Netoyer \\
+
+ &  & \texttt{y} &  & . \\
+ &  & \texttt{h} &  & . \\
 \\
 %\texttt{aide} &  & () &  & Affiche l'aide \\
 %\texttt{help} &  & () &  & Affiche l'aide \\
@@ -64,7 +93,11 @@ option & & clavier &  & commande \\
 Les fichiers d'initialisations se trouvent dans le répertoire \texttt{donnees/enregistrement/}. Ce répertoire et ces fichiers sont nécessaires pour activer les possibilité de réinitialisation.
 %
 \subsubsection{Éditer les fichiers d'initialisations}
-Les fichiers d'initialisations peuvent être édités afin de créer des situations. Ils doivent être adaptés aux constantes \texttt{BATIMENT\_X} et \texttt{BATIMENT\_Y} définies dans le fichiers \texttt{donnees/constantes.h}. Il contiennent des entiers séparés par des espaces correspondant au statut des cellules. Une ligne doit contenir \texttt{BATIMENT\_X} entiers, et le fichier doit contenir \texttt{BATIMENT\_Y} lignes. Les entiers reconnus lors de l'initialisation sont
+Les fichiers d'initialisations peuvent être édités afin de créer des situations. Ils contiennent des entiers séparés par des espaces.
+
+La première ligne indique les dimensions spatiales du batiment, les lignes suivantes correspondantent au statut des cellules.
+
+Les entiers reconnus lors de l'initialisation des cellules sont
 
 \begin{center}
 \begin{tabular}{cccccc}
@@ -74,8 +107,14 @@ statut & vide & mur & sortie &  & mobile \\
 \end{tabular}
 \end{center}
 %
-%\subsubsection{Dessiner des conditions initiales}
-%En mode "conditions initiale" la souris permet de dessiner des conditions initiales. Une configuration ainsi dessinée peut alors être enregistrée dans les fichiers \texttt{situation\_q.simfoule} à \texttt{situation\_h.simfoule} avec les touches \texttt{Maj-w} à \texttt{Maj-n}. elle sera alors accessible à l'aide des touches \texttt{Maj-q} à \texttt{Maj-h}.
+\subsubsection{Réinitialisation}
+La combinaison des touches \texttt{Maj [a..z]} réinitialise le système dans la configuration correspondante au fichier, eventuellement les configurations implicites si aucune modification n'a été effectué.
+%
+\subsection{Dessiner des conditions initiales}
+La touche \texttt{Échap} donne accés au mode initialisation permettant la construction de conditions initiales.
+
+La sauvegarde est alors possible grâce à la combinaison des touches \texttt{Ctrl [a..z]}. La réinitialisation se fait par la combinaison des touches \texttt{Maj [a..z]}. La combinaison des touches \texttt{Ctrl Maj [a..z]} permet la réinitialisation dans les configurations implicites.
+En mode "conditions initiale" la souris permet de dessiner des conditions initiales. Une configuration ainsi dessinée peut alors être enregistrée dans les fichiers \texttt{situation\_q.simfoule} à \texttt{situation\_h.simfoule} avec les touches \texttt{Maj-w} à \texttt{Maj-n}. elle sera alors accessible à l'aide des touches \texttt{Maj-q} à \texttt{Maj-h}.
 
 
 
